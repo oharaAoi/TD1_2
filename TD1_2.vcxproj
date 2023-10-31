@@ -152,6 +152,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Lib\InputManager\InputManager.h" />
+    <ClInclude Include="Lib\LoadCsv\LoadCsv.h" />
     <ClInclude Include="Lib\MyMath\Collision.h" />
     <ClInclude Include="Lib\MyMath\Draw.h" />
     <ClInclude Include="Lib\MyMath\Ease.h" />

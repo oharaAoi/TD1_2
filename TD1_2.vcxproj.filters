@@ -23,6 +23,9 @@
     <Filter Include="Lib\MyMath">
       <UniqueIdentifier>{14e0e1fc-3941-4e24-89ef-ec681d27b3ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\LoadCsv">
+      <UniqueIdentifier>{206ad26d-2b7d-4e57-b513-37704e2309b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -161,6 +164,9 @@
     </ClInclude>
     <ClInclude Include="Lib\MyMath\Quad.h">
       <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\LoadCsv\LoadCsv.h">
+      <Filter>Lib\LoadCsv</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

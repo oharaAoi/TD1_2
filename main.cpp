@@ -1,5 +1,7 @@
 #include <Novice.h>
 #include "InputManager.h"
+#include "MyVector2.h"
+#include "Quad.h"
 
 const char kWindowTitle[] = "LC1A_06_オオハラアオイ_タイトル";
 
@@ -12,6 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	InputManager* input = InputManager::GetInstance();
 
+	
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -32,6 +35,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 		/// ↓描画処理ここから
 		///
+
 
 		///
 		/// ↑描画処理ここまで
