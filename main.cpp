@@ -1,5 +1,7 @@
 #include <Novice.h>
+#include <SafeDelete.h>
 #include "InputManager.h"
+#include "SceneManager.h"
 
 const char kWindowTitle[] = "LC1A_06_オオハラアオイ_タイトル";
 
@@ -12,6 +14,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// キー入力結果を受け取る箱
 	InputManager* input = InputManager::GetInstance();
 
+	// シーンマネージャー
+	SceneManager* sceneManager = new SceneManager();
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -21,22 +25,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力を受け取る
 		input->Update();
 
-		///
-		/// ↓更新処理ここから
-		///
+		// シーンの更新 & 描画処理
+		sceneManager->Run();
 
-		///
-		/// ↑更新処理ここまで
-		///
-
-		///
-		/// ↓描画処理ここから
-		///
-
-		///
-		/// ↑描画処理ここまで
-		///
-
+		
 		// フレームの終了
 		Novice::EndFrame();
 
@@ -45,6 +37,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 	}
+
+	// メモリの解放
+	SafeDelete(sceneManager);
+
 
 	// ライブラリの終了
 	Novice::Finalize();

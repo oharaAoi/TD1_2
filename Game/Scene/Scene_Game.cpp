@@ -21,7 +21,9 @@ void Scene_Game::Init() {
 ================================================================*/
 void Scene_Game::Update() {
 
-
+	if (input->IsTriggerKey(DIK_RETURN)) {
+		nextSceneNo_ = SCENE::TITLE;
+	}
 
 
 }

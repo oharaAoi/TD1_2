@@ -1,4 +1,5 @@
 ﻿#include "SceneManager.h"
+#include <Novice.h>
 
 SceneManager::SceneManager() {
 
@@ -25,5 +26,8 @@ void SceneManager::Run() {
 
 	// 今のシーンの描画処理
 	sceneArr_[nowSceneNo_]->Draw();
+
+	// 今のシーンNoをデバッグ表示
+	Novice::ScreenPrintf(10, 10, "nowSceneNo = %d", nowSceneNo_);
 
 }
