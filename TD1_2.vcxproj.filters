@@ -32,6 +32,9 @@
     <Filter Include="Game\Object">
       <UniqueIdentifier>{97f80303-5932-426e-9452-e283f92486f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\LoadCsv">
+      <UniqueIdentifier>{3c6a8888-3682-466d-b5fd-40e8e7e40ab8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\SceneManager.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\LoadCsv\LoadCsv.h">
+      <Filter>Lib\LoadCsv</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
