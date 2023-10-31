@@ -1,4 +1,5 @@
 #include <Novice.h>
+#include "InputManager.h"
 
 const char kWindowTitle[] = "LC1A_06_オオハラアオイ_タイトル";
 
@@ -9,8 +10,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	// キー入力結果を受け取る箱
-	char keys[256] = {0};
-	char preKeys[256] = {0};
+	InputManager* input = InputManager::GetInstance();
+
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -18,8 +19,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::BeginFrame();
 
 		// キー入力を受け取る
-		memcpy(preKeys, keys, 256);
-		Novice::GetHitKeyStateAll(keys);
+		input->Update();
 
 		///
 		/// ↓更新処理ここから
@@ -41,12 +41,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::EndFrame();
 
 		// ESCキーが押されたらループを抜ける
-		if (preKeys[DIK_ESCAPE] == 0 && keys[DIK_ESCAPE] != 0) {
+		if (input->IsTriggerKey(DIK_ESCAPE)) {
 			break;
 		}
 	}
 
 	// ライブラリの終了
 	Novice::Finalize();
-	return 0;
+		return 0;
 }
