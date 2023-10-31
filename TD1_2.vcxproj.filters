@@ -14,6 +14,15 @@
     <Filter Include="KamataEngine\Adapter">
       <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib">
+      <UniqueIdentifier>{7f8f8da9-6e63-46b8-a43f-cfd4d4cadcf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\InputManager">
+      <UniqueIdentifier>{e650028c-55c6-4307-85a9-be0806a29fa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lib\MyMath">
+      <UniqueIdentifier>{14e0e1fc-3941-4e24-89ef-ec681d27b3ef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -37,6 +46,24 @@
     </ClCompile>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\StringUtility.cpp">
       <Filter>KamataEngine\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\InputManager\InputManager.cpp">
+      <Filter>Lib\InputManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\Collision.cpp">
+      <Filter>Lib\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\Draw.cpp">
+      <Filter>Lib\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\Ease.cpp">
+      <Filter>Lib\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\Matrix3x3.cpp">
+      <Filter>Lib\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\MyMath.cpp">
+      <Filter>Lib\MyMath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,6 +137,30 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h">
       <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\InputManager\InputManager.h">
+      <Filter>Lib\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Collision.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Draw.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Ease.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Matrix3x3.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\MyMath.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\MyVector2.h">
+      <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Quad.h">
+      <Filter>Lib\MyMath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

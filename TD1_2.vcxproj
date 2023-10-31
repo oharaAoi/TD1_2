@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir);C:\KamataEngine\DirectXGame\math;C:\KamataEngine\DirectXGame\2d;C:\KamataEngine\DirectXGame\3d;C:\KamataEngine\DirectXGame\audio;C:\KamataEngine\DirectXGame\base;C:\KamataEngine\DirectXGame\input;C:\KamataEngine\DirectXGame\scene;C:\KamataEngine\External\DirectXTex\include;C:\KamataEngine\External\imgui;C:\KamataEngine\Adapter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Lib\MyMath;$(ProjectDir)\Lib\InputManager;$(ProjectDir)\Lib;$(ProjectDir);C:\KamataEngine\DirectXGame\math;C:\KamataEngine\DirectXGame\2d;C:\KamataEngine\DirectXGame\3d;C:\KamataEngine\DirectXGame\audio;C:\KamataEngine\DirectXGame\base;C:\KamataEngine\DirectXGame\input;C:\KamataEngine\DirectXGame\scene;C:\KamataEngine\External\DirectXTex\include;C:\KamataEngine\External\imgui;C:\KamataEngine\Adapter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -115,6 +115,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\TextureManager.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Lib\InputManager\InputManager.cpp" />
+    <ClCompile Include="Lib\MyMath\Collision.cpp" />
+    <ClCompile Include="Lib\MyMath\Draw.cpp" />
+    <ClCompile Include="Lib\MyMath\Ease.cpp" />
+    <ClCompile Include="Lib\MyMath\Matrix3x3.cpp" />
+    <ClCompile Include="Lib\MyMath\MyMath.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +151,14 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="Lib\InputManager\InputManager.h" />
+    <ClInclude Include="Lib\MyMath\Collision.h" />
+    <ClInclude Include="Lib\MyMath\Draw.h" />
+    <ClInclude Include="Lib\MyMath\Ease.h" />
+    <ClInclude Include="Lib\MyMath\Matrix3x3.h" />
+    <ClInclude Include="Lib\MyMath\MyMath.h" />
+    <ClInclude Include="Lib\MyMath\MyVector2.h" />
+    <ClInclude Include="Lib\MyMath\Quad.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
