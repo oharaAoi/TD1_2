@@ -23,6 +23,15 @@
     <Filter Include="Lib\MyMath">
       <UniqueIdentifier>{14e0e1fc-3941-4e24-89ef-ec681d27b3ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{8c3f1437-f080-4025-9706-6ea1b3842528}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene">
+      <UniqueIdentifier>{1d237b7a-dd95-42df-ae15-7603f0956fc9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object">
+      <UniqueIdentifier>{97f80303-5932-426e-9452-e283f92486f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -64,6 +73,18 @@
     </ClCompile>
     <ClCompile Include="Lib\MyMath\MyMath.cpp">
       <Filter>Lib\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\BaseScene.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Scene_Title.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Scene_Game.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\SceneManager.cpp">
+      <Filter>Game\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +182,18 @@
     </ClInclude>
     <ClInclude Include="Lib\MyMath\Quad.h">
       <Filter>Lib\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\BaseScene.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Scene_Title.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Scene_Game.h">
+      <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\SceneManager.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
