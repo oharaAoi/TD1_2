@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "BaseScene.h"
+#include <Novice.h>
 
 // ----- math ----- //
 #include "InputManager.h"

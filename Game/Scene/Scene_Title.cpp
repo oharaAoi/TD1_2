@@ -34,7 +34,8 @@ void Scene_Title::Update() {
 ================================================================*/
 void Scene_Title::Draw() {
 
-
+	// タイトルシーンの仮描画(後で消す
+	Novice::DrawBox(640, 360, 32, 32, 0.0f, 0x00ddddff, kFillModeSolid);
 
 }
 
