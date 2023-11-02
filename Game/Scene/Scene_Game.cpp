@@ -10,7 +10,7 @@ Scene_Game::~Scene_Game() { Finalize(); }
 ================================================================*/
 void Scene_Game::Init() {
 
-
+	camera_ = new Camera();
 
 
 }
@@ -21,9 +21,20 @@ void Scene_Game::Init() {
 ================================================================*/
 void Scene_Game::Update() {
 
+	// 次のシーンへの条件(仮)
 	if (input->IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::TITLE;
 	}
+
+	// ----- Update ----- //
+	camera_->Update();
+
+
+	// ----- Collision ----- //
+
+
+
+	// ----- MatrixChange ----- //
 
 
 }
@@ -44,5 +55,6 @@ void Scene_Game::Draw() {
 ================================================================*/
 void Scene_Game::Finalize() {
 
+	SafeDelete(camera_);
 
 }
