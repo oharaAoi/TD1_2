@@ -98,8 +98,13 @@
     <ClCompile Include="Game\Scene\SceneManager.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+
+    <ClCompile Include="MapChip.cpp">
+      <Filter>KamataEngine</Filter>
+
     <ClCompile Include="Game\Object\Camera\Camera.cpp">
       <Filter>Game\Object\Camera</Filter>
+
     </ClCompile>
     <ClCompile Include="Game\Object\Player\Cowherd.cpp">
       <Filter>Game\Object\Player</Filter>
@@ -216,6 +221,9 @@
     <ClInclude Include="Lib\LoadCsv\LoadCsv.h">
       <Filter>Lib\LoadCsv</Filter>
     </ClInclude>
+
+    <ClInclude Include="MapChip.h" />
+
     <ClInclude Include="Game\Object\Camera\Camera.h">
       <Filter>Game\Object\Camera</Filter>
     </ClInclude>
