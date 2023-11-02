@@ -39,8 +39,8 @@ void MapChip::Init(){
 	//マップの画像の番号の振り分け
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			mapTile_[i][j].x = j * size_.x + (size_.x / 2);
-			mapTile_[i][j].y = i * size_.y - (size_.y / 2);
+			mapTile_[i][j].x = j * size_.x;
+			mapTile_[i][j].y = i * size_.y;
 		}
 	}
 
@@ -49,13 +49,15 @@ void MapChip::Init(){
 	//マップチップの初期化
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			mapChip_[row][col].pos.x = (size_.x * static_cast<float>(col)) + (size_.x / 2.0f);
-			mapChip_[row][col].pos.y = (size_.y * static_cast<float>(row)) + (size_.y / 2.0f);
+			if (mapAdd_[row][col] != NONE) {
+				mapChip_[row][col].pos.x = (size_.x * static_cast<float>(col)) + (size_.x / 2.0f);
+				mapChip_[row][col].pos.y = (size_.y * static_cast<float>(row)) + (size_.y / 2.0f);
 
-			mapChip_[row][col].scale.x = 1.0f;
-			mapChip_[row][col].scale.y = 1.0f;
+				mapChip_[row][col].scale.x = 1.0f;
+				mapChip_[row][col].scale.y = 1.0f;
 
-			
+				mapChip_[row][col].color = 0xFFFFFFFF;
+			}
 		}
 	}
 
@@ -89,21 +91,9 @@ void MapChip::Draw(){
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			if (mapAdd_[row][col] == STAGEOUT) {
-				/*Novice::DrawSpriteRect(
-					static_cast<int>(mapChip_[row][col].screenVertex.lt.x),
-					static_cast<int>(mapChip_[row][col].screenVertex.lt.y),
-					mapTileWidth_[0],
-					mapTileHeight_[0],
-					static_cast<int>(size_.x),
-					static_cast<int>(size_.y),
-					GH_,
-					1,
-					1,
-					0.0f,
-					0xFFFFFFFF
-				);*/
-
-				draw.Quad(mapChip_[row][col].screenVertex, mapTile_[0][0], size_, GH_, 0xFFFFFFFF);
+				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][0], size_, GH_, mapChip_[row][col].color);
+			} else if (mapAdd_[row][col] == FENCE) {
+				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][1], size_, GH_, mapChip_[row][col].color);
 			}
 		}
 	}

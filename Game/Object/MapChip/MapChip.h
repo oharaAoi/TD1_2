@@ -48,6 +48,8 @@ private:
 		Vec2f pos;
 		Vec2f scale;
 
+		unsigned int color;
+
 		ChipType type;
 
 		//==================================================
@@ -72,9 +74,7 @@ private:
 	Matrix3x3 screenMatrix_;
 
 	//==================================================
-	//インスタンス
-	Draw draw;
-
+	
 
 public:
 

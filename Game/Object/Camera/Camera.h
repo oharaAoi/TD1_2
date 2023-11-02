@@ -18,7 +18,6 @@ private:
 	float left_;
 	float right_;
 	float scale_;
-	bool isStart_;
 
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 viewMatrix_;

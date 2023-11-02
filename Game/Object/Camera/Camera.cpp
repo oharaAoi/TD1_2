@@ -11,13 +11,14 @@ Camera::~Camera() {}
 void Camera::Init() {
 
 	// member object
-	center_ = { 200.0f, 200.0f };
+	// マップチップ用に少しずらした
+	center_ = { 320.0f, 320.0f };
 
-	top_ = 400.0f;
-	bottom_ = -400.0f;
-	left_ = -400.0f;
-	right_ = 400.0f;
-	scale_ = 2.0f;
+	top_ = 360.0f;
+	bottom_ = -360.0f;
+	left_ = -680.0f;
+	right_ = 680.0f;
+	scale_ = 1.0f;
 
 	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, center_);
 	viewMatrix_ = MakeInverseMatrix(worldMatrix_);
@@ -31,7 +32,6 @@ void Camera::Init() {
 	horizontalStart_ = Transform({ 0.0f, 0.0f }, MakeWvpVpMatrix(viewMatrix_, worldMatrix_, orthoMatrix_, viewportatrix_));
 	horizontalEnd_ = Transform({ 1280.0f, 0.f }, MakeWvpVpMatrix(viewMatrix_, worldMatrix_, orthoMatrix_, viewportatrix_));
 
-	isStart_ = true;
 }
 
 void Camera::Update() {
