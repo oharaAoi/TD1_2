@@ -9,7 +9,10 @@
 
 enum ChipType {
 	NONE,
-	STAGEOUT
+	STAGEOUT,
+	FENCE,
+	COWHERD,
+	COW
 };
 
 class MapChip
