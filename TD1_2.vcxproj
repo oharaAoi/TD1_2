@@ -120,6 +120,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Object\Dog\Dog.cpp" />
     <ClCompile Include="Game\Object\MapChip\MapChip.cpp" />
     <ClCompile Include="Game\Object\Player\Cowherd.cpp" />
+    <ClCompile Include="Game\Object\Player\YoungPerson.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\SceneManager.cpp" />
     <ClCompile Include="Game\Scene\Scene_Game.cpp" />
@@ -167,6 +168,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Object\Dog\Dog.h" />
     <ClInclude Include="Game\Object\MapChip\MapChip.h" />
     <ClInclude Include="Game\Object\Player\Cowherd.h" />
+    <ClInclude Include="Game\Object\Player\YoungPerson.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\SceneManager.h" />
     <ClInclude Include="Game\Scene\Scene_Game.h" />

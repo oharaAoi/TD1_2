@@ -71,10 +71,10 @@ void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
-	screenVertex_.lt = Transform(worldVertex_.lt, worldMatrix_);
-	screenVertex_.rt = Transform(worldVertex_.rt, worldMatrix_);
-	screenVertex_.lb = Transform(worldVertex_.lb, worldMatrix_);
-	screenVertex_.rb = Transform(worldVertex_.rb, worldMatrix_);
+	screenVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
 }
 
