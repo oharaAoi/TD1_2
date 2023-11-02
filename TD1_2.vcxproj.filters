@@ -89,6 +89,9 @@
     <ClCompile Include="Game\Scene\SceneManager.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="MapChip.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -201,5 +204,6 @@
     <ClInclude Include="Lib\LoadCsv\LoadCsv.h">
       <Filter>Lib\LoadCsv</Filter>
     </ClInclude>
+    <ClInclude Include="MapChip.h" />
   </ItemGroup>
 </Project>
