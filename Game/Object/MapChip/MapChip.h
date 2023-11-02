@@ -3,10 +3,12 @@
 #include <vector>
 #include <string>
 
+/* Lib */
 #include "MyVector2.h"
 #include "Quad.h"
 #include "Matrix3x3.h"
 #include "Lib/LoadFile/LoadFile.h"
+#include "Draw.h"
 
 enum ChipType {
 	NONE,
@@ -36,8 +38,7 @@ private:
 	int GH_;
 
 	//マップの画像の番号の振り分け
-	int mapTileWidth_[3];
-	int mapTileHeight_[3];
+	Vec2f mapTile_[3][3];
 
 	//1タイル当たりの大きさ
 	Vec2f size_;
@@ -45,7 +46,7 @@ private:
 
 	struct Base {
 		Vec2f pos;
-		Vec2f scall;
+		Vec2f scale;
 
 		ChipType type;
 
@@ -69,6 +70,10 @@ private:
 	Matrix3x3 worldMatrix_;
 
 	Matrix3x3 screenMatrix_;
+
+	//==================================================
+	//インスタンス
+	Draw draw;
 
 
 public:

@@ -38,8 +38,10 @@ void MapChip::Init(){
 
 	//マップの画像の番号の振り分け
 	for (int i = 0; i < 3; i++) {
-		mapTileWidth_[i] = i * static_cast<int>(size_.x);
-		mapTileHeight_[i] = i * static_cast<int>(size_.y);
+		for (int j = 0; j < 3; j++) {
+			mapTile_[i][j].x = j * size_.x + (size_.x / 2);
+			mapTile_[i][j].y = i * size_.y - (size_.y / 2);
+		}
 	}
 
 	GH_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
@@ -50,8 +52,8 @@ void MapChip::Init(){
 			mapChip_[row][col].pos.x = (size_.x * static_cast<float>(col)) + (size_.x / 2.0f);
 			mapChip_[row][col].pos.y = (size_.y * static_cast<float>(row)) + (size_.y / 2.0f);
 
-			mapChip_[row][col].scall.x = 1.0f;
-			mapChip_[row][col].scall.y = 1.0f;
+			mapChip_[row][col].scale.x = 1.0f;
+			mapChip_[row][col].scale.y = 1.0f;
 
 			
 		}
@@ -87,7 +89,7 @@ void MapChip::Draw(){
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			if (mapAdd_[row][col] == STAGEOUT) {
-				Novice::DrawSpriteRect(
+				/*Novice::DrawSpriteRect(
 					static_cast<int>(mapChip_[row][col].screenVertex.lt.x),
 					static_cast<int>(mapChip_[row][col].screenVertex.lt.y),
 					mapTileWidth_[0],
@@ -99,7 +101,9 @@ void MapChip::Draw(){
 					1,
 					0.0f,
 					0xFFFFFFFF
-				);
+				);*/
+
+				draw.Quad(mapChip_[row][col].screenVertex, mapTile_[0][0], size_, GH_, 0xFFFFFFFF);
 			}
 		}
 	}
@@ -149,7 +153,7 @@ void MapChip::MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const 
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			if (mapAdd_[row][col] != NONE) {
-				worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scall, 0.0f, mapChip_[row][col].pos);
+				worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scale, 0.0f, mapChip_[row][col].pos);
 
 				screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, view, ortho, viewport);
 
