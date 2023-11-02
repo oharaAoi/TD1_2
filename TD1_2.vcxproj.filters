@@ -35,6 +35,12 @@
     <Filter Include="Lib\LoadCsv">
       <UniqueIdentifier>{3c6a8888-3682-466d-b5fd-40e8e7e40ab8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Camera">
+      <UniqueIdentifier>{d80d5e6b-8f71-4bb9-82fc-97ff404338f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{90a0fd46-be0f-47ac-a39b-02c0c95243f8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -88,6 +94,9 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\SceneManager.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Camera\Camera.cpp">
+      <Filter>Game\Object\Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +209,12 @@
     </ClInclude>
     <ClInclude Include="Lib\LoadCsv\LoadCsv.h">
       <Filter>Lib\LoadCsv</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Camera\Camera.h">
+      <Filter>Game\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Environment.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

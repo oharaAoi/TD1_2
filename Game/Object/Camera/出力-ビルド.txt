@@ -1,0 +1,54 @@
+﻿ビルドを開始しました...
+1>------ ビルド開始: プロジェクト: TD1_2, 構成: Debug x64 ------
+1>StringUtility.cpp
+1>DirectXCommon.cpp
+1>WinApp.cpp
+1>GameScene.cpp
+1>TextureManager.cpp
+1>ImGuiManager.cpp
+1>Novice.cpp
+1>Camera.cpp
+1>BaseScene.cpp
+1>SceneManager.cpp
+1>Scene_Game.cpp
+1>Scene_Title.cpp
+1>InputManager.cpp
+1>Collision.cpp
+1>Draw.cpp
+1>Ease.cpp
+1>Matrix3x3.cpp
+1>MyMath.cpp
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): error C2220: 次の警告はエラーとして処理されます (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x45 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x46 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x47 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x49 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4a から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4b から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4d から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4f から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x51 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x53 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x55 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x56 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x57 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています Game\Object\Camera\Camera.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Game\Object\Camera\Camera.cpp(62,14): error C3861: 'Lerp': 識別子が見つかりませんでした
+1>C:\Users\k023g\source\repos\TD1\No2\Game\Object\Camera\Camera.cpp(63,14): error C3861: 'Lerp': 識別子が見つかりませんでした
+1>main.cpp
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): error C2220: 次の警告はエラーとして処理されます (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x45 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x46 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x47 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x49 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4a から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4b から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4d から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x4f から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x51 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x53 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x55 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x56 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>C:\Users\k023g\source\repos\TD1\No2\Config\Environment.h(1,1): warning C4828: オフセット 0x57 から始まる、現在のソースの文字セット (コードページ 65001) では使用できない文字がファイルに含まれています。 (ソース ファイルをコンパイルしています main.cpp)
+1>プロジェクト "TD1_2.vcxproj" のビルドが終了しました -- 失敗。
+========== ビルド: 成功 0、失敗 1、最新の状態 0、スキップ 0 ==========
+========== ビルド は 16:16 に開始され、03.748 秒 かかりました ==========

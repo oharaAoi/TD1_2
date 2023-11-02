@@ -4,6 +4,10 @@
 
 // ----- math ----- //
 #include "InputManager.h"
+#include <SafeDelete.h>
+
+// ----- object ----- //
+#include "Camera.h"
 
 
 class Scene_Game : public BaseScene {
@@ -14,6 +18,8 @@ private:
 	// 入力処理のインスタンス確保
 	InputManager* input = InputManager::GetInstance();
 
+	// カメラ
+	Camera* camera_;
 
 public:
 	// コンストラクタ
