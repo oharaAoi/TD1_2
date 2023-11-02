@@ -28,6 +28,13 @@ private:
 	int row_;
 	int col_;
 
+	//マップの画像
+	int GH_;
+
+	//マップの画像の番号の振り分け
+	int mapTileWidth_[3];
+	int mapTileHeight_[3];
+
 	//1タイル当たりの大きさ
 	Vec2f size_;
 	//==================================================

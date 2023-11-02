@@ -36,6 +36,15 @@ void MapChip::Init(){
 	size_.x = 64.0f;
 	size_.y = 64.0f;
 
+	//マップの画像の番号の振り分け
+	for (int i = 0; i < 3; i++) {
+		mapTileWidth_[i] = i * static_cast<int>(size_.x);
+		mapTileHeight_[i] = i * static_cast<int>(size_.y);
+	}
+
+	GH_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
+
+	//マップチップの初期化
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			mapChip_[row][col].pos.x = (size_.x * static_cast<float>(col)) + (size_.x / 2.0f);
@@ -75,6 +84,25 @@ void MapChip::Update(){
 
 //==============================================================
 void MapChip::Draw(){
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
+			if (mapAdd_[row][col] == STAGEOUT) {
+				Novice::DrawSpriteRect(
+					static_cast<int>(mapChip_[row][col].screenVertex.lt.x),
+					static_cast<int>(mapChip_[row][col].screenVertex.lt.y),
+					mapTileWidth_[0],
+					mapTileHeight_[0],
+					static_cast<int>(size_.x),
+					static_cast<int>(size_.y),
+					GH_,
+					1,
+					1,
+					0.0f,
+					0xFFFFFFFF
+				);
+			}
+		}
+	}
 }
 
 
