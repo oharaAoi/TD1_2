@@ -143,3 +143,22 @@ void MapChip::CalcWorldVertex() {
 		}
 	}
 }
+
+//==============================================================
+void MapChip::CoordinateChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport) {
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
+			if (mapAdd_[row][col] != NONE) {
+				worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scall, 0.0f, mapChip_[row][col].pos);
+
+				screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, view, ortho, viewport);
+
+				mapChip_[row][col].screenVertex.lt = Transform(localVertex_.lt, screenMatrix_);
+				mapChip_[row][col].screenVertex.rt = Transform(localVertex_.rt, screenMatrix_);
+				mapChip_[row][col].screenVertex.lb = Transform(localVertex_.lb, screenMatrix_);
+				mapChip_[row][col].screenVertex.rb = Transform(localVertex_.rb, screenMatrix_);
+			}
+		}
+	}
+}
+

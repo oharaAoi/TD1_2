@@ -5,6 +5,7 @@
 
 #include "MyVector2.h"
 #include "Quad.h"
+#include "Matrix3x3.h"
 #include "Lib/LoadFile/LoadFile.h"
 
 enum ChipType {
@@ -63,6 +64,13 @@ private:
 	//原点中心vertex
 	QuadVerf localVertex_;
 
+	//==================================================
+
+	Matrix3x3 worldMatrix_;
+
+	Matrix3x3 screenMatrix_;
+
+
 public:
 
 	MapChip();
@@ -77,6 +85,10 @@ public:
 
 	void CalcWorldVertex();
 	void CalcScreenVertex();
+
+	//===========================================
+
+	void CoordinateChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport);
 
 	/*アクセッサ*/
 	Vec2f GetPos(int row, int col) { return mapChip_[row][col].pos; }
