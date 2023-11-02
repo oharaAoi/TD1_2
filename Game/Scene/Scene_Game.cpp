@@ -12,7 +12,7 @@ void Scene_Game::Init() {
 
 	camera_ = new Camera();
 
-
+	mapChip_ = new MapChip();
 }
 
 
@@ -35,6 +35,7 @@ void Scene_Game::Update() {
 
 
 	// ----- MatrixChange ----- //
+	mapChip_->MatrixChange(camera_->GetViewMatrix(), camera_->GetOrthoMatrix(), camera_->GetViewportMatrix());
 
 
 }
@@ -45,7 +46,7 @@ void Scene_Game::Update() {
 ================================================================*/
 void Scene_Game::Draw() {
 
-
+	mapChip_->Draw();
 
 }
 
@@ -56,5 +57,5 @@ void Scene_Game::Draw() {
 void Scene_Game::Finalize() {
 
 	SafeDelete(camera_);
-
+	SafeDelete(mapChip_);
 }

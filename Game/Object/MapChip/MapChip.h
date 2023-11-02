@@ -88,7 +88,7 @@ public:
 
 	//===========================================
 
-	void CoordinateChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport);
+	void MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport);
 
 	/*アクセッサ*/
 	Vec2f GetPos(int row, int col) { return mapChip_[row][col].pos; }

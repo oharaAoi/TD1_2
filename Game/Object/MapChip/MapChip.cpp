@@ -145,7 +145,7 @@ void MapChip::CalcWorldVertex() {
 }
 
 //==============================================================
-void MapChip::CoordinateChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport) {
+void MapChip::MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport) {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			if (mapAdd_[row][col] != NONE) {
