@@ -1,0 +1,53 @@
+﻿#pragma once
+
+// ----- math ----- //
+#include "MyVector2.h"
+#include "Matrix3x3.h"
+#include "Quad.h"
+
+/// <summary>
+/// 牛飼いクラス
+/// </summary>
+class Cowherd {
+private:
+
+	// member object
+
+	// ワールド空間での中心点
+	Vec2f worldCenterPos_;
+	Vec2f size_;
+
+	// 各空間の頂点
+	QuadVerf localVertex_;
+	QuadVerf worldVertex_;
+	QuadVerf screenVertex_;
+
+	// ローカル以外の各空間の行列
+	Matrix3x3 worldMatrix_;
+	Matrix3x3 screenMatrix_;
+
+public:
+	// Constructor & Destructor
+	Cowherd();
+	~Cowherd();
+
+	// default method
+	void Init();
+	void Update();
+	void Draw();
+	void Finalize();
+
+	// user method
+
+	// ワールド空間行列をスクリーン空間行列に変換する関数
+	void MatrixChange(
+		const Matrix3x3& viewMatrix,
+		const Matrix3x3& orthoMatrix,
+		const Matrix3x3& viewportMatrix
+	);
+
+	// accessor
+
+
+};
+
