@@ -44,6 +44,18 @@
     <Filter Include="Game\Object\Dog">
       <UniqueIdentifier>{d90f9c08-349b-480a-a013-f8d24d635b39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Camera">
+      <UniqueIdentifier>{fafbd409-49e8-4040-ae26-3592b5a4945a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Player">
+      <UniqueIdentifier>{700ffe6c-98af-4fda-ab33-e225467a6e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Player\Cowherd">
+      <UniqueIdentifier>{eae6287d-3646-4ab5-bf13-d41ee443fb07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{bfa51a73-78f9-4ef7-92d4-65ad0217e364}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -98,12 +110,6 @@
     <ClCompile Include="Game\Scene\SceneManager.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Object\Camera\Camera.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Object\Player\Cowherd.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Object\MapChip\MapChip.cpp">
       <Filter>Game\Object\MapChip</Filter>
     </ClCompile>
@@ -112,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="Game\Object\Dog\Dog.cpp">
       <Filter>Game\Object\Dog</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Camera\Camera.cpp">
+      <Filter>Game\Object\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Player\Cowherd.cpp">
+      <Filter>Game\Object\Player\Cowherd</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -222,9 +234,6 @@
     <ClInclude Include="Game\Scene\SceneManager.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Environment.h" />
-    <ClInclude Include="Game\Object\Camera\Camera.h" />
-    <ClInclude Include="Game\Object\Player\Cowherd.h" />
     <ClInclude Include="Lib\LoadFile\LoadFile.h">
       <Filter>Lib\LoadFile</Filter>
     </ClInclude>
@@ -236,6 +245,15 @@
     </ClInclude>
     <ClInclude Include="Game\Object\Dog\Dog.h">
       <Filter>Game\Object\Dog</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Camera\Camera.h">
+      <Filter>Game\Object\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Player\Cowherd.h">
+      <Filter>Game\Object\Player\Cowherd</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Environment.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
