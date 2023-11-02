@@ -123,6 +123,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\SceneManager.cpp" />
     <ClCompile Include="Game\Scene\Scene_Game.cpp" />
+    <ClCompile Include="Game\Scene\Scene_LevelSelect.cpp" />
     <ClCompile Include="Game\Scene\Scene_Title.cpp" />
     <ClCompile Include="Lib\InputManager\InputManager.cpp" />
     <ClCompile Include="Lib\MyMath\Collision.cpp" />
@@ -169,6 +170,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\SceneManager.h" />
     <ClInclude Include="Game\Scene\Scene_Game.h" />
+    <ClInclude Include="Game\Scene\Scene_LevelSelect.h" />
     <ClInclude Include="Game\Scene\Scene_Title.h" />
     <ClInclude Include="Lib\InputManager\InputManager.h" />
     <ClInclude Include="Lib\LoadFile\LoadFile.h" />
