@@ -4,6 +4,9 @@
 #include "MyVector2.h"
 #include "Matrix3x3.h"
 #include "Quad.h"
+#include "Draw.h"
+#include "InputManager.h"
+#include "Collision.h"
 
 /// <summary>
 /// 牛飼いクラス
@@ -12,10 +15,12 @@ class Cowherd {
 private:
 
 	// member object
+	InputManager* input = InputManager::GetInstance();
 
 	// ワールド空間での中心点
 	Vec2f worldCenterPos_;
 	Vec2f size_;
+	int gh_;
 
 	// 各空間の頂点
 	QuadVerf localVertex_;
@@ -25,6 +30,9 @@ private:
 	// ローカル以外の各空間の行列
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
+
+	bool isMoveIdle_;
+
 
 public:
 	// Constructor & Destructor
@@ -45,6 +53,10 @@ public:
 		const Matrix3x3& orthoMatrix,
 		const Matrix3x3& viewportMatrix
 	);
+
+	void MakeWorldMatrix();
+	
+	void Move();
 
 	// accessor
 

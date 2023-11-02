@@ -12,7 +12,7 @@ void Cowherd::Init() {
 	// ワールド空間での中心点
 	worldCenterPos_ = { 640.0f,360.0f };
 	size_ = { 32.0f,32.0f };
-
+	gh_ = Novice::LoadTexture("white1x1.png");
 
 	// 各空間の頂点
 	localVertex_.lt = { -size_.x * 0.5f, size_.y * 0.5f };
@@ -21,16 +21,12 @@ void Cowherd::Init() {
 	localVertex_.rb = { size_.x * 0.5f, -size_.y * 0.5f };
 
 	// ローカル以外の各空間の行列
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f },0.0f,worldCenterPos_);
+	MakeWorldMatrix();
+
 	screenMatrix_ = worldMatrix_;
-
-	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
-
 	screenVertex_ = worldVertex_;
 
+	isMoveIdle_ = false;
 
 }
 
@@ -41,6 +37,7 @@ void Cowherd::Init() {
 void Cowherd::Update() {
 
 
+	MakeWorldMatrix();
 
 }
 
@@ -50,7 +47,7 @@ void Cowherd::Update() {
 ==========================================================*/
 void Cowherd::Draw() {
 
-
+	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
 
 }
 
@@ -78,5 +75,50 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
+
+}
+
+void Cowherd::MakeWorldMatrix() {
+	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldCenterPos_);
+
+	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
+	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
+	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
+	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+
+}
+
+
+void Cowherd::Move() {
+
+	if (isMoveIdle_) {
+
+		// いつでも移動待機状態をクリアできるよにする
+		if (input->IsTriggerMouse(1)) {
+			isMoveIdle_ = false;
+		}
+
+		// 上下左右のマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
+
+
+
+
+	} else {
+
+		// スクリーン座標上でマウスの位置がオブジェクトの上にあれば当たっている判定になる
+		if (Collision::Rect::Point(screenVertex_,
+			{ static_cast<float>(input->GetMousePos().x), static_cast<float>(input->GetMousePos().y) })) {
+
+			// クリックしたとき
+			if (input->IsTriggerMouse(0)) {
+
+				// 移動待機状態になる
+				isMoveIdle_ = true;
+
+			}
+
+		}
+
+	}
 
 }
