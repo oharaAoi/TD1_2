@@ -2,14 +2,13 @@
 #include <SafeDelete.h>
 #include "InputManager.h"
 #include "SceneManager.h"
-
-const char kWindowTitle[] = "LC1A_06_オオハラアオイ_タイトル";
+#include "Environment.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
-	Novice::Initialize(kWindowTitle, 1280, 720);
+	Novice::Initialize(kWindowTitle, kWindowSize.x, kWindowSize.y);
 
 	// キー入力結果を受け取る箱
 	InputManager* input = InputManager::GetInstance();
