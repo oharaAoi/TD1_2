@@ -73,4 +73,10 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
+	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
+
+
 }
