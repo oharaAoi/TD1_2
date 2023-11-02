@@ -5,7 +5,7 @@
 
 #include "MyVector2.h"
 #include "Quad.h"
-#include "Lib/LoadCsv/LoadCsv.h"
+#include "Lib/LoadFile/LoadFile.h"
 
 enum ChipType {
 	NONE,

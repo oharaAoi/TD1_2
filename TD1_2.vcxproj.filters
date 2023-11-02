@@ -32,6 +32,9 @@
     <Filter Include="Game\Object">
       <UniqueIdentifier>{97f80303-5932-426e-9452-e283f92486f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\LoadFile">
+      <UniqueIdentifier>{ca1ef090-f5cf-4f2c-8115-ea21534ea239}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -85,6 +88,15 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\SceneManager.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Camera\Camera.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Player\Cowherd.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="MapChip.cpp">
+      <Filter>KamataEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +206,13 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\SceneManager.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Environment.h" />
+    <ClInclude Include="Game\Object\Camera\Camera.h" />
+    <ClInclude Include="Game\Object\Player\Cowherd.h" />
+    <ClInclude Include="MapChip.h" />
+    <ClInclude Include="Lib\LoadFile\LoadFile.h">
+      <Filter>Lib\LoadFile</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
