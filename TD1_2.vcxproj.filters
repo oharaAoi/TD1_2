@@ -125,6 +125,12 @@
     <ClCompile Include="Game\Object\Player\Cowherd.cpp">
       <Filter>Game\Object\Player\Cowherd</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Object\Player\YoungPerson.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Scene_LevelSelect.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -255,5 +261,7 @@
     <ClInclude Include="Config\Environment.h">
       <Filter>Config</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Object\Player\YoungPerson.h" />
+    <ClInclude Include="Game\Scene\Scene_LevelSelect.h" />
   </ItemGroup>
 </Project>

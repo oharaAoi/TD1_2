@@ -9,6 +9,7 @@
 // ----- object ----- //
 #include "Camera.h"
 #include "MapChip.h"
+#include "Cow.h"
 
 class Scene_Game : public BaseScene {
 private:
@@ -22,6 +23,8 @@ private:
 	Camera* camera_;
 
 	MapChip* mapChip_;
+
+	Cow* cow_;
 
 public:
 	// コンストラクタ

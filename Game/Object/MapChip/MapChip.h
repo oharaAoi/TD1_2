@@ -15,6 +15,7 @@ enum ChipType {
 	STAGEOUT,
 	FENCE,
 	COWHERD,
+	YANGMAN,
 	COW
 };
 
@@ -43,7 +44,7 @@ private:
 	//1タイル当たりの大きさ
 	Vec2f size_;
 	//==================================================
-
+	// マップチップ
 	struct Base {
 		Vec2f pos;
 		Vec2f scale;
@@ -52,13 +53,10 @@ private:
 
 		ChipType type;
 
-		//==================================================
-		//矩形
+		// 各頂点
 		QuadVerf worldVertex;
 
 		QuadVerf screenVertex;
-
-		//==================================================
 
 	};
 
@@ -67,14 +65,28 @@ private:
 	//原点中心vertex
 	QuadVerf localVertex_;
 
-	//==================================================
+	// Cowheadのpos
+	Vec2f cowheadPos_;
 
+	// Cowのpos
+	Vec2f cowPos_;
+
+	//==================================================
+	// 行列
 	Matrix3x3 worldMatrix_;
 
 	Matrix3x3 screenMatrix_;
 
 	//==================================================
+	//デバック用
+	// line
+	struct Line {
+		Vec2f st;
+		Vec2f end;
+	};
 	
+	Line xAxis_[10];
+	Line yAxis_[10];
 
 public:
 
@@ -88,15 +100,30 @@ public:
 
 	//===========================================
 
+	void DebugInit();
+	void DebugDraw();
+
+	//===========================================
+
 	void CalcWorldVertex();
 	void CalcScreenVertex();
 
 	//===========================================
 
 	void MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport);
+	void MakeWorldMatrix();
 
-	/*アクセッサ*/
+	/* アクセッサ */
 	Vec2f GetPos(int row, int col) { return mapChip_[row][col].pos; }
+
+	Vec2f GetCowheadPos() { return cowheadPos_; }
+	Vec2f GetCowPos() { return cowPos_; }
+
+	//マップのアドレスを返す(playerやcowの初期化で使う)
+	std::vector<std::vector<int>>GetMapChipAdd() { return mapAdd_; }
+
+	int GetMapChipRow() { return row_; }
+	int GetMapChipCol() { return col_; }
 
 };
 

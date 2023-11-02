@@ -12,12 +12,12 @@ void Camera::Init() {
 
 	// member object
 	// マップチップ用に少しずらした
-	center_ = { 320.0f, 320.0f };
+	center_ = { 640.0f, 360.0f };
 
 	top_ = 360.0f;
 	bottom_ = -360.0f;
-	left_ = -680.0f;
-	right_ = 680.0f;
+	left_ = -640.0f;
+	right_ = 640.0f;
 	scale_ = 1.0f;
 
 	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, center_);

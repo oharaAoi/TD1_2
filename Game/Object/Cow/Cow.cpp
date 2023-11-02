@@ -1,6 +1,6 @@
 ﻿#include "Cow.h"
 
-Cow::Cow() { Init(); }
+Cow::Cow(Vec2f cowPos) { Init(cowPos); }
 
 Cow::~Cow() { Finalize(); }
 
@@ -8,11 +8,12 @@ Cow::~Cow() { Finalize(); }
 /*==========================================================
 	初期化関数
 ==========================================================*/
-void Cow::Init(){
+void Cow::Init(Vec2f cowPos){
 
 	// ワールド空間での中心座標
 	worldCenterPos_ = { 640.0f,360.0 };
-	size_ = { 32.0f,32.0f };
+	worldCenterPos_ = cowPos;
+	size_ = { 64.0f,64.0f };
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	// ローカル空間での各頂点座標

@@ -13,6 +13,8 @@ void Scene_Game::Init() {
 	camera_ = new Camera();
 
 	mapChip_ = new MapChip();
+
+	cow_ = new Cow(mapChip_->GetCowPos());
 }
 
 
@@ -29,6 +31,7 @@ void Scene_Game::Update() {
 	// ----- Update ----- //
 	camera_->Update();
 
+	cow_->Update();
 
 	// ----- Collision ----- //
 
@@ -37,7 +40,7 @@ void Scene_Game::Update() {
 	// ----- MatrixChange ----- //
 	mapChip_->MatrixChange(camera_->GetViewMatrix(), camera_->GetOrthoMatrix(), camera_->GetViewportMatrix());
 
-
+	cow_->MatrixChange(camera_->GetViewMatrix(), camera_->GetOrthoMatrix(), camera_->GetViewportMatrix());
 }
 
 
@@ -47,7 +50,9 @@ void Scene_Game::Update() {
 void Scene_Game::Draw() {
 
 	mapChip_->Draw();
+	mapChip_->DebugDraw();
 
+	cow_->Draw();
 }
 
 
@@ -58,4 +63,5 @@ void Scene_Game::Finalize() {
 
 	SafeDelete(camera_);
 	SafeDelete(mapChip_);
+	SafeDelete(cow_);
 }

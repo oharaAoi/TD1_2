@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <Novice.h>
+#include <vector>
 
 // ----- math ----- //
 #include "MyVector2.h"
@@ -28,11 +29,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	Cow();
+	Cow(Vec2f cowPos);
 	~Cow();
 
 	// default method
-	void Init();
+	void Init(Vec2f cowPos);
 	void Update();
 	void Draw();
 	void Finalize();
