@@ -116,6 +116,9 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Game\Object\Camera\Camera.cpp" />
+    <ClCompile Include="Game\Object\Cow\Cow.cpp" />
+    <ClCompile Include="Game\Object\Dog\Dog.cpp" />
+    <ClCompile Include="Game\Object\MapChip\MapChip.cpp" />
     <ClCompile Include="Game\Object\Player\Cowherd.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\SceneManager.cpp" />
@@ -128,7 +131,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Lib\MyMath\Matrix3x3.cpp" />
     <ClCompile Include="Lib\MyMath\MyMath.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapChip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
@@ -160,6 +162,9 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Config\Environment.h" />
     <ClInclude Include="Game\Object\Camera\Camera.h" />
+    <ClInclude Include="Game\Object\Cow\Cow.h" />
+    <ClInclude Include="Game\Object\Dog\Dog.h" />
+    <ClInclude Include="Game\Object\MapChip\MapChip.h" />
     <ClInclude Include="Game\Object\Player\Cowherd.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\SceneManager.h" />
@@ -174,7 +179,6 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Lib\MyMath\MyMath.h" />
     <ClInclude Include="Lib\MyMath\MyVector2.h" />
     <ClInclude Include="Lib\MyMath\Quad.h" />
-    <ClInclude Include="MapChip.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

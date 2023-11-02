@@ -35,6 +35,15 @@
     <Filter Include="Lib\LoadFile">
       <UniqueIdentifier>{ca1ef090-f5cf-4f2c-8115-ea21534ea239}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\MapChip">
+      <UniqueIdentifier>{d63b7e8d-ca38-4bdb-a8b8-1b1b73a2d778}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Cow">
+      <UniqueIdentifier>{987dfb03-3042-4801-a239-85e8fe0f154c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Object\Dog">
+      <UniqueIdentifier>{d90f9c08-349b-480a-a013-f8d24d635b39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -95,8 +104,14 @@
     <ClCompile Include="Game\Object\Player\Cowherd.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
-    <ClCompile Include="MapChip.cpp">
-      <Filter>KamataEngine</Filter>
+    <ClCompile Include="Game\Object\MapChip\MapChip.cpp">
+      <Filter>Game\Object\MapChip</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Cow\Cow.cpp">
+      <Filter>Game\Object\Cow</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Dog\Dog.cpp">
+      <Filter>Game\Object\Dog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +225,17 @@
     <ClInclude Include="Config\Environment.h" />
     <ClInclude Include="Game\Object\Camera\Camera.h" />
     <ClInclude Include="Game\Object\Player\Cowherd.h" />
-    <ClInclude Include="MapChip.h" />
     <ClInclude Include="Lib\LoadFile\LoadFile.h">
       <Filter>Lib\LoadFile</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\MapChip\MapChip.h">
+      <Filter>Game\Object\MapChip</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Cow\Cow.h">
+      <Filter>Game\Object\Cow</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Dog\Dog.h">
+      <Filter>Game\Object\Dog</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
