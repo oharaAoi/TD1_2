@@ -249,6 +249,10 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 	Vec2 naturalDis{};
 	int directionValue[8]{0};
 
+	for (int i = 0; i < 8; i++) {
+		directionValue[i] = cow_->GetGridDistanceValue(i);
+	}
+
 	// 牛飼いとのマス目上の距離を取る
 	cow2HeadDis.x = static_cast<float>(cow_->GetCenterAdd().x - add.x);
 	cow2HeadDis.y = static_cast<float>(cow_->GetCenterAdd().y - add.y);
@@ -355,6 +359,11 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += (naturalDis.x + naturalDis.y) / 2;
 		}
 	}
+
+	for (int i = 0; i < 8; i++) {
+		cow_->SetGridDistanceValue(directionValue[i], i);
+	}
+
 }
 
 

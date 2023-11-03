@@ -46,6 +46,7 @@ void Cow::Init(MapChip* mapChip){
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
 		canMoveDireValue_[i] = 100;
+		gridDistanceValue_[i] = 0;
 	}
 
 	// ローカル空間以外の各行列

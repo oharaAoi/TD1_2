@@ -40,6 +40,7 @@ private:
 
 	// 牛が動く方向の評価値
 	int canMoveDireValue_[8];
+	int gridDistanceValue_[8];
 
 	// 牛の左上を調べるための変数
 	
@@ -84,6 +85,9 @@ public:
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
 	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
 
+	// 牛から見たプレイヤー達の位置を計算するために使う
+	void SetGridDistanceValue(int value, int dire) {gridDistanceValue_[dire] = value; }
+	int GetGridDistanceValue(int dire) { return gridDistanceValue_[dire]; }
 
 };
 
