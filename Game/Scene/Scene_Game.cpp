@@ -15,6 +15,9 @@ void Scene_Game::Init() {
 	cow_ = new Cow(mapChip_);
 	cowherd_ = new Cowherd();
 	youngPerson_ = new YoungPerson();
+	collisionManager_ = new CollisionManager(
+		cowherd_, youngPerson_, mapChip_
+	);
 
 }
 
@@ -46,7 +49,7 @@ void Scene_Game::Update() {
 
 
 	// ----- Collision ----- //
-
+	collisionManager_->CheckCanMove();
 
 
 	// ----- MatrixChange ----- //
@@ -111,4 +114,5 @@ void Scene_Game::Finalize() {
 	SafeDelete(cow_);
 	SafeDelete(cowherd_);
 	SafeDelete(youngPerson_);
+	SafeDelete(collisionManager_);
 }

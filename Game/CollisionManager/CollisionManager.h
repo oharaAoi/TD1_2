@@ -8,6 +8,7 @@
 
 // ----- math ----- //
 #include <SafeDelete.h>
+#include "CanMoveDirection.h"
 
 
 /// <summary>

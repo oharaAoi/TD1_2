@@ -97,7 +97,7 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
 	}
 
-	return false;
+	return true;
 }
 
 
@@ -116,7 +116,21 @@ void CollisionManager::YoungPersonCanMove() {
 			// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
 			// 障害物がなければ移動できる
 
-			//if(YoungPersonCheckCanMove(youngPerson_->GetCenterAdd()))
+			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x, youngPerson_->GetCenterAdd(yi).y + 1 })) { // 上
+				youngPerson_->SetCanMoveDir(true, top, yi);
+			}
+
+			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x, youngPerson_->GetCenterAdd(yi).y - 1 })) { // 下
+				youngPerson_->SetCanMoveDir(true, bottom, yi);
+			}
+
+			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x - 1, youngPerson_->GetCenterAdd(yi).y })) { // 左
+				youngPerson_->SetCanMoveDir(true, left, yi);
+			}
+
+			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x + 1, youngPerson_->GetCenterAdd(yi).y })) { // 右
+				youngPerson_->SetCanMoveDir(true, right, yi);
+			}
 
 		}
 
@@ -125,8 +139,20 @@ void CollisionManager::YoungPersonCanMove() {
 }
 
 bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
-	add;
-	return false;
+	// マップ上のオブジェクト
+	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
+
+	// 牛との
+
+	// 牛飼いとの
+	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
+
+	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
+	for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
+	}
+
+	return true;
 }
 
 /*=================================================================

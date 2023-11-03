@@ -7,13 +7,11 @@
 #include "Draw.h"
 #include "InputManager.h"
 #include "Collision.h"
+#include "CanMoveDirection.h"
 
 // ----- object ----- //
 #include "MapChip.h"
 #include "BaseMap.h"
-
-// ----- Config ----- //
-#include "CanMoveDirection.h"
 
 
 /// <summary>

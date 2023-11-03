@@ -5,6 +5,7 @@
 // ----- math ----- //
 #include "InputManager.h"
 #include <SafeDelete.h>
+#include "CollisionManager.h"
 
 // ----- object ----- //
 #include "Camera.h"
@@ -12,6 +13,7 @@
 #include "Cow.h"
 #include "Cowherd.h"
 #include "YoungPerson.h"
+
 
 class Scene_Game : public BaseScene {
 private:
@@ -35,6 +37,9 @@ private:
 
 	// 牛飼い
 	Cowherd* cowherd_;
+
+	/// 当たり判定
+	CollisionManager* collisionManager_;
 
 
 public:

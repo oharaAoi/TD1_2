@@ -6,6 +6,8 @@
 #include "Quad.h"
 #include "Draw.h"
 #include "InputManager.h"
+#include "CanMoveDirection.h"
+
 
 // ----- object ----- //
 #include "MapChip.h"
@@ -54,16 +56,6 @@ private:
 	int gh_;
 
 	QuadVerf localVertex_;
-
-	// 移動できる方向
-	enum kCanMoveDirection {
-		TOP,
-		BOTTOM,
-		LEFT,
-		RIGHT
-	};
-
-
 
 public:
 	/* ---------- Constructor & Destructor ---------- */
