@@ -12,6 +12,20 @@
 #include "MapChip.h"
 #include "BaseMap.h"
 
+
+// 移動できる方向を所得するときに使う
+enum kCanMoveDirection {
+	top,
+	bottom,
+	left,
+	right,
+	leftTop,
+	rightTop,
+	leftBottom,
+	rightBottom
+};
+
+
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
@@ -24,7 +38,7 @@ private:
 
 	// ワールド空間での中心点
 	Vec2f worldCenterPos_;
-	Vec2f centerAdd_;
+	Vec2 centerAdd_;
 	Vec2f size_;
 	int gh_;
 
@@ -39,6 +53,10 @@ private:
 
 	bool isMoveIdle_;
 
+	// 移動方向と移動量
+	Vec2f moveDir_;
+	Vec2f moveValue_; // 初期化の値を変更で移動量を変化させる
+	bool canMoveDir_[8];
 
 public:
 	// Constructor & Destructor
@@ -67,7 +85,9 @@ public:
 	void DebugDraw();
 
 	// accessor
-
+	
+	// canMoveDir
+	void SetCanMoveDir(bool canMove, kCanMoveDirection canMoveDir) { canMoveDir_[canMoveDir] = canMove; }
 
 };
 

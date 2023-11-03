@@ -22,7 +22,10 @@ void Cowherd::Init() {
 			}
 		}
 	}
-	centerAdd_ = worldCenterPos_ / size_;
+	centerAdd_ = {
+		static_cast<int>(worldCenterPos_.x / size_.x),
+		static_cast<int>(worldCenterPos_.y / size_.y)
+	};
 	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
 	// 各空間の頂点
@@ -38,6 +41,21 @@ void Cowherd::Init() {
 	screenVertex_ = worldVertex_;
 
 	isMoveIdle_ = false;
+
+	/*=========================================
+		移動に使う変数
+	=========================================*/
+
+	// 移動方向
+	moveDir_ = { 0.0f,0.0f };
+
+	// 移動するマスの量
+	moveValue_ = { 1.0f,1.0f }; 
+
+
+	for (int i = 0; i < 8; i++) {
+		canMoveDir_[i] = false;
+	}
 
 }
 
@@ -111,8 +129,12 @@ void Cowherd::Move() {
 			isMoveIdle_ = false;
 		}
 
-		// 上下左右のマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
+		// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
+		if (input->IsTriggerMouse(0)) {
 
+
+
+		}
 
 
 
