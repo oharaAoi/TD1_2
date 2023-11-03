@@ -5,15 +5,7 @@ MapChip::MapChip(){
 	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
 
-	//選ばれたステージによって変数は変わる
-	mapAdd_ = LoadFile(csvFilePath_[0]);
-
-	//行と列の初期化
-	row_ = static_cast<int>(mapAdd_.size());
-	col_ = static_cast<int>(mapAdd_[0].size());
-
-	//配列の反転
-	std::reverse(mapAdd_.begin(), mapAdd_.end());
+	AddressRevers();
 
 	//配列の確保
 	mapChip_ = new Base * [row_];
