@@ -267,9 +267,6 @@
     <ClInclude Include="Game\Object\Player\Cowherd.h">
       <Filter>Game\Object\Player\Cowherd</Filter>
     </ClInclude>
-    <ClInclude Include="Config\Environment.h">
-      <Filter>Config</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scene\Scene_LevelSelect.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
@@ -280,7 +277,10 @@
       <Filter>Game\Object\Base</Filter>
     </ClInclude>
     <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
-    <ClInclude Include="CanMoveDirection.h">
+    <ClInclude Include="Config\CanMoveDirection.h">
+      <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Config\Environment.h">
       <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
