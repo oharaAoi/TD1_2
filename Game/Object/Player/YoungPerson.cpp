@@ -25,7 +25,7 @@ void YoungPerson::Init() {
 	young_.resize(maxYoungIndex_);
 
 	// 移動マスのcsvを読み込む
-	moveGrid_ = LoadFile("./Resources/player/cowherdMoveValue.csv");
+	moveGrid_ = LoadFile("./Resources/player/youngPersonMoveValue.csv");
 	std::reverse(moveGrid_.begin(), moveGrid_.end());
 
 	moveGridMaxIndex_ = 0;
@@ -53,7 +53,7 @@ void YoungPerson::Init() {
 			switch (moveGrid_[row][col]) {
 			case YoungPerson::Player:
 
-				for (int i = 0; i < moveGridMaxIndex_; i++) {
+				for (int i = 0; i < maxYoungIndex_; i++) {
 					young_[i].localCenterAdd = { col, row };
 				}
 
@@ -63,7 +63,7 @@ void YoungPerson::Init() {
 		}
 	}
 
-	
+
 
 	// youngを初期化するために使う
 	int index = 0;
@@ -132,7 +132,7 @@ void YoungPerson::Init() {
 			case YoungPerson::CanMove:
 
 				// 全員同じ移動マスを使う
-				for (int i = 0; i < moveGridMaxIndex_; i++) {
+				for (int i = 0; i < maxYoungIndex_; i++) {
 
 					// アドレス
 					young_[i].canMoveGrid[index].localAdd = {
@@ -207,9 +207,9 @@ void YoungPerson::Draw() {
 			Draw::Quad(
 				young_[i].canMoveGrid[j].screenVertex,
 				{ 0.0f,0.0f },
-				{ 1.0f,1.0f},
+				{ 1.0f,1.0f },
 				gh_,
-				0xFFFFFFFF
+				0xdd000050
 			);
 		}
 
@@ -236,43 +236,57 @@ void YoungPerson::Finalize() {
 
 void YoungPerson::Move() {
 
-	for (int i = 0; i < maxYoungIndex_; i++) {
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
 		// フレーム単位での移動したかのフラグ
-		young_[i].isMove = false;
-		if (young_[i].isMoveIdle) {
+		young_[yi].isMove = false;
+		if (young_[yi].isMoveIdle) {
 
 			// 移動待機状態の解除
 			if (input->IsTriggerMouse(1)) {
-				young_[i].isMoveIdle = false;
+				young_[yi].isMoveIdle = false;
 			}
 
 			// 移動先の選択
-			young_[i].moveDir = { 0.0f,0.0f };
+			young_[yi].moveDir = { 0.0f,0.0f };
 			if (input->IsTriggerMouse(0)) {
 
-				// 上
+				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
+					if (Collision::Rect::Point(
+						young_[yi].canMoveGrid[gi].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+
+						// ワールド座標の更新
+						young_[yi].worldCenterPos += {
+							young_[yi].canMoveGrid[gi].localAdd.x* tileSize_.x,
+							young_[yi].canMoveGrid[gi].localAdd.y* tileSize_.y,
+						};
+
+						young_[yi].isMove = true;
+
+					}
+				}
 
 			}
 
 			// マスの移動
-			young_[i].worldCenterPos += young_[i].moveDir * (young_[i].moveValue * tileSize_);
+			//young_[yi].worldCenterPos += young_[yi].moveDir * (young_[yi].moveValue * tileSize_);
 
-			if (young_[i].isMove) {
+			if (young_[yi].isMove) {
 
 				// 移動したら一度移動可能フラグをへし折る;
 				for (int j = 0; j < 4; j++) {
-					young_[i].canMoveDir[j] = false;
+					young_[yi].canMoveDir[j] = false;
 				}
-				young_[i].isMoveIdle = false;
+				young_[yi].isMoveIdle = false;
 			}
 
 
 		} else {
 
 			// スクリーン上でマウスが若人に当たっていたら
-			if (Collision::Rect::Point(young_[i].screenVertex,
+			if (Collision::Rect::Point(young_[yi].screenVertex,
 				{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 				if (input->IsTriggerMouse(0)) {
@@ -282,7 +296,7 @@ void YoungPerson::Move() {
 					}
 
 					// 移動待機状態にする
-					young_[i].isMoveIdle = true;
+					young_[yi].isMoveIdle = true;
 
 				}
 			}
@@ -298,7 +312,36 @@ void YoungPerson::CenterAddUpDate() {
 		young_[i].centerAdd.y = static_cast<int>(young_[i].worldCenterPos.y / tileSize_.y);
 
 		// ----- 移動できるマスのアドレスを所得 ----- //
+		int index = 0;
+		for (int row = 0; row < moveGrid_.size(); row++) {
+			for (int col = 0; col < moveGrid_[0].size(); col++) {
 
+				// アドレスに対応した初期化
+				switch (moveGrid_[row][col]) {
+				case YoungPerson::CanMove:
+
+					// アドレス
+					young_[i].canMoveGrid[index].localAdd = {
+						col - young_[i].localCenterAdd.x,
+						row - young_[i].localCenterAdd.y
+					};
+
+					young_[i].canMoveGrid[index].worldAdd =
+						young_[i].canMoveGrid[index].localAdd + young_[i].centerAdd;
+
+					// ワールド座標での中心
+					young_[i].canMoveGrid[index].worldCenterPos = {
+						young_[i].canMoveGrid[index].worldAdd.x * tileSize_.x + (size_.x * 0.5f),
+						young_[i].canMoveGrid[index].worldAdd.y * tileSize_.y + (size_.y * 0.5f)
+					};
+
+					index++;
+					break;
+				}
+
+			}
+
+		}
 
 
 	}
@@ -307,15 +350,25 @@ void YoungPerson::CenterAddUpDate() {
 
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 	for (int i = 0; i < maxYoungIndex_; i++) {
-		young_[i].screenMatrix = MakeWvpVpMatrix(young_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+		young_[i].screenMatrix =
+			MakeWvpVpMatrix(young_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
 
 		young_[i].screenVertex.lt = Transform(localVertex_.lt, young_[i].screenMatrix);
 		young_[i].screenVertex.rt = Transform(localVertex_.rt, young_[i].screenMatrix);
 		young_[i].screenVertex.lb = Transform(localVertex_.lb, young_[i].screenMatrix);
 		young_[i].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
 
+		for (int j = 0; j < moveGridMaxIndex_; j++) {
 
+			young_[i].canMoveGrid[j].screenMatrix =
+				MakeWvpVpMatrix(young_[i].canMoveGrid[j].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
 
+			young_[i].canMoveGrid[j].screenVertex.lt = Transform(young_[i].canMoveGrid[j].localVertex.lt, young_[i].canMoveGrid[j].screenMatrix);
+			young_[i].canMoveGrid[j].screenVertex.rt = Transform(young_[i].canMoveGrid[j].localVertex.rt, young_[i].canMoveGrid[j].screenMatrix);
+			young_[i].canMoveGrid[j].screenVertex.lb = Transform(young_[i].canMoveGrid[j].localVertex.lb, young_[i].canMoveGrid[j].screenMatrix);
+			young_[i].canMoveGrid[j].screenVertex.rb = Transform(young_[i].canMoveGrid[j].localVertex.rb, young_[i].canMoveGrid[j].screenMatrix);
+
+		}
 	}
 }
 
@@ -329,8 +382,11 @@ void YoungPerson::MakeWorldMatrix() {
 		young_[i].worldVertex.lb = Transform(localVertex_.lb, young_[i].worldMatrix);
 		young_[i].worldVertex.rb = Transform(localVertex_.rb, young_[i].worldMatrix);
 
+		for (int j = 0; j < moveGridMaxIndex_; j++) {
 
+			young_[i].canMoveGrid[j].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].canMoveGrid[j].worldCenterPos);
 
+		}
 	}
 }
 
