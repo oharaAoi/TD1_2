@@ -61,6 +61,8 @@ public:
 	// address
 	void CenterAddUpdate();
 
+	// direInit
+	void DireInit();
 
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(

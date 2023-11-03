@@ -67,6 +67,8 @@ void Cow::Update(){
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
 
+	// 牛の方向をリセットする
+	DireInit();
 }
 
 
@@ -98,6 +100,20 @@ void Cow::CenterAddUpdate() {
 		static_cast<int>(worldCenterPos_.x / size_.x),
 		static_cast<int>(worldCenterPos_.y / size_.y)
 	};
+}
+
+void Cow::DireInit() {
+	// 移動方向/量
+	moveDire_.x = 0.0f;
+	moveDire_.y = 0.0f;
+
+	moveValue_.x = 0.0f;
+	moveValue_.y = 0.0f;
+
+	// 牛が動く方向の評価値
+	for (int i = 0; i < 8; i++) {
+		canMoveDireValue_[i] = 100;
+	}
 }
 
 void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
