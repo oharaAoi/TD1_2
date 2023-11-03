@@ -156,7 +156,7 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	牛
 =================================================================*/
 
-void  CollisionManager::CheckCowFourArea() {
+void CollisionManager::CheckCowFourArea() {
 	// 左上エリアを調べる
 	for (int yAxis = cow_->GetCenterAdd().y; yAxis < mapChip_->GetMapChipRow(); yAxis++) {
 		for (int xAxis = 0; xAxis < cow_->GetCenterAdd().x; xAxis++) {
@@ -240,6 +240,68 @@ void  CollisionManager::CheckCowFourArea() {
 			}
 		}
 	}
+}
+
+void CollisionManager::CheckCowDistance() {
+	Vec2f cow2HeadDis{};
+	int directionValue[8]{0};
+
+	// 牛飼いとのマス目上の距離を取る
+	cow2HeadDis.x = static_cast<float>(cow_->GetCenterAdd().x - cowherd_->GetCenterAdd().x);
+	cow2HeadDis.y = static_cast<float>(cow_->GetCenterAdd().y - cowherd_->GetCenterAdd().y);
+
+	/*マイナスしているところは差が-値になっているから*/
+	// 左右の量を計算
+	if (cow2HeadDis.x > 0) {
+		// 牛から見て左にいるため牛飼いが右に動く
+		directionValue[kCanMoveDirection::right] += cow2HeadDis.x;
+
+	} else {
+		// 牛から見て右にいるため牛飼いが左に動く
+		directionValue[kCanMoveDirection::left] -= cow2HeadDis.x;
+	}
+
+	// 上下の量を計算
+	if (cow2HeadDis.y > 0) {
+		// 牛から見て上にいるため牛飼いが下に動く
+		directionValue[kCanMoveDirection::bottom] += cow2HeadDis.y;
+
+	} else {
+		// 牛から見て下にいるため牛飼いが上に動く
+		directionValue[kCanMoveDirection::top] -= cow2HeadDis.y;
+	}
+
+
+	// 左上下の計算
+	// xとyで値が小さい方を斜めの量として計算
+	if (cow2HeadDis.x > 0 && cow2HeadDis.y > 0) {
+		// 左上
+		// 牛から見て左上にいるため牛飼いが右下に動く
+		if (cow2HeadDis.x > cow2HeadDis.y) {
+			// yが小さいため斜めに動く分にyの量を
+			directionValue[kCanMoveDirection::rightBottom] += cow2HeadDis.y;
+			directionValue[kCanMoveDirection::bottom] += cow2HeadDis.x;
+
+		} else {
+			// xが小さいため斜めに動く分にxの量を
+			directionValue[kCanMoveDirection::rightBottom] += cow2HeadDis.x;
+			directionValue[kCanMoveDirection::bottom] += cow2HeadDis.y;
+		}
+
+	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
+		directionValue[kCanMoveDirection::leftBottom] ++;
+	}
+
+	// 右上下の計算
+	if (cow2HeadDis.x < 0 && cow2HeadDis.y < 0) {
+		directionValue[kCanMoveDirection::rightTop] ++;
+	}else if (cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
+		directionValue[kCanMoveDirection::rightBottom] ++;
+	}
+
+
+	cow2HeadDis.x = sqrtf(powf(cow2HeadDis.x, 2.0f));
+	cow2HeadDis.y = sqrtf(powf(cow2HeadDis.y, 2.0f));
 }
 
 

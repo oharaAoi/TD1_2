@@ -10,6 +10,8 @@
 #include <SafeDelete.h>
 #include "CanMoveDirection.h"
 
+// ----- lib ----- //
+#include "MyMath.h"
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -46,7 +48,7 @@ private:
 	bool YoungPersonCheckCanMove(const Vec2& add);
 
 	void CheckCowFourArea();
-
+	void CheckCowDistance();
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
