@@ -12,10 +12,10 @@ Vec2f BaseMap::tileSize_ = { 64.0f, 64.0f };
 
 int BaseMap::GH_ = 0;
 
+
 //===========================================================================
 
 BaseMap::BaseMap() {
-	AddressRevers();
 	Init();
 }
 
