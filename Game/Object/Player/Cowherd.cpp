@@ -106,6 +106,8 @@ void Cowherd::Init() {
 				canMoveGrid_[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[index].worldCenterPos);
 				canMoveGrid_[index].screenMatrix = canMoveGrid_[index].worldMatrix;
 
+				canMoveGrid_[index].canMove = false;
+
 				index++;
 
 
@@ -132,7 +134,7 @@ void Cowherd::Init() {
 void Cowherd::Update() {
 
 	Move();
-
+	CenterAddUpdate();
 	MakeWorldMatrix();
 
 }
@@ -234,8 +236,20 @@ void Cowherd::Move() {
 		// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
 		if (input->IsTriggerMouse(0)) {
 
+			for (int i = 0; i < maxIndex_; i++) {
 
+				if (Collision::Rect::Point(
+					canMoveGrid_[i].screenVertex,
+					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
+					// ワールド座標の更新
+					worldCenterPos_ += {
+						canMoveGrid_[i].localAdd.x * tileSize_.x,
+						canMoveGrid_[i].localAdd.y * tileSize_.y,
+					};
+
+				}
+			}
 		}
 
 
@@ -277,4 +291,34 @@ void Cowherd::CenterAddUpdate() {
 		static_cast<int>(worldCenterPos_.x / size_.x),
 		static_cast<int>(worldCenterPos_.y / size_.y)
 	};
+
+	int index = 0;
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+
+			// アドレスに対応した初期化
+			switch (moveGrid_[row][col]) {
+			case Cowherd::CanMove:
+
+				// アドレス
+				canMoveGrid_[index].localAdd = {
+					col - localCenterAdd_.x,
+					row - localCenterAdd_.y
+				};
+
+				canMoveGrid_[index].worldAdd = canMoveGrid_[index].localAdd + centerAdd_;
+
+				// ワールド座標での中心
+				canMoveGrid_[index].worldCenterPos = {
+					canMoveGrid_[index].worldAdd.x * tileSize_.x + (size_.x * 0.5f),
+					canMoveGrid_[index].worldAdd.y * tileSize_.y + (size_.y * 0.5f)
+				};
+
+				index++;
+				break;
+			}
+
+		}
+
+	}
 }

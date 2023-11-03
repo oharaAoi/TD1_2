@@ -70,6 +70,7 @@ private: // 移動に関するもの
 		Matrix3x3 worldMatrix;
 		Matrix3x3 screenMatrix;
 
+		bool canMove;
 	};
 
 	int maxIndex_;
@@ -115,6 +116,9 @@ public:
 
 	// isMoveIdle
 	bool GetIsMoveIdle() const { return isMoveIdle_; }
+
+	std::vector<CanMoveGrid> GetCanMoveGeid() const { return canMoveGrid_; }
+	void SetCanMove(bool canMove, int index) { canMoveGrid_[index].canMove = canMove; }
 
 };
 
