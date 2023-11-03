@@ -2,6 +2,7 @@
 
 #include <Novice.h>
 #include <vector>
+#include <algorithm>
 
 // ----- math ----- //
 #include "MyVector2.h"
@@ -13,7 +14,7 @@
 // ----- Config ----- //
 #include "CanMoveDirection.h"
 
-class Cow final{
+class Cow : public BaseMap {
 private:
 	// member objcet
 
@@ -41,15 +42,28 @@ private:
 	// 牛が動く方向の評価値
 	int canMoveDireValue_[8];
 	int gridDistanceValue_[8];
+	int nearWallOfValue_[4];
 
 	// 牛の左上を調べるための変数
 	
+	//=========================================
+	// 評価値
+	// 壁の距離での評価値
+	struct Value {
+		int wall;
+	};
+	
+	Value value_;
 
+	int wallMin_;
+	int wallMinIndex_;
+	int wallMinNum_;
+	bool wallIsDuplicate_;
 
 public:
 	// Constructor & Destructor
 	Cow(MapChip* mapChip);
-	~Cow();
+	~Cow()override;
 
 	// default method
 	void Init(MapChip* mapChip);
@@ -65,7 +79,11 @@ public:
 	// direInit
 	void DireInit();
 
+	// それぞれの最短距離から評価値を加算する
 	void CheckNearPerson();
+
+	// 牛の位置から1番近い壁を計算する
+	void CheckNearWall();
 
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(
