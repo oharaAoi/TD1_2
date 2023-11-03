@@ -134,17 +134,87 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 =================================================================*/
 
 void  CollisionManager::CheckCowFourArea() {
-	// 左上を調べる
+	// 左上エリアを調べる
 	for (int yAxis = cow_->GetCenterAdd().y; yAxis < mapChip_->GetMapChipRow(); yAxis++) {
 		for (int xAxis = 0; xAxis < cow_->GetCenterAdd().x; xAxis++) {
 			// 牛飼い
-			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis){
+			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis) {
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - 2, kCanMoveDirection::leftTop);
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
 			}
 
 			// 若人
+			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - 2, kCanMoveDirection::leftTop);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
+				}
+			}
+		}
+	}
+
+	// 右上エリアを調べる
+	for (int yAxis = cow_->GetCenterAdd().y; yAxis < mapChip_->GetMapChipRow(); yAxis++) {
+		for (int xAxis = cow_->GetCenterAdd().x; xAxis < mapChip_->GetMapChipCol(); xAxis++) {
+			// 牛飼い
+			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - 2, kCanMoveDirection::rightTop);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
+			}
+
+			// 若人
+			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
+				}
+			}
+		}
+	}
+
+	// 左下エリアを調べる
+	for (int yAxis = cow_->GetCenterAdd().y; yAxis > 0; yAxis--) {
+		for (int xAxis = 0; xAxis < cow_->GetCenterAdd().x; xAxis++) {
+			// 牛飼い
+			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - 2, kCanMoveDirection::leftBottom);
+			}
+
+			// 若人
+			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - 2, kCanMoveDirection::leftBottom);
+				}
+			}
+		}
+	}
+
+	// 右下エリアを調べる
+	for (int yAxis = cow_->GetCenterAdd().y; yAxis > 0; yAxis--) {
+		for (int xAxis = cow_->GetCenterAdd().x; xAxis < mapChip_->GetMapChipCol(); xAxis++) {
+			// 牛飼い
+			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - 2, kCanMoveDirection::rightBottom);
+			}
+
+			// 若人
+			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - 2, kCanMoveDirection::rightBottom);
+				}
+			}
 		}
 	}
 }
