@@ -25,11 +25,14 @@ private:
 	int indexMax;
 
 	struct Address {
-		Vec2f center;
+		Vec2f worldCenterPos;
+
 		Vec2 add;
 		QuadVerf worldVertex;
 		QuadVerf screenVertex;
 
+		Matrix3x3 worldMatrix;
+		Matrix3x3 screenMatrix;
 	};
 
 	struct Base {

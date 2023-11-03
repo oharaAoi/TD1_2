@@ -52,6 +52,7 @@ void YoungPerson::Init() {
 	};
 
 	MakeWorldMatrix();
+	CenterAddUpDate();
 
 	// ローカル空間以外の各行列
 	for (int i = 0; i < indexMax; i++) {
@@ -71,20 +72,18 @@ void YoungPerson::Init() {
 		young_[i].moveValue.x = 1.0f;
 		young_[i].moveValue.y = 1.0f;
 
+
 		young_[i].moveDirAdd[top].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y + 1 };
 		young_[i].moveDirAdd[bottom].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y - 1 };
 		young_[i].moveDirAdd[left].add = { young_[i].centerAdd.y - 1, young_[i].centerAdd.y };
 		young_[i].moveDirAdd[right].add = { young_[i].centerAdd.y + 1, young_[i].centerAdd.y };
 
 		for (int j = 0; j < 4; j++) {
-			young_[i].moveDirAdd[j].center = {
-				young_[i].moveDirAdd[j].add.x * tileSize_.x,
-				young_[i].moveDirAdd[j].add.y * tileSize_.y
+			young_[i].moveDirAdd[j].worldCenterPos = {
+				young_[i].moveDirAdd[j].add.x * tileSize_.x + (size_.x * 0.5f),
+				young_[i].moveDirAdd[j].add.y * tileSize_.y + (size_.y * 0.5f)
 			};
-			young_[i].moveDirAdd[j].worldVertex.lt = Transform(localVertex_.lt, young_[i].worldMatrix);
-			young_[i].moveDirAdd[j].worldVertex.rt = Transform(localVertex_.rt, young_[i].worldMatrix);
-			young_[i].moveDirAdd[j].worldVertex.lb = Transform(localVertex_.lb, young_[i].worldMatrix);
-			young_[i].moveDirAdd[j].worldVertex.rb = Transform(localVertex_.rb, young_[i].worldMatrix);
+
 			young_[i].moveDirAdd[j].screenVertex = young_[i].moveDirAdd[j].worldVertex;
 
 			young_[i].canMoveDir[j] = false;
@@ -92,8 +91,6 @@ void YoungPerson::Init() {
 
 	}
 
-	//各アドレスの計算
-	CenterAddUpDate();
 }
 
 
@@ -103,7 +100,10 @@ void YoungPerson::Init() {
 void YoungPerson::Update() {
 
 	Move();
+
 	CenterAddUpDate();
+	MakeWorldMatrix();
+
 
 }
 
@@ -117,8 +117,10 @@ void YoungPerson::Draw() {
 
 		for (int j = 0; j < 4; j++) {
 
-			Draw::Quad(young_[i].moveDirAdd[j].screenVertex, { 0.0f,0.0f }, { 1.0f,1.0f }, GH_, 0xFFFFFFFF);
-
+			// 移動できるマスの描画
+			if (young_[i].canMoveDir[j]) {
+				Draw::Quad(young_[i].moveDirAdd[j].screenVertex, { 0.0f,0.0f }, { 1.0f,1.0f }, GH_, 0xFFFFFF50);
+			}
 		}
 
 	}
@@ -152,48 +154,54 @@ void YoungPerson::Move() {
 				young_[i].isMoveIdle = false;
 			}
 
+			// 移動先の選択
 			young_[i].moveDir = { 0.0f,0.0f };
 			if (input->IsTriggerMouse(0)) {
 
 				// 上
-				if (Collision::Rect::Point(
-					{ young_[i].centerAdd.x * tileSize_.x, (young_[i].centerAdd.y + 1) * tileSize_.y },
-					size_,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+				if (young_[i].canMoveDir[top]) {
+					if (Collision::Rect::Point(
+						young_[i].moveDirAdd[top].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-					young_[i].moveDir = { 0.0f,1.0f };
+						young_[i].moveDir = { 0.0f,1.0f };
+					}
 				}
 
 				// 下
-				if (Collision::Rect::Point(
-					{ young_[i].centerAdd.x * tileSize_.x, (young_[i].centerAdd.y - 1) * tileSize_.y },
-					size_,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+				if (young_[i].canMoveDir[bottom]) {
+					if (Collision::Rect::Point(
+						young_[i].moveDirAdd[bottom].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-					young_[i].moveDir = { 0.0f,-1.0f };
+						young_[i].moveDir = { 0.0f,-1.0f };
+					}
 				}
 
 				// 左
-				if (Collision::Rect::Point(
-					{ (young_[i].centerAdd.x - 1) * tileSize_.x, young_[i].centerAdd.y * tileSize_.y },
-					size_,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+				if (young_[i].canMoveDir[left]) {
+					if (Collision::Rect::Point(
+						young_[i].moveDirAdd[left].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-					young_[i].moveDir = { -1.0f,0.0f };
+						young_[i].moveDir = { -1.0f,0.0f };
+					}
 				}
 
 				// 右
-				if (Collision::Rect::Point(
-					{ (young_[i].centerAdd.x + 1) * tileSize_.x, young_[i].centerAdd.y * tileSize_.y },
-					size_,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+				if (young_[i].canMoveDir[right]) {
+					if (Collision::Rect::Point(
+						young_[i].moveDirAdd[right].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-					young_[i].moveDir = { 1.0f,0.0f };
+						young_[i].moveDir = { 1.0f,0.0f };
+					}
 				}
 
 			}
 
-			young_[i].worldCenterPos += young_[i].moveDir * young_[i].moveValue;
+			// マスの移動
+			young_[i].worldCenterPos += young_[i].moveDir * (young_[i].moveValue * tileSize_);
 
 
 		} else {
@@ -217,6 +225,18 @@ void YoungPerson::CenterAddUpDate() {
 	for (int i = 0; i < indexMax; i++) {
 		young_[i].centerAdd.x = static_cast<int>(young_[i].worldCenterPos.x / tileSize_.x);
 		young_[i].centerAdd.y = static_cast<int>(young_[i].worldCenterPos.y / tileSize_.y);
+
+		young_[i].moveDirAdd[top].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y + 1 };
+		young_[i].moveDirAdd[bottom].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y - 1 };
+		young_[i].moveDirAdd[left].add = { young_[i].centerAdd.x - 1, young_[i].centerAdd.y };
+		young_[i].moveDirAdd[right].add = { young_[i].centerAdd.x + 1, young_[i].centerAdd.y };
+
+		for (int j = 0; j < 4; j++) {
+			young_[i].moveDirAdd[j].worldCenterPos = {
+				young_[i].moveDirAdd[j].add.x * tileSize_.x + (size_.x * 0.5f),
+				young_[i].moveDirAdd[j].add.y * tileSize_.y + (size_.y * 0.5f)
+			};
+		}
 	}
 }
 
@@ -230,10 +250,12 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 		young_[i].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
 
 		for (int j = 0; j < 4; j++) {
-			young_[i].moveDirAdd[j].screenVertex.lt = Transform(localVertex_.lt, young_[i].screenMatrix);
-			young_[i].moveDirAdd[j].screenVertex.rt = Transform(localVertex_.rt, young_[i].screenMatrix);
-			young_[i].moveDirAdd[j].screenVertex.lb = Transform(localVertex_.lb, young_[i].screenMatrix);
-			young_[i].moveDirAdd[j].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
+			young_[i].moveDirAdd[j].screenMatrix = MakeWvpVpMatrix(young_[i].moveDirAdd[j].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+
+			young_[i].moveDirAdd[j].screenVertex.lt = Transform(localVertex_.lt, young_[i].moveDirAdd[j].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rt = Transform(localVertex_.rt, young_[i].moveDirAdd[j].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.lb = Transform(localVertex_.lb, young_[i].moveDirAdd[j].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rb = Transform(localVertex_.rb, young_[i].moveDirAdd[j].screenMatrix);
 
 		}
 
@@ -249,6 +271,17 @@ void YoungPerson::MakeWorldMatrix() {
 		young_[i].worldVertex.rt = Transform(localVertex_.rt, young_[i].worldMatrix);
 		young_[i].worldVertex.lb = Transform(localVertex_.lb, young_[i].worldMatrix);
 		young_[i].worldVertex.rb = Transform(localVertex_.rb, young_[i].worldMatrix);
+
+		for (int j = 0; j < 4; j++) {
+			young_[i].moveDirAdd[j].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].moveDirAdd[j].worldCenterPos);
+
+			young_[i].moveDirAdd[j].screenVertex.lt = Transform(localVertex_.lt, young_[i].moveDirAdd[j].worldMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rt = Transform(localVertex_.rt, young_[i].moveDirAdd[j].worldMatrix);
+			young_[i].moveDirAdd[j].screenVertex.lb = Transform(localVertex_.lb, young_[i].moveDirAdd[j].worldMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rb = Transform(localVertex_.rb, young_[i].moveDirAdd[j].worldMatrix);
+
+		}
+
 	}
 }
 
