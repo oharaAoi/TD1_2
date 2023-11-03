@@ -7,7 +7,7 @@
 #include "Draw.h"
 #include "InputManager.h"
 #include "CanMoveDirection.h"
-
+#include "Collision.h"
 
 // ----- object ----- //
 #include "MapChip.h"
@@ -23,6 +23,14 @@ private:
 	// member object
 
 	int indexMax;
+
+	struct Address {
+		Vec2f center;
+		Vec2 add;
+		QuadVerf worldVertex;
+		QuadVerf screenVertex;
+
+	};
 
 	struct Base {
 		// world座標での矩形の中心
@@ -46,6 +54,8 @@ private:
 		// 移動方向/移動量
 		Vec2f moveDir;
 		Vec2f moveValue;
+
+		Address moveDirAdd[4];
 
 		bool canMoveDir[4];
 	};
@@ -81,6 +91,9 @@ public:
 	);
 
 	void MakeWorldMatrix();
+
+
+	void DebugDraw();
 
 
 	/* ---------- accessor ---------- */

@@ -15,6 +15,7 @@ namespace Collision {
 		bool Circle(const QuadVerf& ver, const Vec2f center, float distance);
 		bool Line(const QuadVerf& ver, const Vec2f& start, const Vec2f& end);
 		bool Point(const QuadVerf& ver, const Vec2f& point);
+		bool Point(const Vec2f& pos, const Vec2f& size, const Vec2f& point);
 	}
 
 	namespace Circle {

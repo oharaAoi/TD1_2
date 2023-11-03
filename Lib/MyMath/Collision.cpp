@@ -61,6 +61,21 @@ bool Collision::Rect::Point(const QuadVerf& ver, const Vec2f& point) {
 	return true;
 }
 
+bool Collision::Rect::Point(const Vec2f& pos, const Vec2f& size, const Vec2f& point) {
+
+	if (pos.x - size.x * 0.5f > point.x
+		&& pos.x + size.x * 0.5f < point.x) {
+		
+		if (pos.y - size.y * 0.5f > point.y
+			&& pos.y + size.y * 0.5f < point.y) {
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
 
 /*================================================================================
 		円
