@@ -9,21 +9,39 @@ YoungPerson::~YoungPerson() { Finalize(); }
 ================================================================*/
 void YoungPerson::Init() {
 
+	// youngの配列の数
+	youngIndex = 0;
 
-	// ワールド空間での中心点
-	size_ = tileSize_;
+	// ここでcsvファイルのYANGMANの数を数える
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-
 			if (mapAdd_[row][col] == ChipType::YANGMAN) {
-				worldCenterPos_ = {
-					col * tileSize_.x + (size_.x * 0.5f),
-					row * tileSize_.y + (size_.y * 0.5f)
-				};
+				youngIndex++;
 			}
 		}
 	}
-	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
+
+	// youngの配列に要素数を入れる(宣言時のyoungは何も入っていないためこれをしないとエラー)
+	young_.resize(youngIndex);
+	
+	// youngを初期化するために使う
+	int index = 0;
+
+	// タイルのサイズ
+	size_ = tileSize_;
+
+	// ワールド空間での中心点
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
+			if (mapAdd_[row][col] == ChipType::YANGMAN) {
+				young_[index].worldCenterPos = {
+					col * tileSize_.x + (size_.x * 0.5f),
+					row * tileSize_.y + (size_.y * 0.5f)
+				};
+				index++;
+			}
+		}
+	}
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
@@ -36,26 +54,28 @@ void YoungPerson::Init() {
 	MakeWorldMatrix();
 
 	// ローカル空間以外の各行列
-	screenMatrix_ = worldMatrix_;
+	for (int i = 0; i < youngIndex; i++) {
+		young_[i].screenMatrix = young_[i].worldMatrix;
 
-	// ワールドとスクリーン空間での各頂点座標
-	screenVertex_ = worldVertex_;
+		// ワールドとスクリーン空間での各頂点座標
+		young_[i].screenVertex = young_[i].worldVertex;
 
-	// 移動できる状態かどうか
-	isMoveIdle_ = false;
+		// 移動できる状態かどうか
+		young_[i].isMoveIdle = false;
 
-	// 移動方向
-	moveDir_.x = 0.0f;
-	moveDir_.y = 0.0f;
+		// 移動方向
+		young_[i].moveDir.x = 0.0f;
+		young_[i].moveDir.y = 0.0f;
 
-	// 移動量
-	moveValue_.x = 1.0f;
-	moveValue_.y = 1.0f;
+		// 移動量
+		young_[i].moveValue.x = 1.0f;
+		young_[i].moveValue.y = 1.0f;
 
-	for (int i = 0; i < 4; i++) {
-		canMoveDir_[i] = false;
+		for (int j = 0; j < 4; j++) {
+			young_[i].canMoveDir[j] = false;
+		}
+
 	}
-
 }
 
 
@@ -73,9 +93,9 @@ void YoungPerson::Update() {
 	描画処理関数
 ================================================================*/
 void YoungPerson::Draw() {
-
-	Draw::Quad(screenVertex_, { 0.0f,64.0f }, { 64.0f,64.0f }, gh_, 0xFFFFFFFF);
-
+	for (int i = 0; i < youngIndex; i++) {
+		Draw::Quad(young_[i].screenVertex, { 0.0f,64.0f }, { 64.0f,64.0f }, GH_, 0xFFFFFFFF);
+	}
 }
 
 
@@ -93,47 +113,49 @@ void YoungPerson::Finalize() {
 	その他メンバ関数
 ================================================================*/
 
-void YoungPerson::Move(){
+void YoungPerson::Move() {
+	for (int i = 0; i < youngIndex; i++) {
+		if (young_[i].isMoveIdle) {
 
-	if (isMoveIdle_) {
+			// 移動待機状態の解除
+			if (input->IsTriggerMouse(1)) {
+				young_[i].isMoveIdle = false;
+			}
 
-		// 移動待機状態の解除
-		if (input->IsTriggerMouse(1)) {
-			isMoveIdle_ = false;
+		} else {
+
+			if (input->IsTriggerMouse(0)) {
+				// 移動待機状態にする
+				young_[i].isMoveIdle = true;
+
+				// 方向を取得
+
+			}
+
 		}
-
-	} else {
-
-		if (input->IsTriggerMouse(0)) {
-			// 移動待機状態にする
-			isMoveIdle_ = true;
-
-			// 方向を取得
-
-		}
-
 	}
-
 }
 
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
+	for (int i = 0; i < youngIndex; i++) {
+		young_[i].screenMatrix = MakeWvpVpMatrix(young_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
 
-	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
+		young_[i].screenVertex.lt = Transform(localVertex_.lt, young_[i].screenMatrix);
+		young_[i].screenVertex.rt = Transform(localVertex_.rt, young_[i].screenMatrix);
+		young_[i].screenVertex.lb = Transform(localVertex_.lb, young_[i].screenMatrix);
+		young_[i].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
 
-	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
-
+	}
 }
 
 void YoungPerson::MakeWorldMatrix() {
 
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldCenterPos_);
+	for (int i = 0; i < youngIndex; i++) {
+		young_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].worldCenterPos);
 
-	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
-
+		young_[i].worldVertex.lt = Transform(localVertex_.lt, young_[i].worldMatrix);
+		young_[i].worldVertex.rt = Transform(localVertex_.rt, young_[i].worldMatrix);
+		young_[i].worldVertex.lb = Transform(localVertex_.lb, young_[i].worldMatrix);
+		young_[i].worldVertex.rb = Transform(localVertex_.rb, young_[i].worldMatrix);
+	}
 }

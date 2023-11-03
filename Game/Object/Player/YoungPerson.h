@@ -20,18 +20,37 @@ private:
 
 	// member object
 
-	Vec2f worldCenterPos_;
+	int youngIndex;
+
+	struct Base {
+		// world座標での矩形の中心
+		Vec2f worldCenterPos;
+		Vec2f keepCenterPos;
+
+		// 各頂点座標
+		QuadVerf worldVertex;
+		QuadVerf screenVertex;
+
+		// 各座標系の行列
+		Matrix3x3 worldMatrix;
+		Matrix3x3 screenMatrix;
+
+		// 移動待機状態のフラグ
+		bool isMoveIdle;
+
+		// 移動方向/移動量
+		Vec2f moveDir;
+		Vec2f moveValue;
+
+		bool canMoveDir[4];
+	};
+
+	std::vector<Base> young_;
+
 	Vec2f size_;
 	int gh_;
 
 	QuadVerf localVertex_;
-	QuadVerf worldVertex_;
-	QuadVerf screenVertex_;
-
-	Matrix3x3 worldMatrix_;
-	Matrix3x3 screenMatrix_;
-
-	bool isMoveIdle_;
 
 	// 移動できる方向
 	enum kCanMoveDirection {
@@ -41,11 +60,7 @@ private:
 		RIGHT
 	};
 
-	// 移動方向/移動量
-	Vec2f moveDir_;
-	Vec2f moveValue_;
 
-	bool canMoveDir_[4];
 
 public:
 	// Constructor & Destructor
@@ -74,7 +89,9 @@ public:
 
 	// accessor
 
-	void SetCanMoveDir(bool canMove, kCanMoveDirection dir) { canMoveDir_[dir] = canMove; }
+	void SetCanMoveDir(bool canMove, kCanMoveDirection dir, int num) { 
+		young_[num].canMoveDir[dir] = canMove;
+	}
 
 };
 
