@@ -229,6 +229,14 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 		young_[i].screenVertex.lb = Transform(localVertex_.lb, young_[i].screenMatrix);
 		young_[i].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
 
+		for (int j = 0; j < 4; j++) {
+			young_[i].moveDirAdd[j].screenVertex.lt = Transform(localVertex_.lt, young_[i].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rt = Transform(localVertex_.rt, young_[i].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.lb = Transform(localVertex_.lb, young_[i].screenMatrix);
+			young_[i].moveDirAdd[j].screenVertex.rb = Transform(localVertex_.rb, young_[i].screenMatrix);
+
+		}
+
 	}
 }
 
