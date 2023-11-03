@@ -1,24 +1,24 @@
 ﻿#include "YoungPerson.h"
 
-YoungPerson::YoungPerson(MapChip* mapChip) { Init(mapChip); }
+YoungPerson::YoungPerson() { Init(); }
 
 YoungPerson::~YoungPerson() { Finalize(); }
 
 /*================================================================
 	初期化関数
 ================================================================*/
-void YoungPerson::Init(MapChip* mapChip) {
+void YoungPerson::Init() {
 
 
 	// ワールド空間での中心点
-	size_ = mapChip->GetTileSize();
-	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
-		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+	size_ = tileSize_;
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
 
-			if (mapChip->GetMapChipAdd()[row][col] == ChipType::YANGMAN) {
+			if (mapAdd_[row][col] == ChipType::YANGMAN) {
 				worldCenterPos_ = {
-					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
-					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+					col * tileSize_.x + (size_.x * 0.5f),
+					row * tileSize_.y + (size_.y * 0.5f)
 				};
 			}
 		}

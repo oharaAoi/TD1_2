@@ -13,8 +13,8 @@ void Scene_Game::Init() {
 	camera_ = new Camera();
 	mapChip_ = new MapChip();
 	cow_ = new Cow(mapChip_);
-	cowherd_ = new Cowherd(mapChip_);
-	youngPerson_ = new YoungPerson(mapChip_);
+	cowherd_ = new Cowherd();
+	youngPerson_ = new YoungPerson();
 
 }
 

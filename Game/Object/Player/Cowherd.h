@@ -10,12 +10,13 @@
 
 // ----- object ----- //
 #include "MapChip.h"
-
+#include "BaseMap.h"
 
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
-class Cowherd {
+class Cowherd 
+: public BaseMap {
 private:
 
 	// member object
@@ -41,11 +42,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	Cowherd(MapChip* mapChip);
+	Cowherd();
 	~Cowherd();
 
 	// default method
-	void Init(MapChip* mapChip);
+	void Init();
 	void Update();
 	void Draw();
 	void Finalize();

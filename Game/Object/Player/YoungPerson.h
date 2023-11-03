@@ -8,8 +8,10 @@
 
 // ----- object ----- //
 #include "MapChip.h"
+#include "BaseMap.h"
 
-class YoungPerson final {
+class YoungPerson final
+	: public BaseMap {
 private:
 	// member object
 
@@ -27,12 +29,12 @@ private:
 
 public:
 	// Constructor & Destructor
-	YoungPerson(MapChip* mapChip);
+	YoungPerson();
 	~YoungPerson();
 
 
 	// default method
-	void Init(MapChip* mapChip);
+	void Init();
 	void Update();
 	void Draw();
 	void Finalize();
