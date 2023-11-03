@@ -138,7 +138,7 @@
       <Filter>Game\Object\Base</Filter>
     </ClCompile>
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
-      <Filter>KamataEngine</Filter>
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,12 +276,14 @@
     <ClInclude Include="Game\Object\Base\BaseMap.h">
       <Filter>Game\Object\Base</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Config\CanMoveDirection.h">
       <Filter>Config</Filter>
     </ClInclude>
     <ClInclude Include="Config\Environment.h">
       <Filter>Config</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CollisionManager.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
