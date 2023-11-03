@@ -94,8 +94,8 @@ void Cowherd::Init() {
 
 					// ワールド座標での中心
 					canMoveGrid_[i].worldCenterPos = {
-						canMoveGrid_[i].localAdd.x * tileSize_.x,
-						canMoveGrid_[i].localAdd.y * tileSize_.y
+						canMoveGrid_[i].localAdd.x * tileSize_.x + (size_.x * 0.5f),
+						canMoveGrid_[i].localAdd.y * tileSize_.y + (size_.y * 0.5f)
 					};
 
 					// 頂点座標(ローカル
