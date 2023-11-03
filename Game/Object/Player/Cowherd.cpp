@@ -22,10 +22,7 @@ void Cowherd::Init() {
 			}
 		}
 	}
-	centerAdd_ = {
-		static_cast<int>(worldCenterPos_.x / size_.x),
-		static_cast<int>(worldCenterPos_.y / size_.y)
-	};
+	CenterAddUpdate();
 	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
 	// 各空間の頂点
@@ -168,4 +165,11 @@ void Cowherd::DebugDraw() {
 	Novice::ScreenPrintf(100, 120, "centerAdd : x = %d, y = %d", centerAdd_.x, centerAdd_.y);
 
 
+}
+
+void Cowherd::CenterAddUpdate() {
+	centerAdd_ = {
+		static_cast<int>(worldCenterPos_.x / size_.x),
+		static_cast<int>(worldCenterPos_.y / size_.y)
+	};
 }

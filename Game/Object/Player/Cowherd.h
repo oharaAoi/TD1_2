@@ -84,10 +84,16 @@ public:
 
 	void DebugDraw();
 
+	// 中心点のアドレスを計算
+	void CenterAddUpdate();
+
 	// accessor
 	
 	// canMoveDir
 	void SetCanMoveDir(bool canMove, kCanMoveDirection canMoveDir) { canMoveDir_[canMoveDir] = canMove; }
+
+	// centerAdd
+	Vec2 GetCenterAdd() const { return centerAdd_; }
 
 };
 

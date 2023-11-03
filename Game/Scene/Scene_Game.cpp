@@ -110,4 +110,5 @@ void Scene_Game::Finalize() {
 	SafeDelete(mapChip_);
 	SafeDelete(cow_);
 	SafeDelete(cowherd_);
+	SafeDelete(youngPerson_);
 }
