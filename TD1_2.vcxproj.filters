@@ -137,6 +137,9 @@
     <ClCompile Include="Game\Object\Base\BaseMap.cpp">
       <Filter>Game\Object\Base</Filter>
     </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -275,6 +278,10 @@
     </ClInclude>
     <ClInclude Include="Game\Object\Base\BaseMap.h">
       <Filter>Game\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="CanMoveDirection.h">
+      <Filter>Config</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

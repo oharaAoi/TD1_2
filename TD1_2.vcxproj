@@ -164,6 +164,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="CanMoveDirection.h" />
     <ClInclude Include="Config\Environment.h" />
     <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\Object\Base\BaseMap.h" />
