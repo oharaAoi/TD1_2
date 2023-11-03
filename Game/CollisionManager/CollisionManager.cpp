@@ -288,8 +288,11 @@ void CollisionManager::CheckCowDistance() {
 			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.x);
 			directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.y);
 		} else {
-			// 
-			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.x * 2);
+			// 同じの場合はxとyを足して2で割った値斜めに足す
+			cow2HeadDis.x = sqrtf(powf(cow2HeadDis.x, 2.0f));
+			cow2HeadDis.y = sqrtf(powf(cow2HeadDis.y, 2.0f));
+
+			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>((cow2HeadDis.x + cow2HeadDis.y) / 2);
 		}
 
 	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
