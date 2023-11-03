@@ -62,6 +62,8 @@ public:
 	
 	void Move();
 
+	void DebugDraw();
+
 	// accessor
 
 

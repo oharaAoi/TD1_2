@@ -46,6 +46,7 @@ void Cowherd::Init(MapChip* mapChip) {
 ==========================================================*/
 void Cowherd::Update() {
 
+	Move();
 
 	MakeWorldMatrix();
 
@@ -59,6 +60,7 @@ void Cowherd::Draw() {
 
 	Draw::Quad(screenVertex_, { 128,0.0f }, { 64.0f,64.0f }, gh_, 0xFFFFFFFF);
 
+	DebugDraw();
 }
 
 
@@ -130,5 +132,11 @@ void Cowherd::Move() {
 		}
 
 	}
+
+}
+
+void Cowherd::DebugDraw() {
+
+	Novice::ScreenPrintf(100, 100, "isMoveIdle = %d", isMoveIdle_);
 
 }

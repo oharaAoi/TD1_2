@@ -101,13 +101,40 @@ void MapChip::Update(){
 void MapChip::Draw(){
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			if (mapAdd_[row][col] == STAGEOUT) {
+
+			switch (mapAdd_[row][col]) {
+			case ChipType::STAGEOUT: // 場外
+				
+				Draw::Quad(
+					mapChip_[row][col].screenVertex,
+					mapTile_[0][0], 
+					size_, 
+					GH_,
+					mapChip_[row][col].color
+				);
+
+				break;
+			case ChipType::FENCE: // フェンス
+				
+				Draw::Quad(
+					mapChip_[row][col].screenVertex,
+					mapTile_[0][1],
+					size_, 
+					GH_, 
+					mapChip_[row][col].color
+				);
+
+				break;
+
+			}
+
+			/*if (mapAdd_[row][col] == STAGEOUT) {
 				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][0], size_, GH_, mapChip_[row][col].color);
 			} else if (mapAdd_[row][col] == FENCE) {
 				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][1], size_, GH_, mapChip_[row][col].color);
 			} else if (mapAdd_[row][col] == COW) {
 				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[1][1], size_, GH_, mapChip_[row][col].color);
-			}
+			}*/
 		}
 	}
 }
