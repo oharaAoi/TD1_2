@@ -26,6 +26,8 @@ void Cow::Init(MapChip* mapChip) {
 
 	gh_ = Novice::LoadTexture("white1x1.png");
 
+	isIdle_ = false;
+
 	// ローカル空間での各頂点座標
 	localVertex_ = {
 		{ -size_.x * 0.5f, size_.y * 0.5f },
@@ -86,6 +88,9 @@ void Cow::Update() {
 	CenterAddUpdate();
 
 	// 動く方向の評価をする
+	if (isIdle_) {
+
+	}
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();

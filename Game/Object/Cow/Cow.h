@@ -25,6 +25,9 @@ private:
 
 	Vec2 centerAdd_;
 
+	// 牛が動くかどうか
+	bool isIdle_;
+
 	// 各空間での頂点座標
 	QuadVerf localVertex_;
 	QuadVerf worldVertex_;
@@ -43,8 +46,6 @@ private:
 	int canMoveDireValue_[8];
 	int gridDistanceValue_[8];
 	int nearWallOfValue_[4];
-
-	// 牛の左上を調べるための変数
 	
 	//=========================================
 	// 評価値
@@ -55,6 +56,7 @@ private:
 	
 	Value value_;
 
+	// 壁との評価で使う
 	int wallMin_;
 	int wallMinIndex_;
 	int wallMinNum_;
