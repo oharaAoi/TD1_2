@@ -76,6 +76,9 @@ void YoungPerson::Init() {
 		}
 
 	}
+
+	//各アドレスの計算
+	CenterAddUpDate();
 }
 
 
@@ -85,6 +88,7 @@ void YoungPerson::Init() {
 void YoungPerson::Update() {
 
 	Move();
+	CenterAddUpDate();
 
 }
 
@@ -133,6 +137,13 @@ void YoungPerson::Move() {
 			}
 
 		}
+	}
+}
+
+void YoungPerson::CenterAddUpDate() {
+	for (int i = 0; i < youngIndex; i++) {
+		young_[i].centerAdd.x = static_cast<int>(young_[i].worldCenterPos.x / tileSize_.x);
+		young_[i].centerAdd.y = static_cast<int>(young_[i].worldCenterPos.y / tileSize_.y);
 	}
 }
 

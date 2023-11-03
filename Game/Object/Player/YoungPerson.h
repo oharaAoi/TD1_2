@@ -27,6 +27,9 @@ private:
 		Vec2f worldCenterPos;
 		Vec2f keepCenterPos;
 
+		// youngPersonのいるアドレス
+		Vec2 centerAdd;
+
 		// 各頂点座標
 		QuadVerf worldVertex;
 		QuadVerf screenVertex;
@@ -63,19 +66,21 @@ private:
 
 
 public:
-	// Constructor & Destructor
+	/* ---------- Constructor & Destructor ---------- */
 	YoungPerson();
 	~YoungPerson();
 
 
-	// default method
+	/* ---------- default method ---------- */
 	void Init();
 	void Update();
 	void Draw();
 	void Finalize();
 
-	// user method
+	/* ---------- user method ---------- */
 	void Move();
+
+	void CenterAddUpDate();
 
 	void MatrixChange(
 		const Matrix3x3& viewMatrix,
@@ -86,12 +91,14 @@ public:
 	void MakeWorldMatrix();
 
 
+	/* ---------- accessor ---------- */
 
-	// accessor
-
+	// canMoveDir
 	void SetCanMoveDir(bool canMove, kCanMoveDirection dir, int num) { 
 		young_[num].canMoveDir[dir] = canMove;
 	}
 
+	// centerAdd
+	Vec2 GetCenterAdd(int index) const { return young_[index].centerAdd; }
 };
 
