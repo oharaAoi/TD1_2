@@ -17,6 +17,15 @@ private:
 	Vec2f size_;
 	int gh_;
 
+	// 犬を置くかどうか
+	bool isIdle_;
+
+	// 犬がおいてあるかのフラグ
+	bool isExist_;
+
+	// 犬がどこにおいてあるか
+	bool isExistSide_[4];
+
 	// 各空間の頂点座標
 	QuadVerf localVertex_;
 	QuadVerf worldVertex_;
@@ -52,6 +61,10 @@ public:
 
 	// accessor
 
+	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
 
+	bool GetIsExist() { return isExist_; }
+
+	bool GetIsExistSide(int num) { return isExistSide_[num]; }
 };
 

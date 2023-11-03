@@ -23,6 +23,12 @@ void Dog::Init() {
 		{ size_.x * 0.5f, -size_.y * 0.5f },
 	};
 
+	isExist_ = false;
+
+	for (int i = 0; i < 4; i++) {
+		isExistSide_[i] = false;
+	}
+
 	MakeWorldMatrix();
 
 	// ローカル空間以外の各行列
