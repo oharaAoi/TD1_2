@@ -29,11 +29,18 @@ public:
 	//void Draw();
 	void Finalize();
 
+	// user method
+	void CheckCanMove();
+
 private:
 
 	// user method
 	void CowherdCanMove();
 	bool CowherdCheckCanMove(const Vec2& add);
+
+	void YoungPersonCanMove();
+	bool YoungPersonCheckCanMove(const Vec2& add);
+
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 

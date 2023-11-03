@@ -95,5 +95,8 @@ public:
 	// centerAdd
 	Vec2 GetCenterAdd() const { return centerAdd_; }
 
+	// isMoveIdle
+	bool GetIsMoveIdle() const { return isMoveIdle_; }
+
 };
 

@@ -94,7 +94,7 @@ public:
 	/* ---------- accessor ---------- */
 
 	// canMoveDir
-	void SetCanMoveDir(bool canMove, kCanMoveDirection dir, int num) { 
+	void SetCanMoveDir(bool canMove, kCanMoveDirection dir, int num) {
 		young_[num].canMoveDir[dir] = canMove;
 	}
 
@@ -103,5 +103,9 @@ public:
 
 	// indexMax
 	int GetIndexMax()const { return indexMax; }
+
+	// isMoveIdle
+	bool GetIsMoveIdle(int index) const { return young_[index].isMoveIdle; }
+
 };
 
