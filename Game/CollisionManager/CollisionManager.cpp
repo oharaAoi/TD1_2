@@ -283,10 +283,13 @@ void CollisionManager::CheckCowDistance() {
 			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.y);
 			directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.x);
 
-		} else {
+		} else if(cow2HeadDis.x < cow2HeadDis.y) {
 			// xが小さいため斜めに動く分にxの量を
 			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.x);
 			directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.y);
+		} else {
+			// 
+			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.x * 2);
 		}
 
 	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
