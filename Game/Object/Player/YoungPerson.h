@@ -15,27 +15,31 @@
 
 class YoungPerson final
 	: public BaseMap {
+
 private:
 
-	// member object
-	InputManager* input = InputManager::GetInstance();
+	enum kGridType {
+		None,
+		Player,
+		CanMove
+	};
 
-	// member object
+	struct CanMoveGrid final {
 
-	int indexMax;
-
-	struct Address {
 		Vec2f worldCenterPos;
+		Vec2 localAdd;
+		Vec2 worldAdd;
 
-		Vec2 add;
-		QuadVerf worldVertex;
+		QuadVerf localVertex;
 		QuadVerf screenVertex;
 
 		Matrix3x3 worldMatrix;
 		Matrix3x3 screenMatrix;
+
+		bool canMove;
 	};
 
-	struct Base {
+	struct Base final {
 		// world座標での矩形の中心
 		Vec2f worldCenterPos;
 		Vec2f keepCenterPos;
@@ -58,11 +62,21 @@ private:
 		Vec2f moveDir;
 		Vec2f moveValue;
 
-		Address moveDirAdd[4];
+		Vec2 localCenterAdd;
+		std::vector<CanMoveGrid> canMoveGrid;
 
 		bool canMoveDir[4];
 		bool isMove;
 	};
+
+private:
+
+	// member object
+	InputManager* input = InputManager::GetInstance();
+
+	// member object
+
+	int maxYoungIndex_;
 
 	std::vector<Base> young_;
 
@@ -70,6 +84,14 @@ private:
 	int gh_;
 
 	QuadVerf localVertex_;
+
+	// ----- 移動に関するもの ----- //
+
+	std::vector<std::vector<int>> moveGrid_;
+
+	int moveGridMaxIndex_;
+
+
 
 public:
 	/* ---------- Constructor & Destructor ---------- */
@@ -111,12 +133,10 @@ public:
 	Vec2 GetCenterAdd(int index) const { return young_[index].centerAdd; }
 
 	// indexMax
-	int GetIndexMax()const { return indexMax; }
+	/*int GetIndexMax()const { return indexMax; }*/
 
 	// isMoveIdle
 	bool GetIsMoveIdle(int index) const { return young_[index].isMoveIdle; }
-
-	Address GetMoveDirAdd(int index, kCanMoveDirection dir) const { return young_[index].moveDirAdd[dir]; }
 
 };
 

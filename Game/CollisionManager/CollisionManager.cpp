@@ -95,9 +95,9 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
 
 	// 動くものはアドレスが被っていないかで
-	for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	/*for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
 		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}
+	}*/
 
 	return true;
 }
@@ -110,33 +110,33 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 
 void CollisionManager::YoungPersonCanMove() {
 
-	for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	//for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
 
-		if (youngPerson_->GetIsMoveIdle(yi)) {
+		//if (youngPerson_->GetIsMoveIdle(yi)) {
 
 			// 中心アドレスから上下左右、斜めの番地を確認
 			// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
 			// 障害物がなければ移動できる
 
-			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, top).add)) { // 上
-				youngPerson_->SetCanMoveDir(true, top, yi);
-			}
+			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, top).add)) { // 上
+			//	youngPerson_->SetCanMoveDir(true, top, yi);
+			//}
 
-			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, bottom).add)) { // 下
-				youngPerson_->SetCanMoveDir(true, bottom, yi);
-			}
+			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, bottom).add)) { // 下
+			//	youngPerson_->SetCanMoveDir(true, bottom, yi);
+			//}
 
-			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, left).add)) { // 左
-				youngPerson_->SetCanMoveDir(true, left, yi);
-			}
+			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, left).add)) { // 左
+			//	youngPerson_->SetCanMoveDir(true, left, yi);
+			//}
 
-			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, right).add)) { // 右
-				youngPerson_->SetCanMoveDir(true, right, yi);
-			}
+			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, right).add)) { // 右
+			//	youngPerson_->SetCanMoveDir(true, right, yi);
+			//}
 
-		}
+		//}
 
-	}
+	//}
 
 }
 
@@ -151,9 +151,9 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
 
 	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
-	for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	/*for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
 		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}
+	}*/
 
 	return true;
 }
@@ -174,13 +174,13 @@ void CollisionManager::CheckCowFourArea() {
 			}
 
 			// 若人
-			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+			/*for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
 				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - 2, kCanMoveDirection::leftTop);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
 				}
-			}
+			}*/
 		}
 	}
 
@@ -195,13 +195,13 @@ void CollisionManager::CheckCowFourArea() {
 			}
 
 			// 若人
-			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+			/*for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
 				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
 				}
-			}
+			}*/
 		}
 	}
 
@@ -216,13 +216,13 @@ void CollisionManager::CheckCowFourArea() {
 			}
 
 			// 若人
-			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+			/*for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
 				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - 2, kCanMoveDirection::leftBottom);
 				}
-			}
+			}*/
 		}
 	}
 
@@ -237,13 +237,13 @@ void CollisionManager::CheckCowFourArea() {
 			}
 
 			// 若人
-			for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
+			/*for (int i = 0; i < youngPerson_->GetIndexMax(); i++) {
 				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 2, kCanMoveDirection::bottom);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 2, kCanMoveDirection::right);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - 2, kCanMoveDirection::rightBottom);
 				}
-			}
+			}*/
 		}
 	}
 }
