@@ -290,7 +290,13 @@ void CollisionManager::CheckCowDistance() {
 		}
 
 	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
-		directionValue[kCanMoveDirection::leftBottom] ++;
+		// 左下
+		// 牛から見て左下にいるため牛飼いが右上に動く
+		if (cow2HeadDis.x > cow2HeadDis.y) {
+			// yが小さいため斜めに動く分にyの量を
+			directionValue[kCanMoveDirection::rightTop] += cow2HeadDis.y;
+			directionValue[kCanMoveDirection::top] += cow2HeadDis.x;
+		}
 	}
 
 	// 右上下の計算
