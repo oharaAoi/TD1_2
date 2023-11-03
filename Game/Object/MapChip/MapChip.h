@@ -34,13 +34,6 @@ private:
 	//マップのファイルパス
 	std::string csvFilePath_[10];
 
-	//行と列
-	int row_;
-	int col_;
-
-	//マップの画像
-	int GH_;
-
 	//マップの画像の番号の振り分け
 	Vec2f mapTile_[3][3];
 

@@ -28,25 +28,25 @@ MapChip::~MapChip(){
 //==============================================================
 void MapChip::Init(){
 
-	size_.x = 64.0f;
-	size_.y = 64.0f;
-
 	//マップの画像の番号の振り分け
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			mapTile_[i][j].x = j * size_.x;
-			mapTile_[i][j].y = i * size_.y;
+			mapTile_[i][j].x = j * tileSize_.x;
+			mapTile_[i][j].y = i * tileSize_.y;
 		}
 	}
 
 	GH_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
+	size_.x = 64.0f;
+	size_.y = 64.0f;
+
 	//マップチップの初期化
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 			if (mapAdd_[row][col] != NONE) {
-				mapChip_[row][col].pos.x = (size_.x * static_cast<float>(col)) + (size_.x / 2.0f);
-				mapChip_[row][col].pos.y = (size_.y * static_cast<float>(row)) + (size_.y / 2.0f);
+				mapChip_[row][col].pos.x = (tileSize_.x * static_cast<float>(col)) + (tileSize_.x / 2.0f);
+				mapChip_[row][col].pos.y = (tileSize_.y * static_cast<float>(row)) + (tileSize_.y / 2.0f);
 
 				mapChip_[row][col].scale.x = 1.0f;
 				mapChip_[row][col].scale.y = 1.0f;
@@ -102,7 +102,7 @@ void MapChip::Draw(){
 				Draw::Quad(
 					mapChip_[row][col].screenVertex,
 					mapTile_[0][0], 
-					size_, 
+					tileSize_,
 					GH_,
 					mapChip_[row][col].color
 				);
@@ -113,7 +113,7 @@ void MapChip::Draw(){
 				Draw::Quad(
 					mapChip_[row][col].screenVertex,
 					mapTile_[0][1],
-					size_, 
+					tileSize_,
 					GH_, 
 					mapChip_[row][col].color
 				);
@@ -138,17 +138,17 @@ void MapChip::Draw(){
 void MapChip::CalcScreenVertex() {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			mapChip_[row][col].screenVertex.lt.x = mapChip_[row][col].pos.x - (size_.x / 2.0f);
-			mapChip_[row][col].screenVertex.lt.y = mapChip_[row][col].pos.y + (size_.y / 2.0f);
+			mapChip_[row][col].screenVertex.lt.x = mapChip_[row][col].pos.x - (tileSize_.x / 2.0f);
+			mapChip_[row][col].screenVertex.lt.y = mapChip_[row][col].pos.y + (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].screenVertex.rt.x = mapChip_[row][col].pos.x + (size_.x / 2.0f);
-			mapChip_[row][col].screenVertex.rt.y = mapChip_[row][col].pos.y + (size_.y / 2.0f);
+			mapChip_[row][col].screenVertex.rt.x = mapChip_[row][col].pos.x + (tileSize_.x / 2.0f);
+			mapChip_[row][col].screenVertex.rt.y = mapChip_[row][col].pos.y + (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].screenVertex.lb.x = mapChip_[row][col].pos.x - (size_.x / 2.0f);
-			mapChip_[row][col].screenVertex.lb.y = mapChip_[row][col].pos.y - (size_.y / 2.0f);
+			mapChip_[row][col].screenVertex.lb.x = mapChip_[row][col].pos.x - (tileSize_.x / 2.0f);
+			mapChip_[row][col].screenVertex.lb.y = mapChip_[row][col].pos.y - (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].screenVertex.rb.x = mapChip_[row][col].pos.x + (size_.x / 2.0f);
-			mapChip_[row][col].screenVertex.rb.y = mapChip_[row][col].pos.y - (size_.y / 2.0f);
+			mapChip_[row][col].screenVertex.rb.x = mapChip_[row][col].pos.x + (tileSize_.x / 2.0f);
+			mapChip_[row][col].screenVertex.rb.y = mapChip_[row][col].pos.y - (tileSize_.y / 2.0f);
 		}
 	}
 }
@@ -157,17 +157,17 @@ void MapChip::CalcScreenVertex() {
 void MapChip::CalcWorldVertex() {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			mapChip_[row][col].worldVertex.lt.x = mapChip_[row][col].pos.x - (size_.x / 2.0f);
-			mapChip_[row][col].worldVertex.lt.y = mapChip_[row][col].pos.y + (size_.y / 2.0f);
+			mapChip_[row][col].worldVertex.lt.x = mapChip_[row][col].pos.x - (tileSize_.x / 2.0f);
+			mapChip_[row][col].worldVertex.lt.y = mapChip_[row][col].pos.y + (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].worldVertex.rt.x = mapChip_[row][col].pos.x + (size_.x / 2.0f);
-			mapChip_[row][col].worldVertex.rt.y = mapChip_[row][col].pos.y + (size_.y / 2.0f);
+			mapChip_[row][col].worldVertex.rt.x = mapChip_[row][col].pos.x + (tileSize_.x / 2.0f);
+			mapChip_[row][col].worldVertex.rt.y = mapChip_[row][col].pos.y + (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].worldVertex.lb.x = mapChip_[row][col].pos.x - (size_.x / 2.0f);
-			mapChip_[row][col].worldVertex.lb.y = mapChip_[row][col].pos.y - (size_.y / 2.0f);
+			mapChip_[row][col].worldVertex.lb.x = mapChip_[row][col].pos.x - (tileSize_.x / 2.0f);
+			mapChip_[row][col].worldVertex.lb.y = mapChip_[row][col].pos.y - (tileSize_.y / 2.0f);
 
-			mapChip_[row][col].worldVertex.rb.x = mapChip_[row][col].pos.x + (size_.x / 2.0f);
-			mapChip_[row][col].worldVertex.rb.y = mapChip_[row][col].pos.y - (size_.y / 2.0f);
+			mapChip_[row][col].worldVertex.rb.x = mapChip_[row][col].pos.x + (tileSize_.x / 2.0f);
+			mapChip_[row][col].worldVertex.rb.y = mapChip_[row][col].pos.y - (tileSize_.y / 2.0f);
 		}
 	}
 }
@@ -212,15 +212,15 @@ void MapChip::MakeWorldMatrix() {
 void MapChip::DebugInit() {
 	for (int i = 0; i < 10; i++) {
 		xAxis_[i].st.x = 0.0f;
-		xAxis_[i].st.y = size_.y * i;
-		xAxis_[i].end.x = size_.x * 10;
-		xAxis_[i].end.y = size_.y * i;
+		xAxis_[i].st.y = tileSize_.y * i;
+		xAxis_[i].end.x = tileSize_.x * 10;
+		xAxis_[i].end.y = tileSize_.y * i;
 
 		//61なのはなんかずれているから(理由はMatrixChangeに)
-		yAxis_[i].st.x = size_.x * i;
+		yAxis_[i].st.x = tileSize_.x * i;
 		yAxis_[i].st.y = 0.0f;
-		yAxis_[i].end.x = size_.x * i;
-		yAxis_[i].end.y = size_.y * 10;
+		yAxis_[i].end.x = tileSize_.x * i;
+		yAxis_[i].end.y = tileSize_.y * 10;
 	}
 }
 
