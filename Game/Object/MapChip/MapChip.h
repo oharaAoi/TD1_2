@@ -10,6 +10,9 @@
 #include "Lib/LoadFile/LoadFile.h"
 #include "Draw.h"
 
+/* object */
+#include "BaseMap.h"
+
 enum ChipType {
 	NONE,
 	STAGEOUT,
@@ -19,14 +22,14 @@ enum ChipType {
 	COW
 };
 
-class MapChip
+class MapChip: public BaseMap
 {
 
 private:
 
 	//==================================================
 	//マップのアドレス
-	std::vector<std::vector<int>>mapAdd_;
+	/*std::vector<std::vector<int>>mapAdd_;*/
 
 	//マップのファイルパス
 	std::string csvFilePath_[10];

@@ -2,8 +2,10 @@
 
 MapChip::MapChip(){
 
+	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
 
+	//選ばれたステージによって変数は変わる
 	mapAdd_ = LoadFile(csvFilePath_[0]);
 
 	//行と列の初期化

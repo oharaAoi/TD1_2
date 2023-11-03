@@ -15,6 +15,7 @@ int BaseMap::GH_ = 0;
 //===========================================================================
 
 BaseMap::BaseMap() {
+	AddressRevers();
 	Init();
 }
 
@@ -27,7 +28,6 @@ void BaseMap::AddressRevers(){
 
 //===========================================================================
 void BaseMap::Init(){
-	AddressRevers();
 	GH_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 }
 
