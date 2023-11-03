@@ -20,7 +20,7 @@ private:
 
 	// member object
 
-	int youngIndex;
+	int indexMax;
 
 	struct Base {
 		// world座標での矩形の中心
@@ -100,5 +100,8 @@ public:
 
 	// centerAdd
 	Vec2 GetCenterAdd(int index) const { return young_[index].centerAdd; }
+
+	// indexMax
+	int GetIndexMax()const { return indexMax; }
 };
 
