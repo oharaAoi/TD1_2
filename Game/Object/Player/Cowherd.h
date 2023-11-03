@@ -23,6 +23,7 @@ private:
 
 	// ワールド空間での中心点
 	Vec2f worldCenterPos_;
+	Vec2f centerAdd_;
 	Vec2f size_;
 	int gh_;
 

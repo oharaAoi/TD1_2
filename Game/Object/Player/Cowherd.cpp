@@ -22,6 +22,7 @@ void Cowherd::Init(MapChip* mapChip) {
 			}
 		}
 	}
+	centerAdd_ = worldCenterPos_ / size_;
 	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
 	// 各空間の頂点
