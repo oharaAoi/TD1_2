@@ -5,7 +5,7 @@ CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, M
 }
 
 CollisionManager::~CollisionManager() {
-	Finalize();
+	
 }
 
 
@@ -24,10 +24,7 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	終了処理関数
 ================================================================*/
 void CollisionManager::Finalize() {
-	SafeDelete(mapChip_);
-	SafeDelete(cowherd_);
-	SafeDelete(youngPerson_);
-	SafeDelete(cow_);
+	
 }
 
 /*=================================================================
