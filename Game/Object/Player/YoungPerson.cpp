@@ -69,14 +69,10 @@ void YoungPerson::Init() {
 		young_[i].moveDir.y = 0.0f;
 
 		// 移動量
-		young_[i].moveValue.x = 1.0f;
-		young_[i].moveValue.y = 1.0f;
+		young_[i].moveValue.x = 2.0f;
+		young_[i].moveValue.y = 2.0f;
 
 
-		young_[i].moveDirAdd[top].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y + 1 };
-		young_[i].moveDirAdd[bottom].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y - 1 };
-		young_[i].moveDirAdd[left].add = { young_[i].centerAdd.y - 1, young_[i].centerAdd.y };
-		young_[i].moveDirAdd[right].add = { young_[i].centerAdd.y + 1, young_[i].centerAdd.y };
 
 		for (int j = 0; j < 4; j++) {
 			young_[i].moveDirAdd[j].worldCenterPos = {
@@ -88,6 +84,8 @@ void YoungPerson::Init() {
 
 			young_[i].canMoveDir[j] = false;
 		}
+
+		young_[i].isMove = false;
 
 	}
 
@@ -147,6 +145,9 @@ void YoungPerson::Finalize() {
 void YoungPerson::Move() {
 
 	for (int i = 0; i < indexMax; i++) {
+
+		// フレーム単位での移動したかのフラグ
+		young_[i].isMove = false;
 		if (young_[i].isMoveIdle) {
 
 			// 移動待機状態の解除
@@ -165,6 +166,7 @@ void YoungPerson::Move() {
 						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 						young_[i].moveDir = { 0.0f,1.0f };
+						young_[i].isMove = true;
 					}
 				}
 
@@ -175,6 +177,7 @@ void YoungPerson::Move() {
 						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 						young_[i].moveDir = { 0.0f,-1.0f };
+						young_[i].isMove = true;
 					}
 				}
 
@@ -185,6 +188,7 @@ void YoungPerson::Move() {
 						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 						young_[i].moveDir = { -1.0f,0.0f };
+						young_[i].isMove = true;
 					}
 				}
 
@@ -195,6 +199,7 @@ void YoungPerson::Move() {
 						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 						young_[i].moveDir = { 1.0f,0.0f };
+						young_[i].isMove = true;
 					}
 				}
 
@@ -202,6 +207,14 @@ void YoungPerson::Move() {
 
 			// マスの移動
 			young_[i].worldCenterPos += young_[i].moveDir * (young_[i].moveValue * tileSize_);
+
+			if (young_[i].isMove) {
+
+				// 移動したら一度移動可能フラグをへし折る;
+				for (int j = 0; j < 4; j++) {
+					young_[i].canMoveDir[j] = false;
+				}
+			}
 
 
 		} else {
@@ -225,11 +238,20 @@ void YoungPerson::CenterAddUpDate() {
 	for (int i = 0; i < indexMax; i++) {
 		young_[i].centerAdd.x = static_cast<int>(young_[i].worldCenterPos.x / tileSize_.x);
 		young_[i].centerAdd.y = static_cast<int>(young_[i].worldCenterPos.y / tileSize_.y);
+		
+		// ----- 移動できるマスのアドレスを所得 ----- //
+		young_[i].moveDirAdd[top].add.x = young_[i].centerAdd.x;
+		young_[i].moveDirAdd[top].add.y = static_cast<int>(young_[i].centerAdd.y + young_[i].moveValue.y);
 
-		young_[i].moveDirAdd[top].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y + 1 };
-		young_[i].moveDirAdd[bottom].add = { young_[i].centerAdd.x,  young_[i].centerAdd.y - 1 };
-		young_[i].moveDirAdd[left].add = { young_[i].centerAdd.x - 1, young_[i].centerAdd.y };
-		young_[i].moveDirAdd[right].add = { young_[i].centerAdd.x + 1, young_[i].centerAdd.y };
+		young_[i].moveDirAdd[bottom].add.x = young_[i].centerAdd.x;
+		young_[i].moveDirAdd[bottom].add.y = static_cast<int>(young_[i].centerAdd.y - young_[i].moveValue.y);
+
+		young_[i].moveDirAdd[left].add.x = static_cast<int>(young_[i].centerAdd.x - young_[i].moveValue.x);
+		young_[i].moveDirAdd[left].add.y = young_[i].centerAdd.y;
+
+		young_[i].moveDirAdd[right].add.x = static_cast<int>(young_[i].centerAdd.x + young_[i].moveValue.x);
+		young_[i].moveDirAdd[right].add.y = young_[i].centerAdd.y;
+
 
 		for (int j = 0; j < 4; j++) {
 			young_[i].moveDirAdd[j].worldCenterPos = {

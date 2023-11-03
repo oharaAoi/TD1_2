@@ -61,6 +61,7 @@ private:
 		Address moveDirAdd[4];
 
 		bool canMoveDir[4];
+		bool isMove;
 	};
 
 	std::vector<Base> young_;
@@ -114,6 +115,8 @@ public:
 
 	// isMoveIdle
 	bool GetIsMoveIdle(int index) const { return young_[index].isMoveIdle; }
+
+	Address GetMoveDirAdd(int index, kCanMoveDirection dir) const { return young_[index].moveDirAdd[dir]; }
 
 };
 
