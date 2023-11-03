@@ -36,14 +36,16 @@ void Cow::Init(MapChip* mapChip){
 
 	MakeWorldMatrix();
 
+	// 移動方向/量
 	moveDire_.x = 0.0f;
 	moveDire_.y = 0.0f;
 
 	moveValue_.x = 0.0f;
 	moveValue_.y = 0.0f;
 
+	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
-		canMoveDie_[i] = false;
+		canMoveDireValue_[i] = 100;
 	}
 
 	// ローカル空間以外の各行列
@@ -58,6 +60,9 @@ void Cow::Init(MapChip* mapChip){
 	更新処理関数
 ==========================================================*/
 void Cow::Update(){
+
+	// 牛の現在の位置を取得
+	CenterAddUpdate();
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
@@ -87,6 +92,13 @@ void Cow::Finalize() {
 /*==========================================================
 	その他メンバ関数
 ==========================================================*/
+
+void Cow::CenterAddUpdate() {
+	centerAdd_ = {
+		static_cast<int>(worldCenterPos_.x / size_.x),
+		static_cast<int>(worldCenterPos_.y / size_.y)
+	};
+}
 
 void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 

@@ -22,12 +22,7 @@ private:
 	Vec2f size_;
 	int gh_;
 
-	// 移動方向/量
-	Vec2f moveDire_;
-	Vec2f moveValue_;
-
-	// 牛が動く方向
-	bool canMoveDie_[8];
+	Vec2 centerAdd_;
 
 	// 各空間での頂点座標
 	QuadVerf localVertex_;
@@ -37,6 +32,18 @@ private:
 	// ワールドとスクリーン空間での行列
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
+
+	//=========================================
+	// 移動方向/量
+	Vec2f moveDire_;
+	Vec2f moveValue_;
+
+	// 牛が動く方向の評価値
+	int canMoveDireValue_[8];
+
+	// 牛の左上を調べるための変数
+	
+
 
 public:
 	// Constructor & Destructor
@@ -51,6 +58,10 @@ public:
 
 	// user method
 
+	// address
+	void CenterAddUpdate();
+
+
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(
 		const Matrix3x3& viewMatrix,
@@ -63,6 +74,12 @@ public:
 
 
 	// accessor
+
+	// address
+	Vec2 GetCenterAdd() { return centerAdd_; }
+
+	// 方向を決めるための量
+	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
 
 };
 
