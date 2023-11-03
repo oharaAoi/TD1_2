@@ -34,6 +34,10 @@ void CollisionManager::CheckCanMove() {
 
 	CowherdCanMove();
 	YoungPersonCanMove();
+	
+}
+
+void CollisionManager::CheckCowMoveDire(){
 	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
 }

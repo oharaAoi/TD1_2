@@ -43,6 +43,9 @@ void Scene_Game::Update() {
 	// 若人の更新
 	youngPerson_->Update();
 
+	// 牛の動ける方向のための更新
+	collisionManager_->CheckCowMoveDire();
+
 	// 牛の更新
 	cow_->Update();
 

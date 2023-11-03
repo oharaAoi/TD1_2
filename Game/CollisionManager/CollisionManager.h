@@ -38,6 +38,8 @@ public:
 	// user method
 	void CheckCanMove();
 
+	void CheckCowMoveDire();
+
 private:
 
 	// user method
