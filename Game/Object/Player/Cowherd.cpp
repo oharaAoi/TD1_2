@@ -76,46 +76,44 @@ void Cowherd::Init() {
 	// csv内の2の数分配列を変える
 	canMoveGrid_.resize(maxIndex_);
 
-	for (int i = 0; i < maxIndex_; i++) {
-		bool isBreak = false;
+	int index = 0;
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
 
-		for (int row = 0; row < moveGrid_.size(); row++) {
-			for (int col = 0; col < moveGrid_[0].size(); col++) {
+			// アドレスに対応した初期化
+			switch (moveGrid_[row][col]) {
+			case Cowherd::CanMove:
 
-				// アドレスに対応した初期化
-				switch (moveGrid_[row][col]) {
-				case Cowherd::CanMove:
+				// アドレス
+				canMoveGrid_[index].localAdd = {
+					col - localCenterAdd_.x,
+					row - localCenterAdd_.y
+				};
 
-					// アドレス
-					canMoveGrid_[i].localAdd = {
-						localCenterAdd_.x - col,
-						localCenterAdd_.y - row
-					};
+				canMoveGrid_[index].worldAdd = canMoveGrid_[index].localAdd + centerAdd_;
 
-					// ワールド座標での中心
-					canMoveGrid_[i].worldCenterPos = {
-						canMoveGrid_[i].localAdd.x * tileSize_.x + (size_.x * 0.5f),
-						canMoveGrid_[i].localAdd.y * tileSize_.y + (size_.y * 0.5f)
-					};
+				// ワールド座標での中心
+				canMoveGrid_[index].worldCenterPos = {
+					canMoveGrid_[index].worldAdd.x * tileSize_.x + (size_.x * 0.5f),
+					canMoveGrid_[index].worldAdd.y * tileSize_.y + (size_.y * 0.5f)
+				};
 
-					// 頂点座標(ローカル
-					canMoveGrid_[i].localVertex = localVertex_;
-					canMoveGrid_[i].screenVertex = canMoveGrid_[i].localVertex;
+				// 頂点座標(ローカル
+				canMoveGrid_[index].localVertex = localVertex_;
+				canMoveGrid_[index].screenVertex = canMoveGrid_[index].localVertex;
 
-					// ワールド空間行列
-					canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
-					canMoveGrid_[i].screenMatrix = canMoveGrid_[i].worldMatrix;
+				// ワールド空間行列
+				canMoveGrid_[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[index].worldCenterPos);
+				canMoveGrid_[index].screenMatrix = canMoveGrid_[index].worldMatrix;
 
-					isBreak = true;
-					break;
-				}
+				index++;
 
-				if (isBreak) { break; }
 
+				break;
 			}
 
-			if (isBreak) { break; }
 		}
+
 	}
 
 
@@ -160,7 +158,7 @@ void Cowherd::Draw() {
 			{ 0.0f,0.0f },
 			{ 1.0f,1.0f },
 			gh_,
-			0x00FFFF20
+			0x00FFFF80
 		);
 	}
 

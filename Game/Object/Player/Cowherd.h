@@ -62,12 +62,14 @@ private: // 移動に関するもの
 
 		Vec2f worldCenterPos;
 		Vec2 localAdd;
+		Vec2 worldAdd;
 
 		QuadVerf localVertex;
 		QuadVerf screenVertex;
 
 		Matrix3x3 worldMatrix;
 		Matrix3x3 screenMatrix;
+
 	};
 
 	int maxIndex_;
