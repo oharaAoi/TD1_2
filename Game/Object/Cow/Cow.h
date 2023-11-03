@@ -65,6 +65,8 @@ public:
 	// direInit
 	void DireInit();
 
+	void CheckNearPerson();
+
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(
 		const Matrix3x3& viewMatrix,

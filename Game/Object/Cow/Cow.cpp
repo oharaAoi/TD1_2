@@ -54,6 +54,9 @@ void Cow::Init(MapChip* mapChip){
 
 	// ワールドとスクリーン空間での各頂点座標
 	screenVertex_ = worldVertex_;
+
+	// アドレスの初期化
+	CenterAddUpdate();
 }
 
 
@@ -114,6 +117,12 @@ void Cow::DireInit() {
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
 		canMoveDireValue_[i] = 100;
+	}
+}
+
+void Cow::CheckNearPerson(){
+	for (int i = 0; i < 8; i++) {
+		/*gridDistanceValue_[i] = std::clamp(gridDistanceValue_[i], 0, 10);*/
 	}
 }
 
