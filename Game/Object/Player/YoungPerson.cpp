@@ -69,8 +69,8 @@ void YoungPerson::Init() {
 		young_[i].moveDir.y = 0.0f;
 
 		// 移動量
-		young_[i].moveValue.x = 2.0f;
-		young_[i].moveValue.y = 2.0f;
+		young_[i].moveValue.x = 1.0f;
+		young_[i].moveValue.y = 1.0f;
 
 
 

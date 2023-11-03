@@ -294,8 +294,8 @@ void CollisionManager::CheckCowDistance() {
 		// 牛から見て左下にいるため牛飼いが右上に動く
 		if (cow2HeadDis.x > cow2HeadDis.y) {
 			// yが小さいため斜めに動く分にyの量を
-			directionValue[kCanMoveDirection::rightTop] += cow2HeadDis.y;
-			directionValue[kCanMoveDirection::top] += cow2HeadDis.x;
+			directionValue[kCanMoveDirection::rightTop] += static_cast<int>(cow2HeadDis.y);
+			directionValue[kCanMoveDirection::top] += static_cast<int>(cow2HeadDis.x);
 		}
 	}
 
