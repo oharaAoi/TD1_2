@@ -48,7 +48,7 @@ private:
 	bool YoungPersonCheckCanMove(const Vec2& add);
 
 	void CheckCowFourArea();
-	void CheckCowDistance();
+	void CheckGridDistance(const Vec2& add);
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
