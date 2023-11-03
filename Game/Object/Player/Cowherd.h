@@ -12,18 +12,8 @@
 #include "MapChip.h"
 #include "BaseMap.h"
 
-
-// 移動できる方向を所得するときに使う
-enum kCanMoveDirection {
-	top,
-	bottom,
-	left,
-	right,
-	leftTop,
-	rightTop,
-	leftBottom,
-	rightBottom
-};
+// ----- Config ----- //
+#include "CanMoveDirection.h"
 
 
 /// <summary>
