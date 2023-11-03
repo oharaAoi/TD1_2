@@ -8,6 +8,7 @@
 #include "Matrix3x3.h"
 #include "Quad.h"
 #include "Draw.h"
+#include "MapChip.h"
 
 class Cow final{
 private:
@@ -29,11 +30,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	Cow(Vec2f cowPos);
+	Cow(MapChip* mapChip);
 	~Cow();
 
 	// default method
-	void Init(Vec2f cowPos);
+	void Init(MapChip* mapChip);
 	void Update();
 	void Draw();
 	void Finalize();

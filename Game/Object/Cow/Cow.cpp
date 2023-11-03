@@ -1,6 +1,6 @@
 ﻿#include "Cow.h"
 
-Cow::Cow(Vec2f cowPos) { Init(cowPos); }
+Cow::Cow(MapChip* mapChip) { Init(mapChip); }
 
 Cow::~Cow() { Finalize(); }
 
@@ -8,12 +8,22 @@ Cow::~Cow() { Finalize(); }
 /*==========================================================
 	初期化関数
 ==========================================================*/
-void Cow::Init(Vec2f cowPos){
+void Cow::Init(MapChip* mapChip){
 
 	// ワールド空間での中心座標
-	worldCenterPos_ = { 640.0f,360.0 };
-	worldCenterPos_ = cowPos;
-	size_ = { 64.0f,64.0f };
+	size_ = mapChip->GetTileSize();
+	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
+		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+
+			if (mapChip->GetMapChipAdd()[row][col] == ChipType::COW) {
+				worldCenterPos_ = {
+					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
+					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+				};
+			}
+		}
+	}
+
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	// ローカル空間での各頂点座標
