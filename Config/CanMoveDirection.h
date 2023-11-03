@@ -1,6 +1,6 @@
-#pragma once
+ï»¿#pragma once
 
-// ˆÚ“®‚Å‚«‚é•ûŒü‚ðŠ“¾‚·‚é‚Æ‚«‚ÉŽg‚¤
+// ç§»å‹•ã§ãã‚‹æ–¹å‘ã‚’æ‰€å¾—ã™ã‚‹ã¨ãã«ä½¿ã†
 enum kCanMoveDirection {
 	top,
 	bottom,

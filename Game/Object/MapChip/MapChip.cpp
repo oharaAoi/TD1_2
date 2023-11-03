@@ -120,6 +120,18 @@ void MapChip::Draw(){
 
 				break;
 
+			case ChipType::ROCK: // 岩
+
+				Draw::Quad(
+					mapChip_[row][col].screenVertex,
+					mapTile_[1][2],
+					tileSize_,
+					GH_,
+					mapChip_[row][col].color
+				);
+
+				break;
+
 			}
 
 			/*if (mapAdd_[row][col] == STAGEOUT) {

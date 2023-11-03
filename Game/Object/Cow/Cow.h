@@ -10,6 +10,9 @@
 #include "Draw.h"
 #include "MapChip.h"
 
+// ----- Config ----- //
+#include "CanMoveDirection.h"
+
 class Cow final{
 private:
 	// member objcet
@@ -18,6 +21,13 @@ private:
 	Vec2f worldCenterPos_;
 	Vec2f size_;
 	int gh_;
+
+	// 移動方向/量
+	Vec2f moveDire_;
+	Vec2f moveValue_;
+
+	// 牛が動く方向
+	bool canMoveDie_[8];
 
 	// 各空間での頂点座標
 	QuadVerf localVertex_;

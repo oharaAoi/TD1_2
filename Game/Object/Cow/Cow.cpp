@@ -36,6 +36,16 @@ void Cow::Init(MapChip* mapChip){
 
 	MakeWorldMatrix();
 
+	moveDire_.x = 0.0f;
+	moveDire_.y = 0.0f;
+
+	moveValue_.x = 0.0f;
+	moveValue_.y = 0.0f;
+
+	for (int i = 0; i < 8; i++) {
+		canMoveDie_[i] = false;
+	}
+
 	// ローカル空間以外の各行列
 	screenMatrix_ = worldMatrix_;
 

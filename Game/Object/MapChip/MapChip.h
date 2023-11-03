@@ -19,7 +19,8 @@ enum ChipType {
 	FENCE,
 	COWHERD,
 	YANGMAN,
-	COW
+	COW,
+	ROCK
 };
 
 class MapChip: public BaseMap
