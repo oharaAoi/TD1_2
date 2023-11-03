@@ -123,6 +123,58 @@ void Cow::Finalize() {
 	その他メンバ関数
 ==========================================================*/
 
+void Cow::Move() {
+	int max = 0;
+	int maxIndex = 0;
+
+	for (int i = 0; i < 8; i++) {
+		if (max < canMoveDireValue_[i]) {
+			max = canMoveDireValue_[i];
+			maxIndex = i;
+		}
+	}
+
+	// 移動方向の量によって進む箇所を決める
+	switch (maxIndex){
+	case kCanMoveDirection::top:
+		worldCenterPos_.y += tileSize_.y;
+		break;
+
+	case kCanMoveDirection::bottom:
+		worldCenterPos_.y -= tileSize_.y;
+		break;
+
+	case kCanMoveDirection::left:
+		worldCenterPos_.x -= tileSize_.x;
+		break;
+
+	case kCanMoveDirection::right:
+		worldCenterPos_.x += tileSize_.x;
+		break;
+
+	case kCanMoveDirection::leftTop:
+		worldCenterPos_.x -= tileSize_.x;
+		worldCenterPos_.y -= tileSize_.y;
+		break;
+
+	case kCanMoveDirection::rightTop:
+		worldCenterPos_.x += tileSize_.x;
+		worldCenterPos_.y += tileSize_.y;
+		break;
+
+	case kCanMoveDirection::leftBottom:
+		worldCenterPos_.x -= tileSize_.x;
+		worldCenterPos_.y -= tileSize_.y;
+		break;
+
+	case kCanMoveDirection::rightBottom:
+		worldCenterPos_.x += tileSize_.x;
+		worldCenterPos_.y -= tileSize_.y;
+		break;
+	}
+
+}
+
 void Cow::CenterAddUpdate() {
 	centerAdd_ = {
 		static_cast<int>(worldCenterPos_.x / size_.x),

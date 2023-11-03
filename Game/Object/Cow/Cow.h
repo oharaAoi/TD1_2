@@ -77,6 +77,8 @@ public:
 
 	// user method
 
+	void Move();
+
 	// address
 	void CenterAddUpdate();
 
