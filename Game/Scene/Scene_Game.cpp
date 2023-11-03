@@ -11,10 +11,9 @@ Scene_Game::~Scene_Game() { Finalize(); }
 void Scene_Game::Init() {
 
 	camera_ = new Camera();
-
 	mapChip_ = new MapChip();
-
 	cow_ = new Cow(mapChip_->GetCowPos());
+	cowherd_ = new Cowherd(mapChip_);
 }
 
 
@@ -29,18 +28,44 @@ void Scene_Game::Update() {
 	}
 
 	// ----- Update ----- //
-	camera_->Update();
 
+	// カメラの更新
+	camera_->Update();
+	
+	// 牛飼いの更新
+	cowherd_->Update();
+
+	// 牛の更新
 	cow_->Update();
+
+
 
 	// ----- Collision ----- //
 
 
 
 	// ----- MatrixChange ----- //
-	mapChip_->MatrixChange(camera_->GetViewMatrix(), camera_->GetOrthoMatrix(), camera_->GetViewportMatrix());
 
-	cow_->MatrixChange(camera_->GetViewMatrix(), camera_->GetOrthoMatrix(), camera_->GetViewportMatrix());
+	// マップの行列を変換
+	mapChip_->MatrixChange(
+		camera_->GetViewMatrix(), 
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 牛飼いの行列を変換
+	cowherd_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 牛の行列を変換
+	cow_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
 }
 
 
@@ -50,9 +75,14 @@ void Scene_Game::Update() {
 void Scene_Game::Draw() {
 
 	mapChip_->Draw();
-	mapChip_->DebugDraw();
+	mapChip_->DebugDraw(); // マップチップのDraw関数に入れる
 
+	// 牛の描画
 	cow_->Draw();
+
+	// 牛飼いの描画
+	cowherd_->Draw();
+
 }
 
 
@@ -64,4 +94,5 @@ void Scene_Game::Finalize() {
 	SafeDelete(camera_);
 	SafeDelete(mapChip_);
 	SafeDelete(cow_);
+	SafeDelete(cowherd_);
 }

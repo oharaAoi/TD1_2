@@ -8,6 +8,10 @@
 #include "InputManager.h"
 #include "Collision.h"
 
+// ----- object ----- //
+#include "MapChip.h"
+
+
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
@@ -36,11 +40,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	Cowherd();
+	Cowherd(MapChip* mapChip);
 	~Cowherd();
 
 	// default method
-	void Init();
+	void Init(MapChip* mapChip);
 	void Update();
 	void Draw();
 	void Finalize();

@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "MapChip.h"
 #include "Cow.h"
+#include "Cowherd.h"
 
 class Scene_Game : public BaseScene {
 private:
@@ -22,9 +23,15 @@ private:
 	// カメラ
 	Camera* camera_;
 
+	// 背景 & マップ上のオブジェクト
 	MapChip* mapChip_;
 
+	// 牛
 	Cow* cow_;
+
+	// 牛飼い
+	Cowherd* cowherd_;
+
 
 public:
 	// コンストラクタ

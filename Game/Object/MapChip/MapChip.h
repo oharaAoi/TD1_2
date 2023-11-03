@@ -125,5 +125,7 @@ public:
 	int GetMapChipRow() { return row_; }
 	int GetMapChipCol() { return col_; }
 
+	Vec2f GetTileSize() { return size_; }
+
 };
 

@@ -1,18 +1,28 @@
 ﻿#include "Cowherd.h"
 
-Cowherd::Cowherd() { Init(); }
+Cowherd::Cowherd(MapChip* mapChip) { Init(mapChip); }
 
 Cowherd::~Cowherd() { Finalize(); }
 
 /*==========================================================
 	メンバ変数の初期化関数
 ==========================================================*/
-void Cowherd::Init() {
+void Cowherd::Init(MapChip* mapChip) {
 
 	// ワールド空間での中心点
-	worldCenterPos_ = { 640.0f,360.0f };
-	size_ = { 32.0f,32.0f };
-	gh_ = Novice::LoadTexture("white1x1.png");
+	size_ = mapChip->GetTileSize();
+	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
+		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+
+			if (mapChip->GetMapChipAdd()[row][col] == ChipType::COWHERD) {
+				worldCenterPos_ = {
+					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
+					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+				};
+			}
+		}
+	}
+	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
 	// 各空間の頂点
 	localVertex_.lt = { -size_.x * 0.5f, size_.y * 0.5f };
@@ -47,7 +57,7 @@ void Cowherd::Update() {
 ==========================================================*/
 void Cowherd::Draw() {
 
-	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
+	Draw::Quad(screenVertex_, { 128,0.0f }, { 64.0f,64.0f }, gh_, 0xFFFFFFFF);
 
 }
 
