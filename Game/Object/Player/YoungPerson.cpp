@@ -116,7 +116,7 @@ void YoungPerson::Draw() {
 		for (int j = 0; j < 4; j++) {
 
 			// 移動できるマスの描画
-			if (young_[i].canMoveDir[j]) {
+			if (young_[i].canMoveDir[j] && young_[i].isMoveIdle) {
 				Draw::Quad(young_[i].moveDirAdd[j].screenVertex, { 0.0f,0.0f }, { 1.0f,1.0f }, GH_, 0xFFFFFF50);
 			}
 		}
@@ -214,6 +214,7 @@ void YoungPerson::Move() {
 				for (int j = 0; j < 4; j++) {
 					young_[i].canMoveDir[j] = false;
 				}
+				young_[i].isMoveIdle = false;
 			}
 
 
@@ -224,6 +225,11 @@ void YoungPerson::Move() {
 				{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
 				if (input->IsTriggerMouse(0)) {
+					
+					for (int j = 0; j < indexMax; j++) {
+						young_[j].isMoveIdle = false;
+					}
+					
 					// 移動待機状態にする
 					young_[i].isMoveIdle = true;
 
@@ -235,6 +241,7 @@ void YoungPerson::Move() {
 }
 
 void YoungPerson::CenterAddUpDate() {
+
 	for (int i = 0; i < indexMax; i++) {
 		young_[i].centerAdd.x = static_cast<int>(young_[i].worldCenterPos.x / tileSize_.x);
 		young_[i].centerAdd.y = static_cast<int>(young_[i].worldCenterPos.y / tileSize_.y);
@@ -260,6 +267,7 @@ void YoungPerson::CenterAddUpDate() {
 			};
 		}
 	}
+
 }
 
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
