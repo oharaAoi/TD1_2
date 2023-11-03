@@ -41,6 +41,21 @@ void YoungPerson::Init() {
 	// ワールドとスクリーン空間での各頂点座標
 	screenVertex_ = worldVertex_;
 
+	// 移動できる状態かどうか
+	isMoveIdle_ = false;
+
+	// 移動方向
+	moveDir_.x = 0.0f;
+	moveDir_.y = 0.0f;
+
+	// 移動量
+	moveValue_.x = 1.0f;
+	moveValue_.y = 1.0f;
+
+	for (int i = 0; i < 4; i++) {
+		canMoveDir_[i] = false;
+	}
+
 }
 
 
@@ -49,7 +64,7 @@ void YoungPerson::Init() {
 ================================================================*/
 void YoungPerson::Update() {
 
-
+	Move();
 
 }
 
@@ -77,6 +92,29 @@ void YoungPerson::Finalize() {
 /*================================================================
 	その他メンバ関数
 ================================================================*/
+
+void YoungPerson::Move(){
+
+	if (isMoveIdle_) {
+
+		// 移動待機状態の解除
+		if (input->IsTriggerMouse(1)) {
+			isMoveIdle_ = false;
+		}
+
+	} else {
+
+		if (input->IsTriggerMouse(0)) {
+			// 移動待機状態にする
+			isMoveIdle_ = true;
+
+			// 方向を取得
+
+		}
+
+	}
+
+}
 
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
