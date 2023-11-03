@@ -1,7 +1,7 @@
 ﻿#include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip) {
-	Init(cowherd, youngPerson, mapChip);
+CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
+	Init(cowherd, youngPerson, mapChip, cow);
 }
 
 CollisionManager::~CollisionManager() {
@@ -12,10 +12,11 @@ CollisionManager::~CollisionManager() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip) {
+void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
+	cow_ = cow;
 }
 
 
@@ -26,6 +27,7 @@ void CollisionManager::Finalize() {
 	SafeDelete(mapChip_);
 	SafeDelete(cowherd_);
 	SafeDelete(youngPerson_);
+	SafeDelete(cow_);
 }
 
 /*=================================================================
@@ -34,7 +36,8 @@ void CollisionManager::Finalize() {
 void CollisionManager::CheckCanMove() {
 
 	CowherdCanMove();
-
+	YoungPersonCanMove();
+	CheckCowFourArea();
 }
 
 
@@ -125,6 +128,27 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	add;
 	return false;
 }
+
+/*=================================================================
+	牛
+=================================================================*/
+
+void  CollisionManager::CheckCowFourArea() {
+	// 左上を調べる
+	for (int yAxis = cow_->GetCenterAdd().y; yAxis < mapChip_->GetMapChipRow(); yAxis++) {
+		for (int xAxis = 0; xAxis < cow_->GetCenterAdd().x; xAxis++) {
+			// 牛飼い
+			if (cowherd_->GetCenterAdd().x == xAxis && cowherd_->GetCenterAdd().y == yAxis){
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 2, kCanMoveDirection::left);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - 2, kCanMoveDirection::leftTop);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 2, kCanMoveDirection::top);
+			}
+
+			// 若人
+		}
+	}
+}
+
 
 bool CollisionManager::IsEqualAdd(const Vec2& add1, const Vec2& add2) {
 	return (add1.x == add2.x) && (add1.y == add2.y);

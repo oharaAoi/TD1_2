@@ -79,7 +79,9 @@ public:
 	Vec2 GetCenterAdd() { return centerAdd_; }
 
 	// 方向を決めるための量
+	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
 	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
+
 
 };
 

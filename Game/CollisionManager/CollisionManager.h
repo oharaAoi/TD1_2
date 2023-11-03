@@ -4,9 +4,11 @@
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "MapChip.h"
+#include "Cow.h"
 
 // ----- math ----- //
 #include <SafeDelete.h>
+
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -17,14 +19,15 @@ private:
 	Cowherd* cowherd_;
 	YoungPerson* youngPerson_;
 	MapChip* mapChip_;
+	Cow* cow_;
 
 public:
 	// Constructor & Destructor
-	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip);
+	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow);
 	~CollisionManager();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip);
+	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow);
 	//void Update();
 	//void Draw();
 	void Finalize();
@@ -40,6 +43,8 @@ private:
 
 	void YoungPersonCanMove();
 	bool YoungPersonCheckCanMove(const Vec2& add);
+
+	void CheckCowFourArea();
 
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
