@@ -13,6 +13,7 @@
 #include "Cow.h"
 #include "Cowherd.h"
 #include "YoungPerson.h"
+#include "Dog.h"
 
 
 class Scene_Game : public BaseScene {
@@ -37,6 +38,9 @@ private:
 
 	// 牛飼い
 	Cowherd* cowherd_;
+
+	// 犬
+	Dog* dog_;
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;

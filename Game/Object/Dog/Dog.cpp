@@ -46,6 +46,12 @@ void Dog::Init() {
 ==========================================================*/
 void Dog::Update() {
 
+	// 犬を設置する準備
+	Install();
+
+	if (isIdle_) {
+		Put();
+	}
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
@@ -59,8 +65,9 @@ void Dog::Update() {
 void Dog::Draw() {
 
 	// 犬の描画
-	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
-
+	if (isExist_) {
+		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
+	}
 }
 
 
@@ -76,6 +83,32 @@ void Dog::Finalize() {
 /*==========================================================
 	その他メンバ関数
 ==========================================================*/
+
+void Dog::Install() {
+	if (!isExist_) {
+		if (input->IsTriggerKey(DIK_Z)) {
+			isIdle_ = true;
+			isExist_ = true;
+		}
+	}
+}
+
+void Dog::Put() {
+	/*for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
+			if (mapAdd_[row][col] == 1) {
+				if (Collision::Rect::Point()) {
+					if (input->IsTriggerMouse(0)) {
+						worldCenterPos_ = {
+							static_cast<float>(input->GetMousePos().x),
+							static_cast<float>(input->GetMousePos().y)
+						};
+					}
+				}
+			}
+		}
+	}*/
+}
 
 void Dog::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 

@@ -11,6 +11,7 @@
 #include "Draw.h"
 #include "MapChip.h"
 
+
 // ----- Config ----- //
 #include "CanMoveDirection.h"
 
@@ -52,6 +53,7 @@ private:
 	// 壁の距離での評価値
 	struct Value {
 		int wall;
+		int allDire;
 	};
 	
 	Value value_;
@@ -110,6 +112,10 @@ public:
 	// 牛から見たプレイヤー達の位置を計算するために使う
 	void SetGridDistanceValue(int value, int dire) {gridDistanceValue_[dire] = value; }
 	int GetGridDistanceValue(int dire) { return gridDistanceValue_[dire]; }
+
+	// 評価値
+	int GetAllDireValue() { return value_.allDire; }
+
 
 };
 

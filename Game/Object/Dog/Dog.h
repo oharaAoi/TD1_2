@@ -2,14 +2,24 @@
 
 #include <Novice.h>
 
+#include "InputManager.h"
+
 // ----- math ----- //
 #include "MyVector2.h"
 #include "Matrix3x3.h"
 #include "Quad.h"
 #include "Draw.h"
+#include "Collision.h"
 
-class Dog {
-private:
+// ----- object ----- //
+#include "BaseMap.h"
+
+class Dog final :public BaseMap {
+private: 
+
+	// 入力処理のインスタンス確保
+	InputManager* input = InputManager::GetInstance();
+
 	// member object
 
 	// ワールド空間での中心座標
@@ -48,6 +58,12 @@ public:
 	void Finalize();
 
 	// user method
+
+	// 犬を設置するために必要
+	void Install();
+
+	// 犬を置く
+	void Put();
 
 	// スクリーン空間に変更するための関数
 	void MatrixChange(

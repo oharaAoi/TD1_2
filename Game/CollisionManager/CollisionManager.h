@@ -51,6 +51,7 @@ private:
 
 	void CheckCowFourArea();
 	void CheckGridDistance(const Vec2& add);
+	void CheckCowMoveAllDire();
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 

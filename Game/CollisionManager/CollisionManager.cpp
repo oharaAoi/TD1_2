@@ -40,6 +40,7 @@ void CollisionManager::CheckCanMove() {
 void CollisionManager::CheckCowMoveDire(){
 	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
+	CheckCowMoveAllDire();
 }
 
 
@@ -246,6 +247,91 @@ void CollisionManager::CheckCowFourArea() {
 			}*/
 		}
 	}
+}
+
+void CollisionManager::CheckCowMoveAllDire() {
+	// 壁までの距離を計算
+	int cow2topWall_ = mapChip_->GetMapChipRow() - cow_->GetCenterAdd().y;
+	int cow2bottomWall_ = cow_->GetCenterAdd().y;
+	int cow2leftWall_ = cow_->GetCenterAdd().x;
+	int cow2rightWall_ = mapChip_->GetMapChipCol() - cow_->GetCenterAdd().x;
+
+	// topまでの計算
+	for (int i = 1; i < cow2topWall_; i++) {
+		// topまでの距離で牛飼いがいたら
+		if (cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x &&
+			cow_->GetCenterAdd().y + i == cowherd_->GetCenterAdd().y) {
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAllDireValue(),
+									kCanMoveDirection::top);
+		}
+
+		// topまでの距離で若人がいたら
+		/*for (int j = 0; j < youngPerson_->GetIndexMax(); j++) {
+			if (cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(j).x &&
+				cow_->GetCenterAdd().y + i == youngPerson_->GetCenterAdd(j).y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAllDireValue(),
+					kCanMoveDirection::top);
+			}
+		}*/
+	}
+
+	// bottomまでの計算
+	for (int i = 1; i < cow2bottomWall_; i++) {
+		// topまでの距離で牛飼いがいたら
+		if (cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x &&
+			cow_->GetCenterAdd().y - i == cowherd_->GetCenterAdd().y) {
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAllDireValue(),
+				kCanMoveDirection::bottom);
+		}
+
+		// topまでの距離で若人がいたら
+		/*for (int j = 0; j < youngPerson_->GetIndexMax(); j++) {
+			if (cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(j).x &&
+				cow_->GetCenterAdd().y - i == youngPerson_->GetCenterAdd(j).y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAllDireValue(),
+					kCanMoveDirection::bottom);
+			}
+		}*/
+	}
+
+	// leftまでの計算
+	for (int i = 1; i < cow2leftWall_; i++) {
+		// leftまでの距離で牛飼いがいたら
+		if (cow_->GetCenterAdd().x - i == cowherd_->GetCenterAdd().x &&
+			cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAllDireValue(),
+				kCanMoveDirection::left);
+		}
+
+		// leftまでの距離で若人がいたら
+		/*for (int j = 0; j < youngPerson_->GetIndexMax(); j++) {
+			if (cow_->GetCenterAdd().x - i == youngPerson_->GetCenterAdd(j).x &&
+				cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(j).y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAllDireValue(),
+					kCanMoveDirection::left);
+			}
+		}*/
+	}
+
+	// rightまでの距離
+	for (int i = 1; i < cow2rightWall_; i++) {
+		// leftまでの距離で牛飼いがいたら
+		if (cow_->GetCenterAdd().x + i == cowherd_->GetCenterAdd().x &&
+			cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAllDireValue(),
+				kCanMoveDirection::right);
+		}
+
+		// rightまでの距離で若人がいたら
+		/*for (int j = 0; j < youngPerson_->GetIndexMax(); j++) {
+			if (cow_->GetCenterAdd().x + i == youngPerson_->GetCenterAdd(j).x &&
+				cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(j).y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAllDireValue(),
+					kCanMoveDirection::right);
+			}
+		}*/
+	}
+
 }
 
 void CollisionManager::CheckGridDistance(const Vec2& add) {

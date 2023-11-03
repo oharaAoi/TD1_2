@@ -15,6 +15,7 @@ void Scene_Game::Init() {
 	cow_ = new Cow(mapChip_);
 	cowherd_ = new Cowherd();
 	youngPerson_ = new YoungPerson();
+	dog_ = new Dog();
 	collisionManager_ = new CollisionManager(
 		cowherd_, youngPerson_, mapChip_, cow_
 	);
@@ -49,6 +50,8 @@ void Scene_Game::Update() {
 	// 牛の更新
 	cow_->Update();
 
+	// 犬の更新
+	dog_->Update();
 
 
 	// ----- Collision ----- //
@@ -84,6 +87,13 @@ void Scene_Game::Update() {
 		camera_->GetOrthoMatrix(),
 		camera_->GetViewportMatrix()
 	);
+
+	// 犬の行列を変換
+	dog_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
 }
 
 
@@ -104,6 +114,9 @@ void Scene_Game::Draw() {
 	// 若人の描画
 	youngPerson_->Draw();
 
+	// 犬の描画
+	dog_->Draw();
+
 }
 
 
@@ -117,5 +130,6 @@ void Scene_Game::Finalize() {
 	SafeDelete(cow_);
 	SafeDelete(cowherd_);
 	SafeDelete(youngPerson_);
+	SafeDelete(dog_);
 	SafeDelete(collisionManager_);
 }
