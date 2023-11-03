@@ -113,19 +113,19 @@ void CollisionManager::YoungPersonCanMove() {
 			// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
 			// 障害物がなければ移動できる
 
-			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x, youngPerson_->GetCenterAdd(yi).y + 1 })) { // 上
+			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, top).add)) { // 上
 				youngPerson_->SetCanMoveDir(true, top, yi);
 			}
 
-			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x, youngPerson_->GetCenterAdd(yi).y - 1 })) { // 下
+			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, bottom).add)) { // 下
 				youngPerson_->SetCanMoveDir(true, bottom, yi);
 			}
 
-			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x - 1, youngPerson_->GetCenterAdd(yi).y })) { // 左
+			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, left).add)) { // 左
 				youngPerson_->SetCanMoveDir(true, left, yi);
 			}
 
-			if (YoungPersonCheckCanMove({ youngPerson_->GetCenterAdd(yi).x + 1, youngPerson_->GetCenterAdd(yi).y })) { // 右
+			if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, right).add)) { // 右
 				youngPerson_->SetCanMoveDir(true, right, yi);
 			}
 
@@ -138,6 +138,7 @@ void CollisionManager::YoungPersonCanMove() {
 bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	// マップ上のオブジェクト
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
+	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
 
 	// 牛との
 
