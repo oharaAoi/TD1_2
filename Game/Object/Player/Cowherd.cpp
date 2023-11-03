@@ -128,6 +128,9 @@ void Cowherd::Move() {
 				// 移動待機状態になる
 				isMoveIdle_ = true;
 
+				// 移動できる方向を所得
+
+
 			}
 
 		}
@@ -139,5 +142,8 @@ void Cowherd::Move() {
 void Cowherd::DebugDraw() {
 
 	Novice::ScreenPrintf(100, 100, "isMoveIdle = %d", isMoveIdle_);
+
+	Novice::ScreenPrintf(100, 120, "centerAdd : x = %d, y = %d", centerAdd_.x, centerAdd_.y);
+
 
 }
