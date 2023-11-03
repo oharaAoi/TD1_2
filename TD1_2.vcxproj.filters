@@ -56,6 +56,9 @@
     <Filter Include="Config">
       <UniqueIdentifier>{bfa51a73-78f9-4ef7-92d4-65ad0217e364}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Base">
+      <UniqueIdentifier>{c87ff17d-ac72-40ac-886c-12de60a99b18}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -131,8 +134,8 @@
     <ClCompile Include="Game\Object\Player\YoungPerson.cpp">
       <Filter>Game\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="BaseMap.cpp">
-      <Filter>KamataEngine</Filter>
+    <ClCompile Include="Game\Object\Base\BaseMap.cpp">
+      <Filter>Game\Object\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +273,8 @@
     <ClInclude Include="Game\Object\Player\YoungPerson.h">
       <Filter>Game\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="BaseMap.h" />
+    <ClInclude Include="Game\Object\Base\BaseMap.h">
+      <Filter>Game\Object\Base</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
