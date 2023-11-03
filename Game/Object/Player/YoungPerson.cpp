@@ -1,19 +1,29 @@
 ﻿#include "YoungPerson.h"
 
-YoungPerson::YoungPerson() { Init(); }
+YoungPerson::YoungPerson(MapChip* mapChip) { Init(mapChip); }
 
 YoungPerson::~YoungPerson() { Finalize(); }
 
 /*================================================================
 	初期化関数
 ================================================================*/
-void YoungPerson::Init() {
+void YoungPerson::Init(MapChip* mapChip) {
 
 
-	// ワールド空間での中心座標
-	worldCenterPos_ = { 640.0f,360.0 };
-	size_ = { 32.0f,32.0f };
-	gh_ = Novice::LoadTexture("white1x1.png");
+	// ワールド空間での中心点
+	size_ = mapChip->GetTileSize();
+	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
+		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+
+			if (mapChip->GetMapChipAdd()[row][col] == ChipType::YANGMAN) {
+				worldCenterPos_ = {
+					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
+					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+				};
+			}
+		}
+	}
+	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
@@ -49,7 +59,7 @@ void YoungPerson::Update() {
 ================================================================*/
 void YoungPerson::Draw() {
 
-	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
+	Draw::Quad(screenVertex_, { 0.0f,64.0f }, { 64.0f,64.0f }, gh_, 0xFFFFFFFF);
 
 }
 
@@ -72,10 +82,10 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
-	screenVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
 }
 

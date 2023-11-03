@@ -11,6 +11,7 @@
 #include "MapChip.h"
 #include "Cow.h"
 #include "Cowherd.h"
+#include "YoungPerson.h"
 
 class Scene_Game : public BaseScene {
 private:
@@ -28,6 +29,9 @@ private:
 
 	// 牛
 	Cow* cow_;
+
+	// 若人
+	YoungPerson* youngPerson_;
 
 	// 牛飼い
 	Cowherd* cowherd_;

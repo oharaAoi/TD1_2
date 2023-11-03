@@ -6,6 +6,9 @@
 #include "Quad.h"
 #include "Draw.h"
 
+// ----- object ----- //
+#include "MapChip.h"
+
 class YoungPerson final {
 private:
 	// member object
@@ -24,12 +27,12 @@ private:
 
 public:
 	// Constructor & Destructor
-	YoungPerson();
+	YoungPerson(MapChip* mapChip);
 	~YoungPerson();
 
 
 	// default method
-	void Init();
+	void Init(MapChip* mapChip);
 	void Update();
 	void Draw();
 	void Finalize();

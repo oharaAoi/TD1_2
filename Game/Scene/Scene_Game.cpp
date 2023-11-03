@@ -14,6 +14,8 @@ void Scene_Game::Init() {
 	mapChip_ = new MapChip();
 	cow_ = new Cow(mapChip_->GetCowPos());
 	cowherd_ = new Cowherd(mapChip_);
+	youngPerson_ = new YoungPerson(mapChip_);
+
 }
 
 
@@ -35,6 +37,9 @@ void Scene_Game::Update() {
 	// 牛飼いの更新
 	cowherd_->Update();
 
+	// 若人の更新
+	youngPerson_->Update();
+
 	// 牛の更新
 	cow_->Update();
 
@@ -55,6 +60,13 @@ void Scene_Game::Update() {
 
 	// 牛飼いの行列を変換
 	cowherd_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 若人の行列を変換
+	youngPerson_->MatrixChange(
 		camera_->GetViewMatrix(),
 		camera_->GetOrthoMatrix(),
 		camera_->GetViewportMatrix()
@@ -82,6 +94,9 @@ void Scene_Game::Draw() {
 
 	// 牛飼いの描画
 	cowherd_->Draw();
+
+	// 若人の描画
+	youngPerson_->Draw();
 
 }
 
