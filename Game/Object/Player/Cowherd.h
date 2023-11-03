@@ -17,8 +17,8 @@
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
-class Cowherd 
-: public BaseMap {
+class Cowherd
+	: public BaseMap {
 private:
 
 	// member object
@@ -46,6 +46,34 @@ private:
 	Vec2f moveValue_; // 初期化の値を変更で移動量を変化させる
 	bool canMoveDir_[8];
 
+private: // 移動に関するもの
+
+	enum kGridType {
+		None,
+		Player,
+		CanMove
+	};
+
+	std::vector<std::vector<int>> moveGrid_;
+	Vec2 localCenterAdd_;
+
+
+	struct CanMoveGrid final {
+
+		Vec2f worldCenterPos;
+		Vec2 localAdd;
+
+		QuadVerf localVertex;
+		QuadVerf screenVertex;
+
+		Matrix3x3 worldMatrix;
+		Matrix3x3 screenMatrix;
+	};
+
+	int maxIndex_;
+	std::vector<CanMoveGrid> canMoveGrid_;
+
+
 public:
 	// Constructor & Destructor
 	Cowherd();
@@ -67,7 +95,7 @@ public:
 	);
 
 	void MakeWorldMatrix();
-	
+
 	void Move();
 
 	void DebugDraw();
@@ -76,7 +104,7 @@ public:
 	void CenterAddUpdate();
 
 	// accessor
-	
+
 	// canMoveDir
 	void SetCanMoveDir(bool canMove, kCanMoveDirection canMoveDir) { canMoveDir_[canMoveDir] = canMove; }
 

@@ -23,7 +23,7 @@ void Cowherd::Init() {
 		}
 	}
 	CenterAddUpdate();
-	gh_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
+	gh_ = Novice::LoadTexture("white1x1.png");
 
 	// 各空間の頂点
 	localVertex_.lt = { -size_.x * 0.5f, size_.y * 0.5f };
@@ -31,11 +31,7 @@ void Cowherd::Init() {
 	localVertex_.lb = { -size_.x * 0.5f, -size_.y * 0.5f };
 	localVertex_.rb = { size_.x * 0.5f, -size_.y * 0.5f };
 
-	// ローカル以外の各空間の行列
-	MakeWorldMatrix();
 
-	screenMatrix_ = worldMatrix_;
-	screenVertex_ = worldVertex_;
 
 	isMoveIdle_ = false;
 
@@ -47,12 +43,87 @@ void Cowherd::Init() {
 	moveDir_ = { 0.0f,0.0f };
 
 	// 移動するマスの量
-	moveValue_ = { 1.0f,1.0f }; 
+	moveValue_ = { 1.0f,1.0f };
 
 
 	for (int i = 0; i < 8; i++) {
 		canMoveDir_[i] = false;
 	}
+
+	moveGrid_ = LoadFile("./Resources/player/cowherdMoveValue.csv");
+	std::reverse(moveGrid_.begin(), moveGrid_.end());
+
+	maxIndex_ = 0;
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+
+			// アドレスに対応した初期化
+			switch (moveGrid_[row][col]) {
+			case Cowherd::Player:
+
+				localCenterAdd_ = { col, row };
+
+				break;
+			case Cowherd::CanMove:
+
+				maxIndex_++;
+
+				break;
+			}
+		}
+	}
+
+	// csv内の2の数分配列を変える
+	canMoveGrid_.resize(maxIndex_);
+
+	for (int i = 0; i < maxIndex_; i++) {
+		bool isBreak = false;
+
+		for (int row = 0; row < moveGrid_.size(); row++) {
+			for (int col = 0; col < moveGrid_[0].size(); col++) {
+
+				// アドレスに対応した初期化
+				switch (moveGrid_[row][col]) {
+				case Cowherd::CanMove:
+
+					// アドレス
+					canMoveGrid_[i].localAdd = {
+						localCenterAdd_.x - col,
+						localCenterAdd_.y - row
+					};
+
+					// ワールド座標での中心
+					canMoveGrid_[i].worldCenterPos = {
+						canMoveGrid_[i].localAdd.x * tileSize_.x,
+						canMoveGrid_[i].localAdd.y * tileSize_.y
+					};
+
+					// 頂点座標(ローカル
+					canMoveGrid_[i].localVertex = localVertex_;
+					canMoveGrid_[i].screenVertex = canMoveGrid_[i].localVertex;
+
+					// ワールド空間行列
+					canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
+					canMoveGrid_[i].screenMatrix = canMoveGrid_[i].worldMatrix;
+
+					isBreak = true;
+					break;
+				}
+
+				if (isBreak) { break; }
+
+			}
+
+			if (isBreak) { break; }
+		}
+	}
+
+
+	// ローカル以外の各空間の行列
+	MakeWorldMatrix();
+
+	screenMatrix_ = worldMatrix_;
+	screenVertex_ = worldVertex_;
 
 }
 
@@ -74,7 +145,25 @@ void Cowherd::Update() {
 ==========================================================*/
 void Cowherd::Draw() {
 
-	Draw::Quad(screenVertex_, { 128,0.0f }, { 64.0f,64.0f }, gh_, 0xFFFFFFFF);
+	Draw::Quad(
+		screenVertex_,
+		{ 128,0.0f },
+		{ 64.0f,64.0f },
+		GH_,
+		0xFFFFFFFF
+	);
+
+	// 移動マス
+	for (int i = 0; i < maxIndex_; i++) {
+		Draw::Quad(
+			canMoveGrid_[i].screenVertex,
+			{ 0.0f,0.0f },
+			{ 1.0f,1.0f },
+			gh_,
+			0x00FFFF20
+		);
+	}
+
 
 	DebugDraw();
 }
@@ -103,6 +192,17 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
+	// 移動マス
+	for (int i = 0; i < maxIndex_; i++) {
+
+		canMoveGrid_[i].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+
+		canMoveGrid_[i].screenVertex.lt = Transform(canMoveGrid_[i].localVertex.lt, canMoveGrid_[i].screenMatrix);
+		canMoveGrid_[i].screenVertex.rt = Transform(canMoveGrid_[i].localVertex.rt, canMoveGrid_[i].screenMatrix);
+		canMoveGrid_[i].screenVertex.lb = Transform(canMoveGrid_[i].localVertex.lb, canMoveGrid_[i].screenMatrix);
+		canMoveGrid_[i].screenVertex.rb = Transform(canMoveGrid_[i].localVertex.rb, canMoveGrid_[i].screenMatrix);
+
+	}
 
 }
 
@@ -113,6 +213,13 @@ void Cowherd::MakeWorldMatrix() {
 	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
 	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+
+	// 移動マス
+	for (int i = 0; i < maxIndex_; i++) {
+
+		canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
+
+	}
 
 }
 
