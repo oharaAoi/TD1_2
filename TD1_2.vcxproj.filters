@@ -131,6 +131,9 @@
     <ClCompile Include="Game\Object\Player\YoungPerson.cpp">
       <Filter>Game\Object\Player</Filter>
     </ClCompile>
+    <ClCompile Include="BaseMap.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -267,5 +270,6 @@
     <ClInclude Include="Game\Object\Player\YoungPerson.h">
       <Filter>Game\Object\Player</Filter>
     </ClInclude>
+    <ClInclude Include="BaseMap.h" />
   </ItemGroup>
 </Project>
