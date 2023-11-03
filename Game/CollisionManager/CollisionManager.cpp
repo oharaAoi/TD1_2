@@ -254,21 +254,21 @@ void CollisionManager::CheckCowDistance() {
 	// 左右の量を計算
 	if (cow2HeadDis.x > 0) {
 		// 牛から見て左にいるため牛飼いが右に動く
-		directionValue[kCanMoveDirection::right] += cow2HeadDis.x;
+		directionValue[kCanMoveDirection::right] += static_cast<int>(cow2HeadDis.x);
 
 	} else {
 		// 牛から見て右にいるため牛飼いが左に動く
-		directionValue[kCanMoveDirection::left] -= cow2HeadDis.x;
+		directionValue[kCanMoveDirection::left] -= static_cast<int>(cow2HeadDis.x);
 	}
 
 	// 上下の量を計算
 	if (cow2HeadDis.y > 0) {
 		// 牛から見て上にいるため牛飼いが下に動く
-		directionValue[kCanMoveDirection::bottom] += cow2HeadDis.y;
+		directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.y);
 
 	} else {
 		// 牛から見て下にいるため牛飼いが上に動く
-		directionValue[kCanMoveDirection::top] -= cow2HeadDis.y;
+		directionValue[kCanMoveDirection::top] -= static_cast<int>(cow2HeadDis.y);
 	}
 
 
@@ -279,13 +279,13 @@ void CollisionManager::CheckCowDistance() {
 		// 牛から見て左上にいるため牛飼いが右下に動く
 		if (cow2HeadDis.x > cow2HeadDis.y) {
 			// yが小さいため斜めに動く分にyの量を
-			directionValue[kCanMoveDirection::rightBottom] += cow2HeadDis.y;
-			directionValue[kCanMoveDirection::bottom] += cow2HeadDis.x;
+			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.y);
+			directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.x);
 
 		} else {
 			// xが小さいため斜めに動く分にxの量を
-			directionValue[kCanMoveDirection::rightBottom] += cow2HeadDis.x;
-			directionValue[kCanMoveDirection::bottom] += cow2HeadDis.y;
+			directionValue[kCanMoveDirection::rightBottom] += static_cast<int>(cow2HeadDis.x);
+			directionValue[kCanMoveDirection::bottom] += static_cast<int>(cow2HeadDis.y);
 		}
 
 	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
