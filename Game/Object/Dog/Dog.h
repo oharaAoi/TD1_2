@@ -46,6 +46,23 @@ private:
 	Matrix3x3 screenMatrix_;
 
 
+	//=================================================
+	//　犬を置ける場所
+	struct PutPlace {
+		Vec2f worldPos;
+
+		Vec2 localAdd;
+		Vec2 worldAdd;
+
+		QuadVerf worldVertex;
+		QuadVerf screenVertex;
+
+		Matrix3x3 worldMatrix;
+		Matrix3x3 screenMatrix;
+	};
+
+	PutPlace putPlace_[4];
+
 public:
 	// Constructor & Destructor
 	Dog();
@@ -65,6 +82,9 @@ public:
 	// 犬を置く
 	void Put();
 
+	// アドレスの計算
+	Vec2 CalcCenterAdd(Vec2f centerPos);
+
 	// スクリーン空間に変更するための関数
 	void MatrixChange(
 		const Matrix3x3& viewMatrix,
@@ -78,6 +98,7 @@ public:
 	// accessor
 
 	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
+	bool GetISIdle() { return isIdle_; }
 
 	bool GetIsExist() { return isExist_; }
 

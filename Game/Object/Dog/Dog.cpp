@@ -37,6 +37,32 @@ void Dog::Init() {
 	// ワールドとスクリーン空間での各頂点座標
 	screenVertex_ = worldVertex_;
 
+	//================================================================
+	// 
+	// top
+	putPlace_[0].worldPos.x = (col_ / 2) * tileSize_.x;
+	putPlace_[0].worldPos.y = row_* tileSize_.y;
+
+	// bottom
+	putPlace_[1].worldPos.x = (col_ / 2) * tileSize_.x;
+	putPlace_[1].worldPos.y = 0.0f;
+
+	// left
+	putPlace_[0].worldPos.x = 0.0f;
+	putPlace_[0].worldPos.y = row_ * tileSize_.y;
+
+	// right
+	putPlace_[0].worldPos.x = col_ * tileSize_.x;
+	putPlace_[0].worldPos.y = row_ * tileSize_.y;
+
+	for (int i = 0; i < 4; i++) {
+		putPlace_[i].localAdd = CalcCenterAdd(putPlace_[i].worldPos);
+		putPlace_[i].worldAdd = CalcCenterAdd(putPlace_[i].worldPos);
+
+		putPlace_[i].screenVertex = putPlace_[i].worldVertex;
+
+		putPlace_[i].screenMatrix = putPlace_[i].worldMatrix;
+	}
 
 }
 
@@ -65,7 +91,7 @@ void Dog::Update() {
 void Dog::Draw() {
 
 	// 犬の描画
-	if (isExist_) {
+	if (isIdle_) {
 		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
 	}
 }
@@ -88,26 +114,43 @@ void Dog::Install() {
 	if (!isExist_) {
 		if (input->IsTriggerKey(DIK_Z)) {
 			isIdle_ = true;
-			isExist_ = true;
+
+		}
+
+		if (isIdle_) {
+			worldCenterPos_ = {
+				static_cast<float>(input->GetMousePos().x),
+				static_cast<float>(input->GetMousePos().y)
+			};
 		}
 	}
 }
 
 void Dog::Put() {
-	/*for (int row = 0; row < row_; row++) {
-		for (int col = 0; col < col_; col++) {
-			if (mapAdd_[row][col] == 1) {
-				if (Collision::Rect::Point()) {
-					if (input->IsTriggerMouse(0)) {
-						worldCenterPos_ = {
-							static_cast<float>(input->GetMousePos().x),
-							static_cast<float>(input->GetMousePos().y)
-						};
-					}
-				}
-			}
-		}
-	}*/
+	///*for (int row = 0; row < row_; row++) {
+	//	for (int col = 0; col < col_; col++) {
+	//		if (mapAdd_[row][col] == 1) {
+	//			if (Collision::Rect::Point()) {
+	//				if (input->IsTriggerMouse(0)) {
+	//					worldCenterPos_ = {
+	//						static_cast<float>(input->GetMousePos().x),
+	//						static_cast<float>(input->GetMousePos().y)
+	//					};
+	//				}
+	//			}
+	//		}
+	//	}
+	//}*/
+}
+
+Vec2 Dog::CalcCenterAdd(Vec2f centerPos) {
+	Vec2 result;
+
+	result.x = static_cast<int>(centerPos.x / tileSize_.x);
+	result.y = static_cast<int>(centerPos.y / tileSize_.y);
+
+	return result;
+
 }
 
 void Dog::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
@@ -119,6 +162,15 @@ void Dog::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix
 	screenVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
+	for (int i = 0; i < 4; i++) {
+		putPlace_[i].screenMatrix = MakeWvpVpMatrix(putPlace_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+
+		putPlace_[i].screenVertex.lt = Transform(localVertex_.lt, putPlace_[i].worldMatrix);
+		putPlace_[i].screenVertex.rt = Transform(localVertex_.rt, putPlace_[i].worldMatrix);
+		putPlace_[i].screenVertex.lb = Transform(localVertex_.lb, putPlace_[i].worldMatrix);
+		putPlace_[i].screenVertex.rb = Transform(localVertex_.rb, putPlace_[i].worldMatrix);
+	}
+
 }
 
 void Dog::MakeWorldMatrix() {
@@ -129,6 +181,13 @@ void Dog::MakeWorldMatrix() {
 	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
+	for (int i = 0; i < 4; i++) {
+		putPlace_[i].worldMatrix = MakeAffineMatrix({ 1.0f, 1.0f }, 0.0f, putPlace_[i].worldPos);
+
+		putPlace_[i].worldVertex.lt = Transform(localVertex_.lt, putPlace_[i].worldMatrix);
+		putPlace_[i].worldVertex.rt = Transform(localVertex_.rt, putPlace_[i].worldMatrix);
+		putPlace_[i].worldVertex.lb = Transform(localVertex_.lb, putPlace_[i].worldMatrix);
+		putPlace_[i].worldVertex.rb = Transform(localVertex_.rb, putPlace_[i].worldMatrix);
+	}
+
 }
-
-
