@@ -59,13 +59,9 @@ private:
 		bool isMoveIdle;
 
 		// 移動方向/移動量
-		Vec2f moveDir;
-		Vec2f moveValue;
-
 		Vec2 localCenterAdd;
 		std::vector<CanMoveGrid> canMoveGrid;
 
-		bool canMoveDir[4];
 		bool isMove;
 	};
 
@@ -125,9 +121,7 @@ public:
 	/* ---------- accessor ---------- */
 
 	// canMoveDir
-	void SetCanMoveDir(bool canMove, kCanMoveDirection dir, int num) {
-		young_[num].canMoveDir[dir] = canMove;
-	}
+
 
 	// centerAdd
 	Vec2 GetCenterAdd(int index) const { return young_[index].centerAdd; }
@@ -137,6 +131,15 @@ public:
 
 	// isMoveIdle
 	bool GetIsMoveIdle(int index) const { return young_[index].isMoveIdle; }
+
+	// canMoveGrid
+	std::vector<CanMoveGrid> GetCanMoveGrid(int index) const { return young_[index].canMoveGrid; }
+
+	int GetYoungMaxIndex() const { return maxYoungIndex_; }
+
+	int GetCanMoveGridMaxIndex() const { return moveGridMaxIndex_; }
+
+	void SetCanMove(bool canMove, int yi, int gi) { young_[yi].canMoveGrid[gi].canMove = canMove; }
 
 };
 

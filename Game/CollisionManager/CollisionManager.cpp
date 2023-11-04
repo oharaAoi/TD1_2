@@ -5,7 +5,7 @@ CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, M
 }
 
 CollisionManager::~CollisionManager() {
-	
+
 }
 
 
@@ -24,7 +24,7 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	終了処理関数
 ================================================================*/
 void CollisionManager::Finalize() {
-	
+
 }
 
 /*=================================================================
@@ -34,10 +34,10 @@ void CollisionManager::CheckCanMove() {
 
 	CowherdCanMove();
 	YoungPersonCanMove();
-	
+
 }
 
-void CollisionManager::CheckCowMoveDire(){
+void CollisionManager::CheckCowMoveDire() {
 	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
 	CheckCowMoveAllDire();
@@ -111,33 +111,27 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 
 void CollisionManager::YoungPersonCanMove() {
 
-	//for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	// 若者の配列
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
+		// 移動マスの配列
+		for (int gi = 0; gi < youngPerson_->GetCanMoveGridMaxIndex(); gi++) {
 
-		//if (youngPerson_->GetIsMoveIdle(yi)) {
+			// 移動待機状態
+			youngPerson_->SetCanMove(false, yi, gi);
+			if (youngPerson_->GetIsMoveIdle(yi)) {
 
-			// 中心アドレスから上下左右、斜めの番地を確認
-			// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
-			// 障害物がなければ移動できる
+				// 移動できるかチェック
+				if (YoungPersonCheckCanMove(youngPerson_->GetCanMoveGrid(yi)[gi].worldAdd)) {
 
-			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, top).add)) { // 上
-			//	youngPerson_->SetCanMoveDir(true, top, yi);
-			//}
+					youngPerson_->SetCanMove(true, yi, gi);
 
-			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, bottom).add)) { // 下
-			//	youngPerson_->SetCanMoveDir(true, bottom, yi);
-			//}
+				}
 
-			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, left).add)) { // 左
-			//	youngPerson_->SetCanMoveDir(true, left, yi);
-			//}
+			}
 
-			//if (YoungPersonCheckCanMove(youngPerson_->GetMoveDirAdd(yi, right).add)) { // 右
-			//	youngPerson_->SetCanMoveDir(true, right, yi);
-			//}
+		}
 
-		//}
-
-	//}
+	}
 
 }
 
@@ -152,9 +146,9 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
 
 	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
-	/*for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
 		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}*/
+	}
 
 	return true;
 }
@@ -262,7 +256,7 @@ void CollisionManager::CheckCowMoveAllDire() {
 		if (cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x &&
 			cow_->GetCenterAdd().y + i == cowherd_->GetCenterAdd().y) {
 			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAllDireValue(),
-									kCanMoveDirection::top);
+				kCanMoveDirection::top);
 		}
 
 		// topまでの距離で若人がいたら
@@ -337,7 +331,7 @@ void CollisionManager::CheckCowMoveAllDire() {
 void CollisionManager::CheckGridDistance(const Vec2& add) {
 	Vec2f cow2HeadDis{};
 	Vec2 naturalDis{};
-	int directionValue[8]{0};
+	int directionValue[8]{ 0 };
 
 	for (int i = 0; i < 8; i++) {
 		directionValue[i] = cow_->GetGridDistanceValue(i);
@@ -357,7 +351,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 		// 牛から見て左にいるため牛飼いが右に動く
 		directionValue[kCanMoveDirection::right] += naturalDis.x;
 
-	} else if(cow2HeadDis.x < 0 && naturalDis.y == 0) {
+	} else if (cow2HeadDis.x < 0 && naturalDis.y == 0) {
 		// 牛から見て右にいるため牛飼いが左に動く
 		directionValue[kCanMoveDirection::left] += naturalDis.x;
 	}
@@ -367,7 +361,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 		// 牛から見て上にいるため牛飼いが下に動く
 		directionValue[kCanMoveDirection::bottom] += naturalDis.y;
 
-	} else if(cow2HeadDis.y > 0 && naturalDis.x == 0){
+	} else if (cow2HeadDis.y > 0 && naturalDis.x == 0) {
 		// 牛から見て下にいるため牛飼いが上に動く
 		directionValue[kCanMoveDirection::top] += naturalDis.y;
 	}
@@ -383,9 +377,9 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += naturalDis.y;
 			directionValue[kCanMoveDirection::right] += naturalDis.x;
 
-		} else if(naturalDis.x < naturalDis.y) {
+		} else if (naturalDis.x < naturalDis.y) {
 			// xが小さいため斜めに動く分にxの量を、残りは下に動く
-			directionValue[kCanMoveDirection::rightBottom] +=naturalDis.x;
+			directionValue[kCanMoveDirection::rightBottom] += naturalDis.x;
 			directionValue[kCanMoveDirection::bottom] += naturalDis.y;
 
 		} else {
@@ -393,7 +387,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += ((naturalDis.x + naturalDis.y) / 2);
 		}
 
-	} else if(cow2HeadDis.x > 0 && cow2HeadDis.y > 0) {
+	} else if (cow2HeadDis.x > 0 && cow2HeadDis.y > 0) {
 		// 左下
 		// 牛から見て左下にいるため牛飼いが右上に動く
 		if (naturalDis.x > naturalDis.y) {
@@ -431,7 +425,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += (naturalDis.x + naturalDis.y) / 2;
 		}
 
-	}else if (cow2HeadDis.x < 0 && cow2HeadDis.y > 0) {
+	} else if (cow2HeadDis.x < 0 && cow2HeadDis.y > 0) {
 		// 右下
 		// 牛から見て右下にいるため牛飼いが左上に動く
 		if (naturalDis.x > naturalDis.y) {

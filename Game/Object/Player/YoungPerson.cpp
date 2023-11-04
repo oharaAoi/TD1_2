@@ -104,21 +104,6 @@ void YoungPerson::Init() {
 
 		// 移動できる状態かどうか
 		young_[i].isMoveIdle = false;
-
-		// 移動方向
-		young_[i].moveDir.x = 0.0f;
-		young_[i].moveDir.y = 0.0f;
-
-		// 移動量
-		young_[i].moveValue.x = 1.0f;
-		young_[i].moveValue.y = 1.0f;
-
-
-
-		for (int j = 0; j < 4; j++) {
-			young_[i].canMoveDir[j] = false;
-		}
-
 		young_[i].isMove = false;
 
 	}
@@ -190,27 +175,29 @@ void YoungPerson::Update() {
 	描画処理関数
 ================================================================*/
 void YoungPerson::Draw() {
-	for (int i = 0; i < maxYoungIndex_; i++) {
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
 		// 若人を描画
 		Draw::Quad(
-			young_[i].screenVertex,
+			young_[yi].screenVertex,
 			{ 0.0f,64.0f },
 			{ 64.0f,64.0f },
 			GH_,
 			0xFFFFFFFF
 		);
 
-		for (int j = 0; j < moveGridMaxIndex_; j++) {
+		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-			// 移動マスの描画
-			Draw::Quad(
-				young_[i].canMoveGrid[j].screenVertex,
-				{ 0.0f,0.0f },
-				{ 1.0f,1.0f },
-				gh_,
-				0xdd000050
-			);
+			if (young_[yi].canMoveGrid[gi].canMove) {
+				// 移動マスの描画
+				Draw::Quad(
+					young_[yi].canMoveGrid[gi].screenVertex,
+					{ 0.0f,0.0f },
+					{ 1.0f,1.0f },
+					gh_,
+					0xdd000050
+				);
+			}
 		}
 
 	}
@@ -248,23 +235,25 @@ void YoungPerson::Move() {
 			}
 
 			// 移動先の選択
-			young_[yi].moveDir = { 0.0f,0.0f };
 			if (input->IsTriggerMouse(0)) {
 
 				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-					if (Collision::Rect::Point(
-						young_[yi].canMoveGrid[gi].screenVertex,
-						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+					if (young_[yi].canMoveGrid[gi].canMove) {
 
-						// ワールド座標の更新
-						young_[yi].worldCenterPos += {
-							young_[yi].canMoveGrid[gi].localAdd.x* tileSize_.x,
-							young_[yi].canMoveGrid[gi].localAdd.y* tileSize_.y,
-						};
+						if (Collision::Rect::Point(
+							young_[yi].canMoveGrid[gi].screenVertex,
+							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-						young_[yi].isMove = true;
+							// ワールド座標の更新
+							young_[yi].worldCenterPos += {
+								young_[yi].canMoveGrid[gi].localAdd.x* tileSize_.x,
+									young_[yi].canMoveGrid[gi].localAdd.y* tileSize_.y,
+							};
 
+							young_[yi].isMove = true;
+
+						}
 					}
 				}
 
@@ -275,10 +264,6 @@ void YoungPerson::Move() {
 
 			if (young_[yi].isMove) {
 
-				// 移動したら一度移動可能フラグをへし折る;
-				for (int j = 0; j < 4; j++) {
-					young_[yi].canMoveDir[j] = false;
-				}
 				young_[yi].isMoveIdle = false;
 			}
 
@@ -391,8 +376,15 @@ void YoungPerson::MakeWorldMatrix() {
 }
 
 void YoungPerson::DebugDraw() {
-	for (int i = 0; i < maxYoungIndex_; i++) {
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
-		Novice::ScreenPrintf(640, 20 * i, "isMoveIdle = %d", young_[i].isMoveIdle);
+		Novice::ScreenPrintf(640, 20 * yi, "isMoveIdle = %d", young_[yi].isMoveIdle);
+		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+
+			Novice::ScreenPrintf(800, 20 * gi, "[%d]worldAdd : x = %d, y = %d",
+				0, young_[0].canMoveGrid[gi].worldAdd.x, young_[0].canMoveGrid[gi].worldAdd.y);
+
+		}
+
 	}
 }
