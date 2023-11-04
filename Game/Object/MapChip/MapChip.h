@@ -23,9 +23,8 @@ enum ChipType {
 	ROCK
 };
 
-class MapChip: public BaseMap
-{
-
+class MapChip final
+	: public BaseMap {
 private:
 
 	//==================================================
@@ -42,7 +41,7 @@ private:
 	Vec2f size_;
 	//==================================================
 	// マップチップ
-	struct Base {
+	struct Base final {
 		Vec2f pos;
 		Vec2f scale;
 
@@ -81,7 +80,7 @@ private:
 		Vec2f st;
 		Vec2f end;
 	};
-	
+
 	Line xAxis_[10];
 	Line yAxis_[10];
 
