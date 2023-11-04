@@ -53,6 +53,7 @@ private:
 	// 壁の距離での評価値
 	struct Value {
 		int wall;
+		int fourArea;
 		int allDire;
 	};
 	
@@ -117,7 +118,7 @@ public:
 
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }
-
+	int GetFourAreaValue() { return value_.fourArea; }
 
 };
 
