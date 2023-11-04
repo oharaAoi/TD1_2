@@ -55,37 +55,24 @@ void CollisionManager::CowherdCanMove() {
 	// 障害物がなければ移動できる
 
 	if (cowherd_->GetIsMoveIdle()) {
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x, cowherd_->GetCenterAdd().y + 1 })) { // 上
-			cowherd_->SetCanMoveDir(true, top);
+
+		for (int gi = 0; gi < cowherd_->GetCanMoveGirdMaxIndex(); gi++) {
+
+			// 移動待機状態
+			cowherd_->SetCanMove(false, gi);
+			if (cowherd_->GetIsMoveIdle()) {
+
+				// 移動できるかチェック
+				if (CowherdCheckCanMove(cowherd_->GetCanMoveGrid()[gi].worldAdd)) {
+
+					cowherd_->SetCanMove(true, gi);
+
+				}
+
+			}
+
 		}
 
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x, cowherd_->GetCenterAdd().y - 1 })) { // 下
-			cowherd_->SetCanMoveDir(true, bottom);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x - 1, cowherd_->GetCenterAdd().y })) { // 左
-			cowherd_->SetCanMoveDir(true, left);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x + 1, cowherd_->GetCenterAdd().y })) { // 右
-			cowherd_->SetCanMoveDir(true, right);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x - 1, cowherd_->GetCenterAdd().y + 1 })) { // 左上
-			cowherd_->SetCanMoveDir(true, leftTop);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x + 1, cowherd_->GetCenterAdd().y + 1 })) { // 右上
-			cowherd_->SetCanMoveDir(true, rightTop);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x - 1, cowherd_->GetCenterAdd().y - 1 })) { // 左下
-			cowherd_->SetCanMoveDir(true, leftBottom);
-		}
-
-		if (CowherdCheckCanMove({ cowherd_->GetCenterAdd().x + 1, cowherd_->GetCenterAdd().y - 1 })) { // 右下
-			cowherd_->SetCanMoveDir(true, rightBottom);
-		}
 	}
 
 
@@ -94,11 +81,12 @@ void CollisionManager::CowherdCanMove() {
 bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 	// 動かない物はアドレス上で当たり判定を取る
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
+	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
 
 	// 動くものはアドレスが被っていないかで
-	/*for (int yi = 0; yi < youngPerson_->GetIndexMax(); yi++) {
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
 		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}*/
+	}
 
 	return true;
 }

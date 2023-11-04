@@ -234,11 +234,24 @@ void YoungPerson::Move() {
 				young_[yi].isMoveIdle = false;
 			}
 
+			if (input->IsTriggerMouse(0)) {
+				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+					if (Collision::Rect::Point(
+						young_[yi].canMoveGrid[gi].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+						break;
+					}
+					if (gi >= moveGridMaxIndex_ - 1) { 
+						young_[yi].isMoveIdle = false;
+					}
+				}
+			}
+
 			// 移動先の選択
 			if (input->IsTriggerMouse(0)) {
-
 				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
+					// 動けるとき
 					if (young_[yi].canMoveGrid[gi].canMove) {
 
 						if (Collision::Rect::Point(
@@ -256,14 +269,12 @@ void YoungPerson::Move() {
 						}
 					}
 				}
-
 			}
 
-			// マスの移動
-			//young_[yi].worldCenterPos += young_[yi].moveDir * (young_[yi].moveValue * tileSize_);
+
+
 
 			if (young_[yi].isMove) {
-
 				young_[yi].isMoveIdle = false;
 			}
 
@@ -289,6 +300,7 @@ void YoungPerson::Move() {
 	}
 
 }
+
 
 void YoungPerson::CenterAddUpDate() {
 

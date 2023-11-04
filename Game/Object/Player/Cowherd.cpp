@@ -39,21 +39,10 @@ void Cowherd::Init() {
 		移動に使う変数
 	=========================================*/
 
-	// 移動方向
-	moveDir_ = { 0.0f,0.0f };
-
-	// 移動するマスの量
-	moveValue_ = { 1.0f,1.0f };
-
-
-	for (int i = 0; i < 8; i++) {
-		canMoveDir_[i] = false;
-	}
-
 	moveGrid_ = LoadFile("./Resources/player/cowherdMoveValue.csv");
 	std::reverse(moveGrid_.begin(), moveGrid_.end());
 
-	maxIndex_ = 0;
+	moveGridMaxIndex_ = 0;
 	for (int row = 0; row < moveGrid_.size(); row++) {
 		for (int col = 0; col < moveGrid_[0].size(); col++) {
 
@@ -66,7 +55,7 @@ void Cowherd::Init() {
 				break;
 			case Cowherd::CanMove:
 
-				maxIndex_++;
+				moveGridMaxIndex_++;
 
 				break;
 			}
@@ -74,7 +63,7 @@ void Cowherd::Init() {
 	}
 
 	// csv内の2の数分配列を変える
-	canMoveGrid_.resize(maxIndex_);
+	canMoveGrid_.resize(moveGridMaxIndex_);
 
 	int index = 0;
 	for (int row = 0; row < moveGrid_.size(); row++) {
@@ -125,6 +114,8 @@ void Cowherd::Init() {
 	screenMatrix_ = worldMatrix_;
 	screenVertex_ = worldVertex_;
 
+	isMove_ = false;
+
 }
 
 
@@ -154,14 +145,16 @@ void Cowherd::Draw() {
 	);
 
 	// 移動マス
-	for (int i = 0; i < maxIndex_; i++) {
-		Draw::Quad(
-			canMoveGrid_[i].screenVertex,
-			{ 0.0f,0.0f },
-			{ 1.0f,1.0f },
-			gh_,
-			0x00FFFF80
-		);
+	for (int i = 0; i < moveGridMaxIndex_; i++) {
+		if (canMoveGrid_[i].canMove && isMoveIdle_) {
+			Draw::Quad(
+				canMoveGrid_[i].screenVertex,
+				{ 0.0f,0.0f },
+				{ 1.0f,1.0f },
+				gh_,
+				0x00FFFF80
+			);
+		}
 	}
 
 
@@ -193,7 +186,7 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
 	// 移動マス
-	for (int i = 0; i < maxIndex_; i++) {
+	for (int i = 0; i < moveGridMaxIndex_; i++) {
 
 		canMoveGrid_[i].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
 
@@ -215,43 +208,63 @@ void Cowherd::MakeWorldMatrix() {
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
 	// 移動マス
-	for (int i = 0; i < maxIndex_; i++) {
-
-		canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
-
+	for (int i = 0; i < moveGridMaxIndex_; i++) {
+		if (canMoveGrid_[i].canMove && isMoveIdle_) {
+			canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
+		}
 	}
 
 }
 
 
 void Cowherd::Move() {
+	// 移動マス配列
 
+	isMove_ = false;
 	if (isMoveIdle_) {
 
-		// いつでも移動待機状態をクリアできるよにする
+		// いつでも移動待機状態をクリアできるようにする
 		if (input->IsTriggerMouse(1)) {
 			isMoveIdle_ = false;
 		}
 
+		if (input->IsTriggerMouse(0)) {
+			for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+				if (Collision::Rect::Point(
+					canMoveGrid_[gi].screenVertex,
+					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+					break;
+				}
+
+				if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
+			}
+		}
+
 		// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
 		if (input->IsTriggerMouse(0)) {
+			for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-			for (int i = 0; i < maxIndex_; i++) {
+				if (canMoveGrid_[gi].canMove) {
 
-				if (Collision::Rect::Point(
-					canMoveGrid_[i].screenVertex,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+					if (Collision::Rect::Point(
+						canMoveGrid_[gi].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-					// ワールド座標の更新
-					worldCenterPos_ += {
-						canMoveGrid_[i].localAdd.x * tileSize_.x,
-						canMoveGrid_[i].localAdd.y * tileSize_.y,
-					};
-
+						// ワールド座標の更新
+						worldCenterPos_ += {
+							canMoveGrid_[gi].localAdd.x* tileSize_.x,
+								canMoveGrid_[gi].localAdd.y* tileSize_.y,
+						};
+						isMove_ = true;
+					}
 				}
 			}
 		}
 
+
+		if (isMove_) {
+			isMoveIdle_ = false;
+		}
 
 
 	} else {

@@ -41,11 +41,6 @@ private:
 
 	bool isMoveIdle_;
 
-	// 移動方向と移動量
-	Vec2f moveDir_;
-	Vec2f moveValue_; // 初期化の値を変更で移動量を変化させる
-	bool canMoveDir_[8];
-
 private: // 移動に関するもの
 
 	enum kGridType {
@@ -73,8 +68,9 @@ private: // 移動に関するもの
 		bool canMove;
 	};
 
-	int maxIndex_;
+	int moveGridMaxIndex_;
 	std::vector<CanMoveGrid> canMoveGrid_;
+	bool isMove_;
 
 
 public:
@@ -108,17 +104,17 @@ public:
 
 	// accessor
 
-	// canMoveDir
-	void SetCanMoveDir(bool canMove, kCanMoveDirection canMoveDir) { canMoveDir_[canMoveDir] = canMove; }
-
 	// centerAdd
 	Vec2 GetCenterAdd() const { return centerAdd_; }
 
 	// isMoveIdle
 	bool GetIsMoveIdle() const { return isMoveIdle_; }
 
-	std::vector<CanMoveGrid> GetCanMoveGeid() const { return canMoveGrid_; }
+	std::vector<CanMoveGrid> GetCanMoveGrid() const { return canMoveGrid_; }
 	void SetCanMove(bool canMove, int index) { canMoveGrid_[index].canMove = canMove; }
+
+	int GetCanMoveGirdMaxIndex() const { return moveGridMaxIndex_; }
+
 
 };
 
