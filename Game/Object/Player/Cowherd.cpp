@@ -145,10 +145,10 @@ void Cowherd::Draw() {
 	);
 
 	// 移動マス
-	for (int i = 0; i < moveGridMaxIndex_; i++) {
-		if (canMoveGrid_[i].canMove && isMoveIdle_) {
+	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+		if (canMoveGrid_[gi].canMove && isMoveIdle_) {
 			Draw::Quad(
-				canMoveGrid_[i].screenVertex,
+				canMoveGrid_[gi].screenVertex,
 				{ 0.0f,0.0f },
 				{ 1.0f,1.0f },
 				gh_,
@@ -230,10 +230,12 @@ void Cowherd::Move() {
 
 		if (input->IsTriggerMouse(0)) {
 			for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-				if (Collision::Rect::Point(
-					canMoveGrid_[gi].screenVertex,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-					break;
+				if (canMoveGrid_[gi].canMove) {
+					if (Collision::Rect::Point(
+						canMoveGrid_[gi].screenVertex,
+						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+						break;
+					}
 				}
 
 				if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
