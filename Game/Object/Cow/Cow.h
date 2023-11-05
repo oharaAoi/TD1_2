@@ -49,6 +49,10 @@ private:
 	// 牛が動く方向の評価値
 	int canMoveDireValue_[8];
 
+	int maxDireValue_;
+	int maxDireValueIndex_;
+	int adjoinNum_;
+
 	int gridDistanceValue_[8];
 	int nearWallOfValue_[4];
 	

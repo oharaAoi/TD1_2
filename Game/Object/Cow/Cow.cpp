@@ -55,6 +55,10 @@ void Cow::Init(MapChip* mapChip) {
 		nearWallOfValue_[i] = 0;
 	}
 
+	maxDireValue_ = 0;
+	maxDireValueIndex_ = 0;
+	adjoinNum_ = 0;
+
 	// ローカル空間以外の各行列
 	screenMatrix_ = worldMatrix_;
 
@@ -102,7 +106,7 @@ void Cow::Update() {
 	MakeWorldMatrix();
 
 	// 牛の方向をリセットする
-	DireInit();
+	/*DireInit();*/
 }
 
 
@@ -153,18 +157,31 @@ void Cow::CowMove() {
 }
 
 void Cow::Move() {
-	int max = 0;
-	int maxIndex = 0;
+	maxDireValue_ = 0;
+	maxDireValueIndex_ = 0;
+	adjoinNum_ = 0;
 
+	//全方位囲まれていたら処理を終わる
 	for (int i = 0; i < 8; i++) {
-		if (max < canMoveDireValue_[i]) {
-			max = canMoveDireValue_[i];
-			maxIndex = i;
+		if (canMoveDireValue_[i] < -900) {
+			adjoinNum_++;
+		}
+	}
+
+	if (adjoinNum_ == 8) {
+		return;
+	}
+
+	// 一番値の大きい方向に動く
+	for (int i = 0; i < 8; i++) {
+		if (maxDireValue_ < canMoveDireValue_[i]) {
+			maxDireValue_ = canMoveDireValue_[i];
+			maxDireValueIndex_ = i;
 		}
 	}
 
 	// 移動方向の量によって進む箇所を決める
-	switch (maxIndex){
+	switch (maxDireValueIndex_){
 	case kCanMoveDirection::top:
 		worldCenterPos_.y += tileSize_.y;
 		break;
