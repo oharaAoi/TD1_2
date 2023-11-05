@@ -95,6 +95,9 @@ public:
 	// ワールド空間の行列と各頂点の計算
 	void MakeWorldMatrix();
 
+	// デバック用
+	void DebugScreen();
+
 	// accessor
 
 	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
