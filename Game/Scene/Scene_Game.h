@@ -15,6 +15,8 @@
 #include "YoungPerson.h"
 #include "Dog.h"
 
+#include "Renderer.h"
+
 
 class Scene_Game : public BaseScene {
 private:
@@ -44,6 +46,9 @@ private:
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;
+
+	// 描画
+	Renderer* renderer_;
 
 public:
 	// コンストラクタ

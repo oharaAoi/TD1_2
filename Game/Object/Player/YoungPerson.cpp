@@ -159,6 +159,7 @@ void YoungPerson::Init() {
 	}
 
 	movingTime_ = 0;
+	SetZOder(10);
 
 }
 
@@ -277,6 +278,7 @@ void YoungPerson::Move() {
 				if (movingTime_ / 60.0f >= 1.0f) {
 					young_[yi].isMove = false;
 					young_[yi].isMoveIdle = false;
+					SetZOder(10);
 				}
 
 			} else {
@@ -321,7 +323,7 @@ void YoungPerson::Move() {
 								young_[yi].startingPos = young_[yi].worldCenterPos;
 								young_[yi].isMove = true;
 								movingTime_ = 0;
-
+								SetZOder(15);
 							}
 						}
 					}

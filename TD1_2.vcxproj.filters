@@ -59,6 +59,9 @@
     <Filter Include="Game\Object\Base">
       <UniqueIdentifier>{c87ff17d-ac72-40ac-886c-12de60a99b18}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Lib\DrawManager">
+      <UniqueIdentifier>{b0f1af29-2d6c-403d-9533-a75235defbdd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -142,6 +145,12 @@
     </ClCompile>
     <ClCompile Include="Game\Object\Base\BaseCow.cpp">
       <Filter>Game\Object\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\DrawManager\Drawable.cpp">
+      <Filter>Lib\DrawManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\DrawManager\Renderer.cpp">
+      <Filter>Lib\DrawManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +299,12 @@
     </ClInclude>
     <ClInclude Include="Game\Object\Base\BaseCow.h">
       <Filter>Game\Object\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\DrawManager\Drawable.h">
+      <Filter>Lib\DrawManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\DrawManager\Renderer.h">
+      <Filter>Lib\DrawManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

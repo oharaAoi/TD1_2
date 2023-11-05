@@ -8,15 +8,15 @@
 #include "InputManager.h"
 #include "Collision.h"
 #include "Ease.h"
-
+#include "Drawable.h"
 
 // ----- object ----- //
 #include "MapChip.h"
 #include "BaseMap.h"
 
 class YoungPerson final
-	: public BaseMap {
-
+	: public BaseMap,
+	public Drawable {
 private:
 
 	enum kGridType {
@@ -45,7 +45,7 @@ private:
 		Vec2f worldCenterPos;
 		Vec2f destinationPos;
 		Vec2f startingPos;
-		
+
 		Vec2f scale;
 
 		// youngPersonのいるアドレス
@@ -101,7 +101,7 @@ public:
 	/* ---------- default method ---------- */
 	void Init();
 	void Update();
-	void Draw();
+	void Draw() override;
 	void Finalize();
 
 	/* ---------- user method ---------- */
@@ -143,6 +143,8 @@ public:
 	int GetCanMoveGridMaxIndex() const { return moveGridMaxIndex_; }
 
 	void SetCanMove(bool canMove, int yi, int gi) { young_[yi].canMoveGrid[gi].canMove = canMove; }
+
+	//void SetZOder(int z) { SetZOder(z); }
 
 };
 

@@ -19,6 +19,10 @@ void Scene_Game::Init() {
 	collisionManager_ = new CollisionManager(
 		cowherd_, youngPerson_, mapChip_, cow_
 	);
+	renderer_ = new Renderer();
+
+	renderer_->AddDrawable(cowherd_);
+	renderer_->AddDrawable(youngPerson_);
 
 }
 
@@ -80,14 +84,16 @@ void Scene_Game::Draw() {
 	// 牛の描画
 	cow_->Draw();
 
-	// 牛飼いの描画
-	cowherd_->Draw();
+	//// 牛飼いの描画
+	//cowherd_->Draw();
 
-	// 若人の描画
-	youngPerson_->Draw();
+	//// 若人の描画
+	//youngPerson_->Draw();
 
 	// 犬の描画
 	dog_->Draw();
+
+	renderer_->Draw();
 
 }
 
@@ -104,6 +110,7 @@ void Scene_Game::Finalize() {
 	SafeDelete(youngPerson_);
 	SafeDelete(dog_);
 	SafeDelete(collisionManager_);
+	SafeDelete(renderer_);
 }
 
 
@@ -144,4 +151,5 @@ void Scene_Game::ChangeMatrix() {
 		camera_->GetOrthoMatrix(),
 		camera_->GetViewportMatrix()
 	);
+
 }

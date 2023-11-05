@@ -7,9 +7,9 @@
 #include "Draw.h"
 #include "InputManager.h"
 #include "Collision.h"
-#include "CanMoveDirection.h"
 #include "Ease.h"
 #include "MyMath.h"
+#include "Drawable.h"
 
 // ----- object ----- //
 #include "MapChip.h"
@@ -20,7 +20,8 @@
 /// 牛飼いクラス
 /// </summary>
 class Cowherd
-	: public BaseMap {
+	: public BaseMap,
+	public Drawable {
 private:
 
 	// member object
@@ -88,7 +89,7 @@ public:
 	// default method
 	void Init();
 	void Update();
-	void Draw();
+	void Draw() override;
 	void Finalize();
 
 	// user method
@@ -122,6 +123,7 @@ public:
 
 	int GetCanMoveGirdMaxIndex() const { return moveGridMaxIndex_; }
 
+	//void SerZOder(int z) { SetZOder(z); }
 
 };
 

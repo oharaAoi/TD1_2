@@ -119,6 +119,9 @@ void Cowherd::Init() {
 
 	isMove_ = false;
 	movingTime_ = 0.0f;
+
+	SetZOder(10);
+
 }
 
 
@@ -252,6 +255,7 @@ void Cowherd::Move() {
 			if (movingTime_ / 60.0f >= 1.0f) {
 				isMove_ = false;
 				isMoveIdle_ = false;
+				SetZOder(10);
 			}
 
 
@@ -295,6 +299,7 @@ void Cowherd::Move() {
 
 							isMove_ = true;
 							movingTime_ = 0;
+							SetZOder(15);
 						}
 					}
 				}
