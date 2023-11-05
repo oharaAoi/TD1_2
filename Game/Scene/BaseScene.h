@@ -5,7 +5,8 @@
 /// </summary>
 enum SCENE {
 	TITLE,
-	GAME
+	GAME,
+	LEVELSELECT
 };
 
 

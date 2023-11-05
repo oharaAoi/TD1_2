@@ -34,6 +34,10 @@ void Scene_LevelSelect::Update() {
 		}
 	}
 
+	if (input->IsTriggerKey(DIK_RETURN)) {
+		nextSceneNo_ = SCENE::GAME;
+	}
+
 }
 
 
@@ -42,7 +46,8 @@ void Scene_LevelSelect::Update() {
 ================================================================*/
 void Scene_LevelSelect::Draw() {
 
-
+	Novice::ScreenPrintf(100, 100, " <- change level ->");
+	Novice::ScreenPrintf(100, 120, "select level : %d", selectStage_);
 
 }
 
