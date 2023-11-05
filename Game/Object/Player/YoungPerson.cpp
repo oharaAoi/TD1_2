@@ -96,15 +96,19 @@ void YoungPerson::Init() {
 	CenterAddUpDate();
 
 	// ローカル空間以外の各行列
-	for (int i = 0; i < maxYoungIndex_; i++) {
-		young_[i].screenMatrix = young_[i].worldMatrix;
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
+		young_[yi].destinationPos = young_[yi].worldCenterPos;
+		young_[yi].startingPos = young_[yi].worldCenterPos;
+		young_[yi].scale = { 1.0f,1.0f };
+
+		young_[yi].screenMatrix = young_[yi].worldMatrix;
 
 		// ワールドとスクリーン空間での各頂点座標
-		young_[i].screenVertex = young_[i].worldVertex;
+		young_[yi].screenVertex = young_[yi].worldVertex;
 
 		// 移動できる状態かどうか
-		young_[i].isMoveIdle = false;
-		young_[i].isMove = false;
+		young_[yi].isMoveIdle = false;
+		young_[yi].isMove = false;
 
 	}
 
@@ -117,32 +121,32 @@ void YoungPerson::Init() {
 			case YoungPerson::CanMove:
 
 				// 全員同じ移動マスを使う
-				for (int i = 0; i < maxYoungIndex_; i++) {
+				for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
 					// アドレス
-					young_[i].canMoveGrid[index].localAdd = {
-						col - young_[i].localCenterAdd.x,
-						row - young_[i].localCenterAdd.y
+					young_[yi].canMoveGrid[index].localAdd = {
+						col - young_[yi].localCenterAdd.x,
+						row - young_[yi].localCenterAdd.y
 					};
 
-					young_[i].canMoveGrid[index].worldAdd =
-						young_[i].canMoveGrid[index].localAdd + young_[i].centerAdd;
+					young_[yi].canMoveGrid[index].worldAdd =
+						young_[yi].canMoveGrid[index].localAdd + young_[yi].centerAdd;
 
 					// ワールド座標での中心
-					young_[i].canMoveGrid[index].worldCenterPos = {
-						young_[i].canMoveGrid[index].worldAdd.x * tileSize_.x + (size_.x * 0.5f),
-						young_[i].canMoveGrid[index].worldAdd.y * tileSize_.y + (size_.y * 0.5f)
+					young_[yi].canMoveGrid[index].worldCenterPos = {
+						young_[yi].canMoveGrid[index].worldAdd.x * tileSize_.x + (size_.x * 0.5f),
+						young_[yi].canMoveGrid[index].worldAdd.y * tileSize_.y + (size_.y * 0.5f)
 					};
 
 					// 頂点座標(ローカル
-					young_[i].canMoveGrid[index].localVertex = localVertex_;
-					young_[i].canMoveGrid[index].screenVertex = young_[i].canMoveGrid[index].localVertex;
+					young_[yi].canMoveGrid[index].localVertex = localVertex_;
+					young_[yi].canMoveGrid[index].screenVertex = young_[yi].canMoveGrid[index].localVertex;
 
 					// ワールド空間行列
-					young_[i].canMoveGrid[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].canMoveGrid[index].worldCenterPos);
-					young_[i].canMoveGrid[index].screenMatrix = young_[i].canMoveGrid[index].worldMatrix;
+					young_[yi].canMoveGrid[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[yi].canMoveGrid[index].worldCenterPos);
+					young_[yi].canMoveGrid[index].screenMatrix = young_[yi].canMoveGrid[index].worldMatrix;
 
-					young_[i].canMoveGrid[index].canMove = false;
+					young_[yi].canMoveGrid[index].canMove = false;
 
 				}
 
@@ -153,6 +157,8 @@ void YoungPerson::Init() {
 
 		}
 	}
+
+	movingTime_ = 0;
 
 }
 
@@ -177,15 +183,6 @@ void YoungPerson::Update() {
 void YoungPerson::Draw() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
-		// 若人を描画
-		Draw::Quad(
-			young_[yi].screenVertex,
-			{ 0.0f,64.0f },
-			{ 64.0f,64.0f },
-			GH_,
-			0xFFFFFFFF
-		);
-
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
 			if (young_[yi].canMoveGrid[gi].canMove) {
@@ -200,6 +197,32 @@ void YoungPerson::Draw() {
 			}
 		}
 
+		if (!young_[yi].isMove) {
+			// 若人を描画
+			Draw::Quad(
+				young_[yi].screenVertex,
+				{ 0.0f,64.0f },
+				{ 64.0f,64.0f },
+				GH_,
+				0xFFFFFFFF
+			);
+		}
+
+	}
+
+	// 描画時の被り防止のため; 先に動いていない物から描画し、そのあとに動いている物を描画
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
+
+		if (young_[yi].isMove) {
+			// 若人を描画
+			Draw::Quad(
+				young_[yi].screenVertex,
+				{ 0.0f,64.0f },
+				{ 64.0f,64.0f },
+				GH_,
+				0xFFFFFFFF
+			);
+		}
 	}
 
 	DebugDraw();
@@ -226,58 +249,84 @@ void YoungPerson::Move() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
 		// フレーム単位での移動したかのフラグ
-		young_[yi].isMove = false;
 		if (young_[yi].isMoveIdle) {
 
-			// 移動待機状態の解除
-			if (input->IsTriggerMouse(1)) {
-				young_[yi].isMoveIdle = false;
-			}
-
-			if (input->IsTriggerMouse(0)) {
-				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-					if (young_[yi].canMoveGrid[gi].canMove) {
-						if (Collision::Rect::Point(
-							young_[yi].canMoveGrid[gi].screenVertex,
-							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-							break;
-						}
-					}
-					if (gi >= moveGridMaxIndex_ - 1) { 
-						young_[yi].isMoveIdle = false;
-					}
-				}
-			}
-
-			// 移動先の選択
-			if (input->IsTriggerMouse(0)) {
-				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-
-					// 動けるとき
-					if (young_[yi].canMoveGrid[gi].canMove) {
-
-						if (Collision::Rect::Point(
-							young_[yi].canMoveGrid[gi].screenVertex,
-							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-
-							// ワールド座標の更新
-							young_[yi].worldCenterPos += {
-								young_[yi].canMoveGrid[gi].localAdd.x* tileSize_.x,
-									young_[yi].canMoveGrid[gi].localAdd.y* tileSize_.y,
-							};
-
-							young_[yi].isMove = true;
-
-						}
-					}
-				}
-			}
-
-
-
-
 			if (young_[yi].isMove) {
-				young_[yi].isMoveIdle = false;
+				/*young_[yi].isMoveIdle = false;*/
+
+				if (movingTime_ < 60) {
+					movingTime_++;
+				}
+
+				young_[yi].worldCenterPos.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.x, young_[yi].destinationPos.x);
+				young_[yi].worldCenterPos.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.y, young_[yi].destinationPos.y);
+
+				if (movingTime_ / 60.0f <= 0.5f) {
+
+					young_[yi].scale.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+					young_[yi].scale.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+
+				} else {
+
+					young_[yi].scale.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+					young_[yi].scale.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+
+				}
+
+				// 移動の終了条件
+				if (movingTime_ / 60.0f >= 1.0f) {
+					young_[yi].isMove = false;
+					young_[yi].isMoveIdle = false;
+				}
+
+			} else {
+
+				// 移動待機状態の解除
+				if (input->IsTriggerMouse(1)) {
+					young_[yi].isMoveIdle = false;
+				}
+
+				if (input->IsTriggerMouse(0)) {
+					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+						if (young_[yi].canMoveGrid[gi].canMove) {
+							if (Collision::Rect::Point(
+								young_[yi].canMoveGrid[gi].screenVertex,
+								{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+								break;
+							}
+						}
+						if (gi >= moveGridMaxIndex_ - 1) {
+							young_[yi].isMoveIdle = false;
+						}
+					}
+				}
+
+				// 移動先の選択
+				if (input->IsTriggerMouse(0)) {
+					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+
+						// 動けるとき
+						if (young_[yi].canMoveGrid[gi].canMove) {
+
+							if (Collision::Rect::Point(
+								young_[yi].canMoveGrid[gi].screenVertex,
+								{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+
+								// ワールド座標の更新
+								young_[yi].destinationPos = {
+									young_[yi].worldCenterPos.x + young_[yi].canMoveGrid[gi].localAdd.x * tileSize_.x,
+										young_[yi].worldCenterPos.y + young_[yi].canMoveGrid[gi].localAdd.y * tileSize_.y,
+								};
+
+								young_[yi].startingPos = young_[yi].worldCenterPos;
+								young_[yi].isMove = true;
+								movingTime_ = 0;
+
+							}
+						}
+					}
+				}
+
 			}
 
 
@@ -373,17 +422,17 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 
 void YoungPerson::MakeWorldMatrix() {
 
-	for (int i = 0; i < maxYoungIndex_; i++) {
-		young_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].worldCenterPos);
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
+		young_[yi].worldMatrix = MakeAffineMatrix(young_[yi].scale, 0.0f, young_[yi].worldCenterPos);
 
-		young_[i].worldVertex.lt = Transform(localVertex_.lt, young_[i].worldMatrix);
-		young_[i].worldVertex.rt = Transform(localVertex_.rt, young_[i].worldMatrix);
-		young_[i].worldVertex.lb = Transform(localVertex_.lb, young_[i].worldMatrix);
-		young_[i].worldVertex.rb = Transform(localVertex_.rb, young_[i].worldMatrix);
+		young_[yi].worldVertex.lt = Transform(localVertex_.lt, young_[yi].worldMatrix);
+		young_[yi].worldVertex.rt = Transform(localVertex_.rt, young_[yi].worldMatrix);
+		young_[yi].worldVertex.lb = Transform(localVertex_.lb, young_[yi].worldMatrix);
+		young_[yi].worldVertex.rb = Transform(localVertex_.rb, young_[yi].worldMatrix);
 
 		for (int j = 0; j < moveGridMaxIndex_; j++) {
 
-			young_[i].canMoveGrid[j].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[i].canMoveGrid[j].worldCenterPos);
+			young_[yi].canMoveGrid[j].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, young_[yi].canMoveGrid[j].worldCenterPos);
 
 		}
 	}

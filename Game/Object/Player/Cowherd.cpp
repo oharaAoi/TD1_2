@@ -139,17 +139,11 @@ void Cowherd::Update() {
 ==========================================================*/
 void Cowherd::Draw() {
 
-	Draw::Quad(
-		screenVertex_,
-		{ 128,0.0f },
-		{ 64.0f,64.0f },
-		GH_,
-		0xFFFFFFFF
-	);
+
 
 	// 移動マス
 	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-		if (canMoveGrid_[gi].canMove && isMoveIdle_) {
+		if (canMoveGrid_[gi].canMove && isMoveIdle_ && !isMove_) {
 			Draw::Quad(
 				canMoveGrid_[gi].screenVertex,
 				{ 0.0f,0.0f },
@@ -160,6 +154,14 @@ void Cowherd::Draw() {
 		}
 	}
 
+	// 牛飼い
+	Draw::Quad(
+		screenVertex_,
+		{ 128,0.0f },
+		{ 64.0f,64.0f },
+		GH_,
+		0xFFFFFFFF
+	);
 
 	DebugDraw();
 }
@@ -212,9 +214,7 @@ void Cowherd::MakeWorldMatrix() {
 
 	// 移動マス
 	for (int i = 0; i < moveGridMaxIndex_; i++) {
-		if (canMoveGrid_[i].canMove && isMoveIdle_) {
-			canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
-		}
+		canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
 	}
 
 }
@@ -233,24 +233,24 @@ void Cowherd::Move() {
 				movingTime_++;
 			}
 
-			worldCenterPos_.x = MyMath::Lerp(movingTime_ / 60.0f, startingPos_.x, destinationPos_.x);
-			worldCenterPos_.y = MyMath::Lerp(movingTime_ / 60.0f, startingPos_.y, destinationPos_.y);
+			worldCenterPos_.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), startingPos_.x, destinationPos_.x);
+			worldCenterPos_.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), startingPos_.y, destinationPos_.y);
 
 			if (movingTime_ / 60.0f <= 0.5f) {
 
-				scale_.x = MyMath::Lerp(movingTime_ / 60.0f, 1.0f, 2.0f);
-				scale_.y = MyMath::Lerp(movingTime_ / 60.0f, 1.0f, 2.0f);
+				scale_.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+				scale_.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
 
 			} else {
 
-				scale_.x = MyMath::Lerp(movingTime_ / 60.0f, 2.0f, 1.0f);
-				scale_.y = MyMath::Lerp(movingTime_ / 60.0f, 2.0f, 1.0f);
+				scale_.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+				scale_.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
 
 			}
 
 			// 移動の終了条件
-			if (movingTime_ / 60.0f >= 1.0f) { 
-				isMove_ = false; 
+			if (movingTime_ / 60.0f >= 1.0f) {
+				isMove_ = false;
 				isMoveIdle_ = false;
 			}
 

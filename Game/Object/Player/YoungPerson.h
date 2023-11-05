@@ -8,6 +8,8 @@
 #include "InputManager.h"
 #include "CanMoveDirection.h"
 #include "Collision.h"
+#include "Ease.h"
+
 
 // ----- object ----- //
 #include "MapChip.h"
@@ -42,7 +44,10 @@ private:
 	struct Base final {
 		// world座標での矩形の中心
 		Vec2f worldCenterPos;
-		Vec2f keepCenterPos;
+		Vec2f destinationPos;
+		Vec2f startingPos;
+		
+		Vec2f scale;
 
 		// youngPersonのいるアドレス
 		Vec2 centerAdd;
@@ -86,8 +91,7 @@ private:
 	std::vector<std::vector<int>> moveGrid_;
 
 	int moveGridMaxIndex_;
-
-
+	float movingTime_;
 
 public:
 	/* ---------- Constructor & Destructor ---------- */
