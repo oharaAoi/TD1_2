@@ -26,7 +26,7 @@ void YoungPerson::Init() {
 
 	// 移動マスのcsvを読み込む
 	moveGrid_ = LoadFile("./Resources/player/youngPersonMoveValue.csv");
-	std::reverse(moveGrid_.begin(), moveGrid_.end());
+	//std::reverse(moveGrid_.begin(), moveGrid_.end());
 
 	moveGridMaxIndex_ = 0;
 	for (int row = 0; row < moveGrid_.size(); row++) {
