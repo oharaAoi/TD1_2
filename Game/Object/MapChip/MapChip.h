@@ -32,7 +32,8 @@ private:
 	/*std::vector<std::vector<int>>mapAdd_;*/
 
 	//マップのファイルパス
-	std::string csvFilePath_[10];
+	static const int kMaxStageNo_ = 10;
+	std::string csvFilePath_[kMaxStageNo_];
 
 	//マップの画像の番号の振り分け
 	Vec2f mapTile_[3][3];

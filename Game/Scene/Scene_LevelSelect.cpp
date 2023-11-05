@@ -11,7 +11,7 @@ Scene_LevelSelect::~Scene_LevelSelect() { Finalize(); }
 ================================================================*/
 void Scene_LevelSelect::Init() {
 
-
+	selectStage_ = 0;
 
 
 }
@@ -22,7 +22,17 @@ void Scene_LevelSelect::Init() {
 ================================================================*/
 void Scene_LevelSelect::Update() {
 
-	
+	if (input->IsTriggerKey(DIK_LEFT)) {
+		if (selectStage_ > 0) {
+			selectStage_--;
+		}
+	}
+
+	if (input->IsTriggerKey(DIK_RIGHT)) {
+		if (selectStage_ < 10) {
+			selectStage_++;
+		}
+	}
 
 }
 
