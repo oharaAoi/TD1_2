@@ -45,7 +45,6 @@ private:
 	/// 当たり判定
 	CollisionManager* collisionManager_;
 
-
 public:
 	// コンストラクタ
 	Scene_Game();
@@ -59,6 +58,9 @@ public:
 	void Draw() override; // 描画
 	void Finalize() override; // 終了
 
+private:
+
+	void ChangeMatrix();
 
 };
 

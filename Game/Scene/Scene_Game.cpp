@@ -64,41 +64,8 @@ void Scene_Game::Update() {
 
 
 	// ----- MatrixChange ----- //
+	ChangeMatrix();
 
-	// マップの行列を変換
-	mapChip_->MatrixChange(
-		camera_->GetViewMatrix(), 
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 牛飼いの行列を変換
-	cowherd_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 若人の行列を変換
-	youngPerson_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 牛の行列を変換
-	cow_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 犬の行列を変換
-	dog_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
 }
 
 
@@ -137,4 +104,44 @@ void Scene_Game::Finalize() {
 	SafeDelete(youngPerson_);
 	SafeDelete(dog_);
 	SafeDelete(collisionManager_);
+}
+
+
+void Scene_Game::ChangeMatrix() {
+
+
+	// マップの行列を変換
+	mapChip_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 牛飼いの行列を変換
+	cowherd_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 若人の行列を変換
+	youngPerson_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 牛の行列を変換
+	cow_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 犬の行列を変換
+	dog_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
 }
