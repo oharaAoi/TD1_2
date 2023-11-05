@@ -108,6 +108,11 @@ void Cow::Draw() {
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
 
+
+	ImguiDraw();
+}
+
+void Cow::ImguiDraw() {
 	//リリースの時は消す
 	ImGui::Begin("Control");
 
@@ -116,11 +121,6 @@ void Cow::Draw() {
 	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 10);
 
 	ImGui::End();
-
-}
-
-void Cow::ImguiDraw() {
-
 }
 
 
