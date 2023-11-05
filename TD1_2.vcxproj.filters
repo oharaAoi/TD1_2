@@ -62,6 +62,9 @@
     <Filter Include="Lib\DrawManager">
       <UniqueIdentifier>{b0f1af29-2d6c-403d-9533-a75235defbdd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\TurnManager">
+      <UniqueIdentifier>{a01446dc-28fb-47c1-ac62-ca671fa80d83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="Lib\DrawManager\Renderer.cpp">
       <Filter>Lib\DrawManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\TurnManager\TurnManager.cpp">
+      <Filter>Game\TurnManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -305,6 +311,9 @@
     </ClInclude>
     <ClInclude Include="Lib\DrawManager\Renderer.h">
       <Filter>Lib\DrawManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TurnManager\TurnManager.h">
+      <Filter>Game\TurnManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
