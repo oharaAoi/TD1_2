@@ -82,6 +82,7 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 	// 動かない物はアドレス上で当たり判定を取る
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
+	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
 
 	// 動くものはアドレスが被っていないかで
 	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
@@ -127,6 +128,7 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 	// マップ上のオブジェクト
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
+	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
 
 	// 牛との
 

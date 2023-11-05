@@ -181,11 +181,11 @@ void YoungPerson::Update() {
 	描画処理関数
 ================================================================*/
 void YoungPerson::Draw() {
-	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-			if (young_[yi].canMoveGrid[gi].canMove) {
+			if (young_[yi].canMoveGrid[gi].canMove && !young_[yi].isMove) {
 				// 移動マスの描画
 				Draw::Quad(
 					young_[yi].canMoveGrid[gi].screenVertex,

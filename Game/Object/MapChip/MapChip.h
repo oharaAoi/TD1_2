@@ -14,13 +14,13 @@
 #include "BaseMap.h"
 
 enum ChipType {
-	NONE,
-	STAGEOUT,
-	FENCE,
-	COWHERD,
-	YANGMAN,
-	COW,
-	ROCK
+	NONE,		// 何もない
+	STAGEOUT,	// フェンスの外
+	FENCE,		// フェンス
+	COWHERD,	// 牛飼いの初期位置
+	YANGMAN,	// 若人の初期位置
+	COW,		// 牛の初期位置
+	ROCK,		// 岩
 };
 
 class MapChip final
