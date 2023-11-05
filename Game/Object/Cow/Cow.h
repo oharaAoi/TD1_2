@@ -3,6 +3,7 @@
 #include <Novice.h>
 #include <vector>
 #include <algorithm>
+#include "ImGuiManager.h"
 
 // ----- math ----- //
 #include "MyVector2.h"
@@ -102,6 +103,8 @@ public:
 	// ワールド行列と各頂点の計算
 	void MakeWorldMatrix();
 
+	// imguiの表示
+	void ImguiDraw();
 
 	// accessor
 
