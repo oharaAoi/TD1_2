@@ -40,6 +40,9 @@ void CollisionManager::CheckCanMove() {
 void CollisionManager::CheckCowMoveDire() {
 	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
+	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+		CheckGridDistance(youngPerson_->GetCenterAdd(i));
+	}
 	CheckCowMoveAllDire();
 }
 
@@ -319,7 +322,7 @@ void CollisionManager::CheckCowMoveAllDire() {
 }
 
 void CollisionManager::CheckGridDistance(const Vec2& add) {
-	Vec2f cow2HeadDis{};
+	Vec2f cow2PlayerDis{};
 	Vec2 naturalDis{};
 	int directionValue[8]{ 0 };
 
@@ -328,30 +331,30 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 	}
 
 	// 牛飼いとのマス目上の距離を取る
-	cow2HeadDis.x = static_cast<float>(cow_->GetCenterAdd().x - add.x);
-	cow2HeadDis.y = static_cast<float>(cow_->GetCenterAdd().y - add.y);
+	cow2PlayerDis.x = static_cast<float>(cow_->GetCenterAdd().x - add.x);
+	cow2PlayerDis.y = static_cast<float>(cow_->GetCenterAdd().y - add.y);
 
 	// 値を入れるときように-のものを+にする
-	naturalDis.x = static_cast<int>(sqrtf(powf(cow2HeadDis.x, 2.0f)));
-	naturalDis.y = static_cast<int>(sqrtf(powf(cow2HeadDis.y, 2.0f)));
+	naturalDis.x = static_cast<int>(sqrtf(powf(cow2PlayerDis.x, 2.0f)));
+	naturalDis.y = static_cast<int>(sqrtf(powf(cow2PlayerDis.y, 2.0f)));
 
 	/*マイナスしているところは差が-値になっているから*/
 	// 左右の量を計算
-	if (cow2HeadDis.x > 0 && naturalDis.y == 0) {
+	if (cow2PlayerDis.x > 0 && naturalDis.y == 0) {
 		// 牛から見て左にいるため牛飼いが右に動く
 		directionValue[kCanMoveDirection::right] += naturalDis.x;
 
-	} else if (cow2HeadDis.x < 0 && naturalDis.y == 0) {
+	} else if (cow2PlayerDis.x < 0 && naturalDis.y == 0) {
 		// 牛から見て右にいるため牛飼いが左に動く
 		directionValue[kCanMoveDirection::left] += naturalDis.x;
 	}
 
 	// 上下の量を計算
-	if (cow2HeadDis.y < 0 && naturalDis.x == 0) {
+	if (cow2PlayerDis.y < 0 && naturalDis.x == 0) {
 		// 牛から見て上にいるため牛飼いが下に動く
 		directionValue[kCanMoveDirection::bottom] += naturalDis.y;
 
-	} else if (cow2HeadDis.y > 0 && naturalDis.x == 0) {
+	} else if (cow2PlayerDis.y > 0 && naturalDis.x == 0) {
 		// 牛から見て下にいるため牛飼いが上に動く
 		directionValue[kCanMoveDirection::top] += naturalDis.y;
 	}
@@ -359,7 +362,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 
 	// 左上下の計算
 	// xとyで値が小さい方を斜めの量として計算
-	if (cow2HeadDis.x > 0 && cow2HeadDis.y < 0) {
+	if (cow2PlayerDis.x > 0 && cow2PlayerDis.y < 0) {
 		// 左上
 		// 牛から見て左上にいるため牛飼いが右下に動く
 		if (naturalDis.x > naturalDis.y) {
@@ -377,7 +380,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += ((naturalDis.x + naturalDis.y) / 2);
 		}
 
-	} else if (cow2HeadDis.x > 0 && cow2HeadDis.y > 0) {
+	} else if (cow2PlayerDis.x > 0 && cow2PlayerDis.y > 0) {
 		// 左下
 		// 牛から見て左下にいるため牛飼いが右上に動く
 		if (naturalDis.x > naturalDis.y) {
@@ -397,7 +400,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 	}
 
 	// 右上下の計算
-	if (cow2HeadDis.x < 0 && cow2HeadDis.y < 0) {
+	if (cow2PlayerDis.x < 0 && cow2PlayerDis.y < 0) {
 		// 右上
 		// 牛から見て右上にいるため牛飼いが左下に動く
 		if (naturalDis.x > naturalDis.y) {
@@ -415,7 +418,7 @@ void CollisionManager::CheckGridDistance(const Vec2& add) {
 			directionValue[kCanMoveDirection::rightBottom] += (naturalDis.x + naturalDis.y) / 2;
 		}
 
-	} else if (cow2HeadDis.x < 0 && cow2HeadDis.y > 0) {
+	} else if (cow2PlayerDis.x < 0 && cow2PlayerDis.y > 0) {
 		// 右下
 		// 牛から見て右下にいるため牛飼いが左上に動く
 		if (naturalDis.x > naturalDis.y) {

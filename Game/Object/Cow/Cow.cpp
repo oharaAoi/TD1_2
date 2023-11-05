@@ -92,7 +92,7 @@ void Cow::Update() {
 
 
 	// 動く方向の評価をする(壁との距離)
-	CheckNearWall();
+	
 	if (isIdle_) {
 		Move();
 		isIdle_ = false;
@@ -102,7 +102,7 @@ void Cow::Update() {
 	MakeWorldMatrix();
 
 	// 牛の方向をリセットする
-	DireInit();
+	/*DireInit();*/
 }
 
 
@@ -146,6 +146,7 @@ void Cow::Finalize() {
 void Cow::CowMove() {
 	if (input->IsTriggerKey(DIK_M)) {
 		isIdle_ = true;
+		CheckNearWall();
 	}
 
 
@@ -262,9 +263,9 @@ void Cow::CheckNearWall() {
 	if (!wallIsDuplicate_) {
 		switch (wallMinIndex_) {
 		case kCanMoveDirection::top:
-			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
 
 			break;
 
@@ -275,15 +276,15 @@ void Cow::CheckNearWall() {
 			break;
 
 		case kCanMoveDirection::left:
-			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
 			break;
 
 		case kCanMoveDirection::right:
-			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
 			break;
 		}
 	}
@@ -293,53 +294,53 @@ void Cow::CheckNearWall() {
 		if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::right] &&
 			nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::left]) {
 
-			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::left] &&
 			nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::right]) {
 
-			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::left] == nearWallOfValue_[kCanMoveDirection::top] &&
 			nearWallOfValue_[kCanMoveDirection::left] == nearWallOfValue_[kCanMoveDirection::bottom]) {
 
-			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::right] == nearWallOfValue_[kCanMoveDirection::top] &&
 			nearWallOfValue_[kCanMoveDirection::right] == nearWallOfValue_[kCanMoveDirection::bottom]) {
 
-			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
 
 		}
 
 	} else if (wallMinNum_ == 1) {
 		if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::left]) {
-			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::right]) {
-			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::left]) {
-			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::right]) {
-			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
 
 		}
 	}

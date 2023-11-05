@@ -54,7 +54,9 @@ void Scene_Game::Update() {
 	youngPerson_->Update();
 
 	// 牛の動ける方向のための更新
-	collisionManager_->CheckCowMoveDire();
+	if (input->IsTriggerKey(DIK_M)) {
+		collisionManager_->CheckCowMoveDire();
+	}
 
 	// 牛の更新
 	cow_->Update();

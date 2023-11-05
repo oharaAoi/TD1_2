@@ -121,6 +121,8 @@ public:
 	// address
 	Vec2 GetCenterAdd() { return centerAdd_; }
 
+	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
+
 	// 方向を決めるための量
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
 	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
