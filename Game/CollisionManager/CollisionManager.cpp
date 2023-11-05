@@ -1,7 +1,7 @@
 ﻿#include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
-	Init(cowherd, youngPerson, mapChip, cow);
+CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog) {
+	Init(cowherd, youngPerson, mapChip, cow, dog);
 }
 
 CollisionManager::~CollisionManager() {
@@ -12,11 +12,12 @@ CollisionManager::~CollisionManager() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
+void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
+	dog_ = dog;
 }
 
 
