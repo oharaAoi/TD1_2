@@ -106,7 +106,7 @@ void Cow::Update() {
 	MakeWorldMatrix();
 
 	// 牛の方向をリセットする
-	/*DireInit();*/
+	DireInit();
 }
 
 
