@@ -5,7 +5,7 @@ CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, M
 }
 
 CollisionManager::~CollisionManager() {
-
+	Finalize();
 }
 
 
@@ -25,7 +25,8 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	終了処理関数
 ================================================================*/
 void CollisionManager::Finalize() {
-
+	cowherd_ = nullptr;
+	youngPerson_ = nullptr;
 }
 
 /*=================================================================
@@ -39,6 +40,7 @@ void CollisionManager::CheckCanMove() {
 }
 
 void CollisionManager::CheckCowMoveDire() {
+	CheckDogExist();
 	CheckCowAdjoin();
 	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
@@ -97,7 +99,17 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 	return true;
 }
 
+bool CollisionManager::CheckClear() {
+	// 牛飼いと牛のアドレスが重なっていたら
+	if (cowherd_->GetCenterAdd().x == cow_->GetCenterAdd().x && 
+		cowherd_->GetCenterAdd().y == cow_->GetCenterAdd().y) {
 
+		return true;
+
+	} else {
+		return false;
+	}
+}
 
 /*=================================================================
 	若人
@@ -151,6 +163,27 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 /*=================================================================
 	牛
 =================================================================*/
+
+void CollisionManager::CheckDogExist() {
+	// 犬がいる方向を入手しいる場合は値を減らす
+	switch (dog_->GetIsExistSide()) {
+	case ExsitSide::TOP:
+		cow_->SetMoveDireValue(999, kCanMoveDirection::bottom);
+		break;
+
+	case ExsitSide::BOTTOM:
+		cow_->SetMoveDireValue(999, kCanMoveDirection::top);
+		break;
+
+	case ExsitSide::LEFT:
+		cow_->SetMoveDireValue(999, kCanMoveDirection::right);
+		break;
+
+	case ExsitSide::RIGHT:
+		cow_->SetMoveDireValue(999, kCanMoveDirection::left);
+		break;
+	}
+}
 
 void CollisionManager::CheckCowAdjoin() {
 	// 牛と隣接しているものがないか調べる

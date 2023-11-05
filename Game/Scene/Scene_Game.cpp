@@ -72,6 +72,11 @@ void Scene_Game::Update() {
 	// ----- MatrixChange ----- //
 	ChangeMatrix();
 
+	// ゲームクリア
+	if (collisionManager_->CheckClear()) {
+		nextSceneNo_ = SCENE::GAMECLEAR;
+	}
+
 }
 
 

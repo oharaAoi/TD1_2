@@ -42,6 +42,9 @@ public:
 
 	void CheckCowMoveDire();
 
+	// クリア条件の判定
+	bool CheckClear();
+
 private:
 
 	// user method
@@ -51,6 +54,7 @@ private:
 	void YoungPersonCanMove();
 	bool YoungPersonCheckCanMove(const Vec2& add);
 
+	// 評価で使う
 	void CheckCowAdjoin();
 	void CheckDogExist();
 	void CheckCowFourArea();

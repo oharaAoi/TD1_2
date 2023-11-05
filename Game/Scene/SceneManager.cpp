@@ -6,6 +6,7 @@ SceneManager::SceneManager() {
 	sceneArr_[SCENE::TITLE] = std::make_unique<Scene_Title>();
 	sceneArr_[SCENE::GAME] = std::make_unique<Scene_Game>();
 	sceneArr_[SCENE::LEVELSELECT] = std::make_unique<Scene_LevelSelect>();
+	sceneArr_[SCENE::GAMECLEAR] = std::make_unique<Scene_Clear>();
 
 	nowSceneNo_ = BaseScene::GetNowSceneNo();
 

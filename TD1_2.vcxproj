@@ -129,6 +129,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Object\Player\YoungPerson.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\SceneManager.cpp" />
+    <ClCompile Include="Game\Scene\Scene_Clear.cpp" />
     <ClCompile Include="Game\Scene\Scene_Game.cpp" />
     <ClCompile Include="Game\Scene\Scene_LevelSelect.cpp" />
     <ClCompile Include="Game\Scene\Scene_Title.cpp" />
@@ -187,6 +188,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Object\Player\YoungPerson.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\SceneManager.h" />
+    <ClInclude Include="Game\Scene\Scene_Clear.h" />
     <ClInclude Include="Game\Scene\Scene_Game.h" />
     <ClInclude Include="Game\Scene\Scene_LevelSelect.h" />
     <ClInclude Include="Game\Scene\Scene_Title.h" />

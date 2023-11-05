@@ -158,6 +158,18 @@
     <ClCompile Include="Game\TurnManager\TurnManager.cpp">
       <Filter>Game\TurnManager</Filter>
     </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CowCollision.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CowherdCollision.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\YoungPersonCollision.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Scene_Clear.cpp">
+      <Filter>Game\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -314,6 +326,12 @@
     </ClInclude>
     <ClInclude Include="Game\TurnManager\TurnManager.h">
       <Filter>Game\TurnManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CowCollision.h" />
+    <ClInclude Include="Game\CollisionManager\CowherdCollision.h" />
+    <ClInclude Include="Game\CollisionManager\YoungPersonCollision.h" />
+    <ClInclude Include="Game\Scene\Scene_Clear.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
