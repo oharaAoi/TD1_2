@@ -88,9 +88,14 @@ void Cow::Update() {
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
 
-	// 動く方向の評価をする
-	if (isIdle_) {
+	CowMove();
 
+
+	// 動く方向の評価をする(壁との距離)
+	CheckNearWall();
+	if (isIdle_) {
+		Move();
+		isIdle_ = false;
 	}
 
 	// ワールド空間の行列と各頂点座標の計算
@@ -108,6 +113,7 @@ void Cow::Draw() {
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
 
+	DebugScreenPrintf();
 
 	ImguiDraw();
 }
@@ -136,6 +142,14 @@ void Cow::Finalize() {
 /*==========================================================
 	その他メンバ関数
 ==========================================================*/
+
+void Cow::CowMove() {
+	if (input->IsTriggerKey(DIK_M)) {
+		isIdle_ = true;
+	}
+
+
+}
 
 void Cow::Move() {
 	int max = 0;
@@ -351,4 +365,10 @@ void Cow::MakeWorldMatrix() {
 	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
+}
+
+void Cow::DebugScreenPrintf() {
+	for (int i = 0; i < 8; i++) {
+		Novice::ScreenPrintf(900, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
+	}
 }

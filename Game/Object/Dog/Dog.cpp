@@ -241,10 +241,10 @@ void Dog::MakeWorldMatrix() {
 
 void Dog::DebugScreen() {
 	for (int i = 0; i < 4; i++) {
-		Novice::ScreenPrintf(900,
+		/*Novice::ScreenPrintf(900,
 			600 + (i * 20),
 			"putPlace_[%d].screenVertex.lt.y:%f",
 			i,
-			putPlace_[i].screenVertex.lt.y);
+			putPlace_[i].screenVertex.lt.y);*/
 	}
 }

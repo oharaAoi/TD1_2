@@ -12,9 +12,11 @@
 #include "Draw.h"
 #include "MapChip.h"
 
-
 // ----- Config ----- //
 #include "CanMoveDirection.h"
+
+// ----- Maneger ----- //
+#include "InputManager.h"
 
 class Cow : public BaseMap {
 private:
@@ -46,6 +48,7 @@ private:
 
 	// 牛が動く方向の評価値
 	int canMoveDireValue_[8];
+
 	int gridDistanceValue_[8];
 	int nearWallOfValue_[4];
 	
@@ -65,6 +68,10 @@ private:
 	int wallMinIndex_;
 	int wallMinNum_;
 	bool wallIsDuplicate_;
+
+	//=========================================
+	// 入力処理のインスタンス確保
+	InputManager* input = InputManager::GetInstance();
 
 public:
 	// Constructor & Destructor
@@ -106,6 +113,9 @@ public:
 	// imguiの表示
 	void ImguiDraw();
 
+	// debugKeys
+	void CowMove();
+
 	// accessor
 
 	// address
@@ -122,6 +132,9 @@ public:
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }
 	int GetFourAreaValue() { return value_.fourArea; }
+
+	// debugScreenPrintf
+	void DebugScreenPrintf();
 
 };
 
