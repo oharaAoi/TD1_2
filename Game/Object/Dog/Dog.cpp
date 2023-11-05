@@ -11,49 +11,52 @@ Dog::~Dog() { Finalize(); }
 void Dog::Init() {
 
 	// ワールド空間での中心座標
-	worldCenterPos_ = { 640.0f,360.0 };
-	size_ = { 32.0f,32.0f };
+	worldCenterPos_ = { static_cast<float>(input->GetMousePos().x),
+						static_cast<float>(input->GetMousePos().y) };
+	size_ = { 64.0f,64.0f };
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
-		{ -size_.x, size_.y },
-		{ size_.x, size_.y },
-		{ -size_.x, -size_.y },
-		{ size_.x, -size_.y },
+		{ -size_.x * 0.5f, size_.y * 0.5f },
+		{ size_.x * 0.5f, size_.y * 0.5f },
+		{ -size_.x * 0.5f, -size_.y * 0.5f },
+		{ size_.x * 0.5f, -size_.y * 0.5f },
 	};
 
 	isExist_ = false;
 
-	for (int i = 0; i < 4; i++) {
-		isExistSide_[i] = false;
-	}
+
+	isExistSide_ = NOT;
 
 	MakeWorldMatrix();
 
 	// ローカル空間以外の各行列
 	screenMatrix_ = worldMatrix_;
 
+	drawMatrix_ = worldMatrix_;
+
 	// ワールドとスクリーン空間での各頂点座標
 	screenVertex_ = worldVertex_;
+
 
 	//================================================================
 	// 
 	// top
 	putPlace_[0].worldPos.x = (col_ / 2) * tileSize_.x + (tileSize_.x / 2);
-	putPlace_[0].worldPos.y = row_* tileSize_.y + (tileSize_.y / 2.0f);
+	putPlace_[0].worldPos.y = row_ * tileSize_.y - (tileSize_.y / 2.0f);
 
 	// bottom
 	putPlace_[1].worldPos.x = (col_ / 2) * tileSize_.x + (tileSize_.x / 2);
-	putPlace_[1].worldPos.y = (tileSize_.y / 2.0f);
+	putPlace_[1].worldPos.y = tileSize_.y - (tileSize_.y / 2.0f);
 
 	// left
 	putPlace_[2].worldPos.x = (tileSize_.x / 2);
-	putPlace_[2].worldPos.y = row_ * tileSize_.y + (tileSize_.y / 2.0f);
+	putPlace_[2].worldPos.y = (row_ / 2) * tileSize_.y + (tileSize_.y / 2.0f);
 
 	// right
-	putPlace_[3].worldPos.x = col_ * tileSize_.x + (tileSize_.x / 2);
-	putPlace_[3].worldPos.y = row_ * tileSize_.y + (tileSize_.y / 2.0f);
+	putPlace_[3].worldPos.x = col_ * tileSize_.x - (tileSize_.x / 2);
+	putPlace_[3].worldPos.y = (row_ / 2) * tileSize_.y + (tileSize_.y / 2.0f);
 
 	for (int i = 0; i < 4; i++) {
 		putPlace_[i].localAdd = CalcCenterAdd(putPlace_[i].worldPos);
@@ -75,9 +78,8 @@ void Dog::Update() {
 	// 犬を設置する準備
 	Install();
 
-	if (isIdle_) {
-		Put();
-	}
+	// 犬を置く処理
+	Put();
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
@@ -95,7 +97,7 @@ void Dog::Draw() {
 		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
 
 		for (int i = 0; i < 4; i++) {
-			Draw::Quad(putPlace_[i].screenVertex, { 0.0f, 0.0f }, { 1.0f, 1.0f }, gh_, 0xFFFFFFFF);
+			Draw::Quad(putPlace_[i].screenVertex, { 0.0f, 0.0f }, { 1.0f, 1.0f }, gh_, 0xA0522D77);
 		}
 
 	}
@@ -119,13 +121,21 @@ void Dog::Finalize() {
 ==========================================================*/
 
 void Dog::Install() {
-	if (!isExist_) {
+	if (!isIdle_) {
 		if (input->IsTriggerKey(DIK_Z)) {
 			isIdle_ = true;
+		}
+
+	} else {
+		if (input->IsTriggerKey(DIK_Z)) {
+			isIdle_ = false;
+			isExist_ = false;
+
+			isExistSide_ = NOT;
 
 		}
 
-		if (isIdle_) {
+		if (!isExist_) {
 			worldCenterPos_ = {
 				static_cast<float>(input->GetMousePos().x),
 				static_cast<float>(input->GetMousePos().y)
@@ -135,20 +145,39 @@ void Dog::Install() {
 }
 
 void Dog::Put() {
-	///*for (int row = 0; row < row_; row++) {
-	//	for (int col = 0; col < col_; col++) {
-	//		if (mapAdd_[row][col] == 1) {
-	//			if (Collision::Rect::Point()) {
-	//				if (input->IsTriggerMouse(0)) {
-	//					worldCenterPos_ = {
-	//						static_cast<float>(input->GetMousePos().x),
-	//						static_cast<float>(input->GetMousePos().y)
-	//					};
-	//				}
-	//			}
-	//		}
-	//	}
-	//}*/
+	if (isIdle_) {
+		// マウスがクリックされた位置によって置く場所を決める
+		if (input->IsTriggerMouse(0)) {
+			for (int i = 0; i < 4; i++) {
+				if (Collision::Rect::Point(putPlace_[i].screenVertex,
+					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) }
+				)) {
+
+					worldCenterPos_ = putPlace_[i].worldPos;
+					isExist_ = true;
+
+					// 置いた場所を設定する
+					switch (i) {
+					case 0:
+						isExistSide_ = TOP;
+						break;
+
+					case 1:
+						isExistSide_ = BOTTOM;
+						break;
+
+					case 2:
+						isExistSide_ = LEFT;
+						break;
+
+					case 3:
+						isExistSide_ = RIGHT;
+						break;
+					}
+				}
+			}
+		}
+	}
 }
 
 Vec2 Dog::CalcCenterAdd(Vec2f centerPos) {
@@ -161,22 +190,33 @@ Vec2 Dog::CalcCenterAdd(Vec2f centerPos) {
 
 }
 
+void Dog::DrawMatrixSelect() {
+	if (isExist_) {
+		drawMatrix_ = screenMatrix_;
+	} else {
+		drawMatrix_ = worldMatrix_;
+	}
+}
+
 void Dog::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
-	screenVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+	// worldで表示するかscreenで表示するか選ぶ
+	DrawMatrixSelect();
+
+	screenVertex_.lt = Transform(localVertex_.lt, drawMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, drawMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, drawMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, drawMatrix_);
 
 	for (int i = 0; i < 4; i++) {
 		putPlace_[i].screenMatrix = MakeWvpVpMatrix(putPlace_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
 
-		putPlace_[i].screenVertex.lt = Transform(localVertex_.lt, putPlace_[i].worldMatrix);
-		putPlace_[i].screenVertex.rt = Transform(localVertex_.rt, putPlace_[i].worldMatrix);
-		putPlace_[i].screenVertex.lb = Transform(localVertex_.lb, putPlace_[i].worldMatrix);
-		putPlace_[i].screenVertex.rb = Transform(localVertex_.rb, putPlace_[i].worldMatrix);
+		putPlace_[i].screenVertex.lt = Transform(localVertex_.lt, putPlace_[i].screenMatrix);
+		putPlace_[i].screenVertex.rt = Transform(localVertex_.rt, putPlace_[i].screenMatrix);
+		putPlace_[i].screenVertex.lb = Transform(localVertex_.lb, putPlace_[i].screenMatrix);
+		putPlace_[i].screenVertex.rb = Transform(localVertex_.rb, putPlace_[i].screenMatrix);
 	}
 
 }
@@ -203,8 +243,8 @@ void Dog::DebugScreen() {
 	for (int i = 0; i < 4; i++) {
 		Novice::ScreenPrintf(900,
 			600 + (i * 20),
-			"putPlace_[%d].screenVertex.lt.x:%f",
+			"putPlace_[%d].screenVertex.lt.y:%f",
 			i,
-			putPlace_[i].screenVertex.lt);
+			putPlace_[i].screenVertex.lt.y);
 	}
 }

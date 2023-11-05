@@ -14,6 +14,14 @@
 // ----- object ----- //
 #include "BaseMap.h"
 
+enum ExsitSide {
+	NOT,
+	TOP,
+	BOTTOM,
+	LEFT,
+	RIGHT
+};
+
 class Dog final :public BaseMap {
 private: 
 
@@ -34,7 +42,7 @@ private:
 	bool isExist_;
 
 	// 犬がどこにおいてあるか
-	bool isExistSide_[4];
+	ExsitSide isExistSide_;
 
 	// 各空間の頂点座標
 	QuadVerf localVertex_;
@@ -44,6 +52,9 @@ private:
 	// ローカル空間以外の各行列
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
+
+	// マウスで持っている時にマウスの位置に表示させるための行列
+	Matrix3x3 drawMatrix_;
 
 
 	//=================================================
@@ -85,6 +96,9 @@ public:
 	// アドレスの計算
 	Vec2 CalcCenterAdd(Vec2f centerPos);
 
+	// world座標系かscreen座標か判断
+	void DrawMatrixSelect();
+
 	// スクリーン空間に変更するための関数
 	void MatrixChange(
 		const Matrix3x3& viewMatrix,
@@ -105,6 +119,6 @@ public:
 
 	bool GetIsExist() { return isExist_; }
 
-	bool GetIsExistSide(int num) { return isExistSide_[num]; }
+	ExsitSide GetIsExistSide() { return isExistSide_; }
 };
 
