@@ -49,6 +49,7 @@ private:
 	void YoungPersonCanMove();
 	bool YoungPersonCheckCanMove(const Vec2& add);
 
+	void CheckCowAdjoin();
 	void CheckCowFourArea();
 	void CheckGridDistance(const Vec2& add);
 	void CheckCowMoveAllDire();

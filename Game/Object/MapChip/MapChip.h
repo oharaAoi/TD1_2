@@ -119,6 +119,8 @@ public:
 	//マップのアドレスを返す(playerやcowの初期化で使う)
 	std::vector<std::vector<int>>GetMapChipAdd() { return mapAdd_; }
 
+	int GetMapAdd(int row, int col) { return mapAdd_[row][col]; }
+
 	int GetMapChipRow() { return row_; }
 	int GetMapChipCol() { return col_; }
 
