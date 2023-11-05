@@ -386,6 +386,9 @@ void Cow::MakeWorldMatrix() {
 }
 
 void Cow::DebugScreenPrintf() {
+
+	Novice::ScreenPrintf(1000, 450, "Keys[DIK_M]:cowMove");
+
 	for (int i = 0; i < 8; i++) {
 		Novice::ScreenPrintf(900, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
 

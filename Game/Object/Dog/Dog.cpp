@@ -240,6 +240,9 @@ void Dog::MakeWorldMatrix() {
 }
 
 void Dog::DebugScreen() {
+
+	Novice::ScreenPrintf(50, 600, "keys[DIK_Z]:dogPut");
+
 	for (int i = 0; i < 4; i++) {
 		/*Novice::ScreenPrintf(900,
 			600 + (i * 20),
