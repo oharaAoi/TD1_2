@@ -116,6 +116,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp" />
+    <ClCompile Include="Game\Object\Base\BaseCow.cpp" />
     <ClCompile Include="Game\Object\Base\BaseMap.cpp" />
     <ClCompile Include="Game\Object\Camera\Camera.cpp" />
     <ClCompile Include="Game\Object\Cow\Cow.cpp" />
@@ -167,6 +168,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Config\CanMoveDirection.h" />
     <ClInclude Include="Config\Environment.h" />
     <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
+    <ClInclude Include="Game\Object\Base\BaseCow.h" />
     <ClInclude Include="Game\Object\Base\BaseMap.h" />
     <ClInclude Include="Game\Object\Camera\Camera.h" />
     <ClInclude Include="Game\Object\Cow\Cow.h" />

@@ -6,7 +6,6 @@
 #include "Quad.h"
 #include "Draw.h"
 #include "InputManager.h"
-#include "CanMoveDirection.h"
 #include "Collision.h"
 #include "Ease.h"
 

@@ -140,6 +140,9 @@
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Object\Base\BaseCow.cpp">
+      <Filter>Game\Object\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -284,6 +287,9 @@
     </ClInclude>
     <ClInclude Include="Game\CollisionManager\CollisionManager.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Base\BaseCow.h">
+      <Filter>Game\Object\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
