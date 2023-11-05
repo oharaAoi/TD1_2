@@ -28,5 +28,7 @@ inline std::vector<std::vector<int>>LoadFile(const std::string& csvFilePath) {
 		intArray.push_back(row);
 	}
 
+	std::reverse(intArray.begin(), intArray.end());
+
 	return intArray;
 }

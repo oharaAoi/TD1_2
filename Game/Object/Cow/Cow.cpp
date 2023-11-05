@@ -371,5 +371,38 @@ void Cow::MakeWorldMatrix() {
 void Cow::DebugScreenPrintf() {
 	for (int i = 0; i < 8; i++) {
 		Novice::ScreenPrintf(900, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
+
+		switch (i) {
+		case 0:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "top");
+			break;
+
+		case 1:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "bottom");
+			break;
+		case 2:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "left");
+			break;
+
+		case 3:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "right");
+			break;
+
+		case 4:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "leftTop");
+			break;
+
+		case 5:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "rightTop");
+			break;
+
+		case 6:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "leftBottom");
+			break;
+
+		case 7:
+			Novice::ScreenPrintf(1150, 500 + (i * 20), "rightBottom");
+			break;
+		}
 	}
 }

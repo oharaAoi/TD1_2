@@ -5,8 +5,6 @@ MapChip::MapChip(){
 	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
 
-	AddressRevers();
-
 	//配列の確保
 	mapChip_ = new Base * [row_];
 	for (int i = 0; i < row_; i++) {
