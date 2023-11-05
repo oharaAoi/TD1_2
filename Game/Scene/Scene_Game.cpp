@@ -33,6 +33,11 @@ void Scene_Game::Update() {
 		nextSceneNo_ = SCENE::TITLE;
 	}
 
+	// このシーンの初期化条件
+	if (preSceneNo_ != SCENE::GAME) {
+		Init();
+	}
+
 	// ----- Update ----- //
 
 	// カメラの更新

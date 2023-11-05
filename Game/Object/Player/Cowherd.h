@@ -8,6 +8,8 @@
 #include "InputManager.h"
 #include "Collision.h"
 #include "CanMoveDirection.h"
+#include "Ease.h"
+#include "MyMath.h"
 
 // ----- object ----- //
 #include "MapChip.h"
@@ -26,8 +28,11 @@ private:
 
 	// ワールド空間での中心点
 	Vec2f worldCenterPos_;
+	Vec2f destinationPos_;
+	Vec2f startingPos_;
 	Vec2 centerAdd_;
 	Vec2f size_;
+	Vec2f scale_;
 	int gh_;
 
 	// 各空間の頂点
@@ -71,6 +76,8 @@ private: // 移動に関するもの
 	int moveGridMaxIndex_;
 	std::vector<CanMoveGrid> canMoveGrid_;
 	bool isMove_;
+
+	float movingTime_;
 
 
 public:

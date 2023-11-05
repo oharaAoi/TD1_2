@@ -22,8 +22,11 @@ void Cowherd::Init() {
 			}
 		}
 	}
+	destinationPos_ = worldCenterPos_;
+	startingPos_ = worldCenterPos_;
 	CenterAddUpdate();
 	gh_ = Novice::LoadTexture("white1x1.png");
+	scale_ = { 1.0f,1.0f };
 
 	// 各空間の頂点
 	localVertex_.lt = { -size_.x * 0.5f, size_.y * 0.5f };
@@ -115,7 +118,7 @@ void Cowherd::Init() {
 	screenVertex_ = worldVertex_;
 
 	isMove_ = false;
-
+	movingTime_ = 0.0f;
 }
 
 
@@ -200,7 +203,7 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 }
 
 void Cowherd::MakeWorldMatrix() {
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldCenterPos_);
+	worldMatrix_ = MakeAffineMatrix(scale_, 0.0f, worldCenterPos_);
 
 	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
 	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
@@ -220,52 +223,83 @@ void Cowherd::MakeWorldMatrix() {
 void Cowherd::Move() {
 	// 移動マス配列
 
-	isMove_ = false;
+	//isMove_ = false;
 	if (isMoveIdle_) {
 
-		// いつでも移動待機状態をクリアできるようにする
-		if (input->IsTriggerMouse(1)) {
-			isMoveIdle_ = false;
-		}
-
-		if (input->IsTriggerMouse(0)) {
-			for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-				if (canMoveGrid_[gi].canMove) {
-					if (Collision::Rect::Point(
-						canMoveGrid_[gi].screenVertex,
-						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-						break;
-					}
-				}
-
-				if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
-			}
-		}
-
-		// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
-		if (input->IsTriggerMouse(0)) {
-			for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-
-				if (canMoveGrid_[gi].canMove) {
-
-					if (Collision::Rect::Point(
-						canMoveGrid_[gi].screenVertex,
-						{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-
-						// ワールド座標の更新
-						worldCenterPos_ += {
-							canMoveGrid_[gi].localAdd.x* tileSize_.x,
-								canMoveGrid_[gi].localAdd.y* tileSize_.y,
-						};
-						isMove_ = true;
-					}
-				}
-			}
-		}
-
-
+		// 移動中
 		if (isMove_) {
-			isMoveIdle_ = false;
+			//isMoveIdle_ = false;
+			if (movingTime_ < 60) {
+				movingTime_++;
+			}
+
+			worldCenterPos_.x = MyMath::Lerp(movingTime_ / 60.0f, startingPos_.x, destinationPos_.x);
+			worldCenterPos_.y = MyMath::Lerp(movingTime_ / 60.0f, startingPos_.y, destinationPos_.y);
+
+			if (movingTime_ / 60.0f <= 0.5f) {
+
+				scale_.x = MyMath::Lerp(movingTime_ / 60.0f, 1.0f, 2.0f);
+				scale_.y = MyMath::Lerp(movingTime_ / 60.0f, 1.0f, 2.0f);
+
+			} else {
+
+				scale_.x = MyMath::Lerp(movingTime_ / 60.0f, 2.0f, 1.0f);
+				scale_.y = MyMath::Lerp(movingTime_ / 60.0f, 2.0f, 1.0f);
+
+			}
+
+			// 移動の終了条件
+			if (movingTime_ / 60.0f >= 1.0f) { 
+				isMove_ = false; 
+				isMoveIdle_ = false;
+			}
+
+
+		} else { // 移動していない
+
+			// いつでも移動待機状態をクリアできるようにする
+			if (input->IsTriggerMouse(1)) {
+				isMoveIdle_ = false;
+			}
+
+			if (input->IsTriggerMouse(0)) {
+				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+					if (canMoveGrid_[gi].canMove) {
+						if (Collision::Rect::Point(
+							canMoveGrid_[gi].screenVertex,
+							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+							break;
+						}
+					}
+
+					if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
+				}
+			}
+
+			// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
+			if (input->IsTriggerMouse(0)) {
+				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+
+					if (canMoveGrid_[gi].canMove) {
+
+						if (Collision::Rect::Point(
+							canMoveGrid_[gi].screenVertex,
+							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+
+							// 移動先と移動元の座標の更新
+							destinationPos_ = {
+								worldCenterPos_.x + (canMoveGrid_[gi].localAdd.x * tileSize_.x),
+								worldCenterPos_.y + (canMoveGrid_[gi].localAdd.y * tileSize_.y)
+							};
+							startingPos_ = worldCenterPos_;
+
+							isMove_ = true;
+							movingTime_ = 0;
+						}
+					}
+				}
+			}
+
 		}
 
 
