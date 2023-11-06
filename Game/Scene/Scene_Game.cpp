@@ -21,7 +21,7 @@ void Scene_Game::Init() {
 		cowherd_, youngPerson_, mapChip_, cow_, dog_
 	);
 	renderer_ = new Renderer();
-
+	
 	renderer_->AddDrawable(cowherd_);
 	renderer_->AddDrawable(youngPerson_);
 

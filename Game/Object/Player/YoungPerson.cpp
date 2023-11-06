@@ -160,6 +160,7 @@ void YoungPerson::Init() {
 
 	movingTime_ = 0;
 	SetZOder(10);
+	isMoveIdle_ = false;
 
 }
 
@@ -249,105 +250,111 @@ void YoungPerson::Move() {
 
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
-		// フレーム単位での移動したかのフラグ
-		if (young_[yi].isMoveIdle) {
+		if (isMoveIdle_) {
+			if (young_[yi].isMoveIdle) {
 
-			if (young_[yi].isMove) {
-				/*young_[yi].isMoveIdle = false;*/
+				if (young_[yi].isMove) {
+					/*young_[yi].isMoveIdle = false;*/
 
-				if (movingTime_ < 60) {
-					movingTime_++;
-				}
+					if (movingTime_ < 60) {
+						movingTime_++;
+					}
 
-				young_[yi].worldCenterPos.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.x, young_[yi].destinationPos.x);
-				young_[yi].worldCenterPos.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.y, young_[yi].destinationPos.y);
+					young_[yi].worldCenterPos.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.x, young_[yi].destinationPos.x);
+					young_[yi].worldCenterPos.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), young_[yi].startingPos.y, young_[yi].destinationPos.y);
 
-				if (movingTime_ / 60.0f <= 0.5f) {
+					if (movingTime_ / 60.0f <= 0.5f) {
 
-					young_[yi].scale.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
-					young_[yi].scale.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+						young_[yi].scale.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+						young_[yi].scale.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+
+					} else {
+
+						young_[yi].scale.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+						young_[yi].scale.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+
+					}
+
+					// 移動の終了条件
+					if (movingTime_ / 60.0f >= 1.0f) {
+						young_[yi].isMove = false;
+						young_[yi].isMoveIdle = false;
+						isMoveIdle_ = false;
+						SetZOder(10);
+					}
 
 				} else {
 
-					young_[yi].scale.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
-					young_[yi].scale.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
-
-				}
-
-				// 移動の終了条件
-				if (movingTime_ / 60.0f >= 1.0f) {
-					young_[yi].isMove = false;
-					young_[yi].isMoveIdle = false;
-					SetZOder(10);
-				}
-
-			} else {
-
-				// 移動待機状態の解除
-				if (input->IsTriggerMouse(1)) {
-					young_[yi].isMoveIdle = false;
-				}
-
-				if (input->IsTriggerMouse(0)) {
-					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-						if (young_[yi].canMoveGrid[gi].canMove) {
-							if (Collision::Rect::Point(
-								young_[yi].canMoveGrid[gi].screenVertex,
-								{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-								break;
-							}
-						}
-						if (gi >= moveGridMaxIndex_ - 1) {
-							young_[yi].isMoveIdle = false;
-						}
+					// 移動待機状態の解除
+					if (input->IsTriggerMouse(1)) {
+						young_[yi].isMoveIdle = false;
+						isMoveIdle_ = false;
 					}
-				}
 
-				// 移動先の選択
-				if (input->IsTriggerMouse(0)) {
-					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-
-						// 動けるとき
-						if (young_[yi].canMoveGrid[gi].canMove) {
-
-							if (Collision::Rect::Point(
-								young_[yi].canMoveGrid[gi].screenVertex,
-								{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
-
-								// ワールド座標の更新
-								young_[yi].destinationPos = {
-									young_[yi].worldCenterPos.x + young_[yi].canMoveGrid[gi].localAdd.x * tileSize_.x,
-										young_[yi].worldCenterPos.y + young_[yi].canMoveGrid[gi].localAdd.y * tileSize_.y,
-								};
-
-								young_[yi].startingPos = young_[yi].worldCenterPos;
-								young_[yi].isMove = true;
-								movingCount_++;
-								movingTime_ = 0;
-								SetZOder(15);
+					if (input->IsTriggerMouse(0)) {
+						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+							if (young_[yi].canMoveGrid[gi].canMove) {
+								if (Collision::Rect::Point(
+									young_[yi].canMoveGrid[gi].screenVertex,
+									{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+									break;
+								}
+							}
+							if (gi >= moveGridMaxIndex_ - 1) {
+								young_[yi].isMoveIdle = false;
+								isMoveIdle_ = false;
 							}
 						}
 					}
+
+					// 移動先の選択
+					if (input->IsTriggerMouse(0)) {
+						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+
+							// 動けるとき
+							if (young_[yi].canMoveGrid[gi].canMove) {
+
+								if (Collision::Rect::Point(
+									young_[yi].canMoveGrid[gi].screenVertex,
+									{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+
+									// ワールド座標の更新
+									young_[yi].destinationPos = {
+										young_[yi].worldCenterPos.x + young_[yi].canMoveGrid[gi].localAdd.x * tileSize_.x,
+											young_[yi].worldCenterPos.y + young_[yi].canMoveGrid[gi].localAdd.y * tileSize_.y,
+									};
+
+									young_[yi].startingPos = young_[yi].worldCenterPos;
+									young_[yi].isMove = true;
+									movingCount_++;
+									movingTime_ = 0;
+									SetZOder(15);
+								}
+							}
+						}
+					}
+
 				}
+
 
 			}
-
-
 		} else {
 
-			// スクリーン上でマウスが若人に当たっていたら
-			if (Collision::Rect::Point(young_[yi].screenVertex,
-				{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+			if (!young_[yi].isMoveIdle) {
+				// スクリーン上でマウスが若人に当たっていたら
+				if (Collision::Rect::Point(young_[yi].screenVertex,
+					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
 
-				if (input->IsTriggerMouse(0)) {
+					if (input->IsTriggerMouse(0)) {
 
-					for (int j = 0; j < maxYoungIndex_; j++) {
-						young_[j].isMoveIdle = false;
+						for (int j = 0; j < maxYoungIndex_; j++) {
+							young_[j].isMoveIdle = false;
+						}
+
+						// 移動待機状態にする
+						young_[yi].isMoveIdle = true;
+						isMoveIdle_ = true;
 					}
-
-					// 移動待機状態にする
-					young_[yi].isMoveIdle = true;
-
 				}
 			}
 		}

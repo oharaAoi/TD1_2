@@ -1,8 +1,12 @@
 ﻿#include "Renderer.h"
 
-Renderer::Renderer() {}
+Renderer::Renderer() { ResetDrawable(); }
 
 Renderer::~Renderer() {}
+
+void Renderer::ResetDrawable() {
+	drawables.resize(0);
+}
 
 void Renderer::AddDrawable(Drawable* drawable) {
 	drawables.push_back(drawable);

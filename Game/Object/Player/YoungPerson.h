@@ -93,6 +93,8 @@ private:
 
 	int moveGridMaxIndex_;
 	float movingTime_;
+	// 全体での移動待機フラグ
+	bool isMoveIdle_;
 
 public:
 	/* ---------- Constructor & Destructor ---------- */

@@ -12,6 +12,7 @@ public:
 	Renderer();
 	~Renderer();
 
+	void ResetDrawable();
 	void AddDrawable(Drawable* drawable);
 
 	void Draw();
