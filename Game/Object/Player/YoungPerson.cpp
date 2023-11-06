@@ -280,6 +280,7 @@ void YoungPerson::Move() {
 						young_[yi].isMove = false;
 						young_[yi].isMoveIdle = false;
 						isMoveIdle_ = false;
+						movingCount_++;
 						SetZOder(10);
 					}
 
@@ -326,7 +327,6 @@ void YoungPerson::Move() {
 
 									young_[yi].startingPos = young_[yi].worldCenterPos;
 									young_[yi].isMove = true;
-									movingCount_++;
 									movingTime_ = 0;
 									SetZOder(15);
 								}

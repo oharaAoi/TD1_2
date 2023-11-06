@@ -255,6 +255,7 @@ void Cowherd::Move() {
 			if (movingTime_ / 60.0f >= 1.0f) {
 				isMove_ = false;
 				isMoveIdle_ = false;
+				movingCount_++;
 				SetZOder(10);
 			}
 
@@ -298,7 +299,6 @@ void Cowherd::Move() {
 							startingPos_ = worldCenterPos_;
 
 							isMove_ = true;
-							movingCount_++;
 							movingTime_ = 0;
 							SetZOder(15);
 						}

@@ -36,6 +36,15 @@ void Camera::Init() {
 
 void Camera::Update() {
 
+	if (input->IsWheelUP()) {
+		scale_ += 0.1f;
+	}
+
+	if (input->IsWheelDown()) {
+		if (scale_ > 1.0f) {
+			scale_ -= 0.1f;
+		}
+	}
 
 	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, center_);
 	viewMatrix_ = MakeInverseMatrix(worldMatrix_);
