@@ -33,6 +33,42 @@ void CowCollision::CheckCowMoveDire() {
 }
 
 /*=================================================================
+	牛が移動してフェンス外に行ってしまったら
+=================================================================*/
+
+void CowCollision::CheckCollision() {
+	// 両隣外かフェンスだったら
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE && 
+		mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
+
+		// 真ん中により上だったら下に戻す
+		if (cow_->GetCenterAdd().y > mapChip_->GetMapChipRow() / 2.0f) {
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y });
+
+			// 真ん中により下だったら上に戻す
+		} else if (cow_->GetCenterAdd().y < mapChip_->GetMapChipRow() / 2.0f) {
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().x });
+		}
+	}
+
+	// 上下がフェンスだったら
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE &&
+		mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
+
+		// 真ん中により右だったら左に戻す
+		if (cow_->GetCenterAdd().x > mapChip_->GetMapChipCol() / 2.0f) {
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x - mapChip_->GetTileSize().x , cow_->GetWorldCneterPos().y });
+
+			// 真ん中により左だったら右に戻す
+		} else if (cow_->GetCenterAdd().x < mapChip_->GetMapChipCol() / 2.0f) {
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x, cow_->GetWorldCneterPos().y });
+		}
+
+	}
+}
+
+
+/*=================================================================
 	方向の評価
 =================================================================*/
 void CowCollision::CheckDogExist() {

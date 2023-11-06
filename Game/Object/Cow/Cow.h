@@ -129,6 +129,7 @@ public:
 
 	// worldPos
 	void SetWorldCenterPos(Vec2f pos) { worldCenterPos_ = pos; }
+	Vec2f GetWorldCneterPos() { return  worldCenterPos_; }
 
 	// address
 	Vec2 GetCenterAdd() { return centerAdd_; }

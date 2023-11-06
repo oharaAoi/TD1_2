@@ -54,6 +54,8 @@ public:
 	// 牛の動く方向の判定
 	void CheckCanCowMove();
 
+	void CheckCowCollison();
+
 	// クリア条件の判定
 	bool CheckClear();
 

@@ -107,6 +107,9 @@ void Cow::Update() {
 		isIdle_ = false;
 	}
 
+	// 移動後のアドレスを計算する
+	CenterAddUpdate();
+
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
 

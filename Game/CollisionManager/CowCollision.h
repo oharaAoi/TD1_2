@@ -34,6 +34,8 @@ public:
 	// user method
 	void CheckCowMoveDire();
 
+	void CheckCollision();
+
 private:
 
 	// 評価で使う

@@ -58,6 +58,11 @@ void CollisionManager::CheckCanCowMove() {
 	cowCollision_->CheckCowMoveDire();
 }
 
+/* --- 両隣がステージ外か上下がステージ外だったら*/
+void CollisionManager::CheckCowCollison() {
+	cowCollision_->CheckCollision();
+}
+
 /* --- クリア判定 --- */
 bool CollisionManager::CheckClear() {
 	// 牛飼いと牛のアドレスが重なっていたら
