@@ -187,39 +187,39 @@ void Cow::Move() {
 	// 移動方向の量によって進む箇所を決める
 	switch (maxDireValueIndex_){
 	case kCanMoveDirection::top:
-		worldCenterPos_.y += tileSize_.y;
+		worldCenterPos_.y += tileSize_.y * 2;
 		break;
 
 	case kCanMoveDirection::bottom:
-		worldCenterPos_.y -= tileSize_.y;
+		worldCenterPos_.y -= tileSize_.y * 2;
 		break;
 
 	case kCanMoveDirection::left:
-		worldCenterPos_.x -= tileSize_.x;
+		worldCenterPos_.x -= tileSize_.x * 2;
 		break;
 
 	case kCanMoveDirection::right:
-		worldCenterPos_.x += tileSize_.x;
+		worldCenterPos_.x += tileSize_.x * 2;
 		break;
 
 	case kCanMoveDirection::leftTop:
-		worldCenterPos_.x -= tileSize_.x;
-		worldCenterPos_.y += tileSize_.y;
+		worldCenterPos_.x -= tileSize_.x * 2;
+		worldCenterPos_.y += tileSize_.y * 2;
 		break;
 
 	case kCanMoveDirection::rightTop:
-		worldCenterPos_.x += tileSize_.x;
-		worldCenterPos_.y += tileSize_.y;
+		worldCenterPos_.x += tileSize_.x * 2;
+		worldCenterPos_.y += tileSize_.y * 2;
 		break;
 
 	case kCanMoveDirection::leftBottom:
-		worldCenterPos_.x -= tileSize_.x;
-		worldCenterPos_.y -= tileSize_.y;
+		worldCenterPos_.x -= tileSize_.x * 2;
+		worldCenterPos_.y -= tileSize_.y * 2;
 		break;
 
 	case kCanMoveDirection::rightBottom:
-		worldCenterPos_.x += tileSize_.x;
-		worldCenterPos_.y -= tileSize_.y;
+		worldCenterPos_.x += tileSize_.x * 2;
+		worldCenterPos_.y -= tileSize_.y * 2;
 		break;
 	}
 
