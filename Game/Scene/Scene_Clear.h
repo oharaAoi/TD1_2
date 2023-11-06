@@ -1,16 +1,15 @@
-ï»¿#pragma once
+#pragma once
 #include "BaseScene.h"
-#include <Novice.h>
 
 // ----- math ----- //
 #include "InputManager.h"
 #include <SafeDelete.h>
 
-class Scene_Clear : public BaseScene {
+class Scene_Clear : public BaseScene{
 
 private:
 
-	// å…¥åŠ›å‡¦ç†ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç¢ºä¿
+	// “ü—Íˆ—‚ÌƒCƒ“ƒXƒ^ƒ“ƒXŠm•Û
 	InputManager* input = InputManager::GetInstance();
 
 public:
@@ -18,10 +17,12 @@ public:
 	Scene_Clear();
 	~Scene_Clear();
 
-	// ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆé–¢æ•°ã®ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰
-	void Init() override; // åˆæœŸåŒ–
-	void Update() override; // æ›´æ–°
-	void Draw() override; // æç”»
-	void Finalize() override; // çµ‚äº†
+	// ƒfƒtƒHƒ‹ƒgŠÖ”‚ÌƒI[ƒo[ƒ‰ƒCƒh
+	void Init() override; // ‰Šú‰»
+	void Update() override; // XV
+	void Draw() override; // •`‰æ
+	void Finalize() override; // I—¹
+	
 
 };
+

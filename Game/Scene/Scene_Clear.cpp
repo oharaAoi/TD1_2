@@ -1,22 +1,22 @@
-ï»¿#include "Scene_Clear.h"
+#include "Scene_Clear.h"
 
-Scene_Clear::Scene_Clear() {}
+Scene_Clear::Scene_Clear(){}
 
-Scene_Clear::~Scene_Clear() {}
+Scene_Clear::~Scene_Clear(){}
 
 /*================================================================
-	åˆæœŸåŒ–é–¢æ•°
+	‰Šú‰»ŠÖ”
 ================================================================*/
-void Scene_Clear::Init() {
+void Scene_Clear::Init(){
 
 
 
 }
 
 /*================================================================
-	æ›´æ–°å‡¦ç†é–¢æ•°
+	XVˆ—ŠÖ”
 ================================================================*/
-void Scene_Clear::Update() {
+void Scene_Clear::Update(){
 
 	if (input->IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::TITLE;
@@ -25,13 +25,19 @@ void Scene_Clear::Update() {
 }
 
 /*================================================================
-	æç”»å‡¦ç†é–¢æ•°
+	•`‰æˆ—ŠÖ”
 ================================================================*/
-void Scene_Clear::Draw() {
+void Scene_Clear::Draw(){
 
-	Novice::ScreenPrintf(10, 60, "GameClear");
+
 
 }
 
-void Scene_Clear::Finalize() {
+/*================================================================
+	I—¹ˆ—ŠÖ”
+================================================================*/
+void Scene_Clear::Finalize(){
+
+
+
 }
