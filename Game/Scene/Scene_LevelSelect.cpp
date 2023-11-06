@@ -1,5 +1,6 @@
 ﻿#include "Scene_LevelSelect.h"
 
+int Scene_LevelSelect::selectStage_ = 0;
 
 Scene_LevelSelect::Scene_LevelSelect() { Init(); }
 
@@ -11,7 +12,6 @@ Scene_LevelSelect::~Scene_LevelSelect() { Finalize(); }
 ================================================================*/
 void Scene_LevelSelect::Init() {
 
-	selectStage_ = 0;
 
 
 }

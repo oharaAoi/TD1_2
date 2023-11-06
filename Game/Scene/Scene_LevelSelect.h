@@ -15,7 +15,7 @@ private:
 
 	InputManager* input = InputManager::GetInstance();
 
-	int selectStage_;
+	static int selectStage_;
 
 
 public:
@@ -28,6 +28,8 @@ public:
 	void Update() override;
 	void Draw() override;
 	void Finalize() override;
+
+	static int GetSelectStage() { return selectStage_; }
 
 };
 
