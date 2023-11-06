@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 
 CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, CowCollision* cowCollision, CowherdCollision* cowherdCollision) {
-	Init(cowherd, youngPerson, mapChip, cow, dog, cowCollision, cowherdCollision);
+	Cow* cow, Dog* dog, CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision) {
+	Init(cowherd, youngPerson, mapChip, cow, dog, cowCollision, cowherdCollision, youngPersonCollision);
 }
 
 CollisionManager::~CollisionManager() {
@@ -14,7 +14,7 @@ CollisionManager::~CollisionManager() {
 	初期化関数
 ================================================================*/
 void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog , CowCollision* cowCollision, CowherdCollision* cowherdCollision) {
+	Cow* cow, Dog* dog , CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
@@ -22,6 +22,7 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	dog_ = dog;
 	cowCollision_ = cowCollision;
 	cowherdCollison_ = cowherdCollision;
+	youngPersonCollision_ = youngPersonCollision;
 }
 
 
@@ -40,19 +41,18 @@ void CollisionManager::CheckCanMove() {
 
 	cowherdCollison_->CowherdCanMove();
 	cowCollision_->CheckCowMoveDire();
+	youngPersonCollision_->YoungPersonCanMove();
 
-	YoungPersonCanMove();
+	/*YoungPersonCanMove();*/
 	CheckCanCowMove();
 }
 
+/* --- デバック用 --- */
 void CollisionManager::CheckCanCowMove() {
 	cowCollision_->CheckCowMoveDire();
 }
 
-/*=================================================================
-	牛飼い
-=================================================================*/
-
+/* --- クリア判定 --- */
 bool CollisionManager::CheckClear() {
 	// 牛飼いと牛のアドレスが重なっていたら
 	if (cowherd_->GetCenterAdd().x == cow_->GetCenterAdd().x &&
@@ -65,59 +65,7 @@ bool CollisionManager::CheckClear() {
 	}
 }
 
-/*=================================================================
-	若人
-=================================================================*/
-
-void CollisionManager::YoungPersonCanMove() {
-
-	// 若者の配列
-	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
-		// 移動マスの配列
-		for (int gi = 0; gi < youngPerson_->GetCanMoveGridMaxIndex(); gi++) {
-
-			// 移動待機状態
-			youngPerson_->SetCanMove(false, yi, gi);
-			if (youngPerson_->GetIsMoveIdle(yi)) {
-
-				// 移動できるかチェック
-				if (YoungPersonCheckCanMove(youngPerson_->GetCanMoveGrid(yi)[gi].worldAdd)) {
-
-					youngPerson_->SetCanMove(true, yi, gi);
-
-				}
-
-			}
-
-		}
-
-	}
-
-}
-
-bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
-	// マップ上のオブジェクト
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
-
-	// 牛との
-
-	// 牛飼いとの
-	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
-
-	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
-	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
-		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}
-
-	return true;
-}
-
-/*=================================================================
-	牛
-=================================================================*/
-
+/* ---重なっているか --- */
 // 牛のいる位置がNONE以外だったら前の座標に戻す
 void CollisionManager::CheckOverLapping() {
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x] != ChipType::NONE) {

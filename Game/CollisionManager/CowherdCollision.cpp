@@ -5,6 +5,7 @@ CowherdCollision::CowherdCollision(Cowherd* cowherd, YoungPerson* youngPerson, M
 }
 
 CowherdCollision::~CowherdCollision(){
+	Finalize();
 }
 
 /*================================================================

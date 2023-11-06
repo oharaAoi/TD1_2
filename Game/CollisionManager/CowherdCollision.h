@@ -13,7 +13,7 @@
 // ----- lib ----- //
 #include "MyMath.h"
 
-class CowherdCollision {
+class CowherdCollision final {
 
 private:
 

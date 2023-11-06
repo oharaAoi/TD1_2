@@ -17,6 +17,7 @@
 // ----- collision ----- //
 #include "CowCollision.h"
 #include "CowherdCollision.h"
+#include "YoungPersonCollision.h"
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -32,16 +33,17 @@ private:
 
 	CowCollision* cowCollision_;
 	CowherdCollision* cowherdCollison_;
+	YoungPersonCollision* youngPersonCollision_;
 
 public:
 	// Constructor & Destructor
 	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision, CowherdCollision* cowherdCollision);
+		CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision);
 	~CollisionManager();
 
 	// default method
 	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision, CowherdCollision* cowherdCollision);
+		CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision);
 	//void Update();
 	//void Draw();
 	void Finalize();
@@ -60,10 +62,6 @@ public:
 private:
 
 	// user method
-
-	void YoungPersonCanMove();
-	bool YoungPersonCheckCanMove(const Vec2& add);
-
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
 };
