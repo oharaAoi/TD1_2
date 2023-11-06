@@ -34,7 +34,9 @@ public:
 	// user method
 	void CheckCowMoveDire();
 
-	void CheckCollision();
+	void CheckFenseCollision();
+
+	void CheckRockCollision();
 
 private:
 

@@ -61,6 +61,9 @@ private:
 	int gridDistanceValue_[8];
 	int nearWallOfValue_[4];
 
+	//　動いた方向
+	kCanMoveDirection movedDire_;
+
 	//=========================================
 	// 評価値
 	// 壁の距離での評価値
@@ -142,9 +145,12 @@ public:
 	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
 	bool GetIsIdle() { return isIdle_; }
 
+	// 移動した方向を取得
+	kCanMoveDirection GetMovedDire() { return movedDire_; }
+
 	// 方向を決めるための量
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
-	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
+	int GetMoveDireValue(int num)const { return canMoveDireValue_[num]; }
 
 	// 牛から見たプレイヤー達の位置を計算するために使う
 	void SetGridDistanceValue(int value, int dire) { gridDistanceValue_[dire] = value; }

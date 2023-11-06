@@ -36,7 +36,7 @@ void CowCollision::CheckCowMoveDire() {
 	牛が移動してフェンス外に行ってしまったら
 =================================================================*/
 
-void CowCollision::CheckCollision() {
+void CowCollision::CheckFenseCollision() {
 	// 両隣外かフェンスだったら
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE && 
 		mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
@@ -64,6 +64,61 @@ void CowCollision::CheckCollision() {
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x, cow_->GetWorldCneterPos().y });
 		}
 
+	}
+}
+
+/*=================================================================
+	牛が移動して岩に行ってしまったら
+=================================================================*/
+
+void CowCollision::CheckRockCollision() {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x] == ChipType::ROCK) {
+
+		switch (cow_->GetMovedDire()){
+		case kCanMoveDirection::top:
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::bottom:
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::left:
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x, cow_->GetWorldCneterPos().y });
+			break;
+
+		case kCanMoveDirection::right:
+			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x - mapChip_->GetTileSize().x, cow_->GetWorldCneterPos().y });
+			break;
+
+		case kCanMoveDirection::leftTop:
+			cow_->SetWorldCenterPos({
+				cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x,
+				cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y 
+				});
+			break;
+
+		case kCanMoveDirection::rightTop:
+			cow_->SetWorldCenterPos({
+				cow_->GetWorldCneterPos().x - mapChip_->GetTileSize().x,
+				cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y
+				});
+			break;
+
+		case kCanMoveDirection::leftBottom:
+			cow_->SetWorldCenterPos({
+				cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x,
+				cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().y
+				});
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			cow_->SetWorldCenterPos({
+				cow_->GetWorldCneterPos().x - mapChip_->GetTileSize().x,
+				cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().y
+				});
+			break;
+		} 
 	}
 }
 

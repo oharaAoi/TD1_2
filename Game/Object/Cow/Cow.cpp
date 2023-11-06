@@ -64,6 +64,8 @@ void Cow::Init(MapChip* mapChip) {
 	maxDireValueIndex_ = 0;
 	adjoinNum_ = 0;
 
+	movedDire_ = top;
+
 	// ローカル空間以外の各行列
 	screenMatrix_ = worldMatrix_;
 
@@ -196,38 +198,46 @@ void Cow::Move() {
 	switch (maxDireValueIndex_){
 	case kCanMoveDirection::top:
 		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::top;
 		break;
 
 	case kCanMoveDirection::bottom:
 		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::bottom;
 		break;
 
 	case kCanMoveDirection::left:
 		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+		movedDire_ = kCanMoveDirection::left;
 		break;
 
 	case kCanMoveDirection::right:
 		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+		movedDire_ = kCanMoveDirection::right;
 		break;
 
 	case kCanMoveDirection::leftTop:
 		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
 		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::leftTop;
 		break;
 
 	case kCanMoveDirection::rightTop:
 		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
 		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::rightTop;
 		break;
 
 	case kCanMoveDirection::leftBottom:
 		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
 		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::leftBottom;
 		break;
 
 	case kCanMoveDirection::rightBottom:
 		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
 		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+		movedDire_ = kCanMoveDirection::leftBottom;
 		break;
 	}
 
