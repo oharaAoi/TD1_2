@@ -13,10 +13,12 @@
 // ----- object ----- //
 #include "MapChip.h"
 #include "BaseMap.h"
+#include "Turn.h"
 
 class YoungPerson final
 	: public BaseMap,
-	public Drawable {
+	public Drawable,
+	public Turn {
 private:
 
 	enum kGridType {

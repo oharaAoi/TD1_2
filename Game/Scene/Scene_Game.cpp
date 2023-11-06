@@ -30,7 +30,7 @@ void Scene_Game::Init() {
 	renderer_->AddDrawable(youngPerson_);
 
 
-	turnManager_ = new TurnManager(youngPerson_, cowherd_);
+	turnManager_ = new TurnManager();
 }
 
 
@@ -54,11 +54,14 @@ void Scene_Game::Update() {
 	// カメラの更新
 	camera_->Update();
 	
-	// 牛飼いの更新
+	// プレイヤーの更新
 	cowherd_->Update();
-
-	// 若人の更新
 	youngPerson_->Update();
+
+	// 犬の更新
+	dog_->Update();
+
+	turnManager_->Update();
 
 	// 牛の動ける方向のための更新
 	if (input->IsTriggerKey(DIK_M)) {
@@ -67,11 +70,6 @@ void Scene_Game::Update() {
 
 	// 牛の更新
 	cow_->Update();
-
-	// 犬の更新
-	dog_->Update();
-
-	turnManager_->Update();
 
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();

@@ -298,6 +298,7 @@ void Cowherd::Move() {
 							startingPos_ = worldCenterPos_;
 
 							isMove_ = true;
+							movingCount_++;
 							movingTime_ = 0;
 							SetZOder(15);
 						}

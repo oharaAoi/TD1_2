@@ -14,14 +14,15 @@
 // ----- object ----- //
 #include "MapChip.h"
 #include "BaseMap.h"
-
+#include "Turn.h"
 
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
 class Cowherd
 	: public BaseMap,
-	public Drawable {
+	public Drawable,
+	public Turn{
 private:
 
 	// member object

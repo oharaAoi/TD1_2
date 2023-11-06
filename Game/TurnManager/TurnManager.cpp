@@ -1,7 +1,7 @@
 ﻿#include "TurnManager.h"
 
-TurnManager::TurnManager(YoungPerson* young, Cowherd* cowherd) {
-	Init(young, cowherd);
+TurnManager::TurnManager() {
+	Init();
 }
 
 TurnManager::~TurnManager() { Finalize(); }
@@ -10,18 +10,12 @@ TurnManager::~TurnManager() { Finalize(); }
 /*================================================================
 	初期化関数
 ================================================================*/
-void TurnManager::Init(YoungPerson* young, Cowherd* cowherd) {
+void TurnManager::Init() {
 
-	young_ = young;
-	cowherd_ = cowherd;
-	
 	movingCount_ = 0;
 
 	turnNo_ = 0;
 	isTurnChange_ = false;
-
-	isMove_ = false;
-	preIsMove_ = false;
 
 }
 
@@ -30,32 +24,14 @@ void TurnManager::Init(YoungPerson* young, Cowherd* cowherd) {
 	更新処理関数
 ================================================================*/
 void TurnManager::Update() {
-	preIsMove_ = isMove_;
-	isMove_ = false;
+	TurnNoUpdate();
 
-	if (cowherd_->GetIsMove()) {
-		isMove_ = true;
-	}
-
-	for (int yi = 0; yi < young_->GetYoungMaxIndex(); yi++) {
-		if (young_->GetIsMove(yi)) {
-			isMove_ = true;
-		}
-	}
-	
-	if (isMove_ && !preIsMove_) {
-		movingCount_++;
-		if (movingCount_ >= 2) {
-			isTurnChange_ = true;
-			movingCount_ = 0;
-		}
-	}
-
-
-	if (isTurnChange_) {
+	if (movingCount_ >= 2) {
 		turnNo_++;
-		isTurnChange_ = false;
+		movingCount_ = 0;
 	}
+
+	isTurnChange_ = IsTurnChange();
 
 }
 
@@ -74,8 +50,4 @@ void TurnManager::Draw() {
 /*================================================================
 	終了処理関数
 ================================================================*/
-void TurnManager::Finalize() {
-
-	young_ = nullptr;
-	cowherd_ = nullptr;
-}
+void TurnManager::Finalize() {}

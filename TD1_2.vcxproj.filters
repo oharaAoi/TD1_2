@@ -173,6 +173,9 @@
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
       <Filter>Game\CollisionManager</Filter>
     </ClCompile>
+    <ClCompile Include="Game\TurnManager\Turn.cpp">
+      <Filter>Game\TurnManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -341,6 +344,9 @@
     </ClInclude>
     <ClInclude Include="Game\CollisionManager\CollisionManager.h">
       <Filter>Game\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\TurnManager\Turn.h">
+      <Filter>Game\TurnManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

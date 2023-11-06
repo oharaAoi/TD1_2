@@ -133,6 +133,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Scene\Scene_Game.cpp" />
     <ClCompile Include="Game\Scene\Scene_LevelSelect.cpp" />
     <ClCompile Include="Game\Scene\Scene_Title.cpp" />
+    <ClCompile Include="Game\TurnManager\Turn.cpp" />
     <ClCompile Include="Game\TurnManager\TurnManager.cpp" />
     <ClCompile Include="Lib\DrawManager\Drawable.cpp" />
     <ClCompile Include="Lib\DrawManager\Renderer.cpp" />
@@ -192,6 +193,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Scene\Scene_Game.h" />
     <ClInclude Include="Game\Scene\Scene_LevelSelect.h" />
     <ClInclude Include="Game\Scene\Scene_Title.h" />
+    <ClInclude Include="Game\TurnManager\Turn.h" />
     <ClInclude Include="Game\TurnManager\TurnManager.h" />
     <ClInclude Include="Lib\DrawManager\Drawable.h" />
     <ClInclude Include="Lib\DrawManager\Renderer.h" />
