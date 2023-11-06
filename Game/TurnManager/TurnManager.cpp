@@ -43,6 +43,7 @@ void TurnManager::Draw() {
 
 	Novice::ScreenPrintf(100, 200, "movingCount = %d", movingCount_);
 	Novice::ScreenPrintf(100, 220, "turnNo = %d", turnNo_);
+	Novice::ScreenPrintf(100, 240, "isTurnChange_ = %d", isTurnChange_);
 
 }
 
