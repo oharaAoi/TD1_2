@@ -6,7 +6,7 @@ MapChip::MapChip(){
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
 	csvFilePath_[1] = "./Resources/stage/stageTest2.csv";
 
-	mapAdd_ = LoadFile(csvFilePath_[1]);
+	mapAdd_ = LoadFile(csvFilePath_[Scene_LevelSelect::GetSelectStage()]);
 
 	row_ = static_cast<int>(mapAdd_.size());
 	col_ = static_cast<int>(mapAdd_[0].size());

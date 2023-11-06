@@ -9,6 +9,7 @@
 #include "Matrix3x3.h"
 #include "Lib/LoadFile/LoadFile.h"
 #include "Draw.h"
+#include "Scene_LevelSelect.h"
 
 /* object */
 #include "BaseMap.h"
