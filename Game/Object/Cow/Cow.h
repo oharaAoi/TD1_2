@@ -49,7 +49,7 @@ private:
 	// 移動方向/量
 	Vec2f moveDire_;
 	Vec2f moveValue_;
-	Vec2f moveScalar_;
+	Vec2 moveScalar_;
 
 	// 牛が動く方向の評価値
 	int canMoveDireValue_[8];

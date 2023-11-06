@@ -47,6 +47,9 @@ void Cow::Init(MapChip* mapChip) {
 	moveValue_.x = 0.0f;
 	moveValue_.y = 0.0f;
 
+	moveScalar_.x = 1;
+	moveScalar_.y = 1;
+
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
 		canMoveDireValue_[i] = 100;
@@ -131,6 +134,8 @@ void Cow::ImguiDraw() {
 	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 10);
 	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 10);
 	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 10);
+	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
+	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
 
 	ImGui::End();
 }
@@ -187,39 +192,39 @@ void Cow::Move() {
 	// 移動方向の量によって進む箇所を決める
 	switch (maxDireValueIndex_){
 	case kCanMoveDirection::top:
-		worldCenterPos_.y += tileSize_.y * 2;
+		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 
 	case kCanMoveDirection::bottom:
-		worldCenterPos_.y -= tileSize_.y * 2;
+		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 
 	case kCanMoveDirection::left:
-		worldCenterPos_.x -= tileSize_.x * 2;
+		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
 		break;
 
 	case kCanMoveDirection::right:
-		worldCenterPos_.x += tileSize_.x * 2;
+		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
 		break;
 
 	case kCanMoveDirection::leftTop:
-		worldCenterPos_.x -= tileSize_.x * 2;
-		worldCenterPos_.y += tileSize_.y * 2;
+		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 
 	case kCanMoveDirection::rightTop:
-		worldCenterPos_.x += tileSize_.x * 2;
-		worldCenterPos_.y += tileSize_.y * 2;
+		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 
 	case kCanMoveDirection::leftBottom:
-		worldCenterPos_.x -= tileSize_.x * 2;
-		worldCenterPos_.y -= tileSize_.y * 2;
+		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 
 	case kCanMoveDirection::rightBottom:
-		worldCenterPos_.x += tileSize_.x * 2;
-		worldCenterPos_.y -= tileSize_.y * 2;
+		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
 		break;
 	}
 
