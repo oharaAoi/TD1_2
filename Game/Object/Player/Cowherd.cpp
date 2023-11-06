@@ -22,28 +22,26 @@ void Cowherd::Init() {
 			}
 		}
 	}
-	destinationPos_ = worldCenterPos_;
-	startingPos_ = worldCenterPos_;
+	destinationPos_ = worldCenterPos_; // 移動先
+	startingPos_ = worldCenterPos_; // 移動元
+
 	CenterAddUpdate();
-	gh_ = Novice::LoadTexture("white1x1.png");
+	white1x1GH_ = Novice::LoadTexture("white1x1.png");
 	scale_ = { 1.0f,1.0f };
 
-	// 各空間の頂点
+	// ローカル座標系の頂点
 	localVertex_.lt = { -size_.x * 0.5f, size_.y * 0.5f };
 	localVertex_.rt = { size_.x * 0.5f, size_.y * 0.5f };
 	localVertex_.lb = { -size_.x * 0.5f, -size_.y * 0.5f };
 	localVertex_.rb = { size_.x * 0.5f, -size_.y * 0.5f };
 
 
-
-	isMoveIdle_ = false;
-
 	/*=========================================
 		移動に使う変数
 	=========================================*/
 
+	// 移動マスのロード
 	moveGrid_ = LoadFile("./Resources/player/cowherdMoveValue.csv");
-	//std::reverse(moveGrid_.begin(), moveGrid_.end());
 
 	moveGridMaxIndex_ = 0;
 	for (int row = 0; row < moveGrid_.size(); row++) {
@@ -54,18 +52,17 @@ void Cowherd::Init() {
 			case Cowherd::Player:
 
 				localCenterAdd_ = { col, row };
-
 				break;
 			case Cowherd::CanMove:
 
+				// 移動マスの数をインクリメント
 				moveGridMaxIndex_++;
-
 				break;
 			}
 		}
 	}
 
-	// csv内の2の数分配列を変える
+	// 移動マスの数に応じて要素数を変える
 	canMoveGrid_.resize(moveGridMaxIndex_);
 
 	int index = 0;
@@ -111,7 +108,7 @@ void Cowherd::Init() {
 	}
 
 
-	// ローカル以外の各空間の行列
+	// ワールド空間で行列を作成
 	MakeWorldMatrix();
 
 	screenMatrix_ = worldMatrix_;
@@ -119,7 +116,9 @@ void Cowherd::Init() {
 
 	isMove_ = false;
 	movingTime_ = 0.0f;
+	isMoveIdle_ = false;
 
+	// レイヤーの大きさ
 	SetZOder(10);
 
 }
@@ -130,8 +129,11 @@ void Cowherd::Init() {
 ==========================================================*/
 void Cowherd::Update() {
 
+	// 移動処理
 	Move();
+	// アドレスの更新
 	CenterAddUpdate();
+	// ワールド空間を構築
 	MakeWorldMatrix();
 
 }
@@ -142,8 +144,6 @@ void Cowherd::Update() {
 ==========================================================*/
 void Cowherd::Draw() {
 
-
-
 	// 移動マス
 	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 		if (canMoveGrid_[gi].canMove && isMoveIdle_ && !isMove_) {
@@ -151,7 +151,7 @@ void Cowherd::Draw() {
 				canMoveGrid_[gi].screenVertex,
 				{ 0.0f,0.0f },
 				{ 1.0f,1.0f },
-				gh_,
+				white1x1GH_,
 				0x00FFFF80
 			);
 		}
@@ -173,11 +173,7 @@ void Cowherd::Draw() {
 /*==========================================================
 	終了処理
 ==========================================================*/
-void Cowherd::Finalize() {
-
-
-
-}
+void Cowherd::Finalize() {}
 
 
 /*==========================================================
@@ -186,23 +182,21 @@ void Cowherd::Finalize() {
 
 void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
+	// 牛飼いをスクリーン空間に
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
-
 	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
 	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
 	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
-	// 移動マス
-	for (int i = 0; i < moveGridMaxIndex_; i++) {
+	// 移動マスをスクリーン空間に
+	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-		canMoveGrid_[i].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
-
-		canMoveGrid_[i].screenVertex.lt = Transform(canMoveGrid_[i].localVertex.lt, canMoveGrid_[i].screenMatrix);
-		canMoveGrid_[i].screenVertex.rt = Transform(canMoveGrid_[i].localVertex.rt, canMoveGrid_[i].screenMatrix);
-		canMoveGrid_[i].screenVertex.lb = Transform(canMoveGrid_[i].localVertex.lb, canMoveGrid_[i].screenMatrix);
-		canMoveGrid_[i].screenVertex.rb = Transform(canMoveGrid_[i].localVertex.rb, canMoveGrid_[i].screenMatrix);
-
+		canMoveGrid_[gi].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[gi].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+		canMoveGrid_[gi].screenVertex.lt = Transform(canMoveGrid_[gi].localVertex.lt, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.rt = Transform(canMoveGrid_[gi].localVertex.rt, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.lb = Transform(canMoveGrid_[gi].localVertex.lb, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.rb = Transform(canMoveGrid_[gi].localVertex.rb, canMoveGrid_[gi].screenMatrix);
 	}
 
 }
@@ -342,11 +336,14 @@ void Cowherd::DebugDraw() {
 }
 
 void Cowherd::CenterAddUpdate() {
+
+	// 牛飼いの中心アドレスを更新
 	centerAdd_ = {
 		static_cast<int>(worldCenterPos_.x / size_.x),
 		static_cast<int>(worldCenterPos_.y / size_.y)
 	};
 
+	// 移動マス; 各マスの中心アドレスと座標
 	int index = 0;
 	for (int row = 0; row < moveGrid_.size(); row++) {
 		for (int col = 0; col < moveGrid_[0].size(); col++) {
@@ -354,12 +351,6 @@ void Cowherd::CenterAddUpdate() {
 			// アドレスに対応した初期化
 			switch (moveGrid_[row][col]) {
 			case Cowherd::CanMove:
-
-				// アドレス
-				canMoveGrid_[index].localAdd = {
-					col - localCenterAdd_.x,
-					row - localCenterAdd_.y
-				};
 
 				canMoveGrid_[index].worldAdd = canMoveGrid_[index].localAdd + centerAdd_;
 

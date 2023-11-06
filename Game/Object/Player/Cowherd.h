@@ -35,7 +35,7 @@ private:
 	Vec2 centerAdd_;
 	Vec2f size_;
 	Vec2f scale_;
-	int gh_;
+	int white1x1GH_;
 
 	// 各空間の頂点
 	QuadVerf localVertex_;
