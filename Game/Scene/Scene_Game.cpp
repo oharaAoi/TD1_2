@@ -16,8 +16,13 @@ void Scene_Game::Init() {
 	cowherd_ = new Cowherd();
 	youngPerson_ = new YoungPerson();
 	dog_ = new Dog();
-	collisionManager_ = new CollisionManager(
+
+	cowCollision_ = new CowCollision(
 		cowherd_, youngPerson_, mapChip_, cow_, dog_
+	);
+
+	collisionManager_ = new CollisionManager(
+		cowherd_, youngPerson_, mapChip_, cow_, dog_, cowCollision_
 	);
 	renderer_ = new Renderer();
 
@@ -57,7 +62,7 @@ void Scene_Game::Update() {
 
 	// 牛の動ける方向のための更新
 	if (input->IsTriggerKey(DIK_M)) {
-		collisionManager_->CheckCowMoveDire();
+		collisionManager_->CheckCanCowMove();
 	}
 
 	// 牛の更新

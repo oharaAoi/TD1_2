@@ -65,6 +65,9 @@
     <Filter Include="Game\TurnManager">
       <UniqueIdentifier>{a01446dc-28fb-47c1-ac62-ca671fa80d83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\CollisionManager">
+      <UniqueIdentifier>{b1602efe-49fa-4018-acfb-28b08f42babc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -143,9 +146,6 @@
     <ClCompile Include="Game\Object\Base\BaseMap.cpp">
       <Filter>Game\Object\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Object\Base\BaseCow.cpp">
       <Filter>Game\Object\Base</Filter>
     </ClCompile>
@@ -158,17 +158,20 @@
     <ClCompile Include="Game\TurnManager\TurnManager.cpp">
       <Filter>Game\TurnManager</Filter>
     </ClCompile>
-    <ClCompile Include="Game\CollisionManager\CowCollision.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CollisionManager\CowherdCollision.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\CollisionManager\YoungPersonCollision.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scene\Scene_Clear.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CowCollision.cpp">
+      <Filter>Game\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CowherdCollision.cpp">
+      <Filter>Game\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\YoungPersonCollision.cpp">
+      <Filter>Game\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\CollisionManager.cpp">
+      <Filter>Game\CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -312,9 +315,6 @@
     <ClInclude Include="Config\Environment.h">
       <Filter>Config</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CollisionManager\CollisionManager.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Object\Base\BaseCow.h">
       <Filter>Game\Object\Base</Filter>
     </ClInclude>
@@ -327,11 +327,20 @@
     <ClInclude Include="Game\TurnManager\TurnManager.h">
       <Filter>Game\TurnManager</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CollisionManager\CowCollision.h" />
-    <ClInclude Include="Game\CollisionManager\CowherdCollision.h" />
-    <ClInclude Include="Game\CollisionManager\YoungPersonCollision.h" />
     <ClInclude Include="Game\Scene\Scene_Clear.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CowherdCollision.h">
+      <Filter>Game\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CowCollision.h">
+      <Filter>Game\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\YoungPersonCollision.h">
+      <Filter>Game\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\CollisionManager.h">
+      <Filter>Game\CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

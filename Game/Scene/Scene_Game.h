@@ -18,6 +18,10 @@
 
 #include "Renderer.h"
 
+// ----- collision ----- //
+#include "CowCollision.h"
+
+
 
 class Scene_Game : public BaseScene {
 private:
@@ -40,6 +44,7 @@ private:
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;
+	CowCollision* cowCollision_;
 
 	// 描画
 	Renderer* renderer_;

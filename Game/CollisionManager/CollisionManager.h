@@ -14,6 +14,9 @@
 // ----- lib ----- //
 #include "MyMath.h"
 
+// ----- collision ----- //
+#include "CowCollision.h"
+
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
 /// </summary>
@@ -26,13 +29,17 @@ private:
 	Cow* cow_;
 	Dog* dog_;
 
+	CowCollision* cowCollision_;
+
 public:
 	// Constructor & Destructor
-	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
+	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
+		CowCollision* cowCollision_);
 	~CollisionManager();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
+	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
+		CowCollision* cowCollision_);
 	//void Update();
 	//void Draw();
 	void Finalize();
@@ -40,9 +47,10 @@ public:
 	// user method
 	void CheckCanMove();
 
-	void CheckCowMoveDire();
-
 	void CheckOverLapping();
+
+	// 牛の動く方向の判定
+	void CheckCanCowMove();
 
 	// クリア条件の判定
 	bool CheckClear();
@@ -55,13 +63,6 @@ private:
 
 	void YoungPersonCanMove();
 	bool YoungPersonCheckCanMove(const Vec2& add);
-
-	// 評価で使う
-	void CheckCowAdjoin();
-	void CheckDogExist();
-	void CheckCowFourArea();
-	void CheckGridDistance(const Vec2& add);
-	void CheckCowMoveAllDire();
 
 	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
