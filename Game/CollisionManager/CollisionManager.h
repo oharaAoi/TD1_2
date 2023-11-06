@@ -37,13 +37,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision);
+	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
 	~CollisionManager();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision);
+	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
 	//void Update();
 	//void Draw();
 	void Finalize();

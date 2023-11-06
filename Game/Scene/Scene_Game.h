@@ -45,9 +45,6 @@ private:
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;
-	CowCollision* cowCollision_;
-	CowherdCollision* cowherdCollison_;
-	YoungPersonCollision* youngPersonCollision_;
 
 	// 描画
 	Renderer* renderer_;

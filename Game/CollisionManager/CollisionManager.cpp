@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 
 CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision) {
-	Init(cowherd, youngPerson, mapChip, cow, dog, cowCollision, cowherdCollision, youngPersonCollision);
+	Cow* cow, Dog* dog) {
+	Init(cowherd, youngPerson, mapChip, cow, dog);
 }
 
 CollisionManager::~CollisionManager() {
@@ -14,15 +14,15 @@ CollisionManager::~CollisionManager() {
 	初期化関数
 ================================================================*/
 void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog , CowCollision* cowCollision, CowherdCollision* cowherdCollision, YoungPersonCollision* youngPersonCollision) {
+	Cow* cow, Dog* dog) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
 	dog_ = dog;
-	cowCollision_ = cowCollision;
-	cowherdCollison_ = cowherdCollision;
-	youngPersonCollision_ = youngPersonCollision;
+	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
+	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
+	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_);
 }
 
 
@@ -32,6 +32,12 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 void CollisionManager::Finalize() {
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
+	mapChip_ = nullptr;
+	cow_ = nullptr;
+	dog_ = nullptr;
+	SafeDelete(cowCollision_);
+	SafeDelete(cowherdCollison_);
+	SafeDelete(youngPersonCollision_);
 }
 
 /*=================================================================
