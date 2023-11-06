@@ -14,6 +14,7 @@
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "Dog.h"
+#include "TurnManager.h"
 
 #include "Renderer.h"
 
@@ -32,16 +33,9 @@ private:
 	// 背景 & マップ上のオブジェクト
 	MapChip* mapChip_;
 
-	// 牛
 	Cow* cow_;
-
-	// 若人
 	YoungPerson* youngPerson_;
-
-	// 牛飼い
 	Cowherd* cowherd_;
-
-	// 犬
 	Dog* dog_;
 
 	/// 当たり判定
@@ -49,6 +43,8 @@ private:
 
 	// 描画
 	Renderer* renderer_;
+
+	TurnManager* turnManager_;
 
 public:
 	// コンストラクタ

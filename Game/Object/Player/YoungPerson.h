@@ -121,7 +121,7 @@ public:
 	void DebugDraw();
 
 
-	/* ---------- accessor ---------- */
+public: /* ---------- accessor ---------- */
 
 	// canMoveDir
 
@@ -144,7 +144,7 @@ public:
 
 	void SetCanMove(bool canMove, int yi, int gi) { young_[yi].canMoveGrid[gi].canMove = canMove; }
 
-	//void SetZOder(int z) { SetZOder(z); }
+	bool GetIsMove(int yi) const { return young_[yi].isMove; }
 
 };
 

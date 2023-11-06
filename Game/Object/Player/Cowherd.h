@@ -45,7 +45,6 @@ private:
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
 
-	bool isMoveIdle_;
 
 private: // 移動に関するもの
 
@@ -76,8 +75,9 @@ private: // 移動に関するもの
 
 	int moveGridMaxIndex_;
 	std::vector<CanMoveGrid> canMoveGrid_;
-	bool isMove_;
 
+	bool isMoveIdle_;
+	bool isMove_;
 	float movingTime_;
 
 
@@ -110,7 +110,7 @@ public:
 	// 中心点のアドレスを計算
 	void CenterAddUpdate();
 
-	// accessor
+public: // accessor ------------------------
 
 	// centerAdd
 	Vec2 GetCenterAdd() const { return centerAdd_; }
@@ -123,7 +123,7 @@ public:
 
 	int GetCanMoveGirdMaxIndex() const { return moveGridMaxIndex_; }
 
-	//void SerZOder(int z) { SetZOder(z); }
+	bool GetIsMove() const { return isMove_; }
 
 };
 

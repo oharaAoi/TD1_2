@@ -13,6 +13,8 @@ private:
 
 	int turnNo_;
 	bool isTurnChange_;
+
+	int movingCount_;
 	
 	bool isMove_;
 	bool preIsMove_;

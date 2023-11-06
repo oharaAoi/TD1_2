@@ -24,6 +24,8 @@ void Scene_Game::Init() {
 	renderer_->AddDrawable(cowherd_);
 	renderer_->AddDrawable(youngPerson_);
 
+
+	turnManager_ = new TurnManager(youngPerson_, cowherd_);
 }
 
 
@@ -64,6 +66,7 @@ void Scene_Game::Update() {
 	// 犬の更新
 	dog_->Update();
 
+	turnManager_->Update();
 
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
@@ -90,18 +93,11 @@ void Scene_Game::Draw() {
 
 	// 牛の描画
 	cow_->Draw();
-
-	//// 牛飼いの描画
-	//cowherd_->Draw();
-
-	//// 若人の描画
-	//youngPerson_->Draw();
-
 	// 犬の描画
 	dog_->Draw();
 
 	renderer_->Draw();
-
+	turnManager_->Draw();
 }
 
 
@@ -118,6 +114,7 @@ void Scene_Game::Finalize() {
 	SafeDelete(dog_);
 	SafeDelete(collisionManager_);
 	SafeDelete(renderer_);
+	SafeDelete(turnManager_);
 }
 
 
