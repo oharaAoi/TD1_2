@@ -60,8 +60,6 @@ public:
 private:
 
 	// user method
-	void CowherdCanMove();
-	bool CowherdCheckCanMove(const Vec2& add);
 
 	void YoungPersonCanMove();
 	bool YoungPersonCheckCanMove(const Vec2& add);

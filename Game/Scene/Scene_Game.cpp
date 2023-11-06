@@ -21,8 +21,12 @@ void Scene_Game::Init() {
 		cowherd_, youngPerson_, mapChip_, cow_, dog_
 	);
 
+	cowherdCollison_ = new CowherdCollision(
+		cowherd_, youngPerson_, mapChip_, cow_
+	);
+
 	collisionManager_ = new CollisionManager(
-		cowherd_, youngPerson_, mapChip_, cow_, dog_, cowCollision_
+		cowherd_, youngPerson_, mapChip_, cow_, dog_, cowCollision_, cowherdCollison_
 	);
 	renderer_ = new Renderer();
 

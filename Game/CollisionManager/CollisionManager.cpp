@@ -39,8 +39,8 @@ void CollisionManager::Finalize() {
 void CollisionManager::CheckCanMove() {
 
 	cowherdCollison_->CowherdCanMove();
+	cowCollision_->CheckCowMoveDire();
 
-	/*CowherdCanMove();*/
 	YoungPersonCanMove();
 	CheckCanCowMove();
 }
@@ -52,50 +52,6 @@ void CollisionManager::CheckCanCowMove() {
 /*=================================================================
 	牛飼い
 =================================================================*/
-
-void CollisionManager::CowherdCanMove() {
-
-	// 中心アドレスから上下左右、斜めの番地を確認
-	// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
-	// 障害物がなければ移動できる
-
-	if (cowherd_->GetIsMoveIdle()) {
-
-		for (int gi = 0; gi < cowherd_->GetCanMoveGirdMaxIndex(); gi++) {
-
-			// 移動待機状態
-			cowherd_->SetCanMove(false, gi);
-			if (cowherd_->GetIsMoveIdle()) {
-
-				// 移動できるかチェック
-				if (CowherdCheckCanMove(cowherd_->GetCanMoveGrid()[gi].worldAdd)) {
-
-					cowherd_->SetCanMove(true, gi);
-
-				}
-
-			}
-
-		}
-
-	}
-
-
-}
-
-bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
-	// 動かない物はアドレス上で当たり判定を取る
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
-	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
-
-	// 動くものはアドレスが被っていないかで
-	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
-		if (IsEqualAdd(add, youngPerson_->GetCenterAdd(yi))) { return false; }
-	}
-
-	return true;
-}
 
 bool CollisionManager::CheckClear() {
 	// 牛飼いと牛のアドレスが重なっていたら
