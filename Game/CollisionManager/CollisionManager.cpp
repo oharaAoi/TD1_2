@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 
 CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, CowCollision* cowCollision_) {
-	Init(cowherd, youngPerson, mapChip, cow, dog, cowCollision_);
+	Cow* cow, Dog* dog, CowCollision* cowCollision, CowherdCollision* cowherdCollision) {
+	Init(cowherd, youngPerson, mapChip, cow, dog, cowCollision, cowherdCollision);
 }
 
 CollisionManager::~CollisionManager() {
@@ -14,13 +14,14 @@ CollisionManager::~CollisionManager() {
 	初期化関数
 ================================================================*/
 void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog , CowCollision* cowCollision) {
+	Cow* cow, Dog* dog , CowCollision* cowCollision, CowherdCollision* cowherdCollision) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
 	dog_ = dog;
 	cowCollision_ = cowCollision;
+	cowherdCollison_ = cowherdCollision;
 }
 
 
@@ -37,7 +38,9 @@ void CollisionManager::Finalize() {
 =================================================================*/
 void CollisionManager::CheckCanMove() {
 
-	CowherdCanMove();
+	cowherdCollison_->CowherdCanMove();
+
+	/*CowherdCanMove();*/
 	YoungPersonCanMove();
 	CheckCanCowMove();
 }

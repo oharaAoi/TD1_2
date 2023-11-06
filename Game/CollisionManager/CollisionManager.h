@@ -16,6 +16,7 @@
 
 // ----- collision ----- //
 #include "CowCollision.h"
+#include "CowherdCollision.h"
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -30,16 +31,17 @@ private:
 	Dog* dog_;
 
 	CowCollision* cowCollision_;
+	CowherdCollision* cowherdCollison_;
 
 public:
 	// Constructor & Destructor
 	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision_);
+		CowCollision* cowCollision, CowherdCollision* cowherdCollision);
 	~CollisionManager();
 
 	// default method
 	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog,
-		CowCollision* cowCollision_);
+		CowCollision* cowCollision, CowherdCollision* cowherdCollision);
 	//void Update();
 	//void Draw();
 	void Finalize();
