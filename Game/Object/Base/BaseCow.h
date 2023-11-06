@@ -5,12 +5,19 @@
 #include "Matrix3x3.h"
 #include "Quad.h"
 
+enum kCowType {
+	Calf,
+	Bull,
+	Fighting
+};
 
 /// <summary>
 /// 牛の基底クラス
 /// </summary>
 class BaseCow {
 protected:
+
+	kCowType type_;
 
 	Vec2f worldPos_;
 	Vec2f worldAdd_;
@@ -27,7 +34,9 @@ protected:
 	Matrix3x3 screenMatrix_;
 
 public:
-	
+	virtual ~BaseCow();
+
+
 
 };
 
