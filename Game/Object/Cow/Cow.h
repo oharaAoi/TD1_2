@@ -17,8 +17,11 @@
 
 // ----- Maneger ----- //
 #include "InputManager.h"
+#include "Turn.h"
 
-class Cow : public BaseMap {
+class Cow final
+	: public BaseMap,
+	public Turn {
 private:
 	// member objcet
 
@@ -56,7 +59,7 @@ private:
 
 	int gridDistanceValue_[8];
 	int nearWallOfValue_[4];
-	
+
 	//=========================================
 	// 評価値
 	// 壁の距離での評価値
@@ -65,7 +68,7 @@ private:
 		int fourArea;
 		int allDire;
 	};
-	
+
 	Value value_;
 
 	// 壁との評価で使う
@@ -142,7 +145,7 @@ public:
 	int GetMoveDireValue(int num) { return canMoveDireValue_[num]; }
 
 	// 牛から見たプレイヤー達の位置を計算するために使う
-	void SetGridDistanceValue(int value, int dire) {gridDistanceValue_[dire] = value; }
+	void SetGridDistanceValue(int value, int dire) { gridDistanceValue_[dire] = value; }
 	int GetGridDistanceValue(int dire) { return gridDistanceValue_[dire]; }
 
 	// 評価値

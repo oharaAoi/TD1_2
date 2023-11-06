@@ -150,7 +150,7 @@ void Cow::Finalize() {
 ==========================================================*/
 
 void Cow::CowMove() {
-	if (input->IsTriggerKey(DIK_M)) {
+	if (input->IsTriggerKey(DIK_M) or isTurnChange_) {
 		isIdle_ = true;
 		CheckNearWall();
 	}
