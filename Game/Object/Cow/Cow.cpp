@@ -24,6 +24,8 @@ void Cow::Init(MapChip* mapChip) {
 		}
 	}
 
+	worldPreCenterPos_ = worldCenterPos_;
+
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	isIdle_ = false;
@@ -160,6 +162,8 @@ void Cow::Move() {
 	maxDireValue_ = 0;
 	maxDireValueIndex_ = 0;
 	adjoinNum_ = 0;
+
+	worldPreCenterPos_ = worldCenterPos_;
 
 	//全方位囲まれていたら処理を終わる
 	for (int i = 0; i < 8; i++) {

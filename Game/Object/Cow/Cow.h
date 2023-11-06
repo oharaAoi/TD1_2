@@ -24,6 +24,7 @@ private:
 
 	// ワールド座標での中心点
 	Vec2f worldCenterPos_;
+	Vec2f worldPreCenterPos_;
 	Vec2f size_;
 	int gh_;
 
@@ -122,10 +123,19 @@ public:
 
 	// accessor
 
+	// worldPos
+	void SetWorldCenterPos(Vec2f pos) { worldCenterPos_ = pos; }
+
 	// address
 	Vec2 GetCenterAdd() { return centerAdd_; }
 
+	// prePos
+	void SetPreCenterPos(Vec2f preCenterPos) { worldPreCenterPos_ = preCenterPos; }
+	Vec2f GetPreCenterPos() { return worldPreCenterPos_; }
+
+	// 移動できる状態かどうか判断
 	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
+	bool GetIsIdle() { return isIdle_; }
 
 	// 方向を決めるための量
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }

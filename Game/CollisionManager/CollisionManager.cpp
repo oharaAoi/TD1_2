@@ -101,7 +101,7 @@ bool CollisionManager::CowherdCheckCanMove(const Vec2& add) {
 
 bool CollisionManager::CheckClear() {
 	// 牛飼いと牛のアドレスが重なっていたら
-	if (cowherd_->GetCenterAdd().x == cow_->GetCenterAdd().x && 
+	if (cowherd_->GetCenterAdd().x == cow_->GetCenterAdd().x &&
 		cowherd_->GetCenterAdd().y == cow_->GetCenterAdd().y) {
 
 		return true;
@@ -163,6 +163,13 @@ bool CollisionManager::YoungPersonCheckCanMove(const Vec2& add) {
 /*=================================================================
 	牛
 =================================================================*/
+
+// 牛のいる位置がNONE以外だったら前の座標に戻す
+void CollisionManager::CheckOverLapping() {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x] != ChipType::NONE) {
+		cow_->SetWorldCenterPos(cow_->GetPreCenterPos());
+	}
+}
 
 void CollisionManager::CheckDogExist() {
 	// 犬がいる方向を入手しいる場合は値を減らす

@@ -42,6 +42,8 @@ public:
 
 	void CheckCowMoveDire();
 
+	void CheckOverLapping();
+
 	// クリア条件の判定
 	bool CheckClear();
 
