@@ -204,7 +204,7 @@ void Cow::Move() {
 
 	case kCanMoveDirection::leftTop:
 		worldCenterPos_.x -= tileSize_.x;
-		worldCenterPos_.y -= tileSize_.y;
+		worldCenterPos_.y += tileSize_.y;
 		break;
 
 	case kCanMoveDirection::rightTop:
