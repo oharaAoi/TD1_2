@@ -4,6 +4,12 @@ MapChip::MapChip(){
 
 	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
+	csvFilePath_[1] = "./Resources/stage/stageTest2.csv";
+
+	mapAdd_ = LoadFile(csvFilePath_[1]);
+
+	row_ = static_cast<int>(mapAdd_.size());
+	col_ = static_cast<int>(mapAdd_[0].size());
 
 	//配列の確保
 	mapChip_ = new Base * [row_];

@@ -3,6 +3,7 @@
 //===========================================================================
 //　静的メンバ変数の初期化
 std::string BaseMap::csvFilePath_ = "./Resources/stage/stageTest1.csv";
+
 std::vector<std::vector<int>> BaseMap::mapAdd_ = LoadFile(csvFilePath_);
 
 int BaseMap::row_ = static_cast<int>(mapAdd_.size());
