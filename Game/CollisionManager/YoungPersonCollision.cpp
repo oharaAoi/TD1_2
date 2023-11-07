@@ -59,9 +59,8 @@ bool YoungPersonCollision::YoungPersonCheckCanMove(const Vec2& add){
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
 
-	// 牛との
-
-	// 牛飼いとの
+	// 牛と牛飼い
+	if (IsEqualAdd(add, cow_->GetCenterAdd())) { return false; }
 	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
 
 	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
