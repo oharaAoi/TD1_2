@@ -76,7 +76,7 @@ void Scene_Game::Update() {
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
-	/*collisionManager_->CheckCowCollison(); */
+	/*collisionManager_->CheckCowCollison();*/
 
 	// ----- MatrixChange ----- //
 	ChangeMatrix();

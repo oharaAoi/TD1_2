@@ -416,40 +416,40 @@ void Cow::DebugScreenPrintf() {
 
 	for (int i = 0; i < 8; i++) {
 		Novice::ScreenPrintf(800, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
-		Novice::ScreenPrintf(1100, 500 + (i * 20), "DireValue_[%d]:%d", i, gridDistanceValue_[i]);
+		Novice::ScreenPrintf(1150, 500 + (i * 20), "Dire_[%d]:%d", i, gridDistanceValue_[i]);
 
 
-		/*switch (i) {
+		switch (i) {
 		case 0:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "top");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "top");
 			break;
 
 		case 1:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "bottom");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "bottom");
 			break;
 		case 2:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "left");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "left");
 			break;
 
 		case 3:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "right");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "right");
 			break;
 
 		case 4:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "leftTop");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "leftTop");
 			break;
 
 		case 5:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "rightTop");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "rightTop");
 			break;
 
 		case 6:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "leftBottom");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "leftBottom");
 			break;
 
 		case 7:
-			Novice::ScreenPrintf(1150, 500 + (i * 20), "rightBottom");
+			Novice::ScreenPrintf(1050, 500 + (i * 20), "rightBottom");
 			break;
-		}*/
+		}
 	}
 }

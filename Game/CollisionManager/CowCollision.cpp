@@ -24,7 +24,7 @@ void CowCollision::Finalize() {
 void CowCollision::CheckCowMoveDire() {
 	CheckDogExist();
 	CheckCowAdjoin();
-	CheckCowFourArea();
+	/*CheckCowFourArea();*/
 	CheckGridDistance(cowherd_->GetCenterAdd());
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
@@ -147,6 +147,9 @@ void CowCollision::CheckDogExist() {
 	}
 }
 
+/*=================================================================
+	隣接しているかどうか
+=================================================================*/
 void CowCollision::CheckCowAdjoin() {
 	// 牛と隣接しているものがないか調べる
 
@@ -307,6 +310,9 @@ void CowCollision::CheckCowAdjoin() {
 
 }
 
+/*=================================================================
+	4つ
+=================================================================*/
 void CowCollision::CheckCowFourArea() {
 	// 左上エリアを調べる
 	for (int yAxis = cow_->GetCenterAdd().y; yAxis < mapChip_->GetMapChipRow(); yAxis++) {
