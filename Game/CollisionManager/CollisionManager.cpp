@@ -46,11 +46,11 @@ void CollisionManager::Finalize() {
 void CollisionManager::CheckCanMove() {
 
 	cowherdCollison_->CowherdCanMove();
-	cowCollision_->CheckCowMoveDire();
+	/*cowCollision_->CheckCowMoveDire();*/
 	youngPersonCollision_->YoungPersonCanMove();
 
 	/*YoungPersonCanMove();*/
-	CheckCanCowMove();
+	
 }
 
 /* --- デバック用 --- */
