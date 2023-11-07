@@ -19,5 +19,7 @@ public:
 	void Draw();
 	void Finalize();
 
+	bool GetIsTurnChange(void) const { return isTurnChange_; }
+
 };
 

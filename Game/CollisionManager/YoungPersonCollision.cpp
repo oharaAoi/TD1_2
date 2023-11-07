@@ -45,11 +45,8 @@ void YoungPersonCollision::YoungPersonCanMove(){
 					youngPerson_->SetCanMove(true, yi, gi);
 
 				}
-
 			}
-
 		}
-
 	}
 }
 

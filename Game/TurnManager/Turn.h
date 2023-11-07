@@ -1,5 +1,10 @@
 ﻿#pragma once
 
+enum kTurnType {
+	Players,
+	Cows
+};
+
 class Turn {
 protected:
 
@@ -7,6 +12,7 @@ protected:
 	static int turnNo_;
 	static int preTurnNo_;
 	static bool isTurnChange_;
+	static kTurnType turnType_;
 	bool IsTurnChange();
 
 public:
