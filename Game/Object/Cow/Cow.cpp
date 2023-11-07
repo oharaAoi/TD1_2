@@ -437,6 +437,7 @@ void Cow::ImguiDraw() {
 	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
 	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
 	ImGui::SliderInt("value_.dog:", &value_.dog, 1000, 1500);
+	ImGui::SliderInt("value_.fence:", &value_.fence, -1000, 1000);
 	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -1000, 1000);
 	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
 	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
