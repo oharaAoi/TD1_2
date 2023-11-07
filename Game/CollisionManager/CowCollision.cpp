@@ -24,7 +24,7 @@ void CowCollision::Finalize() {
 void CowCollision::CheckCowMoveDire() {
 	CheckDogExist();
 	CheckCowAdjoin();
-	/*CheckCowFourArea();*/
+	CheckCowFourArea();
 	CheckGridDistance(cowherd_->GetCenterAdd());
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
