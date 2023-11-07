@@ -157,7 +157,7 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
 
-	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y) {
+	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
 
 	}
@@ -169,7 +169,7 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
 
-	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y) {
+	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
 
 	}
@@ -181,7 +181,7 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
 
-	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
+	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
 
 	}
@@ -193,7 +193,7 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
 
-	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
+	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
 
 	}

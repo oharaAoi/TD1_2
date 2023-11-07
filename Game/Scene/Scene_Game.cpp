@@ -65,6 +65,10 @@ void Scene_Game::Update() {
 		collisionManager_->CheckCanCowMove();
 	}
 
+	if (input->IsTriggerKey(DIK_N)) {
+		collisionManager_->CheckCanCowMove();
+	}
+
 	// 牛の更新
 	cow_->Update();
 

@@ -165,6 +165,9 @@ void Cow::CowMove() {
 		CheckNearWall();
 	}
 
+	if (input->IsTriggerKey(DIK_N)) {
+		CheckNearWall();
+	}
 
 }
 
