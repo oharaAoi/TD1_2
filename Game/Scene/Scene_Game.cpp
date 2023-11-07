@@ -60,13 +60,8 @@ void Scene_Game::Update() {
 
 	turnManager_->Update();
 
-	// 牛の動ける方向のための更新
+	// 牛の動ける方向のための更新(デバック用
 	if (input->IsTriggerKey(DIK_M)) {
-		collisionManager_->CheckCanCowMove();
-		collisionManager_->CheckCowCollison();
-	}
-
-	if (input->IsTriggerKey(DIK_N)) {
 		collisionManager_->CheckCanCowMove();
 		collisionManager_->CheckCowCollison();
 	}
@@ -77,10 +72,12 @@ void Scene_Game::Update() {
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
+	// 牛の動ける方向のための更新
 	if (turnManager_->GetIsTurnChange()) {
 		collisionManager_->CheckCanCowMove();
 	}
 
+	// 動いた時の当たり判定
 	collisionManager_->CheckCowCollison();
 
 	// ----- MatrixChange ----- //
