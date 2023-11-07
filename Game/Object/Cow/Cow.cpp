@@ -415,9 +415,11 @@ void Cow::DebugScreenPrintf() {
 	Novice::ScreenPrintf(1000, 450, "Keys[DIK_M]:cowMove");
 
 	for (int i = 0; i < 8; i++) {
-		Novice::ScreenPrintf(900, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
+		Novice::ScreenPrintf(800, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
+		Novice::ScreenPrintf(1100, 500 + (i * 20), "DireValue_[%d]:%d", i, gridDistanceValue_[i]);
 
-		switch (i) {
+
+		/*switch (i) {
 		case 0:
 			Novice::ScreenPrintf(1150, 500 + (i * 20), "top");
 			break;
@@ -448,6 +450,6 @@ void Cow::DebugScreenPrintf() {
 		case 7:
 			Novice::ScreenPrintf(1150, 500 + (i * 20), "rightBottom");
 			break;
-		}
+		}*/
 	}
 }
