@@ -24,6 +24,7 @@ void Scene_Game::Init() {
 	
 	renderer_->AddDrawable(cowherd_);
 	renderer_->AddDrawable(youngPerson_);
+	renderer_->AddDrawable(dog_);
 
 
 	turnManager_ = new TurnManager();
@@ -93,9 +94,7 @@ void Scene_Game::Draw() {
 
 	// 牛の描画
 	cow_->Draw();
-	// 犬の描画
-	dog_->Draw();
-
+	
 	renderer_->Draw();
 	turnManager_->Draw();
 }

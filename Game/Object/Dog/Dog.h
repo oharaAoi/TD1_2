@@ -10,6 +10,7 @@
 #include "Quad.h"
 #include "Draw.h"
 #include "Collision.h"
+#include "Drawable.h"
 
 // ----- object ----- //
 #include "BaseMap.h"
@@ -22,8 +23,10 @@ enum ExsitSide {
 	RIGHT
 };
 
-class Dog final :public BaseMap {
-private: 
+class Dog final
+	: public BaseMap,
+	public Drawable {
+private:
 
 	// 入力処理のインスタンス確保
 	InputManager* input = InputManager::GetInstance();
@@ -48,7 +51,7 @@ private:
 	QuadVerf localVertex_;
 	QuadVerf worldVertex_;
 	QuadVerf screenVertex_;
-	
+
 	// ローカル空間以外の各行列
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
@@ -82,7 +85,7 @@ public:
 	// default method
 	void Init();
 	void Update();
-	void Draw();
+	void Draw() override;
 	void Finalize();
 
 	// user method

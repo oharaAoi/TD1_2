@@ -11,10 +11,13 @@ Dog::~Dog() { Finalize(); }
 void Dog::Init() {
 
 	// ワールド空間での中心座標
-	worldCenterPos_ = { static_cast<float>(input->GetMousePos().x),
-						static_cast<float>(input->GetMousePos().y) };
+	worldCenterPos_ = {
+		static_cast<float>(input->GetMousePos().x),
+		static_cast<float>(input->GetMousePos().y)
+	};
 	size_ = { 64.0f,64.0f };
 	gh_ = Novice::LoadTexture("white1x1.png");
+	SetZOder(15);
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
