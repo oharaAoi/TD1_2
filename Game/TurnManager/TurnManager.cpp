@@ -33,6 +33,12 @@ void TurnManager::Update() {
 
 	isTurnChange_ = IsTurnChange();
 
+	if (isTurnChange_) {
+		turnType_ = kTurnType::Cows;
+	} else {
+		turnType_ = kTurnType::Players;
+	}
+
 }
 
 

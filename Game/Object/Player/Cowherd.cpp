@@ -129,6 +129,8 @@ void Cowherd::Init() {
 ==========================================================*/
 void Cowherd::Update() {
 
+	if (turnType_ != kTurnType::Players) { return; }
+
 	// 移動処理
 	Move();
 	// アドレスの更新

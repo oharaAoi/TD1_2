@@ -170,6 +170,9 @@ void YoungPerson::Init() {
 ================================================================*/
 void YoungPerson::Update() {
 
+	if (turnType_ != kTurnType::Players) { return; }
+
+
 	Move();
 
 	CenterAddUpDate();
