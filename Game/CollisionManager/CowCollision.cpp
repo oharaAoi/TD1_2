@@ -29,6 +29,9 @@ void CowCollision::CheckCowMoveDire() {
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
 	}
+
+	CheckFourAreas();
+
 	CheckCowMoveAllDire();
 }
 
@@ -38,7 +41,7 @@ void CowCollision::CheckCowMoveDire() {
 
 void CowCollision::CheckFenseCollision() {
 	// 両隣外かフェンスだったら
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE && 
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE &&
 		mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
 
 		// 真ん中により上だったら下に戻す
@@ -74,7 +77,7 @@ void CowCollision::CheckFenseCollision() {
 void CowCollision::CheckRockCollision() {
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x] == ChipType::ROCK) {
 
-		switch (cow_->GetMovedDire()){
+		switch (cow_->GetMovedDire()) {
 		case kCanMoveDirection::top:
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y });
 			break;
@@ -94,7 +97,7 @@ void CowCollision::CheckRockCollision() {
 		case kCanMoveDirection::leftTop:
 			cow_->SetWorldCenterPos({
 				cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x,
-				cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y 
+				cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y
 				});
 			break;
 
@@ -118,7 +121,7 @@ void CowCollision::CheckRockCollision() {
 				cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().y
 				});
 			break;
-		} 
+		}
 	}
 }
 
@@ -311,7 +314,7 @@ void CowCollision::CheckCowAdjoin() {
 }
 
 /*=================================================================
-	4つ
+	4つのエリアを調べる
 =================================================================*/
 void CowCollision::CheckCowFourArea() {
 	// 左上エリアを調べる
@@ -399,6 +402,88 @@ void CowCollision::CheckCowFourArea() {
 	}
 }
 
+void CowCollision::CheckFourAreas() {
+	// 4方向にいる人の数
+	int personNum[4] = { 0 };
+	int maxNumIndex = -1;
+	int maxNum = 0;
+
+	/* ------ cowherd ------ */
+	// top
+	if (cowherd_->GetCenterAdd().y > cow_->GetCenterAdd().y) {
+		personNum[0]++;
+	}
+
+	// bottom
+	if (cowherd_->GetCenterAdd().y < cow_->GetCenterAdd().y) {
+		personNum[1]++;
+	}
+
+	// left
+	if (cowherd_->GetCenterAdd().x < cow_->GetCenterAdd().x) {
+		personNum[2]++;
+	}
+
+	// right
+	if (cowherd_->GetCenterAdd().x > cow_->GetCenterAdd().x) {
+		personNum[3]++;
+	}
+
+	/* ------ youngPerson ------ */
+	for (int num = 0; num < youngPerson_->GetYoungMaxIndex(); num++) {
+		// top
+		if (youngPerson_->GetCenterAdd(num).y > cow_->GetCenterAdd().y) {
+			personNum[0]++;
+		}
+
+		// bottom
+		if (youngPerson_->GetCenterAdd(num).y < cow_->GetCenterAdd().y) {
+			personNum[1]++;
+		}
+
+		// left
+		if (youngPerson_->GetCenterAdd(num).x < cow_->GetCenterAdd().x) {
+			personNum[2]++;
+		}
+
+		// right
+		if (youngPerson_->GetCenterAdd(num).x > cow_->GetCenterAdd().x) {
+			personNum[3]++;
+		}
+	}
+
+	// 一番人数が多いエリアを調べる
+	for (int dire = 0; dire < 4; dire++) {
+		if (maxNum < personNum[dire]) {
+			maxNum = personNum[dire]; 
+			maxNumIndex = dire;
+		}
+	}
+
+
+	switch (maxNumIndex) {
+	case 0:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 5, kCanMoveDirection::top);
+		break;
+
+	case 1:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 5, kCanMoveDirection::top);
+		break;
+
+	case 2:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 5, kCanMoveDirection::top);
+		break;
+
+	case 3:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 5, kCanMoveDirection::top);
+		break;
+	}
+
+}
+
+/*=================================================================
+	壁までの距離を計算
+=================================================================*/
 void CowCollision::CheckCowMoveAllDire() {
 	// 壁までの距離を計算
 	int cow2topWall_ = mapChip_->GetMapChipRow() - cow_->GetCenterAdd().y;
@@ -484,6 +569,9 @@ void CowCollision::CheckCowMoveAllDire() {
 
 }
 
+/*=================================================================
+	マス目ごとの距離の計算
+=================================================================*/
 void CowCollision::CheckGridDistance(const Vec2& add) {
 	Vec2f cow2PlayerDis{};
 	Vec2 naturalDis{};

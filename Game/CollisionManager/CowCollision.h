@@ -43,9 +43,11 @@ private:
 	// 評価で使う
 	void CheckCowAdjoin();
 	void CheckDogExist();
+
 	void CheckCowFourArea();
 	void CheckGridDistance(const Vec2& add);
 	void CheckCowMoveAllDire();
+	void CheckFourAreas();
 
 };
 
