@@ -72,6 +72,9 @@ private:
 		int fourArea;
 		int allDire;
 		int clamp;
+
+		int dog;
+		int adjoin;
 	};
 
 	Value value_;
@@ -160,6 +163,8 @@ public:
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }
 	int GetFourAreaValue() { return value_.fourArea; }
+	int GetDogValue() { return value_.dog; }
+	int GetAdjoinValue() { return value_.adjoin; }
 
 	// debugScreenPrintf
 	void DebugScreenPrintf();

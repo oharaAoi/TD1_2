@@ -174,19 +174,19 @@ void CowCollision::CheckDogExist() {
 	// 犬がいる方向を入手しいる場合は値を減らす
 	switch (dog_->GetIsExistSide()) {
 	case ExsitSide::TOP:
-		cow_->SetMoveDireValue(999, kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetDogValue(), kCanMoveDirection::bottom);
 		break;
 
 	case ExsitSide::BOTTOM:
-		cow_->SetMoveDireValue(999, kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetDogValue(), kCanMoveDirection::top);
 		break;
 
 	case ExsitSide::LEFT:
-		cow_->SetMoveDireValue(999, kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetDogValue(), kCanMoveDirection::right);
 		break;
 
 	case ExsitSide::RIGHT:
-		cow_->SetMoveDireValue(999, kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetDogValue(), kCanMoveDirection::left);
 		break;
 	}
 }
@@ -199,104 +199,104 @@ void CowCollision::CheckCowAdjoin() {
 
 	// top
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 
 	}
 
 	// bottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	}
 
 	// left
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x - 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 
 	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 
 	}
 
 	// right
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x + 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 
 	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 
 	}
 
 	// leftTop
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x - 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	}
 
 	// rightTop
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x + 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
 	// leftBottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x - 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	}
 
 	// rightBottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x + 1) == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-999, kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	}
 
@@ -306,53 +306,53 @@ void CowCollision::CheckCowAdjoin() {
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 		}
 
 		// bottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 		}
 
 		// left
 		if (cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 		}
 
 		// right
 		if (cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 		}
 
 		// leftTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		}
 
 		// rightTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// leftBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		}
 
 		// rightBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-999, kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 	}
@@ -506,6 +506,7 @@ void CowCollision::CheckFourAreas() {
 		}
 	}
 
+	// 4つのエリアで人がいる場合そのエリアの方向を減らす
 	for (int dire = 0; dire < 4; dire++) {
 		if (personNum[dire] != 0) {
 			switch (dire) {
@@ -536,6 +537,7 @@ void CowCollision::CheckFourAreas() {
 			}
 
 		} else {
+			// 人がいない場合その方向への評価を加点する
 			switch (dire) {
 			case kCanMoveDirection::top:
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetFourAreaValue(), kCanMoveDirection::top);
@@ -564,41 +566,13 @@ void CowCollision::CheckFourAreas() {
 			}
 		}
 	}
-
-	/*switch (maxNumIndex) {
-	case kCanMoveDirection::top:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetFourAreaValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-		break;
-
-	case kCanMoveDirection::bottom:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetFourAreaValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetFourAreaValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetFourAreaValue(), kCanMoveDirection::rightBottom);
-		break;
-
-	case kCanMoveDirection::left:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetFourAreaValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetFourAreaValue(), kCanMoveDirection::leftBottom);
-		break;
-
-	case kCanMoveDirection::right:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetFourAreaValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetFourAreaValue(), kCanMoveDirection::rightTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetFourAreaValue(), kCanMoveDirection::rightBottom);
-
-		break;
-	}*/
-
 }
 
 /*=================================================================
 	牛の8方向を調べる
 =================================================================*/
 void CowCollision::CheckCowMoveAllDire() {
-	// 壁までの距離を計算
+	// 壁までの距離を計算(端までを求めることでfor分の上限が分かる)
 	int cow2topWall_ = mapChip_->GetMapChipRow() - 1 - cow_->GetCenterAdd().y;
 	int cow2bottomWall_ = cow_->GetCenterAdd().y;
 	int cow2leftWall_ = cow_->GetCenterAdd().x;

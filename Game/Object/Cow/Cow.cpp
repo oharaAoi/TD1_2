@@ -60,10 +60,15 @@ void Cow::Init(MapChip* mapChip) {
 		nearWallOfValue_[i] = 0;
 	}
 
+	// 評価した数値の最大値
 	maxDireValue_ = 0;
+	// その添え字
 	maxDireValueIndex_ = 0;
+
+	// 全方向囲まれている時
 	adjoinNum_ = 0;
 
+	// 最終的に動く方向
 	movedDire_ = top;
 
 	// ローカル空間以外の各行列
@@ -82,6 +87,8 @@ void Cow::Init(MapChip* mapChip) {
 	value_.fourArea = 10;
 	value_.allDire = 5;
 	value_.clamp = 2;
+	value_.dog = 1500;
+	value_.adjoin = -1000;
 
 	//=========================================
 	//評価で使う
@@ -103,23 +110,17 @@ void Cow::Update() {
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
 
+	// デバック用
 	CowMove();
 
-	// 動く方向の評価をする(壁との距離)
-
-	if (isIdle_) {
-		Move();
-		isIdle_ = false;
-	}
+	// 実際に動く
+	Move();
 
 	// 移動後のアドレスを計算する
 	CenterAddUpdate();
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
-
-	// 牛の方向をリセットする
-	/*DireInit();*/
 }
 
 
@@ -137,7 +138,7 @@ void Cow::Draw() {
 
 void Cow::ImguiDraw() {
 	//リリースの時は消す
-	ImGui::Begin("Control");
+	ImGui::Begin("value");
 
 	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
 	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
@@ -166,98 +167,100 @@ void Cow::Finalize() {
 ==========================================================*/
 
 void Cow::CowMove() {
-	if (input->IsTriggerKey(DIK_M) or isTurnChange_) {
-		isIdle_ = true;
-	}
-
-	if (input->IsTriggerKey(DIK_N)) {
-		CheckNearWall();
-	}
-
+		if (input->IsTriggerKey(DIK_M) or isTurnChange_) {
+			isIdle_ = true;
+		}
 }
 
 void Cow::Move() {
-	maxDireValue_ = 0;
-	maxDireValueIndex_ = 0;
-	adjoinNum_ = 0;
+	if (isIdle_) {
+		// 残りの評価値を計算
+		CheckNearPerson();
+		CheckNearWall();
 
-	worldPreCenterPos_ = worldCenterPos_;
+		maxDireValue_ = 0;
+		maxDireValueIndex_ = 0;
+		adjoinNum_ = 0;
 
-	//全方位囲まれていたら処理を終わる
-	for (int i = 0; i < 8; i++) {
-		if (canMoveDireValue_[i] < -900) {
-			adjoinNum_++;
+		worldPreCenterPos_ = worldCenterPos_;
+
+		//全方位囲まれていたら処理を終わる
+		for (int i = 0; i < 8; i++) {
+			if (canMoveDireValue_[i] < -900) {
+				adjoinNum_++;
+			}
 		}
-	}
 
-	if (adjoinNum_ == 8) {
-		return;
-	}
-
-	CheckNearPerson();
-	CheckNearWall();
-
-	// 一番値の大きい方向に動く
-	for (int i = 0; i < 8; i++) {
-		if (maxDireValue_ < canMoveDireValue_[i]) {
-			maxDireValue_ = canMoveDireValue_[i];
-			maxDireValueIndex_ = i;
+		if (adjoinNum_ == 8) {
+			return;
 		}
+
+		// 一番値の大きい方向に動く
+		for (int i = 0; i < 8; i++) {
+			if (maxDireValue_ < canMoveDireValue_[i]) {
+				maxDireValue_ = canMoveDireValue_[i];
+				maxDireValueIndex_ = i;
+			}
+		}
+
+		// 移動方向の量によって進む箇所を決める
+		switch (maxDireValueIndex_) {
+		case kCanMoveDirection::top:
+			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::top;
+			break;
+
+		case kCanMoveDirection::bottom:
+			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::bottom;
+			break;
+
+		case kCanMoveDirection::left:
+			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::left;
+			break;
+
+		case kCanMoveDirection::right:
+			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::right;
+			break;
+
+		case kCanMoveDirection::leftTop:
+			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftTop;
+			break;
+
+		case kCanMoveDirection::rightTop:
+			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::rightTop;
+			break;
+
+		case kCanMoveDirection::leftBottom:
+			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftBottom;
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftBottom;
+			break;
+		}
+
+		// 移動の終了とともにturnがプレイヤー側になる
+		turnType_ = kTurnType::Players;
+
+		// 待機状態の解除
+		isIdle_ = false;
+
+		/*DireInit();*/
 	}
-
-	// 移動方向の量によって進む箇所を決める
-	switch (maxDireValueIndex_) {
-	case kCanMoveDirection::top:
-		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::top;
-		break;
-
-	case kCanMoveDirection::bottom:
-		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::bottom;
-		break;
-
-	case kCanMoveDirection::left:
-		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-		movedDire_ = kCanMoveDirection::left;
-		break;
-
-	case kCanMoveDirection::right:
-		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-		movedDire_ = kCanMoveDirection::right;
-		break;
-
-	case kCanMoveDirection::leftTop:
-		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::leftTop;
-		break;
-
-	case kCanMoveDirection::rightTop:
-		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::rightTop;
-		break;
-
-	case kCanMoveDirection::leftBottom:
-		worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::leftBottom;
-		break;
-
-	case kCanMoveDirection::rightBottom:
-		worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-		worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-		movedDire_ = kCanMoveDirection::leftBottom;
-		break;
-	}
-
-	// 移動の終了とともにturnがプレイヤー側になる
-	turnType_ = kTurnType::Players;
-
-	/*DireInit();*/
 }
 
+// ------ 今のアドレスの計算 ------ //
 void Cow::CenterAddUpdate() {
 	centerAdd_ = {
 		static_cast<int>(worldCenterPos_.x / size_.x),
@@ -265,6 +268,7 @@ void Cow::CenterAddUpdate() {
 	};
 }
 
+// ------ 方向の初期化 ------ //
 void Cow::DireInit() {
 	// 移動方向/量
 	moveDire_.x = 0.0f;
@@ -280,18 +284,38 @@ void Cow::DireInit() {
 	}
 }
 
+void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
+
+	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
+
+	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
+
+}
+
+void Cow::MakeWorldMatrix() {
+
+	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldCenterPos_);
+
+	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
+	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
+	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
+	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+
+}
+
+//	マス目の計算で求めたものをクランプで10の間に収める
 void Cow::CheckNearPerson() {
 	for (int i = 0; i < 8; i++) {
 		if (gridDistanceValue_[i] != 0) {
 			canMoveDireValue_[i] += (10 - std::clamp(gridDistanceValue_[i], 0, 10)) * value_.clamp;
 		}
 	}
-
-	/*for (int i = 0; i < 8; i++) {
-		canMoveDireValue_[i] += gridDistanceValue_[i];
-	}*/
 }
 
+// 一番近い壁までの計算
 void Cow::CheckNearWall() {
 
 	// 近い壁を計算する
@@ -405,28 +429,6 @@ void Cow::CheckNearWall() {
 			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
 		}
 	}
-}
-
-void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
-
-	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
-
-	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
-
-}
-
-void Cow::MakeWorldMatrix() {
-
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldCenterPos_);
-
-	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
-
 }
 
 void Cow::DebugScreenPrintf() {
