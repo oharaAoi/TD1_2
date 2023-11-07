@@ -11,3 +11,14 @@ enum kCanMoveDirection {
 	leftBottom,
 	rightBottom
 };
+
+static const char* kCanMoveDire[8] = {
+	"top",
+	"bottom",
+	"left",
+	"right",
+	"leftTop",
+	"rightTop",
+	"leftBottom",
+	"rightBottom"
+};

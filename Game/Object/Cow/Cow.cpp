@@ -136,23 +136,6 @@ void Cow::Draw() {
 	ImguiDraw();
 }
 
-void Cow::ImguiDraw() {
-	//リリースの時は消す
-	ImGui::Begin("value");
-
-	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
-	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
-	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
-	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
-	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
-	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
-
-
-	ImGui::End();
-
-}
-
-
 /*==========================================================
 	終了処理関数
 ==========================================================*/
@@ -438,43 +421,41 @@ void Cow::DebugScreenPrintf() {
 	for (int i = 0; i < 4; i++) {
 		Novice::ScreenPrintf(1100, 30 + (i * 20), "nearWall:%d", nearWallOfValue_[i]);
 	}
+}
 
-	for (int i = 0; i < 8; i++) {
-		Novice::ScreenPrintf(800, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);
-		Novice::ScreenPrintf(1150, 500 + (i * 20), "Dire_[%d]:%d", i, gridDistanceValue_[i]);
+void Cow::ImguiDraw() {
+	//リリースの時は消す
+	ImGui::Begin("value");
 
+	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+	ImGui::SliderInt("value_.dog:", &value_.dog, 1000, 1500);
+	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -1000, -500);
+	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
+	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
 
-		switch (i) {
-		case 0:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "top");
-			break;
+	ImGui::End();
 
-		case 1:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "bottom");
-			break;
-		case 2:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "left");
-			break;
+	//
+	ImGui::Begin("canMoveDireValue");
 
-		case 3:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "right");
-			break;
-
-		case 4:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "leftTop");
-			break;
-
-		case 5:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "rightTop");
-			break;
-
-		case 6:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "leftBottom");
-			break;
-
-		case 7:
-			Novice::ScreenPrintf(1050, 500 + (i * 20), "rightBottom");
-			break;
-		}
+	for (int dire = 0; dire < 8; dire++) {
+		ImGui::Text("%d : %s", canMoveDireValue_[dire], kCanMoveDire[dire]);
 	}
+
+	ImGui::End();
+
+	//
+	ImGui::Begin("gridDistanceValue_");
+	ImGui::BeginChild(ImGuiWindowFlags_NoTitleBar);
+
+	for (int dire = 0; dire < 8; dire++) {
+		ImGui::Text("%d : %s", gridDistanceValue_[dire], kCanMoveDire[dire]);
+	}
+
+	ImGui::EndChild();
+	ImGui::End();
+
 }

@@ -49,34 +49,6 @@ void CowCollision::CheckCowMoveDire() {
 }
 
 /*=================================================================
-	牛が移動してフェンスと隣あったら
-=================================================================*/
-
-void CowCollision::CheckFenseCollision() {
-	// top
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y + 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(10000, kCanMoveDirection::top);
-	}
-
-	// bottom
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y - 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(10000, kCanMoveDirection::bottom);
-	}
-
-	// left
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x - 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(10000, kCanMoveDirection::left);
-	}
-
-	// right
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x + 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(10000, kCanMoveDirection::right);
-	}
-
-}
-
-
-/*=================================================================
 	牛が移動してフェンス外に行ってしまったら
 =================================================================*/
 
@@ -114,7 +86,6 @@ void CowCollision::CheckFenseScissorsCollision() {
 /*=================================================================
 	牛が移動して岩に行ってしまったら
 =================================================================*/
-
 void CowCollision::CheckRockCollision() {
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x] == ChipType::ROCK) {
 
@@ -190,6 +161,32 @@ void CowCollision::CheckDogExist() {
 		break;
 	}
 }
+
+/*=================================================================
+	牛が移動してフェンスと隣あったら
+=================================================================*/
+void CowCollision::CheckFenseCollision() {
+	// top
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y + 1] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+	}
+
+	// bottom
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y - 1] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+	}
+
+	// left
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x - 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+	}
+
+	// right
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x + 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+	}
+}
+
 
 /*=================================================================
 	隣接しているかどうか
@@ -360,7 +357,7 @@ void CowCollision::CheckCowAdjoin() {
 }
 
 /*=================================================================
-	4つのエリアを調べる
+	4つのエリアを調べる(この関数は使わなくなるかも)
 =================================================================*/
 void CowCollision::CheckCowFourArea() {
 	// 左上エリアを調べる
@@ -448,6 +445,9 @@ void CowCollision::CheckCowFourArea() {
 	}
 }
 
+/*=================================================================
+	4つのエリアを調べる
+=================================================================*/
 void CowCollision::CheckFourAreas() {
 	// 4方向にいる人の数
 	int personNum[4] = { 0 };
