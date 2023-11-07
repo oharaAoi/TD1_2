@@ -247,6 +247,9 @@ void Cow::Move() {
 		break;
 	}
 
+	// 移動の終了とともにturnがプレイヤー側になる
+	turnType_ = kTurnType::Players;
+	
 	DireInit();
 }
 
