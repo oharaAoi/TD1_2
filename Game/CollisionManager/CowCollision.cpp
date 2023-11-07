@@ -575,7 +575,7 @@ void CowCollision::CheckFourAreas() {
 			case kCanMoveDirection::top:
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetFourAreaValue(), kCanMoveDirection::top);
 				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetFourAreaValue(), kCanMoveDirection::leftTop);
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetFourAreaValue(), kCanMoveDirection::rightTop);
 				break;
 
 			case kCanMoveDirection::bottom:
