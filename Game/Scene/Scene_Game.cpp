@@ -77,7 +77,9 @@ void Scene_Game::Update() {
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
-	collisionManager_->CheckCanCowMove();
+	if (turnManager_->GetIsTurnChange()) {
+		collisionManager_->CheckCanCowMove();
+	}
 
 	collisionManager_->CheckCowCollison();
 

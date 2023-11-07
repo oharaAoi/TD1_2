@@ -116,7 +116,7 @@ void Cow::Update() {
 	MakeWorldMatrix();
 
 	// 牛の方向をリセットする
-	DireInit();
+	/*DireInit();*/
 }
 
 
@@ -244,6 +244,7 @@ void Cow::Move() {
 		break;
 	}
 
+	DireInit();
 }
 
 void Cow::CenterAddUpdate() {
@@ -264,6 +265,7 @@ void Cow::DireInit() {
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
 		canMoveDireValue_[i] = 100;
+		gridDistanceValue_[i] = 0;
 	}
 }
 
