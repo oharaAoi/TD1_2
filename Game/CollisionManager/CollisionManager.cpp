@@ -61,7 +61,7 @@ void CollisionManager::CheckCanCowMove() {
 
 /* --- 両隣がステージ外か上下がステージ外だったら*/
 void CollisionManager::CheckCowCollison() {
-	cowCollision_->CheckFenseCollision();
+	cowCollision_->CheckFenseScissorsCollision();
 	cowCollision_->CheckRockCollision();
 }
 

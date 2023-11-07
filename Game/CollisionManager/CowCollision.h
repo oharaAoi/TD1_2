@@ -34,7 +34,7 @@ public:
 	// user method
 	void CheckCowMoveDire();
 
-	void CheckFenseCollision();
+	void CheckFenseScissorsCollision();
 
 	void CheckRockCollision();
 
@@ -48,6 +48,8 @@ private:
 	void CheckGridDistance(const Vec2& add);
 	void CheckCowMoveAllDire();
 	void CheckFourAreas();
+
+	void CheckFenseCollision();
 
 };
 

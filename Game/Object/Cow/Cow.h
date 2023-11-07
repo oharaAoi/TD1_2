@@ -71,6 +71,7 @@ private:
 		int wall;
 		int fourArea;
 		int allDire;
+		int clamp;
 	};
 
 	Value value_;

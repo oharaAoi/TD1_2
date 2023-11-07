@@ -145,6 +145,14 @@ void MapChip::Draw(){
 			} else if (mapAdd_[row][col] == COW) {
 				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[1][1], size_, GH_, mapChip_[row][col].color);
 			}*/
+
+			Novice::ScreenPrintf(
+				(int)mapChip_[row][col].screenVertex.lt.x,
+				(int)mapChip_[row][col].screenVertex.lt.y,
+				"%d:%d",
+				row, col
+			);
+
 		}
 	}
 }

@@ -79,8 +79,9 @@ void Cow::Init(MapChip* mapChip) {
 	//=========================================
 	// 評価値(ここの数値をいじればいける)
 	value_.wall = 3;
-	value_.fourArea = 2;
+	value_.fourArea = 10;
 	value_.allDire = 5;
+	value_.clamp = 2;
 
 	//=========================================
 	//評価で使う
@@ -97,16 +98,15 @@ void Cow::Init(MapChip* mapChip) {
 void Cow::Update() {
 
 	// ターンが牛側でなければ早期returnする
-	if (turnType_ != kTurnType::Cows) { return; }
+	/*if (turnType_ != kTurnType::Cows) { return; }*/
 
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
 
 	CowMove();
 
-
 	// 動く方向の評価をする(壁との距離)
-	
+
 	if (isIdle_) {
 		Move();
 		isIdle_ = false;
@@ -139,13 +139,16 @@ void Cow::ImguiDraw() {
 	//リリースの時は消す
 	ImGui::Begin("Control");
 
-	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 10);
-	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 10);
-	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 10);
+	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
 	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
 	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
 
+
 	ImGui::End();
+
 }
 
 
@@ -165,7 +168,6 @@ void Cow::Finalize() {
 void Cow::CowMove() {
 	if (input->IsTriggerKey(DIK_M) or isTurnChange_) {
 		isIdle_ = true;
-		CheckNearWall();
 	}
 
 	if (input->IsTriggerKey(DIK_N)) {
@@ -192,6 +194,9 @@ void Cow::Move() {
 		return;
 	}
 
+	CheckNearPerson();
+	CheckNearWall();
+
 	// 一番値の大きい方向に動く
 	for (int i = 0; i < 8; i++) {
 		if (maxDireValue_ < canMoveDireValue_[i]) {
@@ -201,7 +206,7 @@ void Cow::Move() {
 	}
 
 	// 移動方向の量によって進む箇所を決める
-	switch (maxDireValueIndex_){
+	switch (maxDireValueIndex_) {
 	case kCanMoveDirection::top:
 		worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
 		movedDire_ = kCanMoveDirection::top;
@@ -249,8 +254,8 @@ void Cow::Move() {
 
 	// 移動の終了とともにturnがプレイヤー側になる
 	turnType_ = kTurnType::Players;
-	
-	DireInit();
+
+	/*DireInit();*/
 }
 
 void Cow::CenterAddUpdate() {
@@ -277,17 +282,24 @@ void Cow::DireInit() {
 
 void Cow::CheckNearPerson() {
 	for (int i = 0; i < 8; i++) {
-		canMoveDireValue_[i] += (10 - std::clamp(gridDistanceValue_[i], 0, 10)) * 2;
+		if (gridDistanceValue_[i] != 0) {
+			canMoveDireValue_[i] += (10 - std::clamp(gridDistanceValue_[i], 0, 10)) * value_.clamp;
+		}
 	}
+
+	/*for (int i = 0; i < 8; i++) {
+		canMoveDireValue_[i] += gridDistanceValue_[i];
+	}*/
 }
 
 void Cow::CheckNearWall() {
 
 	// 近い壁を計算する
-	nearWallOfValue_[kCanMoveDirection::top] = (row_ - centerAdd_.y);
-	nearWallOfValue_[kCanMoveDirection::bottom] = centerAdd_.y - 1;
-	nearWallOfValue_[kCanMoveDirection::left] = centerAdd_.x - 1;
-	nearWallOfValue_[kCanMoveDirection::right] = (col_ - centerAdd_.x);
+	nearWallOfValue_[kCanMoveDirection::top] = row_ - centerAdd_.y - 1;
+	nearWallOfValue_[kCanMoveDirection::bottom] = centerAdd_.y;
+
+	nearWallOfValue_[kCanMoveDirection::left] = centerAdd_.x;
+	nearWallOfValue_[kCanMoveDirection::right] = col_ - centerAdd_.x - 1;
 
 
 	wallMin_ = 1000;
@@ -302,8 +314,8 @@ void Cow::CheckNearWall() {
 		if (wallMin_ > nearWallOfValue_[i]) {
 			wallMin_ = nearWallOfValue_[i];
 			wallMinIndex_ = i;
-			
-		}else if(wallMin_ == nearWallOfValue_[i]){
+
+		} else if (wallMin_ == nearWallOfValue_[i]) {
 			wallMinNum_++;
 			wallIsDuplicate_ = true;
 		}
@@ -313,9 +325,9 @@ void Cow::CheckNearWall() {
 	if (!wallIsDuplicate_) {
 		switch (wallMinIndex_) {
 		case kCanMoveDirection::top:
-			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
 
 			break;
 
@@ -326,15 +338,15 @@ void Cow::CheckNearWall() {
 			break;
 
 		case kCanMoveDirection::left:
-			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
 			break;
 
 		case kCanMoveDirection::right:
-			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
 			break;
 		}
 	}
@@ -344,54 +356,53 @@ void Cow::CheckNearWall() {
 		if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::right] &&
 			nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::left]) {
 
-			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::left] &&
 			nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::right]) {
 
-			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::left] == nearWallOfValue_[kCanMoveDirection::top] &&
 			nearWallOfValue_[kCanMoveDirection::left] == nearWallOfValue_[kCanMoveDirection::bottom]) {
 
-			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::right] == nearWallOfValue_[kCanMoveDirection::top] &&
 			nearWallOfValue_[kCanMoveDirection::right] == nearWallOfValue_[kCanMoveDirection::bottom]) {
 
-			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
 
 		}
 
 	} else if (wallMinNum_ == 1) {
 		if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::left]) {
-			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftTop] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::top] == nearWallOfValue_[kCanMoveDirection::right]) {
-			canMoveDireValue_[kCanMoveDirection::top] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightTop] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::top] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightTop] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::left]) {
-			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::left] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::leftBottom] -= value_.wall;
+			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::left] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::leftBottom] += value_.wall;
 
 		} else if (nearWallOfValue_[kCanMoveDirection::bottom] == nearWallOfValue_[kCanMoveDirection::right]) {
-			canMoveDireValue_[kCanMoveDirection::bottom] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::right] -= value_.wall;
-			canMoveDireValue_[kCanMoveDirection::rightBottom] -= value_.wall;
-
+			canMoveDireValue_[kCanMoveDirection::bottom] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::right] += value_.wall;
+			canMoveDireValue_[kCanMoveDirection::rightBottom] += value_.wall;
 		}
 	}
 }
@@ -421,6 +432,10 @@ void Cow::MakeWorldMatrix() {
 void Cow::DebugScreenPrintf() {
 
 	Novice::ScreenPrintf(1000, 450, "Keys[DIK_M]:cowMove");
+
+	for (int i = 0; i < 4; i++) {
+		Novice::ScreenPrintf(1100, 30 + (i * 20), "nearWall:%d", nearWallOfValue_[i]);
+	}
 
 	for (int i = 0; i < 8; i++) {
 		Novice::ScreenPrintf(800, 500 + (i * 20), "canMoveDireValue_[%d]:%d", i, canMoveDireValue_[i]);

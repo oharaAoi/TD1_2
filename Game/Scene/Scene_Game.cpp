@@ -66,16 +66,18 @@ void Scene_Game::Update() {
 		collisionManager_->CheckCowCollison();
 	}
 
+	// 牛の動ける方向のための更新
+	if (turnManager_->GetIsTurnChange()) {
+		collisionManager_->CheckCanCowMove();
+	}
+
 	// 牛の更新
 	cow_->Update();
 
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
-	// 牛の動ける方向のための更新
-	if (turnManager_->GetIsTurnChange()) {
-		collisionManager_->CheckCanCowMove();
-	}
+	
 
 	// 動いた時の当たり判定
 	collisionManager_->CheckCowCollison();
