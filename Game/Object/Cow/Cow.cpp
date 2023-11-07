@@ -96,6 +96,9 @@ void Cow::Init(MapChip* mapChip) {
 ==========================================================*/
 void Cow::Update() {
 
+	// ターンが牛側でなければ早期returnする
+	if (turnType_ != kTurnType::Cows) { return; }
+
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
 
