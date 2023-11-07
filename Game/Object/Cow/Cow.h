@@ -19,10 +19,24 @@
 #include "InputManager.h"
 #include "Turn.h"
 
+enum direEvaluateGrid {
+	grid_cow,
+	grid_top,
+	grid_bottom,
+	grid_left,
+	grid_right,
+	grid_leftTop,
+	grid_rightTop,
+	grid_leftBottom,
+	grid_rightBottom
+};
+
+
 class Cow final
 	: public BaseMap,
 	public Turn {
 private:
+
 	// member objcet
 
 	// ワールド座標での中心点
@@ -74,6 +88,7 @@ private:
 		int clamp;
 
 		int dog;
+		int fence;
 		int adjoin;
 	};
 
@@ -84,6 +99,11 @@ private:
 	int wallMinIndex_;
 	int wallMinNum_;
 	bool wallIsDuplicate_;
+
+
+	//=========================================
+	// csvを読み込んでその範囲を評価する
+	std::vector<std::vector<int>>evaluateGrid_;
 
 	//=========================================
 	// 入力処理のインスタンス確保
@@ -132,7 +152,7 @@ public:
 	// debugKeys
 	void CowMove();
 
-	//=========================================
+	//===============================================================
 	// accessor
 
 	// worldPos
@@ -164,8 +184,13 @@ public:
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }
 	int GetFourAreaValue() { return value_.fourArea; }
+	int GetClampValue() { return value_.clamp; }
 	int GetDogValue() { return value_.dog; }
+	int GetFenceValue() { return value_.fence; }
 	int GetAdjoinValue() { return value_.adjoin; }
+
+	// gridでの評価
+	std::vector<std::vector<int>> GetEvaluteGrid() { return evaluateGrid_; }
 
 	// debugScreenPrintf
 	void DebugScreenPrintf();

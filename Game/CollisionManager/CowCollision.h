@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include <algorithm>
+
 // ----- object ----- //
 #include "Cowherd.h"
 #include "YoungPerson.h"
@@ -48,6 +50,8 @@ private:
 	void CheckGridDistance(const Vec2& add);
 	void CheckCowMoveAllDire();
 	void CheckFourAreas();
+
+	void CheckGridDire(const Vec2& add);
 
 	void CheckFenseCollision();
 

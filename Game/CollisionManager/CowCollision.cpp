@@ -168,22 +168,22 @@ void CowCollision::CheckDogExist() {
 void CowCollision::CheckFenseCollision() {
 	// top
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y + 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
 	}
 
 	// bottom
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y - 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
 	}
 
 	// left
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x - 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
 	}
 
 	// right
 	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x + 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
 	}
 }
 
@@ -202,8 +202,9 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
-
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// bottom
@@ -214,7 +215,9 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -226,8 +229,9 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 
 	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
-
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// right
@@ -238,7 +242,9 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 
 	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	}
 
@@ -252,8 +258,9 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// rightTop
@@ -266,7 +273,9 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	}
 
@@ -279,7 +288,10 @@ void CowCollision::CheckCowAdjoin() {
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -293,7 +305,9 @@ void CowCollision::CheckCowAdjoin() {
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	}
 
@@ -303,53 +317,72 @@ void CowCollision::CheckCowAdjoin() {
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// bottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// left
 		if (cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
+
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// right
 		if (cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
+
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		}
 
 		// leftTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// rightTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 		}
 
 		// leftBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// rightBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		}
 
 	}
@@ -663,9 +696,10 @@ void CowCollision::CheckGridDistance(const Vec2& add) {
 	Vec2f cow2PlayerDis{};
 	Vec2 naturalDis{};
 	int directionValue[8]{ 0 };
+	int keepDire[8]{ 0 };
 
 	for (int i = 0; i < 8; i++) {
-		directionValue[i] = cow_->GetGridDistanceValue(i);
+		/*directionValue[i] = cow_->GetGridDistanceValue(i);*/
 	}
 
 	// 牛飼いとのマス目上の距離を取る
@@ -767,7 +801,7 @@ void CowCollision::CheckGridDistance(const Vec2& add) {
 		} else if (naturalDis.x < naturalDis.y) {
 			// xが小さいため斜めに動く分にx、残りは上に動く
 			directionValue[kCanMoveDirection::leftTop] += naturalDis.x;
-			directionValue[kCanMoveDirection::top] += naturalDis.y + naturalDis.x;
+			directionValue[kCanMoveDirection::top] += naturalDis.y - naturalDis.x;
 
 		} else {
 			// 同じの場合はxとyを足して2で割った値を斜めに足す
@@ -776,7 +810,21 @@ void CowCollision::CheckGridDistance(const Vec2& add) {
 	}
 
 	for (int i = 0; i < 8; i++) {
-		cow_->SetGridDistanceValue(directionValue[i], i);
+		if (directionValue[i] != 0) {
+			keepDire[i] = ((10 - std::clamp(directionValue[i], 0, 10)) * cow_->GetClampValue());
+			/*keepDire[i] = ((10 - (directionValue[i])) * cow_->GetClampValue());*/
+
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(i) - keepDire[i], i);
+		}
 	}
 
+}
+
+void CowCollision::CheckGridDire(const Vec2& add) {
+	switch (cow_->GetEvaluteGrid()[add.y][add.x]) {
+	case direEvaluateGrid::grid_top:
+
+		break;
+	}
+	
 }

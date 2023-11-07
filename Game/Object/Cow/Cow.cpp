@@ -40,6 +40,15 @@ void Cow::Init(MapChip* mapChip) {
 
 	MakeWorldMatrix();
 
+	// ローカル空間以外の各行列
+	screenMatrix_ = worldMatrix_;
+
+	// ワールドとスクリーン空間での各頂点座標
+	screenVertex_ = worldVertex_;
+
+	// アドレスの初期化
+	CenterAddUpdate();
+
 	// 移動方向/量
 	moveDire_.x = 0.0f;
 	moveDire_.y = 0.0f;
@@ -71,16 +80,6 @@ void Cow::Init(MapChip* mapChip) {
 	// 最終的に動く方向
 	movedDire_ = top;
 
-	// ローカル空間以外の各行列
-	screenMatrix_ = worldMatrix_;
-
-	// ワールドとスクリーン空間での各頂点座標
-	screenVertex_ = worldVertex_;
-
-	// アドレスの初期化
-	CenterAddUpdate();
-
-
 	//=========================================
 	// 評価値(ここの数値をいじればいける)
 	value_.wall = 3;
@@ -89,6 +88,7 @@ void Cow::Init(MapChip* mapChip) {
 	value_.clamp = 2;
 	value_.dog = 1500;
 	value_.adjoin = -1000;
+	value_.fence = 1000;
 
 	//=========================================
 	//評価で使う
@@ -96,6 +96,11 @@ void Cow::Init(MapChip* mapChip) {
 	wallMinIndex_ = 0;
 	wallMinNum_ = 0;
 	wallIsDuplicate_ = false;
+
+	//=========================================
+	// csvを読み込んで評価するための変数の初期化
+	evaluateGrid_ = LoadFile("./Resources/cow/cowEightDireRange.csv");
+
 }
 
 
@@ -158,7 +163,7 @@ void Cow::CowMove() {
 void Cow::Move() {
 	if (isIdle_) {
 		// 残りの評価値を計算
-		CheckNearPerson();
+		/*CheckNearPerson();*/
 		CheckNearWall();
 
 		maxDireValue_ = 0;
@@ -425,14 +430,14 @@ void Cow::DebugScreenPrintf() {
 
 void Cow::ImguiDraw() {
 	//リリースの時は消す
-	ImGui::Begin("value");
+	ImGui::Begin("evaluateValue");
 
 	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
 	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
 	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
 	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
 	ImGui::SliderInt("value_.dog:", &value_.dog, 1000, 1500);
-	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -1000, -500);
+	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -1000, 1000);
 	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
 	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
 
