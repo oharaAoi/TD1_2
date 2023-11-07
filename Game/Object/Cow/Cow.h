@@ -89,6 +89,7 @@ private:
 
 		int dog;
 		int fence;
+		int rock;
 		int adjoin;
 	};
 
@@ -188,6 +189,7 @@ public:
 	int GetDogValue() { return value_.dog; }
 	int GetFenceValue() { return value_.fence; }
 	int GetAdjoinValue() { return value_.adjoin; }
+	int GetRockValue() { return value_.rock; }
 
 	// gridでの評価
 	std::vector<std::vector<int>> GetEvaluteGrid() { return evaluateGrid_; }

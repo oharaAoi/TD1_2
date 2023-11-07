@@ -199,12 +199,12 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::top);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// bottom
@@ -212,12 +212,12 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::bottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -226,12 +226,12 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::left);
 
 	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// right
@@ -239,12 +239,12 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::right);
 
 	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	}
 
@@ -253,14 +253,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::leftTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 	}
 
 	// rightTop
@@ -268,14 +268,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::rightTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
 	}
 
@@ -284,14 +284,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::leftBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -300,14 +300,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	} else if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::rightBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	}
 
@@ -317,72 +317,72 @@ void CowCollision::CheckCowAdjoin() {
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) +cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// bottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// left
 		if (cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// right
 		if (cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x &&
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		}
 
 		// leftTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// rightTop
 		if (cow_->GetCenterAdd().y + 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 		}
 
 		// leftBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// rightBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		}
 
 	}
