@@ -24,7 +24,7 @@ void CowCollision::Finalize() {
 void CowCollision::CheckCowMoveDire() {
 	CheckDogExist();
 	CheckCowAdjoin();
-	CheckCowFourArea();
+	/*CheckCowFourArea();*/
 	CheckGridDistance(cowherd_->GetCenterAdd());
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
@@ -460,22 +460,21 @@ void CowCollision::CheckFourAreas() {
 		}
 	}
 
-
 	switch (maxNumIndex) {
-	case 0:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - 5, kCanMoveDirection::top);
+	case kCanMoveDirection::top:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetFourAreaValue(), kCanMoveDirection::top);
 		break;
 
-	case 1:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - 5, kCanMoveDirection::top);
+	case kCanMoveDirection::bottom:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetFourAreaValue(), kCanMoveDirection::bottom);
 		break;
 
-	case 2:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - 5, kCanMoveDirection::top);
+	case kCanMoveDirection::left:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetFourAreaValue(), kCanMoveDirection::left);
 		break;
 
-	case 3:
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - 5, kCanMoveDirection::top);
+	case kCanMoveDirection::right:
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetFourAreaValue(), kCanMoveDirection::right);
 		break;
 	}
 
