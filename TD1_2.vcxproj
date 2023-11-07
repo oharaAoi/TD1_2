@@ -61,7 +61,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Object\Dog;$(ProjectDir)\Game\Object\Base;$(ProjectDir)\Game\Object\Cow;$(ProjectDir)\Game\Object\MapChip;$(ProjectDir)\Game\Object\Player;$(ProjectDir)\Game\Object\Camera;$(ProjectDir)\Game\Object;$(ProjectDir)\Game\Scene;$(ProjectDir)\Game\TurnManager;$(ProjectDir)\Game\CollisionManager;$(ProjectDir)\Game;$(ProjectDir)\Lib\DrawManager;$(ProjectDir)\Lib\MyMath;$(ProjectDir)\Lib\InputManager;$(ProjectDir)\Lib;$(ProjectDir)\Config;$(ProjectDir);C:\KamataEngine\DirectXGame\math;C:\KamataEngine\DirectXGame\2d;C:\KamataEngine\DirectXGame\3d;C:\KamataEngine\DirectXGame\audio;C:\KamataEngine\DirectXGame\base;C:\KamataEngine\DirectXGame\input;C:\KamataEngine\DirectXGame\scene;C:\KamataEngine\External\DirectXTex\include;C:\KamataEngine\External\imgui;C:\KamataEngine\Adapter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Game\Object\Particle;$(ProjectDir)\Game\Object\Dog;$(ProjectDir)\Game\Object\Base;$(ProjectDir)\Game\Object\Cow;$(ProjectDir)\Game\Object\MapChip;$(ProjectDir)\Game\Object\Player;$(ProjectDir)\Game\Object\Camera;$(ProjectDir)\Game\Object;$(ProjectDir)\Game\Scene;$(ProjectDir)\Game\TurnManager;$(ProjectDir)\Game\CollisionManager;$(ProjectDir)\Game;$(ProjectDir)\Lib\DrawManager;$(ProjectDir)\Lib\MyMath;$(ProjectDir)\Lib\InputManager;$(ProjectDir)\Lib;$(ProjectDir)\Config;$(ProjectDir);C:\KamataEngine\DirectXGame\math;C:\KamataEngine\DirectXGame\2d;C:\KamataEngine\DirectXGame\3d;C:\KamataEngine\DirectXGame\audio;C:\KamataEngine\DirectXGame\base;C:\KamataEngine\DirectXGame\input;C:\KamataEngine\DirectXGame\scene;C:\KamataEngine\External\DirectXTex\include;C:\KamataEngine\External\imgui;C:\KamataEngine\Adapter;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
@@ -125,6 +125,8 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Object\Cow\Cow.cpp" />
     <ClCompile Include="Game\Object\Dog\Dog.cpp" />
     <ClCompile Include="Game\Object\MapChip\MapChip.cpp" />
+    <ClCompile Include="Game\Object\Particle\Emitter.cpp" />
+    <ClCompile Include="Game\Object\Particle\Particle.cpp" />
     <ClCompile Include="Game\Object\Player\Cowherd.cpp" />
     <ClCompile Include="Game\Object\Player\YoungPerson.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
@@ -139,6 +141,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Lib\DrawManager\Renderer.cpp" />
     <ClCompile Include="Lib\InputManager\InputManager.cpp" />
     <ClCompile Include="Lib\MyMath\Collision.cpp" />
+    <ClCompile Include="Lib\MyMath\Color.cpp" />
     <ClCompile Include="Lib\MyMath\Draw.cpp" />
     <ClCompile Include="Lib\MyMath\Ease.cpp" />
     <ClCompile Include="Lib\MyMath\Matrix3x3.cpp" />
@@ -185,6 +188,8 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Object\Cow\Cow.h" />
     <ClInclude Include="Game\Object\Dog\Dog.h" />
     <ClInclude Include="Game\Object\MapChip\MapChip.h" />
+    <ClInclude Include="Game\Object\Particle\Emitter.h" />
+    <ClInclude Include="Game\Object\Particle\Particle.h" />
     <ClInclude Include="Game\Object\Player\Cowherd.h" />
     <ClInclude Include="Game\Object\Player\YoungPerson.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -200,6 +205,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Lib\InputManager\InputManager.h" />
     <ClInclude Include="Lib\LoadFile\LoadFile.h" />
     <ClInclude Include="Lib\MyMath\Collision.h" />
+    <ClInclude Include="Lib\MyMath\Color.h" />
     <ClInclude Include="Lib\MyMath\Draw.h" />
     <ClInclude Include="Lib\MyMath\Ease.h" />
     <ClInclude Include="Lib\MyMath\Matrix3x3.h" />

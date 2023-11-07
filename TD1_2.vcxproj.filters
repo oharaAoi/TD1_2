@@ -68,6 +68,9 @@
     <Filter Include="Game\CollisionManager">
       <UniqueIdentifier>{b1602efe-49fa-4018-acfb-28b08f42babc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Object\Particle">
+      <UniqueIdentifier>{9953f749-8f4d-440a-9fc3-5e76d81a72f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -175,6 +178,15 @@
     </ClCompile>
     <ClCompile Include="Game\TurnManager\Turn.cpp">
       <Filter>Game\TurnManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Particle\Emitter.cpp">
+      <Filter>Game\Object\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Object\Particle\Particle.cpp">
+      <Filter>Game\Object\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="Lib\MyMath\Color.cpp">
+      <Filter>Lib\MyMath</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -347,6 +359,15 @@
     </ClInclude>
     <ClInclude Include="Game\TurnManager\Turn.h">
       <Filter>Game\TurnManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Particle\Emitter.h">
+      <Filter>Game\Object\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Object\Particle\Particle.h">
+      <Filter>Game\Object\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Lib\MyMath\Color.h">
+      <Filter>Lib\MyMath</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
