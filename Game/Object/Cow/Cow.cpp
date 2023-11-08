@@ -103,12 +103,7 @@ void Cow::Init(MapChip* mapChip) {
 	//=========================================
 	// フェンスとの判定で使う
 	isFenceAttack_ = false;
-	fenceAttackTurn_ = 0;
-
-	for (int i = 0; i < 4; i++) {
-		isFenceAdjoin_[i] = false;
-	}
-
+	
 	//=========================================
 	// csvを読み込んで評価するための変数の初期化
 	evaluateGrid_ = LoadFile("./Resources/cow/cowEightDireRange.csv");

@@ -1,6 +1,6 @@
 ﻿#include "MapChip.h"
 
-MapChip::MapChip(){
+MapChip::MapChip() {
 
 	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
@@ -23,7 +23,7 @@ MapChip::MapChip(){
 	DebugInit();
 }
 
-MapChip::~MapChip(){
+MapChip::~MapChip() {
 	// メモリを解放
 	for (int i = 0; i < row_; i++) {
 		delete[] mapChip_[i];
@@ -32,7 +32,7 @@ MapChip::~MapChip(){
 }
 
 //==============================================================
-void MapChip::Init(){
+void MapChip::Init() {
 
 	//マップの画像の番号の振り分け
 	for (int i = 0; i < 3; i++) {
@@ -70,7 +70,7 @@ void MapChip::Init(){
 				}
 
 				// 柵のhpを実装するためのもの; 適当な値を入れる
-				mapChip_[row][col].hp = 10;
+				mapChip_[row][col].hp = 2;
 			}
 		}
 	}
@@ -96,21 +96,21 @@ void MapChip::Init(){
 
 //==============================================================
 
-void MapChip::Update(){
+void MapChip::Update() {
 }
 
 
 //==============================================================
-void MapChip::Draw(){
+void MapChip::Draw() {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
 
 			switch (mapAdd_[row][col]) {
 			case ChipType::STAGEOUT: // 場外
-				
+
 				Draw::Quad(
 					mapChip_[row][col].screenVertex,
-					mapTile_[0][0], 
+					mapTile_[0][0],
 					tileSize_,
 					GH_,
 					mapChip_[row][col].color
@@ -118,16 +118,23 @@ void MapChip::Draw(){
 
 				break;
 			case ChipType::FENCE: // フェンス
-				
+
 				Draw::Quad(
 					mapChip_[row][col].screenVertex,
 					mapTile_[0][1],
 					tileSize_,
-					GH_, 
+					GH_,
 					mapChip_[row][col].color
 				);
 
-				break;
+				Novice::ScreenPrintf(
+					(int)mapChip_[row][col].screenVertex.lt.x,
+					(int)mapChip_[row][col].screenVertex.lt.y + 20, 
+					"hp:%d",
+					mapChip_[row][col].hp
+				);
+
+					break;
 
 			case ChipType::ROCK: // 岩
 

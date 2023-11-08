@@ -106,12 +106,6 @@ private:
 	// フェンスを攻撃するかどうか
 	bool isFenceAttack_;
 
-	// フェンスと隣接している面
-	bool isFenceAdjoin_[4];
-	
-	// フェンスに攻撃するターン
-	int fenceAttackTurn_;
-
 	//=========================================
 	// csvを読み込んでその範囲を評価する
 	std::vector<std::vector<int>>evaluateGrid_;
@@ -199,12 +193,6 @@ public:
 	// フェンスを攻撃するかどうかで使う
 	void SetIsFenceAttack(bool isAttack) { isFenceAttack_ = isAttack; }
 	bool GetIsFenseAttack() { return isFenceAttack_; }
-
-	void SetIsFenceAdjoin(bool isAdjoin, int dire) { isFenceAdjoin_[dire] = isAdjoin; }
-	bool GetIsFenceAdjoin(int dire) { isFenceAdjoin_[dire]; }
-
-	void SetFenceAttackTurn(int attackTurn) { fenceAttackTurn_ = attackTurn; }
-	bool GetFenseAttackTurn() { return fenceAttackTurn_; }
 
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }

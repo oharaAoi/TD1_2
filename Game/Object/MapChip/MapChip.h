@@ -123,6 +123,10 @@ public:
 
 	int GetMapAdd(int row, int col) { return mapAdd_[row][col]; }
 
+	// 柵のhp
+	void SetFenceHp(int hp, Vec2 address) { mapChip_[address.y][address.x].hp = hp; }
+	int GetFenceHp(Vec2 address) { return mapChip_[address.y][address.x].hp; }
+
 	int GetMapChipRow() { return row_; }
 	int GetMapChipCol() { return col_; }
 

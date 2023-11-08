@@ -62,10 +62,14 @@ void CowCollision::CheckFenseScissorsCollision() {
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y - mapChip_->GetTileSize().y });
 			cow_->SetIsFenceAttack(true);
 
+			mapChip_->SetFenceHp(mapChip_->GetFenceHp(cow_->GetCenterAdd()) - 1, cow_->GetCenterAdd());
+
 			// 真ん中により下だったら上に戻す
 		} else if (cow_->GetCenterAdd().y < mapChip_->GetMapChipRow() / 2.0f) {
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x, cow_->GetWorldCneterPos().y + mapChip_->GetTileSize().x });
 			cow_->SetIsFenceAttack(true);
+
+			mapChip_->SetFenceHp(mapChip_->GetFenceHp(cow_->GetCenterAdd()) - 1, cow_->GetCenterAdd());
 		}
 	}
 
@@ -78,10 +82,14 @@ void CowCollision::CheckFenseScissorsCollision() {
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x - mapChip_->GetTileSize().x , cow_->GetWorldCneterPos().y });
 			cow_->SetIsFenceAttack(true);
 
+			mapChip_->SetFenceHp(mapChip_->GetFenceHp(cow_->GetCenterAdd()) - 1, cow_->GetCenterAdd());
+
 			// 真ん中により左だったら右に戻す
 		} else if (cow_->GetCenterAdd().x < mapChip_->GetMapChipCol() / 2.0f) {
 			cow_->SetWorldCenterPos({ cow_->GetWorldCneterPos().x + mapChip_->GetTileSize().x, cow_->GetWorldCneterPos().y });
 			cow_->SetIsFenceAttack(true);
+
+			mapChip_->SetFenceHp(mapChip_->GetFenceHp(cow_->GetCenterAdd()) - 1, cow_->GetCenterAdd());
 		}
 
 	}
