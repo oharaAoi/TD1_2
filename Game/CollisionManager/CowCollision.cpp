@@ -336,8 +336,8 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
 
 			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// right
@@ -429,7 +429,7 @@ void CowCollision::CheckCowFourArea() {
 				if (youngPerson_->GetCenterAdd(i).x == xAxis && youngPerson_->GetCenterAdd(i).y == yAxis) {
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetFourAreaValue(), kCanMoveDirection::top);
 					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetFourAreaValue(), kCanMoveDirection::right);
-					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetFourAreaValue(), kCanMoveDirection::right);
+					cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetFourAreaValue(), kCanMoveDirection::rightTop);
 				}
 			}
 		}
