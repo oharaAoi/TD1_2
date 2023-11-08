@@ -53,8 +53,9 @@ private:
 
 		// 各頂点
 		QuadVerf worldVertex;
-
 		QuadVerf screenVertex;
+
+		int hp;
 
 	};
 

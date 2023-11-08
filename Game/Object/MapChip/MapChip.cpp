@@ -68,6 +68,9 @@ void MapChip::Init(){
 				} else if (mapAdd_[row][col] == COW) {
 					cowPos_ = mapChip_[row][col].pos;
 				}
+
+				// 柵のhpを実装するためのもの; 適当な値を入れる
+				mapChip_[row][col].hp = 10;
 			}
 		}
 	}
