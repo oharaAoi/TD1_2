@@ -50,24 +50,24 @@ void MapChip::Init() {
 	//マップチップの初期化
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			if (mapAdd_[row][col] != NONE) {
-				mapChip_[row][col].pos.x = (tileSize_.x * static_cast<float>(col)) + (tileSize_.x / 2.0f);
-				mapChip_[row][col].pos.y = (tileSize_.y * static_cast<float>(row)) + (tileSize_.y / 2.0f);
+			//if (mapAdd_[row][col] != NONE) {
+			mapChip_[row][col].pos.x = (tileSize_.x * static_cast<float>(col)) + (tileSize_.x / 2.0f);
+			mapChip_[row][col].pos.y = (tileSize_.y * static_cast<float>(row)) + (tileSize_.y / 2.0f);
 
-				mapChip_[row][col].scale.x = 1.0f;
-				mapChip_[row][col].scale.y = 1.0f;
+			mapChip_[row][col].scale.x = 1.0f;
+			mapChip_[row][col].scale.y = 1.0f;
 
-				mapChip_[row][col].color = 0xFFFFFFFF;
+			mapChip_[row][col].color = 0xFFFFFFFF;
 
-				// playerなどの初期化のための処理
-				if (mapAdd_[row][col] == COWHERD) {
-					cowheadPos_ = mapChip_[row][col].pos;
+			// playerなどの初期化のための処理
+			if (mapAdd_[row][col] == COWHERD) {
+				cowheadPos_ = mapChip_[row][col].pos;
 
-				} else if (mapAdd_[row][col] == YANGMAN) {
+			} else if (mapAdd_[row][col] == YANGMAN) {
 
-				} else if (mapAdd_[row][col] == COW) {
-					cowPos_ = mapChip_[row][col].pos;
-				}
+			} else if (mapAdd_[row][col] == COW) {
+				cowPos_ = mapChip_[row][col].pos;
+			}
 
 				// 柵のhpを実装するためのもの; 適当な値を入れる
 				mapChip_[row][col].hp = 2;
@@ -150,13 +150,42 @@ void MapChip::Draw() {
 
 			}
 
-			/*if (mapAdd_[row][col] == STAGEOUT) {
-				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][0], size_, GH_, mapChip_[row][col].color);
-			} else if (mapAdd_[row][col] == FENCE) {
-				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[0][1], size_, GH_, mapChip_[row][col].color);
-			} else if (mapAdd_[row][col] == COW) {
-				Draw::Quad(mapChip_[row][col].screenVertex, mapTile_[1][1], size_, GH_, mapChip_[row][col].color);
-			}*/
+
+			// lt -> rt
+			Novice::DrawLine(
+				static_cast<int>(mapChip_[row][col].screenVertex.lt.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.lt.y),
+				static_cast<int>(mapChip_[row][col].screenVertex.rt.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.rt.y),
+				0xddddddff
+			);
+
+			// rt -> rb
+			Novice::DrawLine(
+				static_cast<int>(mapChip_[row][col].screenVertex.rt.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.rt.y),
+				static_cast<int>(mapChip_[row][col].screenVertex.rb.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.rb.y),
+				0xddddddff
+			);
+
+			// rb -> lb
+			Novice::DrawLine(
+				static_cast<int>(mapChip_[row][col].screenVertex.rb.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.rb.y),
+				static_cast<int>(mapChip_[row][col].screenVertex.lb.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.lb.y),
+				0xddddddff
+			);
+
+			// lb -> lt
+			Novice::DrawLine(
+				static_cast<int>(mapChip_[row][col].screenVertex.lb.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.lb.y),
+				static_cast<int>(mapChip_[row][col].screenVertex.lt.x),
+				static_cast<int>(mapChip_[row][col].screenVertex.lt.y),
+				0xddddddff
+			);
 
 			Novice::ScreenPrintf(
 				(int)mapChip_[row][col].screenVertex.lt.x,
@@ -212,17 +241,17 @@ void MapChip::CalcWorldVertex() {
 void MapChip::MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const Matrix3x3& viewport) {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			if (mapAdd_[row][col] != NONE) {
-				worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scale, 0.0f, mapChip_[row][col].pos);
+			//if (mapAdd_[row][col] != NONE) {
+			worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scale, 0.0f, mapChip_[row][col].pos);
 
-				screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, view, ortho, viewport);
+			screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, view, ortho, viewport);
 
-				//少数点のせいかもしれないけど右と左の差が61になる
-				mapChip_[row][col].screenVertex.lt = Transform(localVertex_.lt, screenMatrix_);
-				mapChip_[row][col].screenVertex.rt = Transform(localVertex_.rt, screenMatrix_);
-				mapChip_[row][col].screenVertex.lb = Transform(localVertex_.lb, screenMatrix_);
-				mapChip_[row][col].screenVertex.rb = Transform(localVertex_.rb, screenMatrix_);
-			}
+			//少数点のせいかもしれないけど右と左の差が61になる
+			mapChip_[row][col].screenVertex.lt = Transform(localVertex_.lt, screenMatrix_);
+			mapChip_[row][col].screenVertex.rt = Transform(localVertex_.rt, screenMatrix_);
+			mapChip_[row][col].screenVertex.lb = Transform(localVertex_.lb, screenMatrix_);
+			mapChip_[row][col].screenVertex.rb = Transform(localVertex_.rb, screenMatrix_);
+			//}
 		}
 	}
 }
@@ -230,14 +259,14 @@ void MapChip::MatrixChange(const Matrix3x3& view, const Matrix3x3& ortho, const 
 void MapChip::MakeWorldMatrix() {
 	for (int row = 0; row < row_; row++) {
 		for (int col = 0; col < col_; col++) {
-			if (mapAdd_[row][col] != NONE) {
-				worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scale, 0.0f, mapChip_[row][col].pos);
+			//if (mapAdd_[row][col] != NONE) {
+			worldMatrix_ = MakeAffineMatrix(mapChip_[row][col].scale, 0.0f, mapChip_[row][col].pos);
 
-				mapChip_[row][col].worldVertex.lt = Transform(localVertex_.lt, screenMatrix_);
-				mapChip_[row][col].worldVertex.rt = Transform(localVertex_.rt, screenMatrix_);
-				mapChip_[row][col].worldVertex.lb = Transform(localVertex_.lb, screenMatrix_);
-				mapChip_[row][col].worldVertex.rb = Transform(localVertex_.rb, screenMatrix_);
-			}
+			mapChip_[row][col].worldVertex.lt = Transform(localVertex_.lt, screenMatrix_);
+			mapChip_[row][col].worldVertex.rt = Transform(localVertex_.rt, screenMatrix_);
+			mapChip_[row][col].worldVertex.lb = Transform(localVertex_.lb, screenMatrix_);
+			mapChip_[row][col].worldVertex.rb = Transform(localVertex_.rb, screenMatrix_);
+			//}
 		}
 	}
 }
@@ -261,7 +290,7 @@ void MapChip::DebugInit() {
 }
 
 void MapChip::DebugDraw() {
-	for (int i = 0; i < 10; i++) {
+	/*for (int i = 0; i < 10; i++) {
 		Novice::DrawLine(
 			static_cast<int>(xAxis_[i].st.x + mapChip_[9][0].screenVertex.lt.x),
 			static_cast<int>(xAxis_[i].st.y + mapChip_[9][0].screenVertex.lt.y),
@@ -277,6 +306,6 @@ void MapChip::DebugDraw() {
 			static_cast<int>(yAxis_[i].end.y + mapChip_[9][0].screenVertex.lt.y),
 			0xFFFFFFFF
 		);
-	}
+	}*/
 }
 
