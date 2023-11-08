@@ -5,6 +5,8 @@ MapChip::MapChip(){
 	//ステージのファイル
 	csvFilePath_[0] = "./Resources/stage/stageTest1.csv";
 	csvFilePath_[1] = "./Resources/stage/stageTest2.csv";
+	csvFilePath_[2] = "./Resources/stage/stage1.csv";
+	csvFilePath_[3] = "./Resources/stage/stage2.csv";
 
 	mapAdd_ = LoadFile(csvFilePath_[Scene_LevelSelect::GetSelectStage()]);
 

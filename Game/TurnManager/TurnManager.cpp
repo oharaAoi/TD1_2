@@ -26,7 +26,7 @@ void TurnManager::Init() {
 void TurnManager::Update() {
 	TurnNoUpdate();
 
-	if (movingCount_ >= 2) {
+	if (movingCount_ >= 1) {
 		turnNo_++;
 		movingCount_ = 0;
 	}
