@@ -167,22 +167,22 @@ void CowCollision::CheckDogExist() {
 =================================================================*/
 void CowCollision::CheckFenseCollision() {
 	// top
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y + 1] == ChipType::FENCE) {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
 		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
 	}
 
 	// bottom
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x][cow_->GetCenterAdd().y - 1] == ChipType::FENCE) {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
 		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
 	}
 
 	// left
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x - 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
 		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
 	}
 
 	// right
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().x + 1][cow_->GetCenterAdd().y] == ChipType::FENCE) {
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE) {
 		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
 	}
 }
