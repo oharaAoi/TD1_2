@@ -90,7 +90,8 @@ void Cow::Init(MapChip* mapChip) {
 	value_.dog = 150;
 	value_.rock = 1000;
 	value_.adjoin = 150;
-	value_.fence = 100;
+	value_.fence = 200;
+	value_.slantFence = -200;
 
 	//=========================================
 	//評価で使う
@@ -98,6 +99,15 @@ void Cow::Init(MapChip* mapChip) {
 	wallMinIndex_ = 0;
 	wallMinNum_ = 0;
 	wallIsDuplicate_ = false;
+
+	//=========================================
+	// フェンスとの判定で使う
+	isFenceAttack_ = false;
+	fenceAttackTurn_ = 0;
+
+	for (int i = 0; i < 4; i++) {
+		isFenceAdjoin_[i] = false;
+	}
 
 	//=========================================
 	// csvを読み込んで評価するための変数の初期化
@@ -247,6 +257,11 @@ void Cow::Move() {
 		isIdle_ = false;
 
 		/*DireInit();*/
+
+		if (isFenceAttack_) {
+			isFenceAttack_ = false;
+		}
+
 	}
 }
 
@@ -425,9 +440,13 @@ void Cow::DebugScreenPrintf() {
 
 	Novice::ScreenPrintf(1000, 450, "Keys[DIK_M]:cowMove");
 
+	Novice::ScreenPrintf(1000, 500, "isFenceAttack:%d", isFenceAttack_);
+
 	for (int i = 0; i < 4; i++) {
 		Novice::ScreenPrintf(1100, 30 + (i * 20), "nearWall:%d", nearWallOfValue_[i]);
 	}
+
+
 }
 
 void Cow::ImguiDraw() {

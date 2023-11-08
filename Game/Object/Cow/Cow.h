@@ -89,6 +89,7 @@ private:
 
 		int dog;
 		int fence;
+		int slantFence;
 		int rock;
 		int adjoin;
 	};
@@ -109,7 +110,7 @@ private:
 	bool isFenceAdjoin_[4];
 	
 	// フェンスに攻撃するターン
-	int fenceAttackNum_;
+	int fenceAttackTurn_;
 
 	//=========================================
 	// csvを読み込んでその範囲を評価する
@@ -130,6 +131,7 @@ public:
 	void Draw();
 	void Finalize();
 
+	//===============================================================
 	// user method
 
 	void Move();
@@ -162,6 +164,9 @@ public:
 	// debugKeys
 	void CowMove();
 
+	// debugScreenPrintf
+	void DebugScreenPrintf();
+
 	//===============================================================
 	// accessor
 
@@ -169,12 +174,12 @@ public:
 	void SetWorldCenterPos(Vec2f pos) { worldCenterPos_ = pos; }
 	Vec2f GetWorldCneterPos() { return  worldCenterPos_; }
 
-	// address
-	Vec2 GetCenterAdd() { return centerAdd_; }
-
 	// prePos
 	void SetPreCenterPos(Vec2f preCenterPos) { worldPreCenterPos_ = preCenterPos; }
 	Vec2f GetPreCenterPos() { return worldPreCenterPos_; }
+
+	// address
+	Vec2 GetCenterAdd() { return centerAdd_; }
 
 	// 移動できる状態かどうか判断
 	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
@@ -191,20 +196,30 @@ public:
 	void SetGridDistanceValue(int value, int dire) { gridDistanceValue_[dire] = value; }
 	int GetGridDistanceValue(int dire) { return gridDistanceValue_[dire]; }
 
+	// フェンスを攻撃するかどうかで使う
+	void SetIsFenceAttack(bool isAttack) { isFenceAttack_ = isAttack; }
+	bool GetIsFenseAttack() { return isFenceAttack_; }
+
+	void SetIsFenceAdjoin(bool isAdjoin, int dire) { isFenceAdjoin_[dire] = isAdjoin; }
+	bool GetIsFenceAdjoin(int dire) { isFenceAdjoin_[dire]; }
+
+	void SetFenceAttackTurn(int attackTurn) { fenceAttackTurn_ = attackTurn; }
+	bool GetFenseAttackTurn() { return fenceAttackTurn_; }
+
 	// 評価値
 	int GetAllDireValue() { return value_.allDire; }
 	int GetFourAreaValue() { return value_.fourArea; }
 	int GetClampValue() { return value_.clamp; }
 	int GetDogValue() { return value_.dog; }
 	int GetFenceValue() { return value_.fence; }
+	int GetSlantFenceValue() { return value_.slantFence; }
 	int GetAdjoinValue() { return value_.adjoin; }
 	int GetRockValue() { return value_.rock; }
 
+	void SetFenceValue(int value) { value_.fence = value; }
+
 	// gridでの評価
 	std::vector<std::vector<int>> GetEvaluteGrid() { return evaluateGrid_; }
-
-	// debugScreenPrintf
-	void DebugScreenPrintf();
 
 };
 
