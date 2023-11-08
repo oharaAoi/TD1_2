@@ -101,6 +101,15 @@ private:
 	int wallMinNum_;
 	bool wallIsDuplicate_;
 
+	//=========================================
+	// フェンスを攻撃するかどうか
+	bool isFenceAttack_;
+
+	// フェンスと隣接している面
+	bool isFenceAdjoin_[4];
+	
+	// フェンスに攻撃するターン
+	int fenceAttackNum_;
 
 	//=========================================
 	// csvを読み込んでその範囲を評価する
