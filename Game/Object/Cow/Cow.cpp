@@ -82,9 +82,9 @@ void Cow::Init(MapChip* mapChip) {
 
 	//=========================================
 	// 評価値(ここの数値をいじればいける)
-	value_.wall = 3;
-	value_.fourArea = 10;
-	value_.allDire = 5;
+	value_.wall = 5;
+	value_.fourArea = 12;
+	value_.allDire = 10;
 	value_.clamp = 2;
 
 	value_.dog = 150;
