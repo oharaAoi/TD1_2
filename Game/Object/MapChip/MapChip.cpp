@@ -69,9 +69,9 @@ void MapChip::Init() {
 				cowPos_ = mapChip_[row][col].pos;
 			}
 
-				// 柵のhpを実装するためのもの; 適当な値を入れる
-				mapChip_[row][col].hp = 2;
-			}
+			// 柵のhpを実装するためのもの; 適当な値を入れる
+			mapChip_[row][col].hp = 2;
+			//}
 		}
 	}
 
@@ -129,12 +129,12 @@ void MapChip::Draw() {
 
 				Novice::ScreenPrintf(
 					(int)mapChip_[row][col].screenVertex.lt.x,
-					(int)mapChip_[row][col].screenVertex.lt.y + 20, 
+					(int)mapChip_[row][col].screenVertex.lt.y + 20,
 					"hp:%d",
 					mapChip_[row][col].hp
 				);
 
-					break;
+				break;
 
 			case ChipType::ROCK: // 岩
 
