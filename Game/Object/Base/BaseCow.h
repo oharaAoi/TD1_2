@@ -82,6 +82,9 @@ protected: // member object
 
 	// -----------------------------------------
 
+	// フェンスを攻撃するかどうか
+	bool isFenceAttack_;
+
 public:
 	// 仮想デストラクタ
 	virtual ~BaseCow();

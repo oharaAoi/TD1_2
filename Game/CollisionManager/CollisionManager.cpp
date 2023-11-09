@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 
 CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog) {
-	Init(cowherd, youngPerson, mapChip, cow, dog);
+	Cow* cow, Dog* dog, BullCow* bull) {
+	Init(cowherd, youngPerson, mapChip, cow, dog, bull);
 }
 
 CollisionManager::~CollisionManager() {
@@ -14,15 +14,18 @@ CollisionManager::~CollisionManager() {
 	初期化関数
 ================================================================*/
 void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog) {
+	Cow* cow, Dog* dog, BullCow* bull) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
 	dog_ = dog;
+	bull_ = bull;
+
 	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
 	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
 	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_);
+	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog);
 }
 
 
@@ -35,9 +38,11 @@ void CollisionManager::Finalize() {
 	mapChip_ = nullptr;
 	cow_ = nullptr;
 	dog_ = nullptr;
+	bull_ = nullptr;
 	SafeDelete(cowCollision_);
 	SafeDelete(cowherdCollison_);
 	SafeDelete(youngPersonCollision_);
+	SafeDelete(bullCollision_);
 }
 
 /*=================================================================
@@ -59,10 +64,19 @@ void CollisionManager::CheckCanCowMove() {
 	cowCollision_->CheckCowMoveDire();
 }
 
+void CollisionManager::CheckCanBullMove() {
+	bullCollision_->CheckBullMoveDire();
+}
+
 /* --- 両隣がステージ外か上下がステージ外だったら*/
 void CollisionManager::CheckCowCollison() {
 	cowCollision_->CheckFenseScissorsCollision();
 	cowCollision_->CheckRockCollision();
+}
+
+void CollisionManager::CheckBullCollision() {
+	bullCollision_->CheckFenceScissorsCollision();
+	bullCollision_->CheckRockCollision();
 }
 
 /* --- クリア判定 --- */

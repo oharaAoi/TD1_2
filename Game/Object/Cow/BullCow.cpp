@@ -5,6 +5,7 @@ BullCow::BullCow() { Init(); }
 BullCow::~BullCow() { Finalize(); }
 
 void BullCow::Finalize(){
+
 }
 
 void BullCow::Init(){
@@ -37,6 +38,8 @@ void BullCow::Init(){
 	};
 
 	MakeWorldMatrix();
+
+	CenterAddUpdate();
 
 	// ローカル空間以外の各行列
 	screenMatrix_ = worldMatrix_;
@@ -95,12 +98,16 @@ void BullCow::Init(){
 	wallMinNum_ = 0;
 	wallIsDuplicate_ = false;
 
+	isFenceAttack_ = false;
+
 }
 
 void BullCow::Update(){
 
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
+
+	MoveTurn();
 
 	// 動く
 	Move();
@@ -117,6 +124,8 @@ void BullCow::Draw(){
 	if (isDisplay_) {
 		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
 	}
+
+	ImguiDraw();
 }
 
 void BullCow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
@@ -144,8 +153,8 @@ void BullCow::MakeWorldMatrix() {
 // ------ 今のアドレスの計算 ------ //
 void BullCow::CenterAddUpdate() {
 	worldAdd_ = {
-		static_cast<int>(worldPos_.x / size_.x),
-		static_cast<int>(worldPos_.y / size_.y)
+		static_cast<int>(worldPos_.x / tileSize_.x),
+		static_cast<int>(worldPos_.y / tileSize_.y)
 	};
 }
 
@@ -164,6 +173,136 @@ void BullCow::DireInit() {
 	}
 }
 
+void BullCow::MoveTurn() {
+	if (isTurnChange_) {
+		isIdle_ = true;
+	}
+}
+
 void BullCow::Move() {
+	if (isIdle_) {
+		maxDireValue_ = -99999;
+		maxDireValueIndex_ = 0;
+		adjoinNum_ = 0;
+
+		//全方位囲まれていたら処理を終わる
+		for (int i = 0; i < 8; i++) {
+			if (canMoveDireValue_[i] < -900) {
+				adjoinNum_++;
+			}
+		}
+
+		if (adjoinNum_ == 8) {
+			return;
+		}
+
+		// 一番値の大きい方向に動く
+		for (int i = 0; i < 8; i++) {
+			if (maxDireValue_ < canMoveDireValue_[i]) {
+				maxDireValue_ = canMoveDireValue_[i];
+				maxDireValueIndex_ = i;
+			}
+		}
+
+		// 移動方向の量によって進む箇所を決める
+		switch (maxDireValueIndex_) {
+		case kCanMoveDirection::top:
+			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::top;
+			break;
+
+		case kCanMoveDirection::bottom:
+			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::bottom;
+			break;
+
+		case kCanMoveDirection::left:
+			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::left;
+			break;
+
+		case kCanMoveDirection::right:
+			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::right;
+			break;
+
+		case kCanMoveDirection::leftTop:
+			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftTop;
+			break;
+
+		case kCanMoveDirection::rightTop:
+			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::rightTop;
+			break;
+
+		case kCanMoveDirection::leftBottom:
+			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftBottom;
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::leftBottom;
+			break;
+		}
+
+		// 移動の終了とともにturnがプレイヤー側になる
+		turnType_ = kTurnType::Players;
+
+		// 待機状態の解除
+		isIdle_ = false;
+
+		if (isFenceAttack_) {
+			isFenceAttack_ = false;
+		}
+	}
+}
+
+
+void BullCow::ImguiDraw() {
+	//リリースの時は消す
+	ImGui::Begin("evaluateValue");
+
+	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+
+
+	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
+	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
+	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
+	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);
+
+
+	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
+	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
+
+	ImGui::End();
+
+	//
+	ImGui::Begin("canMoveDireValue");
+
+	for (int dire = 0; dire < 8; dire++) {
+		ImGui::Text("%d : %s", canMoveDireValue_[dire], kCanMoveDire[dire]);
+	}
+
+	ImGui::End();
+
+	//
+	ImGui::Begin("gridDistanceValue_");
+	ImGui::BeginChild(ImGuiWindowFlags_NoTitleBar);
+
+	for (int dire = 0; dire < 8; dire++) {
+		ImGui::Text("%d : %s", gridDistanceValue_[dire], kCanMoveDire[dire]);
+	}
+
+	ImGui::EndChild();
+	ImGui::End();
 
 }

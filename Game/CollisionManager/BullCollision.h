@@ -34,6 +34,10 @@ public:
 
 	void CheckBullMoveDire();
 
+	void CheckRockCollision();
+
+	void CheckFenceScissorsCollision();
+
 private:
 
 	// 評価で使う

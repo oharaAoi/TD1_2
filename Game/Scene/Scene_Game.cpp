@@ -51,8 +51,8 @@ void Scene_Game::Update() {
 				isBack_ = true;
 				backCT_ = 90;
 
-				game_->SetGame(&sGame_.top());
-				//game_ = sGame_.top();
+				game_->SetGame(sGame_.top());
+				//*game_ = sGame_.top();
 				sGame_.pop();
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "ImGuiManager.h"
 
 // ----- object ----- //
 #include "BaseCow.h"
@@ -38,6 +39,8 @@ public:
 
 	void DireInit();
 
+	void MoveTurn();
+
 	void Move();
 
 	// スクリーン行列と各頂点の計算
@@ -50,10 +53,19 @@ public:
 	// ワールド行列と各頂点の計算
 	void MakeWorldMatrix();
 
+	// imguiの表示
+	void ImguiDraw();
+
 /*================================================================
 	 user method
 ================================================================*/
+	void SetWorldPos(Vec2f pos) { worldPos_ = pos; }
+	Vec2f GetWorldPos() { return worldPos_; }
+
 	Vec2 GetCenterAdd() { return worldAdd_; }
+
+	// 移動した方向を取得
+	kCanMoveDirection GetMovedDire() { return movedDire_; }
 
 	// 方向を決めるための量
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
@@ -62,6 +74,10 @@ public:
 	// 牛から見たプレイヤー達の位置を計算するために使う
 	void SetGridDistanceValue(int value, int dire) { gridDistanceValue_[dire] = value; }
 	int GetGridDistanceValue(int dire) { return gridDistanceValue_[dire]; }
+
+	// フェンスを攻撃するかどうかで使う
+	void SetIsFenceAttack(bool isAttack) { isFenceAttack_ = isAttack; }
+	bool GetIsFenseAttack() { return isFenceAttack_; }
 
 	// 評価値
 	int GetDogValue() { return value_.dog; }

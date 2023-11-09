@@ -18,6 +18,7 @@
 #include "CowCollision.h"
 #include "CowherdCollision.h"
 #include "YoungPersonCollision.h"
+#include "BullCollision.h"
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -29,19 +30,21 @@ private:
 	YoungPerson* youngPerson_;
 	MapChip* mapChip_;
 	Cow* cow_;
+	BullCow* bull_;
 	Dog* dog_;
 
 	CowCollision* cowCollision_;
 	CowherdCollision* cowherdCollison_;
 	YoungPersonCollision* youngPersonCollision_;
+	BullCollision* bullCollision_;
 
 public:
 	// Constructor & Destructor
-	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
+	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog, BullCow* bull);
 	~CollisionManager();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog);
+	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog, BullCow* bull);
 	//void Update();
 	//void Draw();
 	void Finalize();
@@ -54,7 +57,11 @@ public:
 	// 牛の動く方向の判定
 	void CheckCanCowMove();
 
+	// 雄牛の動く判定
+	void CheckCanBullMove();
+
 	void CheckCowCollison();
+	void CheckBullCollision();
 
 	// クリア条件の判定
 	bool CheckClear();

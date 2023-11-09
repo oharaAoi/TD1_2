@@ -18,7 +18,7 @@ void Game::Init() {
 	bull_ = new BullCow();
 
 	collisionManager_ = new CollisionManager(
-		cowherd_, youngPerson_, mapChip_, cow_, dog_
+		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_
 	);
 	renderer_ = new Renderer();
 
@@ -79,14 +79,22 @@ void Game::Update() {
 
 	case kCowType::Bull:
 
+		// 牛の動ける方向のための更新
+		if (turnManager_->GetIsTurnChange()) {
+			collisionManager_->CheckCanBullMove();
+
+		}
+
+		bull_->Update();
+
+		collisionManager_->CheckBullCollision();
+
+
 		break;
 	}
 
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
-
-	// 動いた時の当たり判定
-	collisionManager_->CheckCowCollison();
 
 	// ----- MatrixChange ----- //
 	ChangeMatrix();
@@ -188,25 +196,36 @@ void Game::ChangeMatrix() {
 
 }
 
-void Game::SetGame(Game* game) {
-	camera_ = game->camera_;
-	mapChip_ = game->mapChip_;
-	cow_ = game->cow_;
-	cowherd_ = game->cowherd_;
-	youngPerson_ = game->youngPerson_;
-	dog_ = game->dog_;
-	bull_ = game->bull_;
+void Game::SetGame(Game& game) {
+	camera_ = game.camera_;
+	mapChip_ = game.mapChip_;
+	cow_ = game.cow_;
+	cowherd_ = game.cowherd_;
+	youngPerson_ = game.youngPerson_;
+	dog_ = game.dog_;
+	bull_ = game.bull_;
 
-	collisionManager_ = game->collisionManager_;
-	renderer_ = game->renderer_;
+	collisionManager_ = game.collisionManager_;
+	collisionManager_->Init(
+		cowherd_,
+		youngPerson_,
+		mapChip_,
+		cow_,
+		dog_,
+		bull_
+	);
 
-	renderer_->ResetDrawable();
-	renderer_->AddDrawable(cowherd_);
-	renderer_->AddDrawable(youngPerson_);
-	renderer_->AddDrawable(dog_);
+	//collisionManager_
+
+	renderer_ = game.renderer_;
+
+	/*renderer_.ResetDrawable();
+	renderer_.AddDrawable(cowherd_);
+	renderer_.AddDrawable(youngPerson_);
+	renderer_.AddDrawable(dog_);*/
 
 
-	turnManager_ = game->turnManager_;
+	turnManager_ = game.turnManager_;
 
-	isGameClear_ = game->isGameClear_;
+	isGameClear_ = game.isGameClear_;
 }

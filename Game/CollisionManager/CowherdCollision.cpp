@@ -37,6 +37,11 @@ void CowherdCollision::CowherdCanMove() {
 	// 確認したアドレスに障害物およびプレイヤーがいれば移動ができない
 	// 障害物がなければ移動できる
 
+	int i = 0;
+	i++;
+
+	cowherd_->GetCenterAdd();
+
 	if (cowherd_->GetIsMoveIdle()) {
 
 		for (int gi = 0; gi < cowherd_->GetCanMoveGirdMaxIndex(); gi++) {
