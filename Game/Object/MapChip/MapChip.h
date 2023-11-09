@@ -20,8 +20,10 @@ enum ChipType {
 	FENCE,		// フェンス
 	COWHERD,	// 牛飼いの初期位置
 	YANGMAN,	// 若人の初期位置
-	COW,		// 牛の初期位置
 	ROCK,		// 岩
+	COW,		// 牛の初期位置
+	BULL,		// 雄牛
+	BULLFIGHTING// 闘牛
 };
 
 class MapChip final
