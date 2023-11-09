@@ -122,7 +122,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Object\Base\BaseCow.cpp" />
     <ClCompile Include="Game\Object\Base\BaseMap.cpp" />
     <ClCompile Include="Game\Object\Camera\Camera.cpp" />
-    <ClCompile Include="Game\Object\Cow\Bull.cpp" />
+    <ClCompile Include="Game\Object\Cow\BullCow.cpp" />
     <ClCompile Include="Game\Object\Cow\Cow.cpp" />
     <ClCompile Include="Game\Object\Dog\Dog.cpp" />
     <ClCompile Include="Game\Object\MapChip\MapChip.cpp" />
@@ -186,7 +186,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Object\Base\BaseCow.h" />
     <ClInclude Include="Game\Object\Base\BaseMap.h" />
     <ClInclude Include="Game\Object\Camera\Camera.h" />
-    <ClInclude Include="Game\Object\Cow\Bull.h" />
+    <ClInclude Include="Game\Object\Cow\BullCow.h" />
     <ClInclude Include="Game\Object\Cow\Cow.h" />
     <ClInclude Include="Game\Object\Dog\Dog.h" />
     <ClInclude Include="Game\Object\MapChip\MapChip.h" />

@@ -8,7 +8,7 @@
 // ----- Maneger ----- //
 #include "Turn.h"
 
-class Bull : 
+class BullCow : 
 	public BaseCow,
 	public BaseMap,
 	public Turn {
@@ -18,12 +18,12 @@ private:
 
 public:
 
-	Bull(MapChip* mapChip);
-	~Bull();
+	BullCow();
+	~BullCow();
 
 
 	/* default method */
-	void Init(MapChip* mapChip);
+	void Init();
 	void Update()override;
 	void Draw()override;
 	void Finalize()override;

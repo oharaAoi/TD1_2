@@ -1,23 +1,22 @@
-﻿#include "Bull.h"
+﻿#include "BullCow.h"
 
-Bull::Bull(MapChip* mapChip) { Init(mapChip); }
+BullCow::BullCow() { Init(); }
 
-Bull::~Bull() { Finalize(); }
+BullCow::~BullCow() { Finalize(); }
 
-void Bull::Finalize(){
+void BullCow::Finalize(){
 }
 
-void Bull::Init(MapChip* mapChip){
+void BullCow::Init(){
 
 	// ワールド空間での中心座標
-	size_ = mapChip->GetTileSize();
-	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
-		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
 
-			if (mapChip->GetMapChipAdd()[row][col] == ChipType::BULL) {
+			if (mapAdd_[row][col] == ChipType::BULL) {
 				worldPos_ = {
-					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
-					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+					col * tileSize_.x + (size_.x * 0.5f),
+					row * tileSize_.y + (size_.y * 0.5f)
 				};
 			}
 		}
@@ -96,16 +95,16 @@ void Bull::Init(MapChip* mapChip){
 
 }
 
-void Bull::Update()
+void BullCow::Update()
 {
 }
 
-void Bull::Draw(){
+void BullCow::Draw(){
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
 }
 
-void Bull::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
+void BullCow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
@@ -116,7 +115,7 @@ void Bull::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatri
 
 }
 
-void Bull::MakeWorldMatrix() {
+void BullCow::MakeWorldMatrix() {
 
 	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldPos_);
 
@@ -128,7 +127,7 @@ void Bull::MakeWorldMatrix() {
 }
 
 // ------ 今のアドレスの計算 ------ //
-void Bull::CenterAddUpdate() {
+void BullCow::CenterAddUpdate() {
 	worldAdd_ = {
 		static_cast<int>(worldPos_.x / size_.x),
 		static_cast<int>(worldPos_.y / size_.y)

@@ -16,6 +16,7 @@ void Scene_Game::Init() {
 	cowherd_ = new Cowherd();
 	youngPerson_ = new YoungPerson();
 	dog_ = new Dog();
+	bull_ = new BullCow();
 
 	collisionManager_ = new CollisionManager(
 		cowherd_, youngPerson_, mapChip_, cow_, dog_
@@ -106,6 +107,7 @@ void Scene_Game::Draw() {
 
 	// 牛の描画
 	cow_->Draw();
+	bull_->Draw();
 	
 	renderer_->Draw();
 	turnManager_->Draw();
@@ -120,6 +122,7 @@ void Scene_Game::Finalize() {
 	SafeDelete(camera_);
 	SafeDelete(mapChip_);
 	SafeDelete(cow_);
+	SafeDelete(bull_);
 	SafeDelete(cowherd_);
 	SafeDelete(youngPerson_);
 	SafeDelete(dog_);
@@ -155,6 +158,13 @@ void Scene_Game::ChangeMatrix() {
 
 	// 牛の行列を変換
 	cow_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	// 雄牛の行列を変換
+	bull_->MatrixChange(
 		camera_->GetViewMatrix(),
 		camera_->GetOrthoMatrix(),
 		camera_->GetViewportMatrix()

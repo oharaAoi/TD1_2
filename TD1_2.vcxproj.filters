@@ -188,7 +188,7 @@
     <ClCompile Include="Lib\MyMath\Color.cpp">
       <Filter>Lib\MyMath</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Object\Cow\Bull.cpp">
+    <ClCompile Include="Game\Object\Cow\BullCow.cpp">
       <Filter>Game\Object\Cow</Filter>
     </ClCompile>
   </ItemGroup>
@@ -372,7 +372,7 @@
     <ClInclude Include="Lib\MyMath\Color.h">
       <Filter>Lib\MyMath</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Object\Cow\Bull.h">
+    <ClInclude Include="Game\Object\Cow\BullCow.h">
       <Filter>Game\Object\Cow</Filter>
     </ClInclude>
   </ItemGroup>

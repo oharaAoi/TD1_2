@@ -14,6 +14,7 @@
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "Dog.h"
+#include "BullCow.h"
 #include "TurnManager.h"
 
 #include "Renderer.h"
@@ -42,6 +43,7 @@ private:
 	YoungPerson* youngPerson_;
 	Cowherd* cowherd_;
 	Dog* dog_;
+	BullCow* bull_;
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;
