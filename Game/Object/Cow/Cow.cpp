@@ -87,7 +87,7 @@ void Cow::Init(MapChip* mapChip) {
 	value_.allDire = 10;
 	value_.clamp = 2;
 
-	value_.dog = 150;
+	value_.dog = 1500;
 	value_.rock = 1000;
 	value_.adjoin = 150;
 	value_.fence = 200;
@@ -454,7 +454,7 @@ void Cow::ImguiDraw() {
 	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
 
 
-	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 150);
+	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
 	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
 	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
 	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);
