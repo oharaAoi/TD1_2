@@ -66,6 +66,9 @@ private: // user method
 
 	void ChangeMatrix();
 
+	void BackOnce();
+
+	bool CheckIsMovingObject();
 
 public: // accessor
 

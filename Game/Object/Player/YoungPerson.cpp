@@ -272,8 +272,8 @@ void YoungPerson::Move() {
 			if (young_[yi].isMoveIdle) {
 
 				if (young_[yi].isMove) {
-					/*young_[yi].isMoveIdle = false;*/
 
+					// 移動処理 ↓↓↓↓↓ --------------------------------------------------------------------------------------------
 					if (movingTime_ < 60) {
 						movingTime_++;
 					}
@@ -292,18 +292,22 @@ void YoungPerson::Move() {
 						young_[yi].scale.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
 
 					}
+					// ↑↑↑↑↑ 移動処理 ----------------------------------------------------------------------------------------------------
 
-					// 移動の終了条件
+					// 移動の終了条件 ↓↓↓↓↓ ---------------------------
 					if (movingTime_ / 60.0f >= 1.0f) {
-						//young_[yi].isMove = false;
+
+						// 移動し終わった
 						yP_isMove_[yi] = true;
+
+						// 移動に使うフラグをfalseに初期化
+						young_[yi].isMove = false;
 						young_[yi].isMoveIdle = false;
 						isMoveIdle_ = false;
 						SetZOder(10);
-						young_[yi].isMove = yP_isMove_[yi];
 
 					}
-
+					// ↑↑↑↑↑ 移動の終了条件 ---------------------------
 
 
 				} else {
@@ -330,40 +334,46 @@ void YoungPerson::Move() {
 						}
 					}
 
-					// 移動先の選択
+					// 移動先の選択 ↓↓↓↓↓ ------------------------------------------------------------------------------------------------------
 					if (Inputs::IsTriggerMouse(0)) {
-						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+						if (!yP_isMove_[yi]) {
+							for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-							// 動けるとき
-							if (young_[yi].canMoveGrid[gi].canMove) {
+								// 動けるとき
+								if (young_[yi].canMoveGrid[gi].canMove) {
 
-								if (Collision::Rect::Point(
-									young_[yi].canMoveGrid[gi].screenVertex,
-									{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
+									if (Collision::Rect::Point(
+										young_[yi].canMoveGrid[gi].screenVertex,
+										{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
-									// ワールド座標の更新
-									young_[yi].destinationPos = {
-										young_[yi].worldCenterPos.x + young_[yi].canMoveGrid[gi].localAdd.x * tileSize_.x,
-											young_[yi].worldCenterPos.y + young_[yi].canMoveGrid[gi].localAdd.y * tileSize_.y,
-									};
+										// ワールド座標の更新
+										young_[yi].destinationPos = {
+											young_[yi].worldCenterPos.x + young_[yi].canMoveGrid[gi].localAdd.x * tileSize_.x,
+												young_[yi].worldCenterPos.y + young_[yi].canMoveGrid[gi].localAdd.y * tileSize_.y,
+										};
 
-									young_[yi].startingPos = young_[yi].worldCenterPos;
-									young_[yi].isMove = true;
-									movingTime_ = 0;
-									SetZOder(15);
+										young_[yi].startingPos = young_[yi].worldCenterPos;
+										young_[yi].isMove = true;
+										movingTime_ = 0;
+										SetZOder(15);
 
-									Stack::PushDate(nowMapAdd_);
-									Stack::PushIndex(yi);
+										Stack::PushDate(nowMapAdd_);
+										Stack::PushIndex(yi);
 
-									Swap(
-										{ static_cast<int>(young_[yi].destinationPos.x / tileSize_.x) ,static_cast<int>(young_[yi].destinationPos.y / tileSize_.y) },
-										{ static_cast<int>(young_[yi].startingPos.x / tileSize_.x),static_cast<int>(young_[yi].startingPos.y / tileSize_.y) }
-									);
+										Swap(
+											{ static_cast<int>(young_[yi].destinationPos.x / tileSize_.x) ,
+											static_cast<int>(young_[yi].destinationPos.y / tileSize_.y) },
+											{ static_cast<int>(young_[yi].startingPos.x / tileSize_.x),
+											static_cast<int>(young_[yi].startingPos.y / tileSize_.y) }
+										);
 
+									}
 								}
 							}
 						}
 					}
+
+					// ↑↑↑↑↑ 移動先の選択 --------------------------------------------------------------------------------------------------------------------
 
 				}
 
@@ -371,7 +381,9 @@ void YoungPerson::Move() {
 			}
 		} else {
 
-			if (!young_[yi].isMoveIdle) {
+			if (!young_[yi].isMoveIdle
+				&& !yP_isMove_[yi]) {
+
 				// スクリーン上でマウスが若人に当たっていたら
 				if (Collision::Rect::Point(young_[yi].screenVertex,
 					{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {

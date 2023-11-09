@@ -7,8 +7,7 @@
 #include "MyVector2.h"
 #include "Lib/LoadFile/LoadFile.h"
 
-class BaseMap
-{
+class BaseMap {
 protected:
 	//==================================================
 	// マップのアドレス
@@ -42,6 +41,9 @@ public:
 	virtual ~BaseMap();
 
 	static void Swap(const Vec2& a, const Vec2& b);
+	static std::vector<std::vector<int>> GetNowMapAdd(void) { return nowMapAdd_; }
+	static void SetNowMapAdd(std::vector<std::vector<int>> nowMapAdd) { nowMapAdd_ = nowMapAdd; }
+	static std::vector<std::vector<int>> GetMapAdd(void) { return mapAdd_; }
 
 };
 

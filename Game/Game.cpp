@@ -29,6 +29,14 @@ void Game::Init() {
 
 	turnManager_ = new TurnManager();
 
+	// スタックの中身がなくなるまでPopする
+	while (!Stack::GetEmpty()) {
+		Stack::StackPop();
+	}
+	BaseMap::SetNowMapAdd(BaseMap::GetMapAdd());
+	Stack::PushDate(BaseMap::GetNowMapAdd());
+
+
 	isGameClear_ = false;
 }
 
@@ -40,82 +48,8 @@ void Game::Update() {
 
 	// ----- Update ----- //
 
-	if (!Stack::GetEmpty()) {
-		if (Inputs::IsTriggerKey(DIK_R)) {
-			int yp_index = 0;
-			for (int r = 0; r < mapChip_->GetMapChipRow(); r++) {
-				for (int c = 0; c < mapChip_->GetMapChipCol(); c++) {
-
-					switch (Stack::GetMapAdd()[r][c]) {
-						/*case ChipType::NONE:
-							break;*/
-					case ChipType::STAGEOUT:
-						break;
-					case ChipType::FENCE:
-						break;
-					case ChipType::COWHERD:
-
-						if (r != cowherd_->GetCenterAdd().y
-							or c != cowherd_->GetCenterAdd().x) {
-
-							BaseMap::Swap(
-								cowherd_->GetCenterAdd(),
-								{ c,r }
-							);
-
-							cowherd_->SetWorldPos(
-								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
-								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) }
-							);
-							cowherd_->SetIsMove(false);
-							cowherd_->SetIsMoveIdle(false);
-							cowherd_->SetCh_isMove(false);
-
-						}
-
-						break;
-					case ChipType::YANGMAN:
-
-						if (r != youngPerson_->GetCenterAdd(yp_index).y
-							or c != youngPerson_->GetCenterAdd(yp_index).x) {
-
-							BaseMap::Swap(
-								youngPerson_->GetCenterAdd(yp_index),
-								{ c,r }
-							);
-
-							youngPerson_->SetWorldPos(
-								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
-								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) },
-								yp_index
-							);
-
-							youngPerson_->SetIsMove(false, yp_index);
-							youngPerson_->SetYoung_IsMoveIdle(false, yp_index);
-							youngPerson_->SetIsMoveIdle(false);
-							youngPerson_->SetYP_IsMove(false, yp_index);
-						}
-
-						yp_index++;
-						break;
-					case ChipType::ROCK:
-						break;
-					case ChipType::COW:
-						break;
-					case ChipType::BULL:
-						break;
-					case ChipType::BULLFIGHTING:
-						break;
-					}
-
-				}
-
-			}
-
-			Stack::StackPop();
-
-		}
-	}
+	// Ctrl+Z
+	BackOnce();
 
 
 	// カメラの更新
@@ -171,6 +105,15 @@ void Game::Update() {
 		break;
 	}
 
+
+	// ターンの切り替わり時にスタックしていたものを解放する
+	if (turnManager_->GetIsTurnChange()) {
+		while (!Stack::GetEmpty()) {
+			Stack::StackPop();
+		}
+	}
+
+
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
@@ -178,9 +121,9 @@ void Game::Update() {
 	ChangeMatrix();
 
 	// ゲームクリア
-	/*if (collisionManager_->CheckClear()) {
+	if (collisionManager_->CheckClear()) {
 		isGameClear_ = true;
-	}*/
+	}
 
 }
 
@@ -227,6 +170,7 @@ void Game::Finalize() {
 
 }
 
+
 void Game::ChangeMatrix() {
 
 	// マップの行列を変換
@@ -272,4 +216,93 @@ void Game::ChangeMatrix() {
 	);
 
 
+}
+
+
+void Game::BackOnce() {
+	if (CheckIsMovingObject()) { return; }
+
+	if (!Stack::GetEmpty()) {
+		if (Inputs::IsTriggerKey(DIK_R)) {
+			int yp_index = 0;
+			for (int r = 0; r < mapChip_->GetMapChipRow(); r++) {
+				for (int c = 0; c < mapChip_->GetMapChipCol(); c++) {
+
+					switch (Stack::GetMapAdd()[r][c]) {
+						/*case ChipType::NONE:
+							break;*/
+					case ChipType::STAGEOUT:
+						break;
+					case ChipType::FENCE:
+						break;
+					case ChipType::COWHERD:
+
+						if (r != cowherd_->GetCenterAdd().y
+							or c != cowherd_->GetCenterAdd().x) {
+
+							BaseMap::Swap(
+								cowherd_->GetCenterAdd(),
+								{ c,r }
+							);
+
+							cowherd_->SetWorldPos(
+								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) }
+							);
+							cowherd_->SetCh_isMove(false);
+
+						}
+
+						break;
+					case ChipType::YANGMAN:
+
+						if (r != youngPerson_->GetCenterAdd(yp_index).y
+							or c != youngPerson_->GetCenterAdd(yp_index).x) {
+
+							BaseMap::Swap(
+								youngPerson_->GetCenterAdd(yp_index),
+								{ c,r }
+							);
+
+							youngPerson_->SetWorldPos(
+								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) },
+								yp_index
+							);
+
+							youngPerson_->SetYoung_IsMoveIdle(false, yp_index);
+							youngPerson_->SetYP_IsMove(false, yp_index);
+						}
+
+						yp_index++;
+						break;
+					case ChipType::ROCK:
+						break;
+					case ChipType::COW:
+						break;
+					case ChipType::BULL:
+						break;
+					case ChipType::BULLFIGHTING:
+						break;
+					}
+
+				}
+
+			}
+
+			Stack::StackPop();
+
+		}
+	}
+
+}
+
+
+bool Game::CheckIsMovingObject() {
+	if (cowherd_->GetIsMove()) { return true; }
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
+		if (youngPerson_->GetIsMove(yi)) { return true; }
+	}
+
+	return false;
 }

@@ -154,7 +154,13 @@ void Cowherd::Draw() {
 
 	// 移動マス
 	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-		if (canMoveGrid_[gi].canMove && isMoveIdle_ && !isMove_) {
+
+		// 移動できるマス; このターン動いていない; 動いていない; 移動待機状態
+		if (canMoveGrid_[gi].canMove
+			//&& !ch_isMove_
+			&& !isMove_
+			&& isMoveIdle_) {
+
 			Draw::Quad(
 				canMoveGrid_[gi].screenVertex,
 				{ 0.0f,0.0f },
@@ -255,7 +261,7 @@ void Cowherd::Move() {
 
 			// 移動の終了条件
 			if (movingTime_ / 60.0f >= 1.0f) {
-				//isMove_ = false;
+				isMove_ = false;
 				ch_isMove_ = true;
 				isMoveIdle_ = false;
 				SetZOder(10);
@@ -287,33 +293,37 @@ void Cowherd::Move() {
 
 			// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
 			if (Inputs::IsTriggerMouse(0)) {
-				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+				if (!ch_isMove_) {
 
-					if (canMoveGrid_[gi].canMove) {
+					// 移動マスの配列
+					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-						if (Collision::Rect::Point(
-							canMoveGrid_[gi].screenVertex,
-							{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
+						if (canMoveGrid_[gi].canMove) {
 
-							// 移動先と移動元の座標の更新
-							destinationPos_ = {
-								worldCenterPos_.x + (canMoveGrid_[gi].localAdd.x * tileSize_.x),
-								worldCenterPos_.y + (canMoveGrid_[gi].localAdd.y * tileSize_.y)
-							};
-							startingPos_ = worldCenterPos_;
+							if (Collision::Rect::Point(
+								canMoveGrid_[gi].screenVertex,
+								{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
-							isMove_ = true;
-							movingTime_ = 0;
-							SetZOder(15);
+								// 移動先と移動元の座標の更新
+								destinationPos_ = {
+									worldCenterPos_.x + (canMoveGrid_[gi].localAdd.x * tileSize_.x),
+									worldCenterPos_.y + (canMoveGrid_[gi].localAdd.y * tileSize_.y)
+								};
+								startingPos_ = worldCenterPos_;
 
-							Stack::PushDate(nowMapAdd_);
-							Stack::PushCH_isMovingCount(0);
+								isMove_ = true;
+								movingTime_ = 0;
+								SetZOder(15);
 
-							std::swap(
-								nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
-								nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
-							);
+								Stack::PushDate(nowMapAdd_);
+								Stack::PushCH_isMovingCount(0);
 
+								std::swap(
+									nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
+									nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
+								);
+
+							}
 						}
 					}
 				}
@@ -324,21 +334,18 @@ void Cowherd::Move() {
 
 	} else {
 
-		// スクリーン座標上でマウスの位置がオブジェクトの上にあれば当たっている判定になる
-		if (Collision::Rect::Point(screenVertex_,
-			{ static_cast<float>(Inputs::GetMousePos().x), static_cast<float>(Inputs::GetMousePos().y) })) {
 
-			// クリックしたとき
-			if (Inputs::IsTriggerMouse(0)) {
+		if (Inputs::IsTriggerMouse(0)) {
 
-				// 移動待機状態になる
-				isMoveIdle_ = true;
+			if (!ch_isMove_) {
 
-				// 移動できる方向を所得
+				if (Collision::Rect::Point(screenVertex_,
+					{ static_cast<float>(Inputs::GetMousePos().x), static_cast<float>(Inputs::GetMousePos().y) })) {
 
+					isMoveIdle_ = true;
 
+				}
 			}
-
 		}
 
 	}
