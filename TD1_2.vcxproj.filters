@@ -191,6 +191,9 @@
     <ClCompile Include="Game\Object\Cow\BullCow.cpp">
       <Filter>Game\Object\Cow</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -371,9 +374,6 @@
     </ClInclude>
     <ClInclude Include="Lib\MyMath\Color.h">
       <Filter>Lib\MyMath</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Object\Cow\BullCow.h">
-      <Filter>Game\Object\Cow</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
