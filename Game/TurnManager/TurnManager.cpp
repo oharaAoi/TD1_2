@@ -24,7 +24,7 @@ void TurnManager::Init() {
 void TurnManager::Update() {
 	TurnNoUpdate();
 
-	if (input->IsTriggerKey(DIK_SPACE)) {
+	if (Inputs::IsTriggerKey(DIK_SPACE)) {
 		turnNo_++;
 	}
 

@@ -5,7 +5,7 @@
 #include "Matrix3x3.h"
 #include "Quad.h"
 #include "Draw.h"
-#include "InputManager.h"
+#include "Inputs.h"
 #include "Collision.h"
 #include "Ease.h"
 #include "Drawable.h"
@@ -73,8 +73,6 @@ private:
 
 private:
 
-	// member object
-	InputManager* input = InputManager::GetInstance();
 
 	// member object
 

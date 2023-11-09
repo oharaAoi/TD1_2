@@ -5,7 +5,7 @@
 #include "Matrix3x3.h"
 #include "Quad.h"
 #include "Draw.h"
-#include "InputManager.h"
+#include "Inputs.h"
 #include "Collision.h"
 #include "Ease.h"
 #include "MyMath.h"
@@ -24,9 +24,6 @@ class Cowherd
 	public Drawable,
 	public Turn{
 private:
-
-	// member object
-	InputManager* input = InputManager::GetInstance();
 
 	// ワールド空間での中心点
 	Vec2f worldCenterPos_;

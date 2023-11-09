@@ -161,7 +161,7 @@ void Cow::Finalize() {
 ==========================================================*/
 
 void Cow::CowMove() {
-		if (input->IsTriggerKey(DIK_M) or isTurnChange_) {
+		if (Inputs::IsTriggerKey(DIK_M) or isTurnChange_) {
 			isIdle_ = true;
 		}
 }

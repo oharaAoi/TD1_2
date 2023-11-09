@@ -309,17 +309,17 @@ void YoungPerson::Move() {
 				} else {
 
 					// 移動待機状態の解除
-					if (input->IsTriggerMouse(1)) {
+					if (Inputs::IsTriggerMouse(1)) {
 						young_[yi].isMoveIdle = false;
 						isMoveIdle_ = false;
 					}
 
-					if (input->IsTriggerMouse(0)) {
+					if (Inputs::IsTriggerMouse(0)) {
 						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 							if (young_[yi].canMoveGrid[gi].canMove) {
 								if (Collision::Rect::Point(
 									young_[yi].canMoveGrid[gi].screenVertex,
-									{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+									{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 									break;
 								}
 							}
@@ -331,7 +331,7 @@ void YoungPerson::Move() {
 					}
 
 					// 移動先の選択
-					if (input->IsTriggerMouse(0)) {
+					if (Inputs::IsTriggerMouse(0)) {
 						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
 							// 動けるとき
@@ -339,7 +339,7 @@ void YoungPerson::Move() {
 
 								if (Collision::Rect::Point(
 									young_[yi].canMoveGrid[gi].screenVertex,
-									{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+									{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
 									// ワールド座標の更新
 									young_[yi].destinationPos = {
@@ -365,9 +365,9 @@ void YoungPerson::Move() {
 			if (!young_[yi].isMoveIdle) {
 				// スクリーン上でマウスが若人に当たっていたら
 				if (Collision::Rect::Point(young_[yi].screenVertex,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+					{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
-					if (input->IsTriggerMouse(0)) {
+					if (Inputs::IsTriggerMouse(0)) {
 
 						for (int j = 0; j < maxYoungIndex_; j++) {
 							young_[j].isMoveIdle = false;

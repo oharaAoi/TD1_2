@@ -4,7 +4,7 @@
 #include "MyVector2.h"
 #include "Matrix3x3.h"
 #include "Quad.h"
-#include "InputManager.h"
+#include "Inputs.h"
 #include "Drawable.h"
 
 // ----- config ----- //
@@ -18,8 +18,6 @@ class BaseCow
 	: public Drawable {
 protected: // member object
 
-	// 入力処理; 後で消す
-	InputManager* input = InputManager::GetInstance();
 
 	// 絶対必要なメンバ変数 -----------------------
 

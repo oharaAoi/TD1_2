@@ -2,7 +2,7 @@
 
 #include <Novice.h>
 
-#include "InputManager.h"
+#include "Inputs.h"
 
 // ----- math ----- //
 #include "MyVector2.h"
@@ -27,9 +27,6 @@ class Dog final
 	: public BaseMap,
 	public Drawable {
 private:
-
-	// 入力処理のインスタンス確保
-	InputManager* input = InputManager::GetInstance();
 
 	// member object
 

@@ -17,7 +17,7 @@
 #include "CanMoveDirection.h"
 
 // ----- Maneger ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 #include "Turn.h"
 
 enum direEvaluateGrid {
@@ -113,10 +113,6 @@ private:
 	//=========================================
 	// csvを読み込んでその範囲を評価する
 	std::vector<std::vector<int>>evaluateGrid_;
-
-	//=========================================
-	// 入力処理のインスタンス確保
-	InputManager* input = InputManager::GetInstance();
 
 public:
 	// Constructor & Destructor

@@ -12,8 +12,8 @@ void Dog::Init() {
 
 	// ワールド空間での中心座標
 	worldCenterPos_ = {
-		static_cast<float>(input->GetMousePos().x),
-		static_cast<float>(input->GetMousePos().y)
+		static_cast<float>(Inputs::GetMousePos().x),
+		static_cast<float>(Inputs::GetMousePos().y)
 	};
 	size_ = { 64.0f,64.0f };
 	gh_ = Novice::LoadTexture("white1x1.png");
@@ -125,12 +125,12 @@ void Dog::Finalize() {
 
 void Dog::Install() {
 	if (!isIdle_) {
-		if (input->IsTriggerKey(DIK_Z)) {
+		if (Inputs::IsTriggerKey(DIK_Z)) {
 			isIdle_ = true;
 		}
 
 	} else {
-		if (input->IsTriggerKey(DIK_Z)) {
+		if (Inputs::IsTriggerKey(DIK_Z)) {
 			isIdle_ = false;
 			isExist_ = false;
 
@@ -140,8 +140,8 @@ void Dog::Install() {
 
 		if (!isExist_) {
 			worldCenterPos_ = {
-				static_cast<float>(input->GetMousePos().x),
-				static_cast<float>(input->GetMousePos().y)
+				static_cast<float>(Inputs::GetMousePos().x),
+				static_cast<float>(Inputs::GetMousePos().y)
 			};
 		}
 	}
@@ -150,10 +150,10 @@ void Dog::Install() {
 void Dog::Put() {
 	if (isIdle_) {
 		// マウスがクリックされた位置によって置く場所を決める
-		if (input->IsTriggerMouse(0)) {
+		if (Inputs::IsTriggerMouse(0)) {
 			for (int i = 0; i < 4; i++) {
 				if (Collision::Rect::Point(putPlace_[i].screenVertex,
-					{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) }
+					{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) }
 				)) {
 
 					worldCenterPos_ = putPlace_[i].worldPos;

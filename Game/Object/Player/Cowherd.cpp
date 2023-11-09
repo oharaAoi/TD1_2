@@ -267,16 +267,16 @@ void Cowherd::Move() {
 		} else { // 移動していない
 
 			// いつでも移動待機状態をクリアできるようにする
-			if (input->IsTriggerMouse(1)) {
+			if (Inputs::IsTriggerMouse(1)) {
 				isMoveIdle_ = false;
 			}
 
-			if (input->IsTriggerMouse(0)) {
+			if (Inputs::IsTriggerMouse(0)) {
 				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 					if (canMoveGrid_[gi].canMove) {
 						if (Collision::Rect::Point(
 							canMoveGrid_[gi].screenVertex,
-							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+							{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 							break;
 						}
 					}
@@ -286,14 +286,14 @@ void Cowherd::Move() {
 			}
 
 			// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
-			if (input->IsTriggerMouse(0)) {
+			if (Inputs::IsTriggerMouse(0)) {
 				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
 					if (canMoveGrid_[gi].canMove) {
 
 						if (Collision::Rect::Point(
 							canMoveGrid_[gi].screenVertex,
-							{ static_cast<float>(input->GetMousePos().x),static_cast<float>(input->GetMousePos().y) })) {
+							{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
 							// 移動先と移動元の座標の更新
 							destinationPos_ = {
@@ -319,10 +319,10 @@ void Cowherd::Move() {
 
 		// スクリーン座標上でマウスの位置がオブジェクトの上にあれば当たっている判定になる
 		if (Collision::Rect::Point(screenVertex_,
-			{ static_cast<float>(input->GetMousePos().x), static_cast<float>(input->GetMousePos().y) })) {
+			{ static_cast<float>(Inputs::GetMousePos().x), static_cast<float>(Inputs::GetMousePos().y) })) {
 
 			// クリックしたとき
-			if (input->IsTriggerMouse(0)) {
+			if (Inputs::IsTriggerMouse(0)) {
 
 				// 移動待機状態になる
 				isMoveIdle_ = true;
