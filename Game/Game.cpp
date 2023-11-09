@@ -11,7 +11,7 @@ Game::~Game() { Finalize(); }
 void Game::Init() {
 	camera_ = new Camera();
 	mapChip_ = new MapChip();
-	cow_ = new Cow(mapChip_);
+	cow_ = new Cow();
 	cowherd_ = new Cowherd();
 	youngPerson_ = new YoungPerson();
 	dog_ = new Dog();
