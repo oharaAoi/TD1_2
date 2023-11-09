@@ -4,11 +4,11 @@ BullCow::BullCow() { Init(); }
 
 BullCow::~BullCow() { Finalize(); }
 
-void BullCow::Finalize(){
+void BullCow::Finalize() {
 
 }
 
-void BullCow::Init(){
+void BullCow::Init() {
 
 	// ワールド空間での中心座標
 	for (int row = 0; row < row_; row++) {
@@ -25,10 +25,61 @@ void BullCow::Init(){
 		}
 	}
 
+	// csvで方向の評価
 	cannotMoveGrid_ = LoadFile("./Resources/cow/bullEightDireRange.csv");
+
+	// ローカルアドレスでのbullの位置を保存
+	for (int row = 0; row < cannotMoveGrid_.size(); row++) {
+		for (int col = 0; col < cannotMoveGrid_[0].size(); col++) {
+			switch (cannotMoveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				direAddressNum_[kCanMoveDirection::top]++;
+				break;
+
+			case kCanMoveDirection::bottom:
+				direAddressNum_[kCanMoveDirection::bottom]++;
+				break;
+
+			case kCanMoveDirection::left:
+				direAddressNum_[kCanMoveDirection::left]++;
+				break;
+
+			case kCanMoveDirection::right:
+				direAddressNum_[kCanMoveDirection::right]++;
+				break;
+
+			case kCanMoveDirection::leftTop:
+				direAddressNum_[kCanMoveDirection::leftTop]++;
+				break;
+
+			case kCanMoveDirection::rightTop:
+				direAddressNum_[kCanMoveDirection::rightTop]++;
+				break;
+
+			case kCanMoveDirection::leftBottom:
+				direAddressNum_[kCanMoveDirection::leftBottom]++;
+				break;
+
+			case kCanMoveDirection::rightBottom:
+				direAddressNum_[kCanMoveDirection::rightBottom]++;
+				break;
+
+			case 50:
+				localCenterAdd_.x = col;
+				localCenterAdd_.y = row;
+				break;
+			}
+		}
+	}
+
+	for (int i = 0; i < 8; i++) {
+		cannotMove_[i].localAdd.resize(direAddressNum_[i]);
+		cannotMove_[i].worldAdd.resize(direAddressNum_[i]);
+	}
 
 	gh_ = Novice::LoadTexture("white1x1.png");
 
+	// 移動状態
 	isIdle_ = false;
 
 	// ローカル空間での各頂点座標
@@ -104,7 +155,7 @@ void BullCow::Init(){
 
 }
 
-void BullCow::Update(){
+void BullCow::Update() {
 
 	// 牛の現在の位置を取得
 	CenterAddUpdate();
@@ -122,7 +173,7 @@ void BullCow::Update(){
 
 }
 
-void BullCow::Draw(){
+void BullCow::Draw() {
 	if (isDisplay_) {
 		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
 	}
@@ -158,6 +209,61 @@ void BullCow::CenterAddUpdate() {
 		static_cast<int>(worldPos_.x / tileSize_.x),
 		static_cast<int>(worldPos_.y / tileSize_.y)
 	};
+
+	int index[8] = {0};
+
+	for (int row = 0; row < cannotMoveGrid_.size(); row++) {
+		for (int col = 0; col < cannotMoveGrid_[0].size(); col++) {
+			switch (cannotMoveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[0]++;
+				break;
+
+			case  kCanMoveDirection::bottom:
+				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[1]++;
+				break;
+
+			case  kCanMoveDirection::left:
+				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[2]++;
+				break;
+
+			case  kCanMoveDirection::right:
+				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[3]++;
+				break;
+
+			case  kCanMoveDirection::leftTop:
+				cannotMove_[kCanMoveDirection::leftTop].localAdd[index[4]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[4]++;
+				break;
+
+			case  kCanMoveDirection::rightTop:
+				cannotMove_[kCanMoveDirection::rightTop].localAdd[index[5]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[5]++;
+				break;
+
+			case  kCanMoveDirection::leftBottom:
+				cannotMove_[kCanMoveDirection::leftBottom].localAdd[index[6]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[6]++;
+				break;
+
+			case  kCanMoveDirection::rightBottom:
+				cannotMove_[kCanMoveDirection::rightBottom].localAdd[index[7]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				index[7]++;
+				break;
+			}
+		}
+	}
+
+	for (int dire = 0; dire < 8; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + cannotMove_[dire].worldAdd[i];
+		}
+	}
+
 }
 
 void BullCow::DireInit() {

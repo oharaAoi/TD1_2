@@ -47,6 +47,17 @@ void CowCollision::CheckCowMoveDire() {
 			CheckGridDistance(youngPerson_->GetCenterAdd(i));
 		}
 
+		// 周りの岩との判定を取る
+		for (int row = 0; row < mapChip_->GetMapChipRow(); row++) {
+			for (int col = 0; col < mapChip_->GetMapChipCol(); col++) {
+				if (mapChip_->GetMapChipAdd()[row][col] == ChipType::ROCK) {
+					Vec2 rockAdd = { col, row };
+					CheckGridDire(rockAdd);
+				}
+			}
+		}
+
+
 		// 4つのエリア
 		CheckFourAreas();
 

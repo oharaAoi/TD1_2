@@ -53,7 +53,6 @@ private:
 	// csvを読み込んでその範囲を評価する
 	std::vector<std::vector<int>>evaluateGrid_;
 
-	int cantMoveIndex_;
 	Vec2 localCenterAdd_;
 
 	struct Address {

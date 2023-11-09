@@ -18,7 +18,21 @@ private:
 
 	bool isDisplay_;
 
+	// csvを読み込む物
 	std::vector<std::vector<int>>cannotMoveGrid_;
+
+	Vec2 localCenterAdd_;
+
+	// 
+	int direAddressNum_[8];
+
+	struct Address {
+		std::vector<Vec2> localAdd;
+		std::vector<Vec2> worldAdd;
+	};
+
+	Address cannotMove_[8];
+
 
 public:
 
@@ -96,4 +110,7 @@ public:
 	int GetWallValue() { return value_.wall; }
 
 	void SetFenceValue(int value) { value_.fence = value; }
+
+	Vec2 GetCantMoveAdd(int dire, int index) { return cannotMove_[dire].worldAdd[index]; }
+	int GetDireAddressNum(int index) { return direAddressNum_[index]; }
 };

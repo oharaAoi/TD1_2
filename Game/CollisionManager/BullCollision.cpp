@@ -32,10 +32,20 @@ void BullCollision::CheckBullMoveDire() {
 	// マス目の計算(牧師
 	CheckGridDistance(cowherd_->GetCenterAdd());
 
+	// 範囲の計算
+	CheckGridDire(cowherd_->GetCenterAdd());
+
 	//// マス目の計算(若人
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
 	}
+
+
+	/*for (int row = 0; row < mapChip_->GetMapChipRow(); row++) {
+		for (int col = 0; col < mapChip_->GetMapChipCol(); col++) {
+			CheckGridDire(mapChip_->GetMapChipAdd()[row][col]);
+		}
+	}*/
 
 	// 4つのエリア
 	CheckFourAreas();
@@ -976,5 +986,73 @@ void BullCollision::CheckBullCowAdjoin() {
 /*==========================================================================================================
 									周りの計算
 ============================================================================================================*/
-//void BullCollision::CheckGridDire(const Vec2& add){
-//}
+void BullCollision::CheckGridDire(const Vec2& add) {
+	for (int dire = 0; dire < 8; dire++) {
+		switch (dire) {
+		case kCanMoveDirection::top:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinValue(), kCanMoveDirection::top);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::bottom:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::left:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinValue(), kCanMoveDirection::left);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::right:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
+				}
+			}
+				break;
+
+		case kCanMoveDirection::leftTop:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::rightTop:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+				}
+			}
+
+				break;
+
+		case kCanMoveDirection::leftBottom:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
+				if (bullCow_->GetCantMoveAdd(dire, i).x == add.x && bullCow_->GetCantMoveAdd(dire, i).y == add.y) {
+					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+				}
+			}
+			break;
+		}
+	}
+}
