@@ -56,7 +56,7 @@ private:
 
 	void CheckBullCowAdjoin();
 
-	/*void CheckGridDire(const Vec2& add);*/
+	void CheckGridDire(const Vec2& add);
 };
 
 

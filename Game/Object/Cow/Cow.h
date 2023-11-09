@@ -49,6 +49,22 @@ private:
 
 	Vec2 centerAdd_;
 
+	//==============================================
+	// csvを読み込んでその範囲を評価する
+	std::vector<std::vector<int>>evaluateGrid_;
+
+	int cantMoveIndex_;
+	Vec2 localCenterAdd_;
+
+	struct Address {
+		Vec2 localAdd;
+		Vec2 worldAdd_;
+	};
+
+	Address cannotMove_[8];
+
+	//==============================================
+
 	// 牛が動くかどうか
 	bool isIdle_;
 
@@ -112,8 +128,7 @@ private:
 	bool isFenceAttack_;
 
 	//=========================================
-	// csvを読み込んでその範囲を評価する
-	std::vector<std::vector<int>>evaluateGrid_;
+	
 
 public:
 	// Constructor & Destructor
@@ -210,6 +225,8 @@ public:
 
 	// gridでの評価
 	std::vector<std::vector<int>> GetEvaluteGrid() { return evaluateGrid_; }
+
+	Vec2 GetCantMoveAdd(int dire) { return cannotMove_[dire].worldAdd_; }
 
 };
 

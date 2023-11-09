@@ -25,6 +25,8 @@ void BullCow::Init(){
 		}
 	}
 
+	cannotMoveGrid_ = LoadFile("./Resources/cow/bullEightDireRange.csv");
+
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	isIdle_ = false;

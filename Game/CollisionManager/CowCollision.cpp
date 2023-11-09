@@ -32,12 +32,18 @@ void CowCollision::CheckCowMoveDire() {
 
 		// 両隣フェンスの時
 		CheckCowAdjoin();
-		/*CheckCowFourArea();*/
+		
+		// 周りの判定
+		CheckGridDire(cowherd_->GetCenterAdd());
+
 		// マス目の計算(牧師
 		CheckGridDistance(cowherd_->GetCenterAdd());
 
-		// マス目の計算(若人
 		for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+			// 周りの判定
+			CheckGridDire(youngPerson_->GetCenterAdd(i));
+
+			// マス目の計算(若人
 			CheckGridDistance(youngPerson_->GetCenterAdd(i));
 		}
 
@@ -49,6 +55,7 @@ void CowCollision::CheckCowMoveDire() {
 
 		// 牛がフェンスと隣の時
 		CheckFenseCollision();
+
 	}
 }
 
@@ -191,27 +198,27 @@ void CowCollision::CheckFenseCollision() {
 		cow_->SetFenceValue(200);
 	}
 
-	
-		// top
-		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
- 			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
-		}
 
-		// bottom
-		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
-			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
-		}
+	// top
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
+	}
 
-		// left
-		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
-			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
-		}
+	// bottom
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
+	}
 
-		// right
-		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE) {
-			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
-		}
-	
+	// left
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
+	}
+
+	// right
+	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE) {
+		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
+	}
+
 
 
 	/* ------ 斜めの場合は値を引く ------- */
@@ -946,10 +953,56 @@ void CowCollision::CheckCowAdjoin() {
 }
 
 void CowCollision::CheckGridDire(const Vec2& add) {
-	switch (cow_->GetEvaluteGrid()[add.y][add.x]) {
-	case direEvaluateGrid::grid_top:
+	for (int dire = 0; dire < 8; dire++) {
+		switch (dire) {
+		case kCanMoveDirection::top:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			}
+			break;
 
-		break;
+		case kCanMoveDirection::bottom:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			}
+			break;
+
+		case kCanMoveDirection::left:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			}
+			break;
+
+		case kCanMoveDirection::right:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			}
+			break;
+
+		case kCanMoveDirection::leftTop:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			}
+			break;
+
+		case kCanMoveDirection::rightTop:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			}
+			break;
+
+		case kCanMoveDirection::leftBottom:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			}
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			if (cow_->GetCantMoveAdd(dire).x == add.x && cow_->GetCantMoveAdd(dire).y == add.y) {
+				cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			}
+			break;
+
+		}
 	}
-
 }

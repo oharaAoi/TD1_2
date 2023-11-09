@@ -18,6 +18,8 @@ private:
 
 	bool isDisplay_;
 
+	std::vector<std::vector<int>>cannotMoveGrid_;
+
 public:
 
 	BullCow();

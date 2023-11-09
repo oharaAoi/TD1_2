@@ -29,6 +29,21 @@ void Cow::Init() {
 
 	isIdle_ = false;
 
+	// csvを読み込んで評価するための変数の初期化
+	evaluateGrid_ = LoadFile("./Resources/cow/cowEightDireRange.csv");
+
+	// ローカルアドレスでの牛の位置を保存
+	for (int row = 0; row < evaluateGrid_.size(); row++) {
+		for (int col = 0; col < evaluateGrid_[0].size(); col++) {
+			switch (evaluateGrid_[row][col]) {
+			case 50:
+				localCenterAdd_.x = col;
+				localCenterAdd_.y = row;
+				break;
+			}
+		}
+	}
+
 	// ローカル空間での各頂点座標
 	localVertex_ = {
 		{ -tileSize_.x * 0.5f, tileSize_.y * 0.5f },
@@ -106,8 +121,6 @@ void Cow::Init() {
 	isFenceAttack_ = false;
 	
 	//=========================================
-	// csvを読み込んで評価するための変数の初期化
-	evaluateGrid_ = LoadFile("./Resources/cow/cowEightDireRange.csv");
 
 }
 
@@ -267,6 +280,50 @@ void Cow::CenterAddUpdate() {
 		static_cast<int>(worldCenterPos_.x / tileSize_.x),
 		static_cast<int>(worldCenterPos_.y / tileSize_.y)
 	};
+
+	// 牛のアドレスから8方向のアドレスをcantMova_[dire]に保存する
+	for (int row = 0; row < evaluateGrid_.size(); row++) {
+		for (int col = 0; col < evaluateGrid_[0].size(); col++) {
+			switch (evaluateGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				cannotMove_[kCanMoveDirection::top].localAdd = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				break;
+
+			case  kCanMoveDirection::bottom:
+				cannotMove_[kCanMoveDirection::bottom].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::left:
+				cannotMove_[kCanMoveDirection::left].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::right:
+				cannotMove_[kCanMoveDirection::right].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::leftTop:
+				cannotMove_[kCanMoveDirection::leftTop].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::rightTop:
+				cannotMove_[kCanMoveDirection::rightTop].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::leftBottom:
+				cannotMove_[kCanMoveDirection::leftBottom].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+
+			case  kCanMoveDirection::rightBottom:
+				cannotMove_[kCanMoveDirection::rightBottom].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				break;
+			}
+		}
+	}
+
+	for (int dire = 0; dire < 8; dire++) {
+		cannotMove_[dire].worldAdd_ = cannotMove_[dire].localAdd + centerAdd_;
+	}
+
 }
 
 // ------ 方向の初期化 ------ //
