@@ -678,7 +678,7 @@ void CowCollision::CheckCowAdjoin() {
 	// 牛と隣接しているものがないか調べる
 	// top
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetRockValue(), kCanMoveDirection::top);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		// 上にいる場合は下に行って欲しいため下方向を多く加算する
@@ -694,7 +694,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// bottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetRockValue(), kCanMoveDirection::bottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		// 上に行ってほしい
@@ -711,7 +711,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// left
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetRockValue(), kCanMoveDirection::left);
 
 	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		// 右に行って欲しい
@@ -727,7 +727,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// right
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetRockValue(), kCanMoveDirection::right);
 
 	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		// 左にいって欲しい
@@ -744,7 +744,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// leftTop
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetRockValue(), kCanMoveDirection::leftTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
@@ -763,7 +763,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// rightTop
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y + 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetRockValue(), kCanMoveDirection::rightTop);
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
@@ -782,7 +782,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// leftBottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x - 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetRockValue(), kCanMoveDirection::leftBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
@@ -801,7 +801,7 @@ void CowCollision::CheckCowAdjoin() {
 
 	// rightBottom
 	if (mapChip_->GetMapAdd(cow_->GetCenterAdd().y - 1, cow_->GetCenterAdd().x + 1) == ChipType::ROCK) {
-		cow_->SetMoveDireValue(-cow_->GetRockValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetRockValue(), kCanMoveDirection::rightBottom);
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y &&
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {

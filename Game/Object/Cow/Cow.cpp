@@ -87,7 +87,7 @@ void Cow::Init() {
 	value_.clamp = 2;
 
 	value_.dog = 1500;
-	value_.rock = 1000;
+	value_.rock = 10000;
 	value_.fence = 100;
 	value_.slantFence = -200;
 	value_.adjoin = 600;
