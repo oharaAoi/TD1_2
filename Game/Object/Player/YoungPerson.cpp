@@ -190,7 +190,11 @@ void YoungPerson::Draw() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-			if (young_[yi].canMoveGrid[gi].canMove && !young_[yi].isMove) {
+			// 移動できるマス & 移動していないとき & 移動待機状態のとき
+			if (young_[yi].canMoveGrid[gi].canMove 
+				&& !young_[yi].isMove 
+				&& young_[yi].isMoveIdle) {
+
 				// 移動マスの描画
 				Draw::Quad(
 					young_[yi].canMoveGrid[gi].screenVertex,
@@ -201,7 +205,7 @@ void YoungPerson::Draw() {
 				);
 			}
 		}
-
+		
 		if (!young_[yi].isMove) {
 			// 若人を描画
 			Draw::Quad(
@@ -409,6 +413,7 @@ void YoungPerson::CenterAddUpDate() {
 
 }
 
+
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 	for (int i = 0; i < maxYoungIndex_; i++) {
 		young_[i].screenMatrix =
@@ -433,6 +438,7 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 	}
 }
 
+
 void YoungPerson::MakeWorldMatrix() {
 
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
@@ -451,6 +457,7 @@ void YoungPerson::MakeWorldMatrix() {
 	}
 }
 
+
 void YoungPerson::DebugDraw() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
@@ -459,6 +466,12 @@ void YoungPerson::DebugDraw() {
 
 			Novice::ScreenPrintf(800, 20 * gi, "[%d]worldAdd : x = %d, y = %d",
 				0, young_[0].canMoveGrid[gi].worldAdd.x, young_[0].canMoveGrid[gi].worldAdd.y);
+
+			Novice::ScreenPrintf(
+				static_cast<int>(young_[yi].canMoveGrid[gi].screenVertex.lt.x),
+				static_cast<int>(young_[yi].canMoveGrid[gi].screenVertex.lt.y),
+				"%d:%d",
+				young_[yi].canMoveGrid[gi].localAdd.x, young_[yi].canMoveGrid[gi].localAdd.y);
 
 		}
 

@@ -1,17 +1,17 @@
 ﻿#include "YoungPersonCollision.h"
 
-YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow){
+YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
 	Init(cowherd, youngPerson, mapChip, cow);
 }
 
-YoungPersonCollision::~YoungPersonCollision(){
+YoungPersonCollision::~YoungPersonCollision() {
 	Finalize();
 }
 
 /*================================================================
 	初期化関数
 ================================================================*/
-void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow){
+void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
@@ -21,7 +21,7 @@ void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapC
 /*================================================================
 	終了処理関数
 ================================================================*/
-void YoungPersonCollision::Finalize(){
+void YoungPersonCollision::Finalize() {
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
 }
@@ -29,14 +29,13 @@ void YoungPersonCollision::Finalize(){
 /*================================================================
 	更新処理関数
 ================================================================*/
-void YoungPersonCollision::YoungPersonCanMove(){
+void YoungPersonCollision::YoungPersonCanMove() {
 	// 若者の配列
 	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
 		// 移動マスの配列
 		for (int gi = 0; gi < youngPerson_->GetCanMoveGridMaxIndex(); gi++) {
 
 			// 移動待機状態
-			youngPerson_->SetCanMove(false, yi, gi);
 			if (youngPerson_->GetIsMoveIdle(yi)) {
 
 				// 移動できるかチェック
@@ -44,13 +43,114 @@ void YoungPersonCollision::YoungPersonCanMove(){
 
 					youngPerson_->SetCanMove(true, yi, gi);
 
+				} else {
+
+					youngPerson_->SetCanMove(false, yi, gi);
+				}
+			}
+
+		}
+
+		// 障害物の飛び越え禁止 --------------------------------------------------------
+		// 移動マスの配列
+		for (int gi = 0; gi < youngPerson_->GetCanMoveGridMaxIndex(); gi++) {
+			// プレイヤーの中心アドレスから上の移動マス;
+			if (youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.x == 0
+				&& youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.y == 1) {
+
+				// 移動できない
+				if (!youngPerson_->GetCanMoveGrid(yi)[gi].canMove) {
+
+					// 移動マスの配列
+					for (int gj = 0; gj < youngPerson_->GetCanMoveGridMaxIndex(); gj++) {
+
+						// 上で探したマスの1つ上
+						if (youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.x == 0
+							&& youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.y == 2) {
+
+							// 移動できないようにSet
+							youngPerson_->SetCanMove(false, yi, gj);
+
+						}
+					}
+				}
+			}
+
+			// プレイヤーの中心アドレスから下の移動マス;
+			if (youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.x == 0
+				&& youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.y == -1) {
+
+				// 移動できない
+				if (!youngPerson_->GetCanMoveGrid(yi)[gi].canMove) {
+
+					// 移動マスの配列
+					for (int gj = 0; gj < youngPerson_->GetCanMoveGridMaxIndex(); gj++) {
+
+						// 上で探したマスの左隣
+						if (youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.x == 0
+							&& youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.y == -2) {
+
+							// 移動できないようにSet
+							youngPerson_->SetCanMove(false, yi, gj);
+
+						}
+					}
+				}
+			}
+
+
+			// プレイヤーの中心アドレスから左の移動マス;
+			if (youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.x == -1
+				&& youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.y == 0) {
+
+				// 移動できない
+				if (!youngPerson_->GetCanMoveGrid(yi)[gi].canMove) {
+
+					// 移動マスの配列
+					for (int gj = 0; gj < youngPerson_->GetCanMoveGridMaxIndex(); gj++) {
+
+						// 上で探したマスの左隣
+						if (youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.x == -2
+							&& youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.y == 0) {
+
+							// 移動できないようにSet
+							youngPerson_->SetCanMove(false, yi, gj);
+
+						}
+					}
+				}
+			}
+
+			// プレイヤーの中心アドレスから右の移動マス;
+			if (youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.x == 1
+				&& youngPerson_->GetCanMoveGrid(yi)[gi].localAdd.y == 0) {
+
+				// 移動できない
+				if (!youngPerson_->GetCanMoveGrid(yi)[gi].canMove) {
+
+					// 移動マスの配列
+					for (int gj = 0; gj < youngPerson_->GetCanMoveGridMaxIndex(); gj++) {
+
+						// 上で探したマスの左隣
+						if (youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.x == 2
+							&& youngPerson_->GetCanMoveGrid(yi)[gj].localAdd.y == 0) {
+
+							// 移動できないようにSet
+							youngPerson_->SetCanMove(false, yi, gj);
+
+						}
+					}
 				}
 			}
 		}
+
+
 	}
+
+
 }
 
-bool YoungPersonCollision::YoungPersonCheckCanMove(const Vec2& add){
+bool YoungPersonCollision::YoungPersonCheckCanMove(const Vec2& add) {
 	// マップ上のオブジェクト
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::FENCE) { return false; }
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
