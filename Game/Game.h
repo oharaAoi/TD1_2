@@ -11,6 +11,7 @@
 #include "MapChip.h"
 #include "Cow.h"
 #include "BullCow.h"
+#include "Fighting.h"
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "Dog.h"
@@ -38,6 +39,7 @@ private: // member object
 	Cowherd* cowherd_;
 	Dog* dog_;
 	BullCow* bull_;
+	BullFighting* fighting_;
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;

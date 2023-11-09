@@ -16,6 +16,7 @@ void Game::Init() {
 	youngPerson_ = new YoungPerson();
 	dog_ = new Dog();
 	bull_ = new BullCow();
+	fighting_ = new BullFighting();
 
 	collisionManager_ = new CollisionManager(
 		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_
@@ -101,6 +102,8 @@ void Game::Update() {
 
 		collisionManager_->CheckBullCollision();
 
+		break;
+	case kCowType::Fighting:
 
 		break;
 	}
@@ -145,6 +148,10 @@ void Game::Draw() {
 	case kCowType::Bull:
 		bull_->Draw();
 		break;
+
+	case kCowType::Fighting:
+		fighting_->Draw();
+		break;
 	}
 
 	renderer_->Draw();
@@ -161,6 +168,8 @@ void Game::Finalize() {
 	SafeDelete(camera_);
 	SafeDelete(mapChip_);
 	SafeDelete(cow_);
+	SafeDelete(fighting_);
+	SafeDelete(bull_);
 	SafeDelete(cowherd_);
 	SafeDelete(youngPerson_);
 	SafeDelete(dog_);
@@ -203,6 +212,12 @@ void Game::ChangeMatrix() {
 
 	// 雄牛の行列を変換
 	bull_->MatrixChange(
+		camera_->GetViewMatrix(),
+		camera_->GetOrthoMatrix(),
+		camera_->GetViewportMatrix()
+	);
+
+	fighting_->MatrixChange(
 		camera_->GetViewMatrix(),
 		camera_->GetOrthoMatrix(),
 		camera_->GetViewportMatrix()

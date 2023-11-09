@@ -4,8 +4,7 @@ BullCollision::BullCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip
 	Init(cowherd, youngPerson, mapChip, bullCow, dog);
 }
 
-BullCollision::~BullCollision() {
-}
+BullCollision::~BullCollision() { Finalize(); }
 
 void BullCollision::Finalize() {
 	cowherd_ = nullptr;
