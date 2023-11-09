@@ -217,7 +217,7 @@ void YoungPerson::Draw() {
 			}
 		}
 
-		if (!young_[yi].isMove) {
+		if (!young_[yi].isMoveIdle) {
 			// 若人を描画
 			Draw::Quad(
 				young_[yi].screenVertex,
@@ -233,7 +233,7 @@ void YoungPerson::Draw() {
 	// 描画時の被り防止のため; 先に動いていない物から描画し、そのあとに動いている物を描画
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
-		if (young_[yi].isMove) {
+		if (young_[yi].isMoveIdle) {
 			// 若人を描画
 			Draw::Quad(
 				young_[yi].screenVertex,
