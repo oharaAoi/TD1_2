@@ -162,6 +162,12 @@ void YoungPerson::Init() {
 	SetZOder(10);
 	isMoveIdle_ = false;
 
+	yP_maxIndex_ = maxYoungIndex_;
+	yP_isMove_.resize(maxYoungIndex_);
+	for (int yi = 0; yi < maxYoungIndex_; yi++) {
+		yP_isMove_[yi] = false;
+	}
+
 }
 
 
@@ -172,6 +178,11 @@ void YoungPerson::Update() {
 
 	if (turnType_ != kTurnType::Players) { return; }
 
+	if (isTurnChange_) {
+		for (int yi = 0; yi < maxYoungIndex_; yi++) {
+			young_[yi].isMove = false;
+		}
+	}
 
 	Move();
 
@@ -190,7 +201,11 @@ void YoungPerson::Draw() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-			if (young_[yi].canMoveGrid[gi].canMove && !young_[yi].isMove) {
+			// 移動できるマス & 移動していないとき & 移動待機状態のとき
+			if (young_[yi].canMoveGrid[gi].canMove 
+				&& !young_[yi].isMove
+				&& young_[yi].isMoveIdle) {
+
 				// 移動マスの描画
 				Draw::Quad(
 					young_[yi].canMoveGrid[gi].screenVertex,
@@ -201,7 +216,7 @@ void YoungPerson::Draw() {
 				);
 			}
 		}
-
+		
 		if (!young_[yi].isMove) {
 			// 若人を描画
 			Draw::Quad(
@@ -280,12 +295,16 @@ void YoungPerson::Move() {
 
 					// 移動の終了条件
 					if (movingTime_ / 60.0f >= 1.0f) {
-						young_[yi].isMove = false;
+						//young_[yi].isMove = false;
+						yP_isMove_[yi] = true;
 						young_[yi].isMoveIdle = false;
 						isMoveIdle_ = false;
-						movingCount_++;
 						SetZOder(10);
+						young_[yi].isMove = yP_isMove_[yi];
+
 					}
+
+
 
 				} else {
 
@@ -409,6 +428,7 @@ void YoungPerson::CenterAddUpDate() {
 
 }
 
+
 void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 	for (int i = 0; i < maxYoungIndex_; i++) {
 		young_[i].screenMatrix =
@@ -433,6 +453,7 @@ void YoungPerson::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& ort
 	}
 }
 
+
 void YoungPerson::MakeWorldMatrix() {
 
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
@@ -451,6 +472,7 @@ void YoungPerson::MakeWorldMatrix() {
 	}
 }
 
+
 void YoungPerson::DebugDraw() {
 	for (int yi = 0; yi < maxYoungIndex_; yi++) {
 
@@ -459,6 +481,12 @@ void YoungPerson::DebugDraw() {
 
 			Novice::ScreenPrintf(800, 20 * gi, "[%d]worldAdd : x = %d, y = %d",
 				0, young_[0].canMoveGrid[gi].worldAdd.x, young_[0].canMoveGrid[gi].worldAdd.y);
+
+			/*Novice::ScreenPrintf(
+				static_cast<int>(young_[yi].canMoveGrid[gi].screenVertex.lt.x),
+				static_cast<int>(young_[yi].canMoveGrid[gi].screenVertex.lt.y),
+				"%d:%d",
+				young_[yi].canMoveGrid[gi].localAdd.x, young_[yi].canMoveGrid[gi].localAdd.y);*/
 
 		}
 
