@@ -449,21 +449,38 @@ void Cow::ImguiDraw() {
 	//リリースの時は消す
 	ImGui::Begin("evaluateValue");
 
-	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
-	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
-	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
-	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+	if (ImGui::TreeNode("Value")) {
+		ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+		ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+		ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+		ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
 
+		ImGui::TreePop();
+	}
 
-	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
-	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
-	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
-	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);
+	if (ImGui::TreeNode("rock")) {
+		ImGui::SliderInt("value_.rock:", &value_.rock, 500, 2000);
+		ImGui::TreePop();
+	}
 
+	if (ImGui::TreeNode("Fence")) {
+		ImGui::SliderInt("value_.fence:", &value_.fence, -200, 200);
+		ImGui::SliderInt("value_.NANAMEslantFence:", &value_.slantFence, -300, 100);
+		ImGui::TreePop();
+	}
 
-	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
-	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
+	if (ImGui::TreeNode("Tonari")) {
+		ImGui::SliderInt("value_.adjoin:", &value_.adjoin, 100, 800);
+		ImGui::SliderInt("value_.adjoinAdd:", &value_.adjoinAdd, 100, 400);
+		ImGui::TreePop();
+	}
 
+	if (ImGui::TreeNode("Sonota")) {
+		ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+		ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
+		ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
+		ImGui::TreePop();
+	}
 	ImGui::End();
 
 	//
