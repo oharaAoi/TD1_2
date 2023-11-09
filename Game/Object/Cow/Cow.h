@@ -96,6 +96,7 @@ private:
 		int slantFence;
 		int rock;
 		int adjoin;
+		int adjoinAdd;
 	};
 
 	Value value_;
@@ -202,6 +203,7 @@ public:
 	int GetFenceValue() { return value_.fence; }
 	int GetSlantFenceValue() { return value_.slantFence; }
 	int GetAdjoinValue() { return value_.adjoin; }
+	int GetAdjoinAddValue() { return value_.adjoinAdd; }
 	int GetRockValue() { return value_.rock; }
 
 	void SetFenceValue(int value) { value_.fence = value; }

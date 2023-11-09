@@ -191,25 +191,27 @@ void CowCollision::CheckFenseCollision() {
 		cow_->SetFenceValue(200);
 	}
 
-	// top
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
-	}
+	
+		// top
+		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y + 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
+ 			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::top);
+		}
 
-	// bottom
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
-	}
+		// bottom
+		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y - 1][cow_->GetCenterAdd().x] == ChipType::FENCE) {
+			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::bottom);
+		}
 
-	// left
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
-	}
+		// left
+		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
+			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::left);
+		}
 
-	// right
-	if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE) {
-		cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
-	}
+		// right
+		if (mapChip_->GetMapChipAdd()[cow_->GetCenterAdd().y][cow_->GetCenterAdd().x + 1] == ChipType::FENCE) {
+			cow_->SetMoveDireValue(cow_->GetFenceValue(), kCanMoveDirection::right);
+		}
+	
 
 
 	/* ------ 斜めの場合は値を引く ------- */
@@ -680,14 +682,14 @@ void CowCollision::CheckCowAdjoin() {
 
 	} else if (cow_->GetCenterAdd().y + 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		// 上にいる場合は下に行って欲しいため下方向を多く加算する
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// また上に行かないように上に上方向を減算しておく
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 	}
 
 	// bottom
@@ -696,14 +698,14 @@ void CowCollision::CheckCowAdjoin() {
 
 	} else if (cow_->GetCenterAdd().y - 1 == cowherd_->GetCenterAdd().y && cow_->GetCenterAdd().x == cowherd_->GetCenterAdd().x) {
 		// 上に行ってほしい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 		// 下に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	}
 
@@ -713,14 +715,14 @@ void CowCollision::CheckCowAdjoin() {
 
 	} else if (cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		// 右に行って欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// 左に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 	}
 
 	// right
@@ -729,14 +731,14 @@ void CowCollision::CheckCowAdjoin() {
 
 	} else if (cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x && cow_->GetCenterAdd().y == cowherd_->GetCenterAdd().y) {
 		// 左にいって欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
 
 		// 右に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	}
 
@@ -748,14 +750,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
 		//　右下にいって欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// 左上に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 
 	}
 
@@ -767,14 +769,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
 		// 左下に行って欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
 
 		// 右上に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -786,14 +788,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->GetCenterAdd().x - 1 == cowherd_->GetCenterAdd().x) {
 
 		// 右上に行って欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 		// 左下に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
 
 	}
 
@@ -805,14 +807,14 @@ void CowCollision::CheckCowAdjoin() {
 		cow_->GetCenterAdd().x + 1 == cowherd_->GetCenterAdd().x) {
 
 		// 左上に行って欲しい
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
 
 		// 右下に行かないで欲しい
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+		cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
 	}
 
@@ -823,14 +825,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
 			// 上にいる場合は下に行って欲しいため下方向を多く加算する
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// また上に行かないように上に上方向を減算しておく
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
 
 		}
@@ -840,14 +842,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().x == youngPerson_->GetCenterAdd(i).x) {
 
 			// 上に行ってほしい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 			// 下に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// left
@@ -855,14 +857,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
 
 			// 右に行って欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// 左に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		}
 
 		// right
@@ -870,14 +872,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().y == youngPerson_->GetCenterAdd(i).y) {
 
 			// 左にいって欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
 
 			// 右に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 		// leftTop
@@ -885,14 +887,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 
 			//　右下にいって欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// 左上に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		}
 
 		// rightTop
@@ -900,28 +902,28 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
 			// 左下に行って欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) + cow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
 
 			// 右上に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) - cow_->GetAdjoinValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) - cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		}
 
 		// leftBottom
 		if (cow_->GetCenterAdd().y - 1 == youngPerson_->GetCenterAdd(i).y &&
 			cow_->GetCenterAdd().x - 1 == youngPerson_->GetCenterAdd(i).x) {
 			// 右上に行って欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) + cow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 			// 左下に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 		}
 
 		// rightBottom
@@ -929,14 +931,14 @@ void CowCollision::CheckCowAdjoin() {
 			cow_->GetCenterAdd().x + 1 == youngPerson_->GetCenterAdd(i).x) {
 
 			// 左上に行って欲しい
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinValue(), kCanMoveDirection::top);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::top) + cow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) + cow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) + cow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
 
 			// 右下に行かないで欲しい
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			cow_->SetMoveDireValue(-cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::right) - cow_->GetAdjoinValue(), kCanMoveDirection::right);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
 
 	}
