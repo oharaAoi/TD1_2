@@ -194,6 +194,9 @@
     <ClCompile Include="Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="BullCollision.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -379,5 +382,6 @@
     <ClInclude Include="Game\Object\Cow\BullCow.h">
       <Filter>Game\Object\Cow</Filter>
     </ClInclude>
+    <ClInclude Include="BullCollision.h" />
   </ItemGroup>
 </Project>
