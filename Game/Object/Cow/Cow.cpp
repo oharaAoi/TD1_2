@@ -19,8 +19,6 @@ void Cow::Init() {
 					col * tileSize_.x + (tileSize_.x * 0.5f),
 					row * tileSize_.y + (tileSize_.y * 0.5f)
 				};
-
-				isDisplay_ = true;
 			}
 		}
 	}
@@ -33,10 +31,10 @@ void Cow::Init() {
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
-		{ -size_.x * 0.5f, size_.y * 0.5f },
-		{ size_.x * 0.5f, size_.y * 0.5f },
-		{ -size_.x * 0.5f, -size_.y * 0.5f },
-		{ size_.x * 0.5f, -size_.y * 0.5f },
+		{ -tileSize_.x * 0.5f, tileSize_.y * 0.5f },
+		{ tileSize_.x * 0.5f, tileSize_.y * 0.5f },
+		{ -tileSize_.x * 0.5f, -tileSize_.y * 0.5f },
+		{ tileSize_.x * 0.5f, -tileSize_.y * 0.5f },
 	};
 
 	MakeWorldMatrix();
@@ -264,8 +262,8 @@ void Cow::Move() {
 // ------ 今のアドレスの計算 ------ //
 void Cow::CenterAddUpdate() {
 	centerAdd_ = {
-		static_cast<int>(worldCenterPos_.x / size_.x),
-		static_cast<int>(worldCenterPos_.y / size_.y)
+		static_cast<int>(worldCenterPos_.x / tileSize_.x),
+		static_cast<int>(worldCenterPos_.y / tileSize_.y)
 	};
 }
 

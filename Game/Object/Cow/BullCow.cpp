@@ -97,8 +97,10 @@ void BullCow::Init(){
 
 }
 
-void BullCow::Update()
-{
+void BullCow::Update(){
+
+
+
 }
 
 void BullCow::Draw(){
