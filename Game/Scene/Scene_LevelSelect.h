@@ -6,14 +6,12 @@
 #include "BaseScene.h"
 
 // ----- math ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 
 class Scene_LevelSelect
 	: public BaseScene {
 private:
 	// member object
-
-	InputManager* input = InputManager::GetInstance();
 
 	static int selectStage_;
 

@@ -56,7 +56,7 @@ void Game::Update() {
 	switch (mapChip_->GetCowType()) {
 	case kCowType::Calf:
 		// 牛の動ける方向のための更新(デバック用
-		if (input->IsTriggerKey(DIK_M)) {
+		if (Inputs::IsTriggerKey(DIK_M)) {
 			collisionManager_->CheckCanCowMove();
 			collisionManager_->CheckCowCollison();
 		}

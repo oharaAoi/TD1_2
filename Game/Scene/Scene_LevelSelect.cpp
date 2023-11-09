@@ -23,19 +23,19 @@ void Scene_LevelSelect::Init() {
 ================================================================*/
 void Scene_LevelSelect::Update() {
 
-	if (input->IsTriggerKey(DIK_LEFT)) {
+	if (Inputs::IsTriggerKey(DIK_LEFT)) {
 		if (selectStage_ > 0) {
 			selectStage_--;
 		}
 	}
 
-	if (input->IsTriggerKey(DIK_RIGHT)) {
+	if (Inputs::IsTriggerKey(DIK_RIGHT)) {
 		if (selectStage_ < MapChip::GetKMaxStageNo()) {
 			selectStage_++;
 		}
 	}
 
-	if (input->IsTriggerKey(DIK_RETURN)) {
+	if (Inputs::IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::GAME;
 	}
 

@@ -4,7 +4,7 @@
 #include <Novice.h>
 
 // ----- math ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 
 
 class Scene_Title : public BaseScene {
@@ -13,7 +13,6 @@ private:
 	// このシーンに必要な変数や構造体を宣言; 初期化はInit()で行う
 
 	// 入力処理のインスタンス確保
-	InputManager* input = InputManager::GetInstance();
 
 
 public:

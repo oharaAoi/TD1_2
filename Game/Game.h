@@ -2,7 +2,7 @@
 
 
 // ----- math ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 #include <SafeDelete.h>
 #include "CollisionManager.h"
 
@@ -26,9 +26,6 @@
 
 class Game {
 private: // member object
-
-	// 入力処理のインスタンス確保
-	InputManager* input = InputManager::GetInstance();
 
 	// カメラ
 	Camera* camera_;

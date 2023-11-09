@@ -18,7 +18,7 @@ void Scene_Clear::Init(){
 ================================================================*/
 void Scene_Clear::Update(){
 
-	if (input->IsTriggerKey(DIK_RETURN)) {
+	if (Inputs::IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::TITLE;
 	}
 

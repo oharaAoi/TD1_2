@@ -2,15 +2,13 @@
 #include "BaseScene.h"
 
 // ----- math ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 #include <SafeDelete.h>
 
 class Scene_Clear : public BaseScene{
 
 private:
-
-	// 入力処理のインスタンス確保
-	InputManager* input = InputManager::GetInstance();
+	
 
 public:
 

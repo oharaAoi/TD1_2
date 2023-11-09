@@ -23,7 +23,7 @@ void Scene_Game::Init() {
 void Scene_Game::Update() {
 
 	// 次のシーンへの条件(仮)
-	if (input->IsTriggerKey(DIK_RETURN)) {
+	if (Inputs::IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::TITLE;
 	}
 
@@ -46,7 +46,7 @@ void Scene_Game::Update() {
 	} else {
 
 		if (!sGame_.empty()) {
-			if (input->IsTriggerKey(DIK_R)) {
+			if (Inputs::IsTriggerKey(DIK_R)) {
 
 				isBack_ = true;
 				backCT_ = 90;

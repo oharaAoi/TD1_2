@@ -1,6 +1,6 @@
 #include <Novice.h>
 #include <SafeDelete.h>
-#include "InputManager.h"
+#include "Inputs.h"
 #include "SceneManager.h"
 #include "Environment.h"
 
@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, kWindowSize.x, kWindowSize.y);
 
 	// キー入力結果を受け取る箱
-	InputManager* input = InputManager::GetInstance();
+	Inputs::SetInstance();
 
 	// シーンマネージャー
 	SceneManager* sceneManager = new SceneManager();
@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::BeginFrame();
 
 		// キー入力を受け取る
-		input->Update();
+		Inputs::Update();
 
 		// シーンの更新 & 描画処理
 		sceneManager->Run();
@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Novice::EndFrame();
 
 		// ESCキーが押されたらループを抜ける
-		if (input->IsTriggerKey(DIK_ESCAPE)) {
+		if (Inputs::IsTriggerKey(DIK_ESCAPE)) {
 			break;
 		}
 	}

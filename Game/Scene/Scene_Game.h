@@ -3,7 +3,7 @@
 #include "BaseScene.h"
 
 // ----- math ----- //
-#include "InputManager.h"
+#include "Inputs.h"
 #include <SafeDelete.h>
 
 #include "Game.h"
@@ -11,8 +11,6 @@
 
 class Scene_Game : public BaseScene {
 private:
-
-	InputManager* input = InputManager::GetInstance();
 
 	Game* game_;
 

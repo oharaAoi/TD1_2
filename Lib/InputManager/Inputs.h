@@ -6,6 +6,8 @@ private:
 	static InputManager* input;
 
 public:
+	static void SetInstance();
+	static void Update();
 
 	static bool IsPressKey(int DIK) { return input->IsPressKey(DIK); }
 	static bool IsTriggerKey(int DIK) { return input->IsTriggerKey(DIK); }

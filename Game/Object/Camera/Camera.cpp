@@ -36,11 +36,11 @@ void Camera::Init() {
 
 void Camera::Update() {
 
-	if (input->IsWheelUP()) {
+	if (Inputs::IsWheelUP()) {
 		scale_ += 0.1f;
 	}
 
-	if (input->IsWheelDown()) {
+	if (Inputs::IsWheelDown()) {
 		if (scale_ > 1.0f) {
 			scale_ -= 0.1f;
 		}

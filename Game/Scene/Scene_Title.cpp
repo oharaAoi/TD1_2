@@ -21,7 +21,7 @@ void Scene_Title::Init() {
 ================================================================*/
 void Scene_Title::Update() {
 
-	if (input->IsTriggerKey(DIK_RETURN)) {
+	if (Inputs::IsTriggerKey(DIK_RETURN)) {
 		nextSceneNo_ = SCENE::LEVELSELECT;
 	}
 

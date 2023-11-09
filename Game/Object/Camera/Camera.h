@@ -2,12 +2,10 @@
 
 #include "MyVector2.h"
 #include "Matrix3x3.h"
-#include "InputManager.h"
+#include "Inputs.h"
 
 class Camera {
 private:
-
-	InputManager* input = InputManager::GetInstance();
 
 	// member object
 	Vec2f center_;

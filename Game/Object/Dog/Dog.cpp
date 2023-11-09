@@ -28,7 +28,7 @@ void Dog::Init() {
 	};
 
 	isExist_ = false;
-
+	isIdle_ = false;
 
 	isExistSide_ = NOT;
 
