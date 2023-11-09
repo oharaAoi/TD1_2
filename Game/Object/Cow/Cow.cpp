@@ -454,7 +454,7 @@ void Cow::ImguiDraw() {
 	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
 
 
-	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 150);
+	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 300);
 	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
 	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
 	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);

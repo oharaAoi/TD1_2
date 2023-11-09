@@ -71,8 +71,11 @@ void Scene_Game::Update() {
 		collisionManager_->CheckCanCowMove();
 	}
 
-	// 牛の更新
-	cow_->Update();
+	// クリア時に動く対策
+	if (nextSceneNo_ != SCENE::GAMECLEAR) {
+		// 牛の更新
+		cow_->Update();
+	}
 
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
