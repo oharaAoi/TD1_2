@@ -100,6 +100,7 @@ public:
 	int GetAllDireValue() { return value_.allDire; }
 	int GetFourAreaValue() { return value_.fourArea; }
 	int GetAdjoinValue() { return value_.adjoin; }
+	int GetAdjoinAddValue() { return value_.adjoinAdd; }
 
 	int GetClampValue() { return value_.clamp; }
 	int GetSlantFenceValue() { return value_.slantFence; }

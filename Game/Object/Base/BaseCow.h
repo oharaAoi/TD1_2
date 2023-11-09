@@ -70,6 +70,7 @@ protected: // member object
 		int slantFence;
 		int rock;
 		int adjoin;
+		int adjoinAdd;
 	};
 
 	Value value_;
