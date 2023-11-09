@@ -375,5 +375,9 @@
     <ClInclude Include="Lib\MyMath\Color.h">
       <Filter>Lib\MyMath</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Game.h" />
+    <ClInclude Include="Game\Object\Cow\BullCow.h">
+      <Filter>Game\Object\Cow</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
