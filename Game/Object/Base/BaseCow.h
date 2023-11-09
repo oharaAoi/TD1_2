@@ -11,12 +11,6 @@
 #include "CanMoveDirection.h"
 
 
-enum kCowType {
-	Calf,
-	Bull,
-	Fighting
-};
-
 /// <summary>
 /// 牛の基底クラス
 /// </summary>
@@ -26,9 +20,6 @@ protected: // member object
 
 	// 入力処理; 後で消す
 	InputManager* input = InputManager::GetInstance();
-
-	// 牛の種類; いるかわからない
-	kCowType type_;
 
 	// 絶対必要なメンバ変数 -----------------------
 

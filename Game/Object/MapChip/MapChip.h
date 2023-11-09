@@ -26,6 +26,12 @@ enum ChipType {
 	BULLFIGHTING// 闘牛
 };
 
+enum kCowType {
+	Calf,
+	Bull,
+	Fighting
+};
+
 class MapChip final
 	: public BaseMap {
 private:
@@ -43,6 +49,10 @@ private:
 
 	//1タイル当たりの大きさ
 	Vec2f size_;
+
+	// 牛の種類; いるかわからない
+	kCowType cowType_;
+
 	//==================================================
 	// マップチップ
 	struct Base final {
@@ -124,6 +134,9 @@ public:
 	std::vector<std::vector<int>>GetMapChipAdd() { return mapAdd_; }
 
 	int GetMapAdd(int row, int col) { return mapAdd_[row][col]; }
+
+	// 牛のタイプ
+	kCowType GetCowType() { return cowType_; }
 
 	// 柵のhp
 	void SetFenceHp(int hp, Vec2 address) { mapChip_[address.y][address.x].hp = hp; }

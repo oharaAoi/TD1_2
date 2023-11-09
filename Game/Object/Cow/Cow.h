@@ -11,6 +11,7 @@
 #include "Quad.h"
 #include "Draw.h"
 #include "MapChip.h"
+#include "BaseCow.h"
 
 // ----- Config ----- //
 #include "CanMoveDirection.h"
@@ -34,6 +35,7 @@ enum direEvaluateGrid {
 
 class Cow final
 	: public BaseMap,
+	public BaseCow,
 	public Turn {
 private:
 
@@ -49,6 +51,8 @@ private:
 
 	// 牛が動くかどうか
 	bool isIdle_;
+
+	bool isDisplay_;
 
 	// 各空間での頂点座標
 	QuadVerf localVertex_;
@@ -116,11 +120,11 @@ private:
 
 public:
 	// Constructor & Destructor
-	Cow(MapChip* mapChip);
-	~Cow()override;
+	Cow();
+	~Cow();
 
 	// default method
-	void Init(MapChip* mapChip);
+	void Init();
 	void Update();
 	void Draw();
 	void Finalize();

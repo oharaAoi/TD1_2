@@ -15,10 +15,12 @@ void BullCow::Init(){
 
 			if (mapAdd_[row][col] == ChipType::BULL) {
 				worldPos_ = {
-					col * tileSize_.x + (size_.x * 0.5f),
-					row * tileSize_.y + (size_.y * 0.5f)
+					col * tileSize_.x + (tileSize_.x * 0.5f),
+					row * tileSize_.y + (tileSize_.y * 0.5f)
 				};
 			}
+
+			isDisplay_ = true;
 		}
 	}
 
@@ -28,10 +30,10 @@ void BullCow::Init(){
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
-		{ -size_.x * 0.5f, size_.y * 0.5f },
-		{ size_.x * 0.5f, size_.y * 0.5f },
-		{ -size_.x * 0.5f, -size_.y * 0.5f },
-		{ size_.x * 0.5f, -size_.y * 0.5f },
+		{ -tileSize_.x * 0.5f, tileSize_.y * 0.5f },
+		{ tileSize_.x * 0.5f, tileSize_.y * 0.5f },
+		{ -tileSize_.x * 0.5f, -tileSize_.y * 0.5f },
+		{ tileSize_.x * 0.5f, -tileSize_.y * 0.5f },
 	};
 
 	MakeWorldMatrix();
@@ -100,8 +102,9 @@ void BullCow::Update()
 }
 
 void BullCow::Draw(){
-
-	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
+	if (isDisplay_) {
+		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
+	}
 }
 
 void BullCow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {

@@ -1,6 +1,6 @@
 ﻿#include "Cow.h"
 
-Cow::Cow(MapChip* mapChip) { Init(mapChip); }
+Cow::Cow() { Init(); }
 
 Cow::~Cow() { Finalize(); }
 
@@ -8,18 +8,19 @@ Cow::~Cow() { Finalize(); }
 /*==========================================================
 	初期化関数
 ==========================================================*/
-void Cow::Init(MapChip* mapChip) {
+void Cow::Init() {
 
 	// ワールド空間での中心座標
-	size_ = mapChip->GetTileSize();
-	for (int row = 0; row < mapChip->GetMapChipRow(); row++) {
-		for (int col = 0; col < mapChip->GetMapChipCol(); col++) {
+	for (int row = 0; row < row_; row++) {
+		for (int col = 0; col < col_; col++) {
 
-			if (mapChip->GetMapChipAdd()[row][col] == ChipType::COW) {
+			if (mapAdd_[row][col] == ChipType::COW) {
 				worldCenterPos_ = {
-					col * mapChip->GetTileSize().x + (size_.x * 0.5f),
-					row * mapChip->GetTileSize().y + (size_.y * 0.5f)
+					col * tileSize_.x + (tileSize_.x * 0.5f),
+					row * tileSize_.y + (tileSize_.y * 0.5f)
 				};
+
+				isDisplay_ = true;
 			}
 		}
 	}

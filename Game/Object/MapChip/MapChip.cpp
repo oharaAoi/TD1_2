@@ -75,7 +75,15 @@ void MapChip::Init() {
 
 			} else if (mapAdd_[row][col] == COW) {
 				cowPos_ = mapChip_[row][col].pos;
+				cowType_ = kCowType::Calf;
+
+			} else if(mapAdd_[row][col] == BULL) {
+				cowType_ = kCowType::Bull;
+
+			} else if (mapAdd_[row][col] == BULLFIGHTING) {
+				cowType_ = kCowType::Fighting;
 			}
+
 
 			// 柵のhpを実装するためのもの; 適当な値を入れる
 			mapChip_[row][col].hp = 2;

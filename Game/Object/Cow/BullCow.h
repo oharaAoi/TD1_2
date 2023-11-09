@@ -15,6 +15,7 @@ class BullCow :
 
 private:
 
+	bool isDisplay_;
 
 public:
 
