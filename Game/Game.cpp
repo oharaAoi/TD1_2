@@ -100,9 +100,9 @@ void Game::Update() {
 	ChangeMatrix();
 
 	// ゲームクリア
-	if (collisionManager_->CheckClear()) {
+	/*if (collisionManager_->CheckClear()) {
 		isGameClear_ = true;
-	}
+	}*/
 
 }
 
