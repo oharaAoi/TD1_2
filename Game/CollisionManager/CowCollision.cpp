@@ -922,7 +922,7 @@ void CowCollision::CheckCowAdjoin() {
 
 			// 左下に行かないで欲しい
 			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::left) - cow_->GetAdjoinValue(), kCanMoveDirection::left);
-			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftTop) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
+			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - cow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 			cow_->SetMoveDireValue(cow_->GetMoveDireValue(kCanMoveDirection::bottom) - cow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 		}
 
