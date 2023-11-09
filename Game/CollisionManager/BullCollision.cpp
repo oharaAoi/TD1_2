@@ -38,14 +38,18 @@ void BullCollision::CheckBullMoveDire() {
 	//// マス目の計算(若人
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckGridDistance(youngPerson_->GetCenterAdd(i));
+
+		CheckGridDire(youngPerson_->GetCenterAdd(i));
 	}
 
-
-	/*for (int row = 0; row < mapChip_->GetMapChipRow(); row++) {
+	for (int row = 0; row < mapChip_->GetMapChipRow(); row++) {
 		for (int col = 0; col < mapChip_->GetMapChipCol(); col++) {
-			CheckGridDire(mapChip_->GetMapChipAdd()[row][col]);
+			if (mapChip_->GetMapChipAdd()[row][col] == ChipType::ROCK) {
+				Vec2 rockAdd = { col, row };
+				CheckGridDire(rockAdd);
+			}
 		}
-	}*/
+	}
 
 	// 4つのエリア
 	CheckFourAreas();
@@ -119,45 +123,81 @@ void BullCollision::CheckRockCollision() {
 ============================================================================================================*/
 
 void BullCollision::CheckFenceScissorsCollision() {
-	// 両隣外かフェンスだったら
-	if (mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x + 1] == ChipType::FENCE &&
-		mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
+	if ((mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x] == ChipType::STAGEOUT &&
+		mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x] == ChipType::STAGEOUT)){
 
-		// 真ん中により上だったら下に戻す
-		if (bullCow_->GetCenterAdd().y > mapChip_->GetMapChipRow() / 2.0f) {
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y });
+		switch (bullCow_->GetMovedDire()) {
+		case kCanMoveDirection::top:
+			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y * 2 });
 			bullCow_->SetIsFenceAttack(true);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+			break;
 
-			// 真ん中により下だったら上に戻す
-		} else if (bullCow_->GetCenterAdd().y < mapChip_->GetMapChipRow() / 2.0f) {
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().x });
+		case kCanMoveDirection::bottom:
+			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().y * 2 });
 			bullCow_->SetIsFenceAttack(true);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
-		}
-	}
+			break;
 
-	// 上下がフェンスだったら
-	if (mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y + 1][bullCow_->GetCenterAdd().x] == ChipType::FENCE &&
-		mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y - 1][bullCow_->GetCenterAdd().x] == ChipType::FENCE) {
-
-		// 真ん中により右だったら左に戻す
-		if (bullCow_->GetCenterAdd().x > mapChip_->GetMapChipCol() / 2.0f) {
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x , bullCow_->GetWorldPos().y });
+		case kCanMoveDirection::left:
+			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x * 2, bullCow_->GetWorldPos().y });
 			bullCow_->SetIsFenceAttack(true);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+			break;
 
-			// 真ん中により左だったら右に戻す
-		} else if (bullCow_->GetCenterAdd().x < mapChip_->GetMapChipCol() / 2.0f) {
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x, bullCow_->GetWorldPos().y });
+		case kCanMoveDirection::right:
+			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x * 2, bullCow_->GetWorldPos().y });
 			bullCow_->SetIsFenceAttack(true);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+			break;
 		}
 
+	} else {
+
+		// 両隣外かフェンスだったら
+		if (mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x + 1] == ChipType::FENCE &&
+			mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x - 1] == ChipType::FENCE) {
+
+			// 真ん中により上だったら下に戻す
+			if (bullCow_->GetCenterAdd().y > mapChip_->GetMapChipRow() / 2.0f) {
+				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y });
+				bullCow_->SetIsFenceAttack(true);
+
+				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+
+				// 真ん中により下だったら上に戻す
+			} else if (bullCow_->GetCenterAdd().y < mapChip_->GetMapChipRow() / 2.0f) {
+				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().x });
+				bullCow_->SetIsFenceAttack(true);
+
+				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+			}
+		}
+
+		// 上下がフェンスだったら
+		if (mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y + 1][bullCow_->GetCenterAdd().x] == ChipType::FENCE &&
+			mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y - 1][bullCow_->GetCenterAdd().x] == ChipType::FENCE) {
+
+			// 真ん中により右だったら左に戻す
+			if (bullCow_->GetCenterAdd().x > mapChip_->GetMapChipCol() / 2.0f) {
+				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x , bullCow_->GetWorldPos().y });
+				bullCow_->SetIsFenceAttack(true);
+
+				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+
+				// 真ん中により左だったら右に戻す
+			} else if (bullCow_->GetCenterAdd().x < mapChip_->GetMapChipCol() / 2.0f) {
+				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x, bullCow_->GetWorldPos().y });
+				bullCow_->SetIsFenceAttack(true);
+
+				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
+			}
+
+		}
 	}
 }
 

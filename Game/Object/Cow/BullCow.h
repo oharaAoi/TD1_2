@@ -111,6 +111,7 @@ public:
 
 	void SetFenceValue(int value) { value_.fence = value; }
 
+	// 周りを評価するのに使う
 	Vec2 GetCantMoveAdd(int dire, int index) { return cannotMove_[dire].worldAdd[index]; }
 	int GetDireAddressNum(int index) { return direAddressNum_[index]; }
 };

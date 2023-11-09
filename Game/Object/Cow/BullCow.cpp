@@ -107,8 +107,8 @@ void BullCow::Init() {
 	moveValue_.x = 0.0f;
 	moveValue_.y = 0.0f;
 
-	moveScalar_.x = 1;
-	moveScalar_.y = 1;
+	moveScalar_.x = 2;
+	moveScalar_.y = 2;
 
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
@@ -260,7 +260,7 @@ void BullCow::CenterAddUpdate() {
 
 	for (int dire = 0; dire < 8; dire++) {
 		for (int i = 0; i < direAddressNum_[dire]; i++) {
-			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + cannotMove_[dire].worldAdd[i];
+			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
 		}
 	}
 
@@ -335,26 +335,26 @@ void BullCow::Move() {
 			break;
 
 		case kCanMoveDirection::leftTop:
-			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			worldPos_.x -= tileSize_.x;
+			worldPos_.y += tileSize_.y;
 			movedDire_ = kCanMoveDirection::leftTop;
 			break;
 
 		case kCanMoveDirection::rightTop:
-			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			worldPos_.x += tileSize_.x;
+			worldPos_.y += tileSize_.y;
 			movedDire_ = kCanMoveDirection::rightTop;
 			break;
 
 		case kCanMoveDirection::leftBottom:
-			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			worldPos_.x -= tileSize_.x;
+			worldPos_.y -= tileSize_.y;
 			movedDire_ = kCanMoveDirection::leftBottom;
 			break;
 
 		case kCanMoveDirection::rightBottom:
-			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			worldPos_.x += tileSize_.x;
+			worldPos_.y -= tileSize_.y;
 			movedDire_ = kCanMoveDirection::leftBottom;
 			break;
 		}
