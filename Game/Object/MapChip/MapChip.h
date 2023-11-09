@@ -33,7 +33,7 @@ private:
 	/*std::vector<std::vector<int>>mapAdd_;*/
 
 	//マップのファイルパス
-	static const int kMaxStageNo_ = 10;
+	static const int kMaxStageNo_ = 20;
 	std::string csvFilePath_[kMaxStageNo_];
 
 	//マップの画像の番号の振り分け
@@ -131,6 +131,8 @@ public:
 	int GetMapChipCol() { return col_; }
 
 	Vec2f GetTileSize() { return size_; }
+
+	static int GetKMaxStageNo(void) { return kMaxStageNo_; }
 
 };
 

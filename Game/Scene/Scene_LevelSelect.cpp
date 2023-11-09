@@ -1,4 +1,5 @@
 ﻿#include "Scene_LevelSelect.h"
+#include "MapChip.h"
 
 int Scene_LevelSelect::selectStage_ = 0;
 
@@ -29,7 +30,7 @@ void Scene_LevelSelect::Update() {
 	}
 
 	if (input->IsTriggerKey(DIK_RIGHT)) {
-		if (selectStage_ < 10) {
+		if (selectStage_ < MapChip::GetKMaxStageNo()) {
 			selectStage_++;
 		}
 	}
