@@ -115,6 +115,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\TextureManager.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Game\CollisionManager\BullCollision.cpp" />
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Game\CollisionManager\CowCollision.cpp" />
     <ClCompile Include="Game\CollisionManager\CowherdCollision.cpp" />
@@ -180,6 +181,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Config\CanMoveDirection.h" />
     <ClInclude Include="Config\Environment.h" />
+    <ClInclude Include="Game\CollisionManager\BullCollision.h" />
     <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\CollisionManager\CowCollision.h" />
     <ClInclude Include="Game\CollisionManager\CowherdCollision.h" />
