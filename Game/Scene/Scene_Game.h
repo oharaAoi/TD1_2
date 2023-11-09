@@ -5,53 +5,20 @@
 // ----- math ----- //
 #include "InputManager.h"
 #include <SafeDelete.h>
-#include "CollisionManager.h"
 
-// ----- object ----- //
-#include "Camera.h"
-#include "MapChip.h"
-#include "Cow.h"
-#include "Cowherd.h"
-#include "YoungPerson.h"
-#include "Dog.h"
-#include "BullCow.h"
-#include "TurnManager.h"
-
-#include "Renderer.h"
-
-// ----- collision ----- //
-#include "CowCollision.h"
-#include "CowherdCollision.h"
-#include "YoungPersonCollision.h"
-
+#include "Game.h"
+#include <stack>
 
 class Scene_Game : public BaseScene {
 private:
 
-	// このシーンに必要な変数や構造体を宣言; 初期化はInit()で行う
-	
-	// 入力処理のインスタンス確保
 	InputManager* input = InputManager::GetInstance();
 
-	// カメラ
-	Camera* camera_;
+	Game* game_;
 
-	// 背景 & マップ上のオブジェクト
-	MapChip* mapChip_;
-
-	Cow* cow_;
-	YoungPerson* youngPerson_;
-	Cowherd* cowherd_;
-	Dog* dog_;
-	BullCow* bull_;
-
-	/// 当たり判定
-	CollisionManager* collisionManager_;
-
-	// 描画
-	Renderer* renderer_;
-
-	TurnManager* turnManager_;
+	std::stack<Game> sGame_;
+	bool isBack_;
+	int backCT_;
 
 	
 
@@ -70,7 +37,6 @@ public:
 
 private:
 
-	void ChangeMatrix();
 
 };
 

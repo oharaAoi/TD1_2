@@ -10,25 +10,10 @@ Scene_Game::~Scene_Game() { Finalize(); }
 ================================================================*/
 void Scene_Game::Init() {
 
-	camera_ = new Camera();
-	mapChip_ = new MapChip();
-	cow_ = new Cow();
-	cowherd_ = new Cowherd();
-	youngPerson_ = new YoungPerson();
-	dog_ = new Dog();
-	bull_ = new BullCow();
+	game_ = new Game();
+	isBack_ = false;
+	backCT_ = 0;
 
-	collisionManager_ = new CollisionManager(
-		cowherd_, youngPerson_, mapChip_, cow_, dog_
-	);
-	renderer_ = new Renderer();
-
-	renderer_->AddDrawable(cowherd_);
-	renderer_->AddDrawable(youngPerson_);
-	renderer_->AddDrawable(dog_);
-
-
-	turnManager_ = new TurnManager();
 }
 
 
@@ -47,58 +32,47 @@ void Scene_Game::Update() {
 		Init();
 	}
 
-	// ----- Update ----- //
+	// ----- Back ----- //
+	if (isBack_) {
 
-	// カメラの更新
-	camera_->Update();
+		if (backCT_ > 0) {
+			
+			backCT_--;
+		} else {
 
-	// プレイヤーの更新
-	cowherd_->Update();
-	youngPerson_->Update();
-
-	// 犬の更新
-	dog_->Update();
-
-	turnManager_->Update();
-
-	// 牛の更新処理と当たり判定
-	switch (mapChip_->GetCowType()) {
-	case kCowType::Calf:
-		// 牛の動ける方向のための更新(デバック用
-		if (input->IsTriggerKey(DIK_M)) {
-			collisionManager_->CheckCanCowMove();
-			collisionManager_->CheckCowCollison();
+			isBack_ = false;
 		}
 
-		// 牛の動ける方向のための更新
-		if (turnManager_->GetIsTurnChange()) {
-			collisionManager_->CheckCanCowMove();
+	} else {
+
+		if (!sGame_.empty()) {
+			if (input->IsTriggerKey(DIK_R)) {
+
+				isBack_ = true;
+				backCT_ = 90;
+
+				game_->SetGame(&sGame_.top());
+				//game_ = sGame_.top();
+				sGame_.pop();
+			}
 		}
 
-		// クリア時に動く対策
-		if (nextSceneNo_ != SCENE::GAMECLEAR) {
-			// 牛の更新
-			cow_->Update();
-		}
-
-		// 動いた時の当たり判定
-		collisionManager_->CheckCowCollison();
-
-		break;
-
-	case kCowType::Bull:
-		
-		break;
 	}
 
-	// ----- Collision ----- //
-	collisionManager_->CheckCanMove();
 
-	// ----- MatrixChange ----- //
-	ChangeMatrix();
+	// ----- Update ----- //
+	game_->Update();
+
+
+	// ----- stack ----- //
+	if (game_->GetCowherd()->GetIsStack()) {
+		sGame_.push(*game_);
+	}
+
+
 
 	// ゲームクリア
-	if (collisionManager_->CheckClear()) {
+	if (game_->GetIsGameClear()) {
 		nextSceneNo_ = SCENE::GAMECLEAR;
 	}
 
@@ -110,22 +84,8 @@ void Scene_Game::Update() {
 ================================================================*/
 void Scene_Game::Draw() {
 
-	mapChip_->Draw();
-	mapChip_->DebugDraw(); // マップチップのDraw関数に入れる
+	game_->Draw();
 
-	// 牛の描画
-	switch (mapChip_->GetCowType()) {
-	case kCowType::Calf:
-		cow_->Draw();
-		break;
-
-	case kCowType::Bull:
-		bull_->Draw();
-		break;
-	}
-
-	renderer_->Draw();
-	turnManager_->Draw();
 }
 
 
@@ -134,62 +94,5 @@ void Scene_Game::Draw() {
 ================================================================*/
 void Scene_Game::Finalize() {
 
-	SafeDelete(camera_);
-	SafeDelete(mapChip_);
-	SafeDelete(cow_);
-	SafeDelete(bull_);
-	SafeDelete(cowherd_);
-	SafeDelete(youngPerson_);
-	SafeDelete(dog_);
-	SafeDelete(collisionManager_);
-	SafeDelete(renderer_);
-	SafeDelete(turnManager_);
-}
-
-
-void Scene_Game::ChangeMatrix() {
-
-
-	// マップの行列を変換
-	mapChip_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 牛飼いの行列を変換
-	cowherd_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 若人の行列を変換
-	youngPerson_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 牛の行列を変換
-	cow_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 雄牛の行列を変換
-	bull_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
-	// 犬の行列を変換
-	dog_->MatrixChange(
-		camera_->GetViewMatrix(),
-		camera_->GetOrthoMatrix(),
-		camera_->GetViewportMatrix()
-	);
-
+	
 }

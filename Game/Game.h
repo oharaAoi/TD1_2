@@ -10,6 +10,7 @@
 #include "Camera.h"
 #include "MapChip.h"
 #include "Cow.h"
+#include "BullCow.h"
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "Dog.h"
@@ -39,6 +40,7 @@ private: // member object
 	YoungPerson* youngPerson_;
 	Cowherd* cowherd_;
 	Dog* dog_;
+	BullCow* bull_;
 
 	/// 当たり判定
 	CollisionManager* collisionManager_;
@@ -71,6 +73,10 @@ private: // user method
 public: // accessor
 
 	bool GetIsGameClear(void) const { return isGameClear_; }
+
+	Cowherd* GetCowherd(void) { return cowherd_; }
+
+	void SetGame(Game* game);
 
 };
 

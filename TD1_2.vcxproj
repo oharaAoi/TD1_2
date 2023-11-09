@@ -143,6 +143,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Lib\DrawManager\Drawable.cpp" />
     <ClCompile Include="Lib\DrawManager\Renderer.cpp" />
     <ClCompile Include="Lib\InputManager\InputManager.cpp" />
+    <ClCompile Include="Lib\InputManager\Inputs.cpp" />
     <ClCompile Include="Lib\MyMath\Collision.cpp" />
     <ClCompile Include="Lib\MyMath\Color.cpp" />
     <ClCompile Include="Lib\MyMath\Draw.cpp" />
@@ -209,6 +210,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Lib\DrawManager\Drawable.h" />
     <ClInclude Include="Lib\DrawManager\Renderer.h" />
     <ClInclude Include="Lib\InputManager\InputManager.h" />
+    <ClInclude Include="Lib\InputManager\Inputs.h" />
     <ClInclude Include="Lib\LoadFile\LoadFile.h" />
     <ClInclude Include="Lib\MyMath\Collision.h" />
     <ClInclude Include="Lib\MyMath\Color.h" />

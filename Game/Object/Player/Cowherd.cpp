@@ -121,6 +121,8 @@ void Cowherd::Init() {
 	// レイヤーの大きさ
 	SetZOder(10);
 
+	isStack_ = false;
+
 }
 
 
@@ -129,6 +131,8 @@ void Cowherd::Init() {
 ==========================================================*/
 void Cowherd::Update() {
 
+	isStack_ = false;
+	
 	if (turnType_ != kTurnType::Players) { return; }
 
 	if(isTurnChange_){
@@ -301,6 +305,8 @@ void Cowherd::Move() {
 							isMove_ = true;
 							movingTime_ = 0;
 							SetZOder(15);
+
+							isStack_ = true;
 						}
 					}
 				}

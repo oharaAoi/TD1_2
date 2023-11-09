@@ -81,6 +81,7 @@ private: // 移動に関するもの
 	bool isMove_;
 	float movingTime_;
 
+	bool isStack_;
 
 public:
 	// Constructor & Destructor
@@ -125,6 +126,8 @@ public: // accessor ------------------------
 	int GetCanMoveGirdMaxIndex() const { return moveGridMaxIndex_; }
 
 	bool GetIsMove() const { return isMove_; }
+
+	bool GetIsStack(void) const { return isStack_; }
 
 };
 
