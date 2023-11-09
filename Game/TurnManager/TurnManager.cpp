@@ -12,8 +12,6 @@ TurnManager::~TurnManager() { Finalize(); }
 ================================================================*/
 void TurnManager::Init() {
 
-	movingCount_ = 0;
-
 	turnNo_ = 0;
 	isTurnChange_ = false;
 
@@ -26,15 +24,32 @@ void TurnManager::Init() {
 void TurnManager::Update() {
 	TurnNoUpdate();
 
-	if (movingCount_ >= 1) {
+	if (input->IsTriggerKey(DIK_SPACE)) {
 		turnNo_++;
-		movingCount_ = 0;
+	}
+
+	if (ch_isMove_) {
+		for (int yi = 0; yi < yP_maxIndex_; yi++) {
+			if (!yP_isMove_[yi]) {
+				break;
+			}
+
+			if (yi >= yP_maxIndex_ - 1) {
+				turnNo_++;
+			}
+		}
 	}
 
 	isTurnChange_ = IsTurnChange();
 
 	if (isTurnChange_) {
 		turnType_ = kTurnType::Cows;
+
+		// 移動フラグの初期化
+		ch_isMove_ = false;
+		for (int yi = 0; yi < yP_maxIndex_; yi++) {
+			yP_isMove_[yi] = false;
+		}
 	}
 	/*else {
 		turnType_ = kTurnType::Players;
@@ -48,7 +63,6 @@ void TurnManager::Update() {
 ================================================================*/
 void TurnManager::Draw() {
 
-	Novice::ScreenPrintf(100, 200, "movingCount = %d", movingCount_);
 	Novice::ScreenPrintf(100, 220, "turnNo = %d", turnNo_);
 	Novice::ScreenPrintf(100, 240, "isTurnChange_ = %d", isTurnChange_);
 

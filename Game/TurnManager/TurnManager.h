@@ -4,10 +4,14 @@
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "Turn.h"
+#include "InputManager.h"
 
 class TurnManager 
 	: public Turn {
 private:
+
+	InputManager* input = InputManager::GetInstance();
+
 public:
 	// Constructor & Destuctor
 	TurnManager();

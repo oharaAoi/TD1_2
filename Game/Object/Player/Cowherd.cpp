@@ -131,6 +131,10 @@ void Cowherd::Update() {
 
 	if (turnType_ != kTurnType::Players) { return; }
 
+	if(isTurnChange_){
+		isMove_ = false;
+	}
+
 	// 移動処理
 	Move();
 	// アドレスの更新
@@ -249,9 +253,9 @@ void Cowherd::Move() {
 
 			// 移動の終了条件
 			if (movingTime_ / 60.0f >= 1.0f) {
-				isMove_ = false;
+				//isMove_ = false;
+				ch_isMove_ = true;
 				isMoveIdle_ = false;
-				movingCount_++;
 				SetZOder(10);
 			}
 

@@ -51,6 +51,8 @@ private:
 
 	TurnManager* turnManager_;
 
+	
+
 public:
 	// コンストラクタ
 	Scene_Game();
