@@ -121,7 +121,6 @@ void Cowherd::Init() {
 	// レイヤーの大きさ
 	SetZOder(10);
 
-	isStack_ = false;
 
 }
 
@@ -131,11 +130,10 @@ void Cowherd::Init() {
 ==========================================================*/
 void Cowherd::Update() {
 
-	isStack_ = false;
-	
+
 	if (turnType_ != kTurnType::Players) { return; }
 
-	if(isTurnChange_){
+	if (isTurnChange_) {
 		isMove_ = false;
 	}
 
@@ -261,6 +259,8 @@ void Cowherd::Move() {
 				ch_isMove_ = true;
 				isMoveIdle_ = false;
 				SetZOder(10);
+
+
 			}
 
 
@@ -306,7 +306,14 @@ void Cowherd::Move() {
 							movingTime_ = 0;
 							SetZOder(15);
 
-							isStack_ = true;
+							Stack::PushDate(nowMapAdd_);
+							Stack::PushCH_isMovingCount(0);
+
+							std::swap(
+								nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
+								nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
+							);
+
 						}
 					}
 				}

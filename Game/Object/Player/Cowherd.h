@@ -16,13 +16,15 @@
 #include "BaseMap.h"
 #include "Turn.h"
 
+#include "Stack.h"
+
 /// <summary>
 /// 牛飼いクラス
 /// </summary>
 class Cowherd
 	: public BaseMap,
 	public Drawable,
-	public Turn{
+	public Turn {
 private:
 
 	// ワールド空間での中心点
@@ -78,7 +80,6 @@ private: // 移動に関するもの
 	bool isMove_;
 	float movingTime_;
 
-	bool isStack_;
 
 public:
 	// Constructor & Destructor
@@ -124,7 +125,12 @@ public: // accessor ------------------------
 
 	bool GetIsMove() const { return isMove_; }
 
-	bool GetIsStack(void) const { return isStack_; }
+	void SetWorldPos(const Vec2f& pos) { worldCenterPos_ = pos; }
+	void SetIsMove(bool isMove) { isMove_ = isMove; }
+	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
+
+	bool GetCh_isMove() { return ch_isMove_; }
+	void SetCh_isMove(bool ch_isMove) { ch_isMove_ = ch_isMove; }
 
 };
 

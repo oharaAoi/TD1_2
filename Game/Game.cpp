@@ -40,6 +40,84 @@ void Game::Update() {
 
 	// ----- Update ----- //
 
+	if (!Stack::GetEmpty()) {
+		if (Inputs::IsTriggerKey(DIK_R)) {
+			int yp_index = 0;
+			for (int r = 0; r < mapChip_->GetMapChipRow(); r++) {
+				for (int c = 0; c < mapChip_->GetMapChipCol(); c++) {
+
+					switch (Stack::GetMapAdd()[r][c]) {
+						/*case ChipType::NONE:
+							break;*/
+					case ChipType::STAGEOUT:
+						break;
+					case ChipType::FENCE:
+						break;
+					case ChipType::COWHERD:
+
+						if (r != cowherd_->GetCenterAdd().y
+							or c != cowherd_->GetCenterAdd().x) {
+
+							BaseMap::Swap(
+								cowherd_->GetCenterAdd(),
+								{ c,r }
+							);
+
+							cowherd_->SetWorldPos(
+								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) }
+							);
+							cowherd_->SetIsMove(false);
+							cowherd_->SetIsMoveIdle(false);
+							cowherd_->SetCh_isMove(false);
+
+						}
+
+						break;
+					case ChipType::YANGMAN:
+
+						if (r != youngPerson_->GetCenterAdd(yp_index).y
+							or c != youngPerson_->GetCenterAdd(yp_index).x) {
+
+							BaseMap::Swap(
+								youngPerson_->GetCenterAdd(yp_index),
+								{ c,r }
+							);
+
+							youngPerson_->SetWorldPos(
+								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) },
+								yp_index
+							);
+
+							youngPerson_->SetIsMove(false, yp_index);
+							youngPerson_->SetYoung_IsMoveIdle(false, yp_index);
+							youngPerson_->SetIsMoveIdle(false);
+							youngPerson_->SetYP_IsMove(false, yp_index);
+						}
+
+						yp_index++;
+						break;
+					case ChipType::ROCK:
+						break;
+					case ChipType::COW:
+						break;
+					case ChipType::BULL:
+						break;
+					case ChipType::BULLFIGHTING:
+						break;
+					}
+
+				}
+
+			}
+
+			Stack::StackPop();
+
+		}
+	}
+
+
 	// カメラの更新
 	camera_->Update();
 
@@ -194,38 +272,4 @@ void Game::ChangeMatrix() {
 	);
 
 
-}
-
-void Game::SetGame(Game& game) {
-	camera_ = game.camera_;
-	mapChip_ = game.mapChip_;
-	cow_ = game.cow_;
-	cowherd_ = game.cowherd_;
-	youngPerson_ = game.youngPerson_;
-	dog_ = game.dog_;
-	bull_ = game.bull_;
-
-	collisionManager_ = game.collisionManager_;
-	collisionManager_->Init(
-		cowherd_,
-		youngPerson_,
-		mapChip_,
-		cow_,
-		dog_,
-		bull_
-	);
-
-	//collisionManager_
-
-	renderer_ = game.renderer_;
-
-	/*renderer_.ResetDrawable();
-	renderer_.AddDrawable(cowherd_);
-	renderer_.AddDrawable(youngPerson_);
-	renderer_.AddDrawable(dog_);*/
-
-
-	turnManager_ = game.turnManager_;
-
-	isGameClear_ = game.isGameClear_;
 }

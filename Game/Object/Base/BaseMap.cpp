@@ -5,6 +5,7 @@
 std::string BaseMap::csvFilePath_ = "./Resources/stage/stageTest1.csv";
 
 std::vector<std::vector<int>> BaseMap::mapAdd_ = LoadFile(csvFilePath_);
+std::vector<std::vector<int>> BaseMap::nowMapAdd_ = mapAdd_;
 
 int BaseMap::row_ = static_cast<int>(mapAdd_.size());
 int BaseMap::col_ = static_cast<int>(mapAdd_[0].size());
@@ -22,13 +23,21 @@ BaseMap::BaseMap() {
 
 BaseMap::~BaseMap() {}
 
+void BaseMap::Swap(const Vec2& a, const Vec2& b) {
+	std::swap(
+		nowMapAdd_[a.y][a.x],
+		nowMapAdd_[b.y][b.x]
+	);
+}
+
+
 //===========================================================================
-void BaseMap::AddressRevers(){
+void BaseMap::AddressRevers() {
 	std::reverse(mapAdd_.begin(), mapAdd_.end());
 }
 
 //===========================================================================
-void BaseMap::Init(){
+void BaseMap::Init() {
 	GH_ = Novice::LoadTexture("./Resources/images/mapTile/colorMap.png");
 }
 

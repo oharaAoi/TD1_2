@@ -12,7 +12,8 @@ class BaseMap
 protected:
 	//==================================================
 	// マップのアドレス
-	static std::vector<std::vector<int>>mapAdd_;
+	static std::vector<std::vector<int>> mapAdd_;
+	static std::vector<std::vector<int>> nowMapAdd_;
 
 	// マップのファイルパス
 	static std::string csvFilePath_;
@@ -39,6 +40,8 @@ public:
 	//*ここから先は継承先でも使う*/
 	// デストラクタ
 	virtual ~BaseMap();
+
+	static void Swap(const Vec2& a, const Vec2& b);
 
 };
 

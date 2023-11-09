@@ -202,7 +202,7 @@ void YoungPerson::Draw() {
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
 			// 移動できるマス & 移動していないとき & 移動待機状態のとき
-			if (young_[yi].canMoveGrid[gi].canMove 
+			if (young_[yi].canMoveGrid[gi].canMove
 				&& !young_[yi].isMove
 				&& young_[yi].isMoveIdle) {
 
@@ -216,7 +216,7 @@ void YoungPerson::Draw() {
 				);
 			}
 		}
-		
+
 		if (!young_[yi].isMove) {
 			// 若人を描画
 			Draw::Quad(
@@ -351,6 +351,15 @@ void YoungPerson::Move() {
 									young_[yi].isMove = true;
 									movingTime_ = 0;
 									SetZOder(15);
+
+									Stack::PushDate(nowMapAdd_);
+									Stack::PushIndex(yi);
+
+									Swap(
+										{ static_cast<int>(young_[yi].destinationPos.x / tileSize_.x) ,static_cast<int>(young_[yi].destinationPos.y / tileSize_.y) },
+										{ static_cast<int>(young_[yi].startingPos.x / tileSize_.x),static_cast<int>(young_[yi].startingPos.y / tileSize_.y) }
+									);
+
 								}
 							}
 						}

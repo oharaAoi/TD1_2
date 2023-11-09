@@ -33,31 +33,30 @@ void Scene_Game::Update() {
 	}
 
 	// ----- Back ----- //
-	if (isBack_) {
+	//if (isBack_) {
 
-		if (backCT_ > 0) {
-			
-			backCT_--;
-		} else {
+	//	if (backCT_ > 0) {
+	//		
+	//		backCT_--;
+	//	} else {
 
-			isBack_ = false;
-		}
+	//		isBack_ = false;
+	//	}
 
-	} else {
+	//} else {
 
-		if (!sGame_.empty()) {
-			if (Inputs::IsTriggerKey(DIK_R)) {
+	//	if (!sGame_.empty()) {
+	//		if (Inputs::IsTriggerKey(DIK_R)) {
 
-				isBack_ = true;
-				backCT_ = 90;
+	//			isBack_ = true;
+	//			backCT_ = 90;
 
-				game_->SetGame(sGame_.top());
-				//*game_ = sGame_.top();
-				sGame_.pop();
-			}
-		}
+	//			//game_ = sGame_.top();
+	//			//sGame_.pop();
+	//		}
+	//	}
 
-	}
+	//}
 
 
 	// ----- Update ----- //
@@ -65,9 +64,9 @@ void Scene_Game::Update() {
 
 
 	// ----- stack ----- //
-	if (game_->GetCowherd()->GetIsStack()) {
+	/*if (game_->GetCowherd()->GetIsStack()) {
 		sGame_.push(*game_);
-	}
+	}*/
 
 
 

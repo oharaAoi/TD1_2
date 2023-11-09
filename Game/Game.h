@@ -73,7 +73,5 @@ public: // accessor
 
 	Cowherd* GetCowherd(void) { return cowherd_; }
 
-	void SetGame(Game& game);
-
 };
 

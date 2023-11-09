@@ -15,6 +15,10 @@
 #include "BaseMap.h"
 #include "Turn.h"
 
+
+#include "Stack.h"
+
+
 class YoungPerson final
 	: public BaseMap,
 	public Drawable,
@@ -147,6 +151,16 @@ public: /* ---------- accessor ---------- */
 	void SetCanMove(bool canMove, int yi, int gi) { young_[yi].canMoveGrid[gi].canMove = canMove; }
 
 	bool GetIsMove(int yi) const { return young_[yi].isMove; }
+
+	void SetWorldPos(const Vec2f& pos, int yi) { young_[yi].worldCenterPos = pos; }
+	void SetIsMove(bool isMove, int yi) { young_[yi].isMove = isMove; }
+	void SetYoung_IsMoveIdle(bool isMoveIdle, int yi) { young_[yi].isMoveIdle = isMoveIdle; }
+	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
+	void SetYP_IsMove(bool yP_isMove, int yi) { yP_isMove_[yi] = yP_isMove; }
+
+	bool GetYP_IsMove(int yi) { return yP_isMove_[yi]; }
+
+
 
 };
 
