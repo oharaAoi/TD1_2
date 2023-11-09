@@ -37,17 +37,22 @@ public:
 private:
 
 	// 評価で使う
-	void CheckCowAdjoin();
+
 	void CheckDogExist();
 
-	void CheckCowFourArea();
 	void CheckGridDistance(const Vec2& add);
-	void CheckCowMoveAllDire();
-	void CheckFourAreas();
 
-	void CheckGridDire(const Vec2& add);
+	void CheckBullCowMoveAllDire();
+
+	void CheckFourAreas();
 
 	void CheckFenseCollision();
 
+	void CheckNearWall();
+
+	void CheckBullCowAdjoin();
+
+	/*void CheckGridDire(const Vec2& add);*/
 };
+
 

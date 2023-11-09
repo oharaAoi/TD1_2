@@ -99,7 +99,17 @@ void BullCow::Init(){
 
 void BullCow::Update(){
 
+	// 牛の現在の位置を取得
+	CenterAddUpdate();
 
+	// 動く
+	Move();
+
+	// 移動後のアドレスを計算する
+	CenterAddUpdate();
+
+	// ワールド空間の行列と各頂点座標の計算
+	MakeWorldMatrix();
 
 }
 
@@ -137,4 +147,23 @@ void BullCow::CenterAddUpdate() {
 		static_cast<int>(worldPos_.x / size_.x),
 		static_cast<int>(worldPos_.y / size_.y)
 	};
+}
+
+void BullCow::DireInit() {
+	// 移動方向/量
+	moveDire_.x = 0.0f;
+	moveDire_.y = 0.0f;
+
+	moveValue_.x = 0.0f;
+	moveValue_.y = 0.0f;
+
+	// 牛が動く方向の評価値
+	for (int i = 0; i < 8; i++) {
+		canMoveDireValue_[i] = 100;
+		gridDistanceValue_[i] = 0;
+	}
+}
+
+void BullCow::Move() {
+
 }

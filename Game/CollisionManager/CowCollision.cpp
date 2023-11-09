@@ -24,28 +24,32 @@ void CowCollision::Finalize() {
 void CowCollision::CheckCowMoveDire() {
 	cow_->DireInit();
 
-	// 犬がいる時
-	CheckDogExist();
+	if (dog_->GetIsExist() == true) {
+		// 犬がいる時
+		CheckDogExist();
 
-	// 両隣フェンスの時
-	CheckCowAdjoin();
-	/*CheckCowFourArea();*/
-	// マス目の計算(牧師
-	CheckGridDistance(cowherd_->GetCenterAdd());
+	} else {
 
-	// マス目の計算(若人
-	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
-		CheckGridDistance(youngPerson_->GetCenterAdd(i));
+		// 両隣フェンスの時
+		CheckCowAdjoin();
+		/*CheckCowFourArea();*/
+		// マス目の計算(牧師
+		CheckGridDistance(cowherd_->GetCenterAdd());
+
+		// マス目の計算(若人
+		for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+			CheckGridDistance(youngPerson_->GetCenterAdd(i));
+		}
+
+		// 4つのエリア
+		CheckFourAreas();
+
+		// 牛から見た全方向
+		CheckCowMoveAllDire();
+
+		// 牛がフェンスと隣の時
+		CheckFenseCollision();
 	}
-
-	// 4つのエリア
-	CheckFourAreas();
-
-	// 牛から見た全方向
-	CheckCowMoveAllDire();
-
-	// 牛がフェンスと隣の時
-	CheckFenseCollision();
 }
 
 /*=================================================================
