@@ -172,7 +172,7 @@ void Cow::Move() {
 		/*CheckNearPerson();*/
 		CheckNearWall();
 
-		maxDireValue_ = 0;
+		maxDireValue_ = -99999;
 		maxDireValueIndex_ = 0;
 		adjoinNum_ = 0;
 
