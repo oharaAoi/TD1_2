@@ -73,11 +73,21 @@ public:
 	// ワールド行列と各頂点の計算
 	void MakeWorldMatrix();
 
+	// imguiの表示
+	void ImguiDraw();
+
 /*================================================================
 	acsseser
 ================================================================*/
+	// pos
+	Vec2f GetWorldPos() { return worldPos_; }
+	void SetWorldPos(Vec2f pos) { worldPos_ = pos; }
+
 	// アドレス
 	Vec2 GetWorldAdd() { return worldAdd_; }
+
+	// 移動した方向を取得
+	kCanMoveDirection GetMovedDire() { return movedDire_; }
 
 	// 評価値を入れる配列
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }

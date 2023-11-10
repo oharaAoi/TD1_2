@@ -138,7 +138,7 @@ void BullFighting::Init() {
 	value_.rock = 1000;
 	value_.adjoin = 150;
 	value_.adjoinAdd = 200;
-	value_.fence = 200;
+	value_.fence = 10;
 	value_.slantFence = -200;
 
 	//=========================================
@@ -171,7 +171,7 @@ void BullFighting::Update() {
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
 
-	DireInit();
+	/*DireInit();*/
 }
 
 /*========================================================
@@ -180,6 +180,8 @@ void BullFighting::Update() {
 void BullFighting::Draw() {
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFF00FF);
+
+	ImguiDraw();
 
 }
 
@@ -335,6 +337,43 @@ void BullFighting::Move() {
 			isFenceAttack_ = false;
 		}
 	}
+}
+
+void BullFighting::ImguiDraw() {
+	//リリースの時は消す
+	ImGui::Begin("evaluateValue");
+
+	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+
+	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
+	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
+	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
+	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);
+
+	ImGui::End();
+
+	//
+	ImGui::Begin("canMoveDireValue");
+
+	for (int dire = 0; dire < 4; dire++) {
+		ImGui::Text("%d : %s", canMoveDireValue_[dire], kCanMoveDire[dire]);
+	}
+
+	ImGui::End();
+
+	
+	/*ImGui::Begin("gridDistanceValue_");
+	ImGui::BeginChild(ImGuiWindowFlags_NoTitleBar);
+
+	for (int dire = 0; dire < 8; dire++) {
+		ImGui::Text("%d : %s", gridDistanceValue_[dire], kCanMoveDire[dire]);
+	}
+
+	ImGui::EndChild();
+	ImGui::End();*/
+
 }
 
 

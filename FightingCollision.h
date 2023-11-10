@@ -35,13 +35,23 @@ public:
 	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, BullFighting* fighting, Dog* dog);
 	void Finalize();
 
-	void CheckCanMoveDire();
-
 
 /*================================================================
 	user method
 ================================================================*/
+	void CheckCanMoveDire();
 
+	void CheckCollision();
+
+/*================================================================
+	当たり判定
+================================================================*/
+
+	void RockCollision();
+
+	void FenceCollision();
+
+	void PersonCollision();
 
 /*================================================================
 	評価
@@ -61,7 +71,8 @@ public:
 	// 4つのエリアでの評価
 	void CheckFourAreas();
 
-
+	// 近い柵を調べる
+	void CheckNearFence();
 
 };
 

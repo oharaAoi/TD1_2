@@ -86,7 +86,9 @@ void CollisionManager::CheckBullCollision() {
 	bullCollision_->CheckRockCollision();
 }
 
-
+void CollisionManager::CheckFigthingCollision() {
+	fightingCollision_->CheckCollision();
+}
 
 /* --- クリア判定 --- */
 bool CollisionManager::CheckClear() {

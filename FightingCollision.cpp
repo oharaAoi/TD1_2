@@ -52,17 +52,108 @@ void FightingCollision::CheckCanMoveDire() {
 
 	CheckFourAreas();
 
+
+	/*--------------------------------------------------------------------------------------*/
+	CheckNearFence();
+
+}
+
+void FightingCollision::CheckCollision() {
+	RockCollision();
+
+	FenceCollision();
+
+	PersonCollision();
 }
 
 /*========================================================
 	押し戻し処理
 ========================================================*/
 
+/*==========================================================================================================
+										岩の押し戻し
+============================================================================================================*/
+void FightingCollision::RockCollision() {
+	if (mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::ROCK) {
+
+		switch (fighting_->GetMovedDire()) {
+		case kCanMoveDirection::top:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::bottom:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::left:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+
+		case kCanMoveDirection::right:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+		}
+	}
+}
+
+/*==========================================================================================================
+										柵の押し戻し
+============================================================================================================*/
+
+void FightingCollision::FenceCollision() {
+	if (mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::FENCE) {
+
+		switch (fighting_->GetMovedDire()) {
+		case kCanMoveDirection::top:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::bottom:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::left:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+
+		case kCanMoveDirection::right:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+		}
+	}
+}
+
+/*==========================================================================================================
+										人の押し戻し
+============================================================================================================*/
+
+void FightingCollision::PersonCollision() {
+	if (mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::YANGMAN ||
+		mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::COWHERD) {
+
+		switch (fighting_->GetMovedDire()) {
+		case kCanMoveDirection::top:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::bottom:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			break;
+
+		case kCanMoveDirection::left:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+
+		case kCanMoveDirection::right:
+			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			break;
+		}
+	}
+}
 
 /*========================================================
 	評価
 ========================================================*/
-
 
 /*==========================================================================================================
 										岩との評価
@@ -111,7 +202,7 @@ void FightingCollision::CheckRockAdjoin() {
 
 void FightingCollision::MoveDireDecision() {
 
-	int nearPerson[4] = { 0 };
+	int nearPerson[4] = { 100 };
 	int preMostIndex = 0;
 	int mostNearPersonDire = 99;
 
@@ -134,18 +225,22 @@ void FightingCollision::MoveDireDecision() {
 
 	// 位置値が低い人を探す
 	for (int dire = 0; dire < 4; dire++) {
-		if (mostNearPersonDire > nearPerson[dire]) {
+		for (int index = 0; index < 3; index++) {
+			if (fighting_->GetIsMoveDirePreson(dire, index) == true) {
+				if (mostNearPersonDire > nearPerson[dire]) {
 
-			// 一番近い人の方向
-			mostNearPersonDire = nearPerson[dire];
+					// 一番近い人の方向
+					mostNearPersonDire = nearPerson[dire];
 
-			preMostIndex = nearPerson[dire];
-			// 一番近い人であるかどうか
-			isMostPerson[dire] = true;
+					preMostIndex = nearPerson[dire];
+					// 一番近い人であるかどうか
+					isMostPerson[dire] = true;
 
-		} else if (mostNearPersonDire == nearPerson[dire]) {
-			//　同値がいる場合はどっちも加算するためにフラグをtrueにする
-			isMostPerson[dire] = true;
+				} else if (mostNearPersonDire == nearPerson[dire]) {
+					//　同値がいる場合はどっちも加算するためにフラグをtrueにする
+					isMostPerson[dire] = true;
+				}
+			}
 		}
 	}
 
@@ -331,36 +426,85 @@ void FightingCollision::CheckFourAreas() {
 		}
 	}
 
-	// 4つのエリアで人がいる場合そのエリアの方向を減らす
+	// 4つのエリアで人がいる場合そのエリアの方向を増やす
 	for (int dire = 0; dire < 4; dire++) {
 		if (personNum[dire] != 0) {
 			switch (dire) {
 			case kCanMoveDirection::top:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::top);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFourAreaValue(), kCanMoveDirection::top);
 				break;
 
 			case kCanMoveDirection::bottom:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::bottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::bottom);
 				break;
 
 			case kCanMoveDirection::left:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::left);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetFourAreaValue(), kCanMoveDirection::left);
 				break;
 
 			case  kCanMoveDirection::right:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::right);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
-
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFourAreaValue(), kCanMoveDirection::right);
 				break;
 			}
 
 		}
 	}
+}
+
+/*==========================================================================================================
+										柵との評価
+============================================================================================================*/
+
+void  FightingCollision::CheckNearFence() {
+	int nearWallOfValue[4]{};
+
+	nearWallOfValue[kCanMoveDirection::top] = mapChip_->GetMapChipRow() - fighting_->GetWorldAdd().y - 1;
+	nearWallOfValue[kCanMoveDirection::bottom] = fighting_->GetWorldAdd().y;
+
+	nearWallOfValue[kCanMoveDirection::left] = fighting_->GetWorldAdd().x;
+	nearWallOfValue[kCanMoveDirection::right] = mapChip_->GetMapChipCol() - fighting_->GetWorldAdd().x - 1;
+
+	int preMostIndex = 0;
+	int mostNearWallDire = 99;
+
+	bool isMostNearWall[4] = { 0 };
+
+	// 最小値を求める
+	for (int i = 0; i < 4; i++) {
+		if (mostNearWallDire > nearWallOfValue[i]) {
+
+			isMostNearWall[preMostIndex] = false;
+			mostNearWallDire = nearWallOfValue[i];
+			isMostNearWall[i] = true;
+			preMostIndex = i;
+
+		} else if (mostNearWallDire == nearWallOfValue[i]) {
+			isMostNearWall[i] = true;
+		}
+	}
+
+	// 評価をする
+	for (int dire = 0; dire < 4; dire++) {
+		if (isMostNearWall[dire]) {
+			switch (dire) {
+			case kCanMoveDirection::top:
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFenceValue(), kCanMoveDirection::top);
+				break;
+
+			case kCanMoveDirection::bottom:
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetFenceValue(), kCanMoveDirection::bottom);
+				break;
+
+			case kCanMoveDirection::left:
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetFenceValue(), kCanMoveDirection::left);
+				break;
+
+			case  kCanMoveDirection::right:
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFenceValue(), kCanMoveDirection::right);
+				break;
+			}
+		}
+	}
+
+
 }

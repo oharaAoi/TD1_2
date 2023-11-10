@@ -106,11 +106,13 @@ void Game::Update() {
 	case kCowType::Fighting:
 
 		if (turnManager_->GetIsTurnChange()) {
+			fighting_->DireInit();
 			collisionManager_->CheckCanFigthingMove();
-
 		}
 
 		fighting_->Update();
+
+		collisionManager_->CheckFigthingCollision();
 
 		break;
 	}

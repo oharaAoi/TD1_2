@@ -69,6 +69,7 @@ public:
 
 	void CheckCowCollison();
 	void CheckBullCollision();
+	void CheckFigthingCollision();
 
 	// クリア条件の判定
 	bool CheckClear();
