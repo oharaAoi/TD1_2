@@ -20,6 +20,19 @@ private:
 	// csvを読み込む物
 	std::vector<std::vector<int>>moveGrid_;
 
+	// csv上の牛のアドレス
+	Vec2 localCenterAdd_;
+
+	// 8方向の評価する方向のアドレスの数
+	int direAddressNum_[4];
+
+	struct Address {
+		std::vector<Vec2> localAdd;
+		std::vector<Vec2> worldAdd;
+	};
+
+	Address cannotMove_[4];
+
 public:
 
 	BullFighting();
@@ -54,5 +67,30 @@ public:
 
 	// ワールド行列と各頂点の計算
 	void MakeWorldMatrix();
+
+/*================================================================
+	acsseser
+================================================================*/
+	// アドレス
+	Vec2 GetWorldAdd() { return worldAdd_; }
+
+	// 評価値を入れる配列
+	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
+	int GetMoveDireValue(int num)const { return canMoveDireValue_[num]; }
+
+	// 評価値
+	int GetAllDireValue() { return value_.allDire; }
+	int GetFourAreaValue() { return value_.fourArea; }
+	int GetClampValue() { return value_.clamp; }
+	int GetDogValue() { return value_.dog; }
+	int GetFenceValue() { return value_.fence; }
+	int GetSlantFenceValue() { return value_.slantFence; }
+	int GetAdjoinValue() { return value_.adjoin; }
+	int GetAdjoinAddValue() { return value_.adjoinAdd; }
+	int GetRockValue() { return value_.rock; }
+
+	// 周りを評価するのに使う
+	Vec2 GetCantMoveAdd(int dire, int index) { return cannotMove_[dire].worldAdd[index]; }
+	int GetDireAddressNum(int index) { return direAddressNum_[index]; }
 };
 

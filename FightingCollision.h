@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <algorithm>
 
 // ----- object ----- //
@@ -35,6 +35,8 @@ public:
 	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, BullFighting* fighting, Dog* dog);
 	void Finalize();
 
+	void CheckCanMoveDire();
+
 
 /*================================================================
 	user method
@@ -42,16 +44,16 @@ public:
 
 
 /*================================================================
-	•]‰¿
+	è©•ä¾¡
 ================================================================*/
 
-	// Šâ‚Æ‚Ì•]‰¿
+	// å²©ã¨ã®è©•ä¾¡
 	void CheckRockAdjoin();
 
-	// is•ûŒü‚Ì•]‰¿(csv‚Å‚â‚é)
-	void CheckMoveDire();
+	// é€²è¡Œæ–¹å‘ã®è©•ä¾¡(csvã§ã‚„ã‚‹)
+	void CheckMoveDire(const Vec2& add);
 
-	// 4‚Â‚ÌƒGƒŠƒA‚Å‚Ì•]‰¿
+	// 4ã¤ã®ã‚¨ãƒªã‚¢ã§ã®è©•ä¾¡
 	void CheckFourAreas();
 
 

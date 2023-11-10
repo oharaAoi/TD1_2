@@ -1,8 +1,8 @@
 ﻿#include "CollisionManager.h"
 
 CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, BullCow* bull) {
-	Init(cowherd, youngPerson, mapChip, cow, dog, bull);
+	Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting) {
+	Init(cowherd, youngPerson, mapChip, cow, dog, bull, fighting);
 }
 
 CollisionManager::~CollisionManager() {
@@ -14,18 +14,20 @@ CollisionManager::~CollisionManager() {
 	初期化関数
 ================================================================*/
 void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, BullCow* bull) {
+	Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
 	dog_ = dog;
 	bull_ = bull;
+	fighting_ = fighting;
 
 	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
 	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
 	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_);
-	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog);
+	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog_);
+	fightingCollision_ = new FightingCollision(cowherd_, youngPerson_, mapChip_, fighting_, dog_);
 }
 
 
@@ -43,6 +45,7 @@ void CollisionManager::Finalize() {
 	SafeDelete(cowherdCollison_);
 	SafeDelete(youngPersonCollision_);
 	SafeDelete(bullCollision_);
+	SafeDelete(fightingCollision_);
 }
 
 /*=================================================================
@@ -68,6 +71,10 @@ void CollisionManager::CheckCanBullMove() {
 	bullCollision_->CheckBullMoveDire();
 }
 
+void CollisionManager::CheckCanFigthingMove(){
+	fightingCollision_->CheckCanMoveDire();
+}
+
 /* --- 両隣がステージ外か上下がステージ外だったら*/
 void CollisionManager::CheckCowCollison() {
 	cowCollision_->CheckFenseScissorsCollision();
@@ -78,6 +85,8 @@ void CollisionManager::CheckBullCollision() {
 	bullCollision_->CheckFenceScissorsCollision();
 	bullCollision_->CheckRockCollision();
 }
+
+
 
 /* --- クリア判定 --- */
 bool CollisionManager::CheckClear() {

@@ -25,6 +25,43 @@ void BullFighting::Init(){
 		}
 	}
 
+	moveGrid_ = LoadFile("./Resources/cow/fightingDireRange.csv");
+
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+			switch (moveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				direAddressNum_[kCanMoveDirection::top]++;
+				break;
+
+			case kCanMoveDirection::bottom:
+				direAddressNum_[kCanMoveDirection::bottom]++;
+				break;
+
+			case kCanMoveDirection::left:
+				direAddressNum_[kCanMoveDirection::left]++;
+				break;
+
+			case kCanMoveDirection::right:
+				direAddressNum_[kCanMoveDirection::right]++;
+				break;
+
+			case 50:
+				localCenterAdd_.x = col;
+				localCenterAdd_.y = row;
+				break;
+			}
+		}
+	}
+
+	// 各方向を調べる数を配列に入れる
+	for (int i = 0; i < 4; i++) {
+		cannotMove_[i].localAdd.resize(direAddressNum_[i]);
+		cannotMove_[i].worldAdd.resize(direAddressNum_[i]);
+	}
+
+	CenterAddUpdate();
+
 	// 移動状態
 	isIdle_ = false;
 
@@ -171,6 +208,41 @@ void BullFighting::CenterAddUpdate() {
 		static_cast<int>(worldPos_.x / tileSize_.x),
 		static_cast<int>(worldPos_.y / tileSize_.y)
 	};
+
+	int index[4] = { 0 };
+
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+			switch (moveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[0]++;
+				break;
+
+			case  kCanMoveDirection::bottom:
+				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[1]++;
+				break;
+
+			case  kCanMoveDirection::left:
+				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[2]++;
+				break;
+
+			case  kCanMoveDirection::right:
+				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[3]++;
+				break;
+			}
+		}
+	}
+
+	for (int dire = 0; dire < 4; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
+		}
+	}
+
 }
 
 void BullFighting::DireInit(){

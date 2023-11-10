@@ -19,7 +19,7 @@ void Game::Init() {
 	fighting_ = new BullFighting();
 
 	collisionManager_ = new CollisionManager(
-		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_
+		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_, fighting_
 	);
 	renderer_ = new Renderer();
 
@@ -104,6 +104,11 @@ void Game::Update() {
 
 		break;
 	case kCowType::Fighting:
+
+		if (turnManager_->GetIsTurnChange()) {
+			collisionManager_->CheckCanFigthingMove();
+
+		}
 
 		break;
 	}
