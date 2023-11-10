@@ -133,23 +133,20 @@ void FightingCollision::MoveDireDecision() {
 	}
 
 	// 位置値が低い人を探す
-	for (int dire = 0; dire < 3; dire++) {
-		if (nearPerson[dire] != 0) {
-			if (mostNearPersonDire > nearPerson[dire]) {
+	for (int dire = 0; dire < 4; dire++) {
+		if (mostNearPersonDire > nearPerson[dire]) {
 
-				// 一番近い人の方向
-				mostNearPersonDire = nearPerson[dire];
+			// 一番近い人の方向
+			mostNearPersonDire = nearPerson[dire];
 
-				preMostIndex = nearPerson[dire];
-				// 一番近い人であるかどうか
-				isMostPerson[dire] = true;
+			preMostIndex = nearPerson[dire];
+			// 一番近い人であるかどうか
+			isMostPerson[dire] = true;
 
-			} else if (mostNearPersonDire == nearPerson[dire]) {
-				//　同値がいる場合はどっちも加算するためにフラグをtrueにする
-				isMostPerson[dire] = true;
-			}
+		} else if (mostNearPersonDire == nearPerson[dire]) {
+			//　同値がいる場合はどっちも加算するためにフラグをtrueにする
+			isMostPerson[dire] = true;
 		}
-
 	}
 
 	// 実際に値を入れる
@@ -186,7 +183,6 @@ void FightingCollision::MoveDireDecision() {
 			}
 		}
 	}
-
 }
 
 /*==========================================================================================================
@@ -194,7 +190,7 @@ void FightingCollision::MoveDireDecision() {
 ============================================================================================================*/
 void FightingCollision::CheckMoveDire(const Vec2& add) {
 
-	for (int dire = 0; dire < 8; dire++) {
+	for (int dire = 0; dire < 4; dire++) {
 		switch (dire) {
 		case kCanMoveDirection::top:
 			for (int i = 0; i < fighting_->GetDireAddressNum(dire); i++) {
@@ -340,61 +336,31 @@ void FightingCollision::CheckFourAreas() {
 		if (personNum[dire] != 0) {
 			switch (dire) {
 			case kCanMoveDirection::top:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::top);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::top);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
 				break;
 
 			case kCanMoveDirection::bottom:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::bottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::bottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
 				break;
 
 			case kCanMoveDirection::left:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::left);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::left);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftTop);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::leftBottom);
 				break;
 
 			case  kCanMoveDirection::right:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::right);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) - fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::right);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightTop);
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue() * personNum[dire], kCanMoveDirection::rightBottom);
 
 				break;
 			}
 
-		} else {
-			// 人がいない場合その方向への評価を加点する
-			switch (dire) {
-			case kCanMoveDirection::top:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFourAreaValue(), kCanMoveDirection::top);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue(), kCanMoveDirection::rightTop);
-				break;
-
-			case kCanMoveDirection::bottom:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::bottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::leftBottom);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::rightBottom);
-				break;
-
-			case kCanMoveDirection::left:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetFourAreaValue(), kCanMoveDirection::left);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftTop) + fighting_->GetFourAreaValue(), kCanMoveDirection::leftTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::leftBottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::leftBottom);
-				break;
-
-			case  kCanMoveDirection::right:
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFourAreaValue(), kCanMoveDirection::right);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightTop) + fighting_->GetFourAreaValue(), kCanMoveDirection::rightTop);
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::rightBottom) + fighting_->GetFourAreaValue(), kCanMoveDirection::rightBottom);
-
-				break;
-			}
 		}
 	}
-
-
 }

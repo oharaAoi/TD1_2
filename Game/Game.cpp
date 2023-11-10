@@ -110,6 +110,8 @@ void Game::Update() {
 
 		}
 
+		fighting_->Update();
+
 		break;
 	}
 

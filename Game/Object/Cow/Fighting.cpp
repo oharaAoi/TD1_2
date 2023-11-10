@@ -4,13 +4,13 @@ BullFighting::BullFighting() { Init(); }
 
 BullFighting::~BullFighting() { Finalize(); }
 
-void BullFighting::Finalize(){
+void BullFighting::Finalize() {
 }
 
 /*========================================================
 	初期化関数
 ========================================================*/
-void BullFighting::Init(){
+void BullFighting::Init() {
 
 	// ワールド空間での中心座標
 	for (int row = 0; row < row_; row++) {
@@ -94,6 +94,11 @@ void BullFighting::Init(){
 
 	gh_ = Novice::LoadTexture("white1x1.png");
 
+	// 移動方向/量
+
+	moveScalar_.x = 3;
+	moveScalar_.y = 3;
+
 	//=======================================================================================
 	// csvで方向の評価
 	moveGrid_ = LoadFile("./Resources/cow/fightingDireRange.csv");
@@ -125,8 +130,8 @@ void BullFighting::Init(){
 	//=========================================
 	// 評価値(ここの数値をいじればいける)
 	value_.wall = 5;
-	value_.fourArea = 12;
-	value_.allDire = 10;
+	value_.fourArea = 5;
+	value_.allDire = 15;
 	value_.clamp = 2;
 
 	value_.dog = 150;
@@ -150,7 +155,7 @@ void BullFighting::Init(){
 /*========================================================
 	更新処理関数
 ========================================================*/
-void BullFighting::Update(){
+void BullFighting::Update() {
 	// 各頂点のアドレスの計算
 	CenterAddUpdate();
 
@@ -165,12 +170,14 @@ void BullFighting::Update(){
 
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
+
+	DireInit();
 }
 
 /*========================================================
 	描画処理関数
 ========================================================*/
-void BullFighting::Draw(){
+void BullFighting::Draw() {
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFF00FF);
 
@@ -179,7 +186,7 @@ void BullFighting::Draw(){
 /*========================================================
 	座標系関数
 ========================================================*/
-void BullFighting::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix){
+void BullFighting::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
 	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
 
@@ -190,7 +197,7 @@ void BullFighting::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& or
 
 }
 
-void BullFighting::MakeWorldMatrix(){
+void BullFighting::MakeWorldMatrix() {
 	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldPos_);
 
 	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
@@ -220,12 +227,12 @@ void BullFighting::CenterAddUpdate() {
 				break;
 
 			case  kCanMoveDirection::bottom:
-				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,(row - localCenterAdd_.y) };
 				index[1]++;
 				break;
 
 			case  kCanMoveDirection::left:
-				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { (col - localCenterAdd_.x),row - localCenterAdd_.y };
 				index[2]++;
 				break;
 
@@ -236,23 +243,17 @@ void BullFighting::CenterAddUpdate() {
 			}
 		}
 	}
+	std::reverse(cannotMove_[kCanMoveDirection::bottom].localAdd.begin(), cannotMove_[kCanMoveDirection::bottom].localAdd.end());
+	std::reverse(cannotMove_[kCanMoveDirection::left].localAdd.begin(), cannotMove_[kCanMoveDirection::left].localAdd.end());
 
 	for (int dire = 0; dire < 4; dire++) {
 		for (int i = 0; i < direAddressNum_[dire]; i++) {
 			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
 		}
 	}
-
 }
 
-void BullFighting::DireInit(){
-	// 移動方向/量
-	moveDire_.x = 0.0f;
-	moveDire_.y = 0.0f;
-
-	moveValue_.x = 0.0f;
-	moveValue_.y = 0.0f;
-
+void BullFighting::DireInit() {
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
 		canMoveDireValue_[i] = 100;
@@ -266,19 +267,74 @@ void BullFighting::DireInit(){
 			moveDireOnPreson_[i][j] = false;
 		}
 	}
-
 }
 
-void BullFighting::MoveTurn(){
+void BullFighting::MoveTurn() {
 	if (isTurnChange_) {
 		isIdle_ = true;
 	}
 }
 
-void BullFighting::Move(){
+void BullFighting::Move() {
 
 	if (isIdle_) {
+		maxDireValue_ = -99999;
+		maxDireValueIndex_ = 0;
+		adjoinNum_ = 0;
 
+		//全方位囲まれていたら処理を終わる
+		for (int i = 0; i < 8; i++) {
+			if (canMoveDireValue_[i] < -900) {
+				adjoinNum_++;
+			}
+		}
+
+		if (adjoinNum_ == 8) {
+			return;
+		}
+
+		// 一番値の大きい方向に動く
+		for (int i = 0; i < 4; i++) {
+			if (maxDireValue_ < canMoveDireValue_[i]) {
+				maxDireValue_ = canMoveDireValue_[i];
+				maxDireValueIndex_ = i;
+			}
+		}
+
+		// 移動方向の量によって進む箇所を決める
+		switch (maxDireValueIndex_) {
+		case kCanMoveDirection::top:
+			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::top;
+			break;
+
+		case kCanMoveDirection::bottom:
+			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
+			movedDire_ = kCanMoveDirection::bottom;
+			break;
+
+		case kCanMoveDirection::left:
+			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::left;
+			break;
+
+		case kCanMoveDirection::right:
+			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
+			movedDire_ = kCanMoveDirection::right;
+			break;
+
+		}
+
+		// 移動の終了とともにturnがプレイヤー側になる
+		turnType_ = kTurnType::Players;
+
+		// 待機状態の解除
+		isIdle_ = false;
+
+		if (isFenceAttack_) {
+			isFenceAttack_ = false;
+		}
 	}
 }
+
 
