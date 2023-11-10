@@ -133,6 +133,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\Object\Particle\Emitter.cpp" />
     <ClCompile Include="Game\Object\Particle\Particle.cpp" />
     <ClCompile Include="Game\Object\Player\Cowherd.cpp" />
+    <ClCompile Include="Game\Object\Player\Riata.cpp" />
     <ClCompile Include="Game\Object\Player\YoungPerson.cpp" />
     <ClCompile Include="Game\Object\Stack.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
@@ -203,6 +204,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\Object\Particle\Emitter.h" />
     <ClInclude Include="Game\Object\Particle\Particle.h" />
     <ClInclude Include="Game\Object\Player\Cowherd.h" />
+    <ClInclude Include="Game\Object\Player\Riata.h" />
     <ClInclude Include="Game\Object\Player\YoungPerson.h" />
     <ClInclude Include="Game\Object\Stack.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />

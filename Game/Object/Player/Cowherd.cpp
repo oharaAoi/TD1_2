@@ -35,6 +35,7 @@ void Cowherd::Init() {
 	localVertex_.lb = { -size_.x * 0.5f, -size_.y * 0.5f };
 	localVertex_.rb = { size_.x * 0.5f, -size_.y * 0.5f };
 
+	riata_ = new Riata();
 
 	/*=========================================
 		移動に使う変数
@@ -144,6 +145,9 @@ void Cowherd::Update() {
 	// ワールド空間を構築
 	MakeWorldMatrix();
 
+	// 投げ縄の更新
+	riata_->Update();
+
 }
 
 
@@ -180,6 +184,9 @@ void Cowherd::Draw() {
 		0xFFFFFFFF
 	);
 
+	// 投げ縄の描画
+	riata_->Draw();
+
 	DebugDraw();
 }
 
@@ -187,7 +194,9 @@ void Cowherd::Draw() {
 /*==========================================================
 	終了処理
 ==========================================================*/
-void Cowherd::Finalize() {}
+void Cowherd::Finalize() {
+	SafeDelete(riata_);
+}
 
 
 /*==========================================================
@@ -212,6 +221,12 @@ void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 		canMoveGrid_[gi].screenVertex.lb = Transform(canMoveGrid_[gi].localVertex.lb, canMoveGrid_[gi].screenMatrix);
 		canMoveGrid_[gi].screenVertex.rb = Transform(canMoveGrid_[gi].localVertex.rb, canMoveGrid_[gi].screenMatrix);
 	}
+
+	riata_->MakeScreenMatrix(
+		viewMatrix,
+		orthoMatrix,
+		viewportMatrix
+	);
 
 }
 

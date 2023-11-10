@@ -10,12 +10,13 @@
 #include "Ease.h"
 #include "MyMath.h"
 #include "Drawable.h"
+#include <SafeDelete.h>
 
 // ----- object ----- //
 #include "MapChip.h"
 #include "BaseMap.h"
 #include "Turn.h"
-
+#include "Riata.h"
 #include "Stack.h"
 
 /// <summary>
@@ -44,6 +45,9 @@ private:
 	// ローカル以外の各空間の行列
 	Matrix3x3 worldMatrix_;
 	Matrix3x3 screenMatrix_;
+
+	// 投げ縄
+	Riata* riata_;
 
 
 private: // 移動に関するもの
