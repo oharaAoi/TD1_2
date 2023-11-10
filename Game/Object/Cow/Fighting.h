@@ -17,6 +17,11 @@ class BullFighting:
 
 private:
 
+	// 進行方向にブロックがあるかないか(4/方向,3/見る範囲)
+	bool isMoveDireBlock_[4][3];
+
+	bool moveDireOnPreson_[4][3];
+
 	// csvを読み込む物
 	std::vector<std::vector<int>>moveGrid_;
 
@@ -92,5 +97,12 @@ public:
 	// 周りを評価するのに使う
 	Vec2 GetCantMoveAdd(int dire, int index) { return cannotMove_[dire].worldAdd[index]; }
 	int GetDireAddressNum(int index) { return direAddressNum_[index]; }
+
+	// 周りにブロックがあったら
+	void SetIsMoveDireBlock(int dire, int index, bool isBlock) { isMoveDireBlock_[dire][index] = isBlock; }
+	bool GetIsMoveDireBlock(int dire, int index) { return isMoveDireBlock_[dire][index]; }
+
+	void SetIsMoveDirePreson(int dire, int index, bool isBlock) { moveDireOnPreson_[dire][index] = isBlock; }
+	bool GetIsMoveDirePreson(int dire, int index) { return moveDireOnPreson_[dire][index]; }
 };
 

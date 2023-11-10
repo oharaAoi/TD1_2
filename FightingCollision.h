@@ -53,6 +53,11 @@ public:
 	// 進行方向の評価(csvでやる)
 	void CheckMoveDire(const Vec2& add);
 
+	void CheckMoveDireRock(const Vec2& add);
+
+	// 進行方向の最終的な評価
+	void MoveDireDecision();
+
 	// 4つのエリアでの評価
 	void CheckFourAreas();
 

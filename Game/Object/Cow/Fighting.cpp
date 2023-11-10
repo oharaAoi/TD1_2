@@ -258,6 +258,15 @@ void BullFighting::DireInit(){
 		canMoveDireValue_[i] = 100;
 		gridDistanceValue_[i] = 0;
 	}
+
+	// 進行方向に人がいるか
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 3; j++) {
+			isMoveDireBlock_[i][j] = false;
+			moveDireOnPreson_[i][j] = false;
+		}
+	}
+
 }
 
 void BullFighting::MoveTurn(){
