@@ -478,6 +478,8 @@ void FightingCollision::CheckFourAreas() {
 	int maxNumIndex = -1;
 	int maxNum = 0;
 
+	bool maxOnPresonIndex[4] = { false };
+
 	/* ------ cowherd ------ */
 	// top
 	if (cowherd_->GetCenterAdd().y > fighting_->GetWorldAdd().y) {
@@ -527,12 +529,22 @@ void FightingCollision::CheckFourAreas() {
 		if (maxNum < personNum[dire]) {
 			maxNum = personNum[dire];
 			maxNumIndex = dire;
+
+			// 一旦すべてfalseにする
+			for (int i = 0; i < 4; i++) {
+				maxOnPresonIndex[i] = false;
+			}
+
+			maxOnPresonIndex[dire] = true;
+
+		} else if (maxNum == personNum[dire]) {
+			maxOnPresonIndex[dire] = true;
 		}
 	}
 
 	// 4つのエリアで人がいる場合そのエリアの方向を増やす
 	for (int dire = 0; dire < 4; dire++) {
-		if (personNum[dire] != 0) {
+		if (maxOnPresonIndex[dire]) {
 			switch (dire) {
 			case kCanMoveDirection::top:
 				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetFourAreaValue(), kCanMoveDirection::top);
@@ -550,7 +562,6 @@ void FightingCollision::CheckFourAreas() {
 				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetFourAreaValue(), kCanMoveDirection::right);
 				break;
 			}
-
 		}
 	}
 }
