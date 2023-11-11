@@ -64,6 +64,7 @@ void BullFighting::Init() {
 
 	// 移動状態
 	isIdle_ = false;
+	isMove_ = false;
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
@@ -150,6 +151,14 @@ void BullFighting::Init() {
 
 	isFenceAttack_ = false;
 	//=======================================================================================
+
+	startPos_ = { 0.0f, 0.0f };
+	endPos_ = { 0.0f, 0.0f };
+
+	easeT_ = 0.0f;
+	frameCount_ = 0.0f;
+
+	moveGridNum_ = 3;
 }
 
 /*========================================================
@@ -163,6 +172,8 @@ void BullFighting::Update() {
 	MoveTurn();
 
 	// 移動
+	CheckMoveDire();
+
 	Move();
 
 	//　移動後の各頂点のアドレスの計算
@@ -272,12 +283,14 @@ void BullFighting::DireInit() {
 }
 
 void BullFighting::MoveTurn() {
-	if (isTurnChange_) {
-		isIdle_ = true;
+	if (!isIdle_) {
+		if (isTurnChange_) {
+			isIdle_ = true;
+		}
 	}
 }
 
-void BullFighting::Move() {
+void BullFighting::CheckMoveDire() {
 
 	if (isIdle_) {
 		maxDireValue_ = -99999;
@@ -303,39 +316,90 @@ void BullFighting::Move() {
 			}
 		}
 
-		// 移動方向の量によって進む箇所を決める
-		switch (maxDireValueIndex_) {
-		case kCanMoveDirection::top:
-			worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::top;
-			break;
-
-		case kCanMoveDirection::bottom:
-			worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::bottom;
-			break;
-
-		case kCanMoveDirection::left:
-			worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			movedDire_ = kCanMoveDirection::left;
-			break;
-
-		case kCanMoveDirection::right:
-			worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			movedDire_ = kCanMoveDirection::right;
-			break;
-
-		}
-
-		// 移動の終了とともにturnがプレイヤー側になる
-		turnType_ = kTurnType::Players;
-
 		// 待機状態の解除
 		isIdle_ = false;
+
+		isMove_ = true;
+	}
+}
+
+void BullFighting::Move() {
+	if (isMove_) {
+
+		if (easeT_ == 0.0f) {
+			// 移動方向の量によって進む箇所を決める
+			switch (maxDireValueIndex_) {
+			case kCanMoveDirection::top:
+				/*worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);*/
+				movedDire_ = kCanMoveDirection::top;
+
+				startPos_ = worldPos_;
+				endPos_.x = worldPos_.x;
+				endPos_.y = worldPos_.y + tileSize_.y;
+
+				break;
+
+			case kCanMoveDirection::bottom:
+				/*worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);*/
+				movedDire_ = kCanMoveDirection::bottom;
+
+				startPos_ = worldPos_;
+				endPos_.x = worldPos_.x;
+				endPos_.y = worldPos_.y - tileSize_.y;
+				break;
+
+			case kCanMoveDirection::left:
+				/*worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);*/
+				movedDire_ = kCanMoveDirection::left;
+
+				startPos_ = worldPos_;
+				endPos_.x = worldPos_.x - tileSize_.y;
+				endPos_.y = worldPos_.y;
+				break;
+
+			case kCanMoveDirection::right:
+				/*worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);*/
+				movedDire_ = kCanMoveDirection::right;
+
+				startPos_ = worldPos_;
+				endPos_.x = worldPos_.x + tileSize_.y;
+				endPos_.y = worldPos_.y;
+				break;
+			}
+		}
+
+		// ここから下で移動する
+		frameCount_++;
+
+		easeT_ = frameCount_ / 30.0f;
+
+		worldPos_.x = MyMath::Lerp(easeT_, startPos_.x, endPos_.x);
+		worldPos_.y = MyMath::Lerp(easeT_, startPos_.y, endPos_.y);
+
+		if (frameCount_ >= 30) {
+			easeT_ = 0;
+			frameCount_ = 0;
+			moveGridNum_--;
+		}
+
 
 		if (isFenceAttack_) {
 			isFenceAttack_ = false;
 		}
+
+		if (moveGridNum_ == 0) {
+			// 移動の終了とともにturnがプレイヤー側になる
+			turnType_ = kTurnType::Players;
+			isMove_ = false;
+			moveGridNum_ = 3;
+		}
+	} else {
+		// 移動の終了とともにturnがプレイヤー側になる
+		turnType_ = kTurnType::Players;
+		isMove_ = false;
+		moveGridNum_ = 3;
+		easeT_ = 0;
+		frameCount_ = 0;
 	}
 }
 

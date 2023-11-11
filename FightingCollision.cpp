@@ -63,7 +63,11 @@ void FightingCollision::CheckCollision() {
 
 	FenceCollision();
 
-	PersonCollision();
+	PersonCollision(cowherd_->GetCenterAdd());
+
+	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+		PersonCollision(youngPerson_->GetCenterAdd(i));
+	}
 }
 
 /*========================================================
@@ -78,19 +82,43 @@ void FightingCollision::RockCollision() {
 
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::bottom:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::left:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 
 		case kCanMoveDirection::right:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 		}
 	}
@@ -105,19 +133,43 @@ void FightingCollision::FenceCollision() {
 
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::bottom:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::left:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 
 		case kCanMoveDirection::right:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 		}
 	}
@@ -127,25 +179,48 @@ void FightingCollision::FenceCollision() {
 										人の押し戻し
 ============================================================================================================*/
 
-void FightingCollision::PersonCollision() {
-	if (mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::YANGMAN ||
-		mapChip_->GetMapChipAdd()[fighting_->GetWorldAdd().y][fighting_->GetWorldAdd().x] == ChipType::COWHERD) {
+void FightingCollision::PersonCollision(const Vec2& add) {
+	if (IsEqualAdd(fighting_->GetWorldAdd(), add)){
 
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::bottom:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x, fighting_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
 			break;
 
 		case kCanMoveDirection::left:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x + mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 
 		case kCanMoveDirection::right:
-			fighting_->SetWorldPos({ fighting_->GetWorldPos().x - mapChip_->GetTileSize().x, fighting_->GetWorldPos().y });
+			fighting_->SetIsMove(false);
+
+			fighting_->SetWorldPos({
+				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
+				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			break;
 		}
 	}
@@ -455,7 +530,7 @@ void FightingCollision::CheckFourAreas() {
 										柵との評価
 ============================================================================================================*/
 
-void  FightingCollision::CheckNearFence() {
+void FightingCollision::CheckNearFence() {
 	int nearWallOfValue[4]{};
 
 	nearWallOfValue[kCanMoveDirection::top] = mapChip_->GetMapChipRow() - fighting_->GetWorldAdd().y - 1;
@@ -505,6 +580,8 @@ void  FightingCollision::CheckNearFence() {
 			}
 		}
 	}
+}
 
-
+bool FightingCollision::IsEqualAdd(const Vec2& add1, const Vec2& add2) {
+	return (add1.x == add2.x) && (add1.y == add2.y);
 }

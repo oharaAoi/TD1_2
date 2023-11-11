@@ -9,6 +9,8 @@
 // ----- Maneger ----- //
 #include "Turn.h"
 
+#include "MyMath.h"
+
 
 class BullFighting:
 	public BaseCow,
@@ -61,6 +63,8 @@ public:
 
 	void MoveTurn();
 
+	void CheckMoveDire();
+
 	void Move();
 
 	// スクリーン行列と各頂点の計算
@@ -88,6 +92,10 @@ public:
 
 	// 移動した方向を取得
 	kCanMoveDirection GetMovedDire() { return movedDire_; }
+
+	// 移動する
+	void SetIsMove(bool isMove) { isMove_ = isMove; }
+	bool GetIsMove() { return isMove_; }
 
 	// 評価値を入れる配列
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }

@@ -43,6 +43,8 @@ public:
 
 	void CheckCollision();
 
+	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
+
 /*================================================================
 	当たり判定
 ================================================================*/
@@ -51,7 +53,7 @@ public:
 
 	void FenceCollision();
 
-	void PersonCollision();
+	void PersonCollision(const Vec2& add);
 
 /*================================================================
 	評価

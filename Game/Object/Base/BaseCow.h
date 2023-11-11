@@ -27,6 +27,7 @@ protected: // member object
 	int gh_;
 
 	bool isIdle_;
+	bool isMove_;
 
 	// 各空間の頂点
 	QuadVerf localVertex_;
@@ -85,6 +86,16 @@ protected: // member object
 
 	// フェンスを攻撃するかどうか
 	bool isFenceAttack_;
+
+	// -----------------------------------------
+	// 移動で使うイージング
+	Vec2f startPos_;
+	Vec2f endPos_;
+
+	float easeT_;
+	float frameCount_;
+
+	int moveGridNum_;
 
 public:
 	// 仮想デストラクタ
