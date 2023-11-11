@@ -40,6 +40,9 @@ private:
 
 	Address cannotMove_[4];
 
+	//==========================================================
+	bool isStan_;
+
 public:
 
 	BullFighting();
@@ -66,6 +69,8 @@ public:
 	void CheckMoveDire();
 
 	void Move();
+
+	bool CheckIsStan();
 
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(
@@ -96,6 +101,10 @@ public:
 	// 移動する
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
 	bool GetIsMove() { return isMove_; }
+
+	// スタン
+	void SetIsStan(bool isStan) { isStan_ = isStan; }
+	bool GetIsStan() { return isStan_; }
 
 	// 評価値を入れる配列
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }

@@ -83,6 +83,7 @@ void FightingCollision::RockCollision() {
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -93,6 +94,7 @@ void FightingCollision::RockCollision() {
 
 		case kCanMoveDirection::bottom:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -103,6 +105,7 @@ void FightingCollision::RockCollision() {
 
 		case kCanMoveDirection::left:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
@@ -113,6 +116,7 @@ void FightingCollision::RockCollision() {
 
 		case kCanMoveDirection::right:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),

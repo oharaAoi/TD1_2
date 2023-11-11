@@ -65,6 +65,7 @@ void BullFighting::Init() {
 	// 移動状態
 	isIdle_ = false;
 	isMove_ = false;
+	isStan_ = true;
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {
@@ -103,8 +104,6 @@ void BullFighting::Init() {
 	//=======================================================================================
 	// csvで方向の評価
 	moveGrid_ = LoadFile("./Resources/cow/fightingDireRange.csv");
-
-
 
 	//=======================================================================================
 	// 牛が動く方向の評価値
@@ -151,7 +150,7 @@ void BullFighting::Init() {
 
 	isFenceAttack_ = false;
 	//=======================================================================================
-
+	//　移動で使う
 	startPos_ = { 0.0f, 0.0f };
 	endPos_ = { 0.0f, 0.0f };
 
@@ -167,6 +166,9 @@ void BullFighting::Init() {
 void BullFighting::Update() {
 	// 各頂点のアドレスの計算
 	CenterAddUpdate();
+
+	// 牛がスタン状態だったら早期リターン
+	if (CheckIsStan()) {return;}
 
 	// 牛のターンか
 	MoveTurn();
@@ -223,49 +225,6 @@ void BullFighting::MakeWorldMatrix() {
 	処理関数
 ========================================================*/
 
-void BullFighting::CenterAddUpdate() {
-	worldAdd_ = {
-		static_cast<int>(worldPos_.x / tileSize_.x),
-		static_cast<int>(worldPos_.y / tileSize_.y)
-	};
-
-	int index[4] = { 0 };
-
-	for (int row = 0; row < moveGrid_.size(); row++) {
-		for (int col = 0; col < moveGrid_[0].size(); col++) {
-			switch (moveGrid_[row][col]) {
-			case kCanMoveDirection::top:
-				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
-				index[0]++;
-				break;
-
-			case  kCanMoveDirection::bottom:
-				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,(row - localCenterAdd_.y) };
-				index[1]++;
-				break;
-
-			case  kCanMoveDirection::left:
-				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { (col - localCenterAdd_.x),row - localCenterAdd_.y };
-				index[2]++;
-				break;
-
-			case  kCanMoveDirection::right:
-				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
-				index[3]++;
-				break;
-			}
-		}
-	}
-	std::reverse(cannotMove_[kCanMoveDirection::bottom].localAdd.begin(), cannotMove_[kCanMoveDirection::bottom].localAdd.end());
-	std::reverse(cannotMove_[kCanMoveDirection::left].localAdd.begin(), cannotMove_[kCanMoveDirection::left].localAdd.end());
-
-	for (int dire = 0; dire < 4; dire++) {
-		for (int i = 0; i < direAddressNum_[dire]; i++) {
-			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
-		}
-	}
-}
-
 void BullFighting::DireInit() {
 	// 牛が動く方向の評価値
 	for (int i = 0; i < 8; i++) {
@@ -280,6 +239,20 @@ void BullFighting::DireInit() {
 			moveDireOnPreson_[i][j] = false;
 		}
 	}
+}
+
+bool BullFighting::CheckIsStan() {
+	if (isTurnChange_) {
+		if (isStan_) {
+			// 移動の終了とともにturnがプレイヤー側になる
+			turnType_ = kTurnType::Players;
+
+			isStan_ = false;
+
+			return true;
+		}
+	}
+	return false;
 }
 
 void BullFighting::MoveTurn() {
@@ -330,7 +303,6 @@ void BullFighting::Move() {
 			// 移動方向の量によって進む箇所を決める
 			switch (maxDireValueIndex_) {
 			case kCanMoveDirection::top:
-				/*worldPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);*/
 				movedDire_ = kCanMoveDirection::top;
 
 				startPos_ = worldPos_;
@@ -340,7 +312,6 @@ void BullFighting::Move() {
 				break;
 
 			case kCanMoveDirection::bottom:
-				/*worldPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);*/
 				movedDire_ = kCanMoveDirection::bottom;
 
 				startPos_ = worldPos_;
@@ -349,7 +320,6 @@ void BullFighting::Move() {
 				break;
 
 			case kCanMoveDirection::left:
-				/*worldPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);*/
 				movedDire_ = kCanMoveDirection::left;
 
 				startPos_ = worldPos_;
@@ -358,7 +328,6 @@ void BullFighting::Move() {
 				break;
 
 			case kCanMoveDirection::right:
-				/*worldPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);*/
 				movedDire_ = kCanMoveDirection::right;
 
 				startPos_ = worldPos_;
@@ -382,11 +351,12 @@ void BullFighting::Move() {
 			moveGridNum_--;
 		}
 
-
+		// フェンスの処理
 		if (isFenceAttack_) {
 			isFenceAttack_ = false;
 		}
 
+		// 三マス動いたら
 		if (moveGridNum_ == 0) {
 			// 移動の終了とともにturnがプレイヤー側になる
 			turnType_ = kTurnType::Players;
@@ -400,6 +370,49 @@ void BullFighting::Move() {
 		moveGridNum_ = 3;
 		easeT_ = 0;
 		frameCount_ = 0;
+	}
+}
+
+void BullFighting::CenterAddUpdate() {
+	worldAdd_ = {
+		static_cast<int>(worldPos_.x / tileSize_.x),
+		static_cast<int>(worldPos_.y / tileSize_.y)
+	};
+
+	int index[4] = { 0 };
+
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+			switch (moveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[0]++;
+				break;
+
+			case  kCanMoveDirection::bottom:
+				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,(row - localCenterAdd_.y) };
+				index[1]++;
+				break;
+
+			case  kCanMoveDirection::left:
+				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { (col - localCenterAdd_.x),row - localCenterAdd_.y };
+				index[2]++;
+				break;
+
+			case  kCanMoveDirection::right:
+				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[3]++;
+				break;
+			}
+		}
+	}
+	std::reverse(cannotMove_[kCanMoveDirection::bottom].localAdd.begin(), cannotMove_[kCanMoveDirection::bottom].localAdd.end());
+	std::reverse(cannotMove_[kCanMoveDirection::left].localAdd.begin(), cannotMove_[kCanMoveDirection::left].localAdd.end());
+
+	for (int dire = 0; dire < 4; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
+		}
 	}
 }
 
