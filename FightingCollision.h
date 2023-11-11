@@ -59,12 +59,16 @@ public:
 	評価
 ================================================================*/
 
+	// 犬との評価
+	void CheckDogExist();
+
 	// 岩との評価
 	void CheckRockAdjoin();
 
 	// 進行方向の評価(csvでやる)
 	void CheckMoveDire(const Vec2& add);
 
+	// 進行方向に岩があるか
 	void CheckMoveDireRock(const Vec2& add);
 
 	// 進行方向の最終的な評価

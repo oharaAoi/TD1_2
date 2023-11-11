@@ -27,6 +27,8 @@ void FightingCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip
 	更新処理関数
 ========================================================*/
 void FightingCollision::CheckCanMoveDire() {
+	CheckDogExist();
+
 	CheckRockAdjoin();
 
 	/*--------------------------------------------------------------------------------------*/
@@ -233,6 +235,29 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 /*========================================================
 	評価
 ========================================================*/
+/*==========================================================================================================
+										犬との評価
+============================================================================================================*/
+void FightingCollision::CheckDogExist() {
+	// 犬がいる方向を入手しいる場合は反対方向に値を増やす
+	switch (dog_->GetIsExistSide()) {
+	case ExsitSide::TOP:
+		fighting_->SetMoveDireValue(fighting_->GetDogValue(), kCanMoveDirection::bottom);
+		break;
+
+	case ExsitSide::BOTTOM:
+		fighting_->SetMoveDireValue(fighting_->GetDogValue(), kCanMoveDirection::top);
+		break;
+
+	case ExsitSide::LEFT:
+		fighting_->SetMoveDireValue(fighting_->GetDogValue(), kCanMoveDirection::right);
+		break;
+
+	case ExsitSide::RIGHT:
+		fighting_->SetMoveDireValue(fighting_->GetDogValue(), kCanMoveDirection::left);
+		break;
+	}
+}
 
 /*==========================================================================================================
 										岩との評価

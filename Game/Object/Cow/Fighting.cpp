@@ -134,7 +134,7 @@ void BullFighting::Init() {
 	value_.allDire = 15;
 	value_.clamp = 2;
 
-	value_.dog = 150;
+	value_.dog = 1000;
 	value_.rock = 1000;
 	value_.adjoin = 150;
 	value_.adjoinAdd = 200;
