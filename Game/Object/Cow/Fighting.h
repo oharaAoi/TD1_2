@@ -24,14 +24,24 @@ private:
 
 	bool moveDireOnPreson_[4][3];
 
+	// 5つの方向に人がいるか
+	std::vector<bool>allDireOnPreson_[5];
+
+	bool allPersonOnSlant_;
+
 	// csvを読み込む物
 	std::vector<std::vector<int>>moveGrid_;
+
+	std::vector<std::vector<int>>direGrid_;
 
 	// csv上の牛のアドレス
 	Vec2 localCenterAdd_;
 
-	// 8方向の評価する方向のアドレスの数
+	// 4方向の評価する方向のアドレスの数
 	int direAddressNum_[4];
+
+	// 5方向を評価するアドレスの数
+	int allDireAddressNum_[5];
 
 	struct Address {
 		std::vector<Vec2> localAdd;
@@ -39,6 +49,8 @@ private:
 	};
 
 	Address cannotMove_[4];
+
+	Address onPresonDire_[5];
 
 	//==========================================================
 	bool isStan_;
@@ -63,6 +75,12 @@ public:
 	void CenterAddUpdate();
 
 	void DireInit();
+
+	void MoveDireInit();
+	void FourDireGridUpdate();
+
+	void OnPresonInit();
+	void AllDireGridUpdate();
 
 	void MoveTurn();
 
@@ -125,11 +143,24 @@ public:
 	Vec2 GetCantMoveAdd(int dire, int index) { return cannotMove_[dire].worldAdd[index]; }
 	int GetDireAddressNum(int index) { return direAddressNum_[index]; }
 
+	// 牛の4方向と斜めを調べるために使う
+	Vec2 GetAllDireGridAddress(int dire, int index) { return onPresonDire_[dire].worldAdd[index]; }
+	int GetAllDireGridAddress(int index) { return allDireAddressNum_[index]; }
+
 	// 周りにブロックがあったら
 	void SetIsMoveDireBlock(int dire, int index, bool isBlock) { isMoveDireBlock_[dire][index] = isBlock; }
 	bool GetIsMoveDireBlock(int dire, int index) { return isMoveDireBlock_[dire][index]; }
 
 	void SetIsMoveDirePreson(int dire, int index, bool isBlock) { moveDireOnPreson_[dire][index] = isBlock; }
 	bool GetIsMoveDirePreson(int dire, int index) { return moveDireOnPreson_[dire][index]; }
+
+	// 人がいたら
+	void SetIsAllDireOnPerson(int dire, int index, bool isOnPreson) { allDireOnPreson_[dire][index] = isOnPreson; }
+	bool GetIsOnPreson(int dire, int index) { return allDireOnPreson_[dire][index]; }
+
+	// 人が全員斜めにいたら
+	void SetAllPersonOnSlant(int isSlant) { allPersonOnSlant_ = isSlant; }
+	bool GetAllPersonOnSlant() { return allPersonOnSlant_; }
+
 };
 

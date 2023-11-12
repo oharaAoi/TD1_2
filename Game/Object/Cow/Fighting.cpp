@@ -25,40 +25,12 @@ void BullFighting::Init() {
 		}
 	}
 
-	moveGrid_ = LoadFile("./Resources/cow/fightingDireRange.csv");
+	// 直線上を調べるcsvの初期化
+	MoveDireInit();
 
-	for (int row = 0; row < moveGrid_.size(); row++) {
-		for (int col = 0; col < moveGrid_[0].size(); col++) {
-			switch (moveGrid_[row][col]) {
-			case kCanMoveDirection::top:
-				direAddressNum_[kCanMoveDirection::top]++;
-				break;
-
-			case kCanMoveDirection::bottom:
-				direAddressNum_[kCanMoveDirection::bottom]++;
-				break;
-
-			case kCanMoveDirection::left:
-				direAddressNum_[kCanMoveDirection::left]++;
-				break;
-
-			case kCanMoveDirection::right:
-				direAddressNum_[kCanMoveDirection::right]++;
-				break;
-
-			case 50:
-				localCenterAdd_.x = col;
-				localCenterAdd_.y = row;
-				break;
-			}
-		}
-	}
-
-	// 各方向を調べる数を配列に入れる
-	for (int i = 0; i < 4; i++) {
-		cannotMove_[i].localAdd.resize(direAddressNum_[i]);
-		cannotMove_[i].worldAdd.resize(direAddressNum_[i]);
-	}
+	// 範囲を調べるcsvの初期化
+	OnPresonInit();
+	allPersonOnSlant_ = false;
 
 	CenterAddUpdate();
 
@@ -379,6 +351,11 @@ void BullFighting::CenterAddUpdate() {
 		static_cast<int>(worldPos_.y / tileSize_.y)
 	};
 
+	FourDireGridUpdate();
+	AllDireGridUpdate();
+}
+
+void BullFighting::FourDireGridUpdate() {
 	int index[4] = { 0 };
 
 	for (int row = 0; row < moveGrid_.size(); row++) {
@@ -413,6 +390,129 @@ void BullFighting::CenterAddUpdate() {
 		for (int i = 0; i < direAddressNum_[dire]; i++) {
 			cannotMove_[dire].worldAdd[i] = cannotMove_[dire].localAdd[i] + worldAdd_;
 		}
+	}
+}
+
+void BullFighting::AllDireGridUpdate() {
+	int index[5] = { 0 };
+
+	for (int row = 0; row < direGrid_.size(); row++) {
+		for (int col = 0; col < direGrid_[0].size(); col++) {
+			switch (direGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				onPresonDire_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[0]++;
+				break;
+
+			case  kCanMoveDirection::bottom:
+				onPresonDire_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,(row - localCenterAdd_.y) };
+				index[1]++;
+				break;
+
+			case  kCanMoveDirection::left:
+				onPresonDire_[kCanMoveDirection::left].localAdd[index[2]] = { (col - localCenterAdd_.x),row - localCenterAdd_.y };
+				index[2]++;
+				break;
+
+			case  kCanMoveDirection::right:
+				onPresonDire_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[3]++;
+				break;
+
+			case  4:
+				onPresonDire_[4].localAdd[index[4]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				index[4]++;
+				break;
+			}
+		}
+	}
+	std::reverse(onPresonDire_[kCanMoveDirection::bottom].localAdd.begin(), onPresonDire_[kCanMoveDirection::bottom].localAdd.end());
+	std::reverse(onPresonDire_[kCanMoveDirection::left].localAdd.begin(), onPresonDire_[kCanMoveDirection::left].localAdd.end());
+
+	for (int dire = 0; dire < 5; dire++) {
+		for (int i = 0; i < allDireAddressNum_[dire]; i++) {
+			onPresonDire_[dire].worldAdd[i] = onPresonDire_[dire].localAdd[i] + worldAdd_;
+		}
+	}
+}
+
+void BullFighting::MoveDireInit() {
+	moveGrid_ = LoadFile("./Resources/cow/fightingDireRange.csv");
+
+	for (int row = 0; row < moveGrid_.size(); row++) {
+		for (int col = 0; col < moveGrid_[0].size(); col++) {
+			switch (moveGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				direAddressNum_[kCanMoveDirection::top]++;
+				break;
+
+			case kCanMoveDirection::bottom:
+				direAddressNum_[kCanMoveDirection::bottom]++;
+				break;
+
+			case kCanMoveDirection::left:
+				direAddressNum_[kCanMoveDirection::left]++;
+				break;
+
+			case kCanMoveDirection::right:
+				direAddressNum_[kCanMoveDirection::right]++;
+				break;
+
+			case 50:
+				localCenterAdd_.x = col;
+				localCenterAdd_.y = row;
+				break;
+			}
+		}
+	}
+
+	// 各方向を調べる数を配列に入れる
+	for (int i = 0; i < 4; i++) {
+		cannotMove_[i].localAdd.resize(direAddressNum_[i]);
+		cannotMove_[i].worldAdd.resize(direAddressNum_[i]);
+	}
+}
+
+void BullFighting::OnPresonInit() {
+	direGrid_ = LoadFile("./Resources/cow/fightingAllDireRange.csv");
+
+	for (int row = 0; row < direGrid_.size(); row++) {
+		for (int col = 0; col < direGrid_[0].size(); col++) {
+			switch (direGrid_[row][col]) {
+			case kCanMoveDirection::top:
+				allDireAddressNum_[kCanMoveDirection::top]++;
+				break;
+
+			case kCanMoveDirection::bottom:
+				allDireAddressNum_[kCanMoveDirection::bottom]++;
+				break;
+
+			case kCanMoveDirection::left:
+				allDireAddressNum_[kCanMoveDirection::left]++;
+				break;
+
+			case kCanMoveDirection::right:
+				allDireAddressNum_[kCanMoveDirection::right]++;
+				break;
+
+			case 4:
+				allDireAddressNum_[4]++;
+				break;
+
+			case 50:
+				localCenterAdd_.x = col;
+				localCenterAdd_.y = row;
+				break;
+			}
+		}
+	}
+
+	// 各方向を調べる数を配列に入れる
+	for (int i = 0; i < 5; i++) {
+		onPresonDire_[i].localAdd.resize(allDireAddressNum_[i]);
+		onPresonDire_[i].worldAdd.resize(allDireAddressNum_[i]);
+
+		allDireOnPreson_[i].resize(allDireAddressNum_[i]);
 	}
 }
 

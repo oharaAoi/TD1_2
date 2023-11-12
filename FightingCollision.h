@@ -74,6 +74,11 @@ public:
 	// 進行方向の最終的な評価
 	void MoveDireDecision();
 
+	// 5つのエリアの評価
+	void CheckFiveAreas(const Vec2& add);
+
+	void FiveDireDecison();
+
 	// 4つのエリアでの評価
 	void CheckFourAreas();
 

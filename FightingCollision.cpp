@@ -52,8 +52,17 @@ void FightingCollision::CheckCanMoveDire() {
 	MoveDireDecision();
 	/*--------------------------------------------------------------------------------------*/
 
-	CheckFourAreas();
+	CheckFiveAreas(cowherd_->GetCenterAdd());
 
+	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+		CheckFiveAreas(youngPerson_->GetCenterAdd(i));
+	}
+
+	FiveDireDecison();
+
+	if (fighting_->GetAllPersonOnSlant() == true) {
+		CheckFourAreas();
+	}
 
 	/*--------------------------------------------------------------------------------------*/
 	CheckNearFence();
@@ -388,7 +397,6 @@ void FightingCollision::MoveDireDecision() {
 										進行方向の評価(csvでやる)
 ============================================================================================================*/
 void FightingCollision::CheckMoveDire(const Vec2& add) {
-
 	for (int dire = 0; dire < 4; dire++) {
 		switch (dire) {
 		case kCanMoveDirection::top:
@@ -467,6 +475,133 @@ void FightingCollision::CheckMoveDireRock(const Vec2& add) {
 	}
 }
 
+/*==========================================================================================================
+										5つのエリアの評価
+============================================================================================================*/
+void FightingCollision::CheckFiveAreas(const Vec2& add) {
+	// 人が5つの範囲でどこにいるか調べる
+	for (int dire = 0; dire < 5; dire++) {
+		switch (dire) {
+		case kCanMoveDirection::top:
+			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
+					fighting_->SetIsAllDireOnPerson(dire, i, true);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::bottom:
+			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
+					fighting_->SetIsAllDireOnPerson(dire, i, true);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::left:
+			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
+					fighting_->SetIsAllDireOnPerson(dire, i, true);
+				}
+			}
+			break;
+
+		case kCanMoveDirection::right:
+			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
+					fighting_->SetIsAllDireOnPerson(dire, i, true);
+				}
+			}
+			break;
+
+		case 4:
+			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
+					fighting_->SetIsAllDireOnPerson(dire, i, true);
+				}
+			}
+			break;
+		}
+	}
+}
+
+/*==========================================================================================================
+										5つのエリアでの最終評価
+============================================================================================================*/
+
+void FightingCollision::FiveDireDecison() {
+
+	int mostNearPersonIndex = 999;
+
+	bool isMostPerson[5] = { 0 };
+
+	// 一番近い人を探す
+	for (int dire = 0; dire < 5; dire++) {
+		for (int index = 0; index < fighting_->GetAllDireGridAddress(dire); index++) {
+			if (fighting_->GetIsOnPreson(dire, index) == true) {
+				if (mostNearPersonIndex > index) {
+
+					// 一番近い人の方向
+					mostNearPersonIndex = index;
+
+					for (int i = 0; i < 5; i++) {
+						isMostPerson[i] = false;
+					}
+
+					// 一番近い人であるかどうか
+					isMostPerson[dire] = true;
+
+					if (dire == 4) {
+						fighting_->SetAllPersonOnSlant(true);
+					}
+
+				} else if (mostNearPersonIndex == index) {
+					//　同値がいる場合はどっちも加算するためにフラグをtrueにする
+					isMostPerson[dire] = true;
+				}
+			}
+		}
+	}
+
+	if (fighting_->GetAllPersonOnSlant() == true) {
+		return;
+	}
+
+	for (int dire = 0; dire < 5; dire++) {
+		if (isMostPerson[dire]) {
+			switch (dire) {
+			case kCanMoveDirection::top:
+				fighting_->SetMoveDireValue(
+					fighting_->GetMoveDireValue(kCanMoveDirection::top) + fighting_->GetAllDireValue(),
+					kCanMoveDirection::top
+				);
+				break;
+
+			case kCanMoveDirection::bottom:
+				fighting_->SetMoveDireValue(
+					fighting_->GetMoveDireValue(kCanMoveDirection::bottom) + fighting_->GetAllDireValue(),
+					kCanMoveDirection::bottom
+				);
+				break;
+
+			case kCanMoveDirection::left:
+				fighting_->SetMoveDireValue(
+					fighting_->GetMoveDireValue(kCanMoveDirection::left) + fighting_->GetAllDireValue(),
+					kCanMoveDirection::left
+				);
+				break;
+
+			case kCanMoveDirection::right:
+				fighting_->SetMoveDireValue(
+					fighting_->GetMoveDireValue(kCanMoveDirection::right) + fighting_->GetAllDireValue(),
+					kCanMoveDirection::right
+				);
+				break;
+			}
+		}
+	}
+
+}
 
 /*==========================================================================================================
 										4つのエリアでの評価
