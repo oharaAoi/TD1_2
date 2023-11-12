@@ -400,27 +400,27 @@ void BullFighting::AllDireGridUpdate() {
 		for (int col = 0; col < direGrid_[0].size(); col++) {
 			switch (direGrid_[row][col]) {
 			case kCanMoveDirection::top:
-				onPresonDire_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				onPresonDire_[kCanMoveDirection::top].localAdd[index[0]] = { col - allLocalCenterAdd_.x,row - allLocalCenterAdd_.y };
 				index[0]++;
 				break;
 
 			case  kCanMoveDirection::bottom:
-				onPresonDire_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,(row - localCenterAdd_.y) };
+				onPresonDire_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - allLocalCenterAdd_.x,(row - allLocalCenterAdd_.y) };
 				index[1]++;
 				break;
 
 			case  kCanMoveDirection::left:
-				onPresonDire_[kCanMoveDirection::left].localAdd[index[2]] = { (col - localCenterAdd_.x),row - localCenterAdd_.y };
+				onPresonDire_[kCanMoveDirection::left].localAdd[index[2]] = { (col - allLocalCenterAdd_.x),row - allLocalCenterAdd_.y };
 				index[2]++;
 				break;
 
 			case  kCanMoveDirection::right:
-				onPresonDire_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				onPresonDire_[kCanMoveDirection::right].localAdd[index[3]] = { col - allLocalCenterAdd_.x,row - allLocalCenterAdd_.y };
 				index[3]++;
 				break;
 
 			case  4:
-				onPresonDire_[4].localAdd[index[4]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
+				onPresonDire_[4].localAdd[index[4]] = { col - allLocalCenterAdd_.x,row - allLocalCenterAdd_.y };
 				index[4]++;
 				break;
 			}
@@ -500,8 +500,8 @@ void BullFighting::OnPresonInit() {
 				break;
 
 			case 50:
-				localCenterAdd_.x = col;
-				localCenterAdd_.y = row;
+				allLocalCenterAdd_.x = col;
+				allLocalCenterAdd_.y = row;
 				break;
 			}
 		}

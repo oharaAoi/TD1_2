@@ -37,6 +37,9 @@ private:
 	// csv上の牛のアドレス
 	Vec2 localCenterAdd_;
 
+	// 全方向の牛のアドレス
+	Vec2 allLocalCenterAdd_;
+
 	// 4方向の評価する方向のアドレスの数
 	int direAddressNum_[4];
 

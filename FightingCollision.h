@@ -77,6 +77,7 @@ public:
 	// 5つのエリアの評価
 	void CheckFiveAreas(const Vec2& add);
 
+	// 5つのエリアの最終的な評価
 	void FiveDireDecison();
 
 	// 4つのエリアでの評価
@@ -84,6 +85,11 @@ public:
 
 	// 近い柵を調べる
 	void CheckNearFence();
+
+	// 進む方向で同値があるか調べる
+	void CheckSameDireValue();
+
+	void SameDireValue();
 
 };
 

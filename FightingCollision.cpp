@@ -42,7 +42,7 @@ void FightingCollision::CheckCanMoveDire() {
 	}
 
 	// 方向での評価
-	CheckMoveDire(cowherd_->GetCenterAdd());
+	/*CheckMoveDire(cowherd_->GetCenterAdd());*/
 
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckMoveDire(youngPerson_->GetCenterAdd(i));
@@ -52,7 +52,7 @@ void FightingCollision::CheckCanMoveDire() {
 	MoveDireDecision();
 	/*--------------------------------------------------------------------------------------*/
 
-	CheckFiveAreas(cowherd_->GetCenterAdd());
+	/*CheckFiveAreas(cowherd_->GetCenterAdd());*/
 
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
 		CheckFiveAreas(youngPerson_->GetCenterAdd(i));
@@ -66,6 +66,9 @@ void FightingCollision::CheckCanMoveDire() {
 
 	/*--------------------------------------------------------------------------------------*/
 	CheckNearFence();
+
+	/*--------------------------------------------------------------------------------------*/
+	CheckSameDireValue();
 
 }
 
@@ -315,7 +318,7 @@ void FightingCollision::CheckRockAdjoin() {
 
 void FightingCollision::MoveDireDecision() {
 
-	int nearPerson[4] = { 100 };
+	int nearPerson[4];
 	int preMostIndex = 0;
 	int mostNearPersonDire = 99;
 
@@ -325,7 +328,7 @@ void FightingCollision::MoveDireDecision() {
 		for (int index = 0; index < 3; index++) {
 			// 人がいる配列の1個、2個前を見て岩があったら加算しない
 			if (fighting_->GetIsMoveDireBlock(dire, 0) == true) {
-				// 牛から見て一番近い位置にブロックがあったらbreak
+				// 牛から見て一番近い置に位ブロックがあったらbreak
 				break;
 
 			} else if (fighting_->GetIsMoveDirePreson(dire, index) == true) {
@@ -563,6 +566,7 @@ void FightingCollision::FiveDireDecison() {
 		}
 	}
 
+	// 斜めが一番近かった時
 	if (fighting_->GetAllPersonOnSlant() == true) {
 		return;
 	}
@@ -755,6 +759,111 @@ void FightingCollision::CheckNearFence() {
 			}
 		}
 	}
+}
+
+void FightingCollision::CheckSameDireValue() {
+	for (int i = 0; i < 3; i++) {
+		for (int j = i + 1; j < 4; j++) {
+			if (fighting_->GetMoveDireValue(i) == fighting_->GetMoveDireValue(j)) {
+				SameDireValue();
+			}
+		}
+	}
+}
+
+void FightingCollision::SameDireValue() {
+	// 牧師との距離
+	Vec2 cow2pDis;
+	Vec2 naturalDis;
+
+	cow2pDis.x = fighting_->GetWorldAdd().x - cowherd_->GetCenterAdd().x;
+	cow2pDis.y = fighting_->GetWorldAdd().y - cowherd_->GetCenterAdd().y;
+
+	naturalDis.x = static_cast<int>(sqrtf(powf((float)cow2pDis.x, 2.0f)));
+	naturalDis.y = static_cast<int>(sqrtf(powf((float)cow2pDis.y, 2.0f)));
+
+	// 距離が0だったら直線上にいると分かる
+	if (naturalDis.x == 0) {
+		// yの距離から上か下か調べる
+		if (cow2pDis.y > 0) {
+			// 下にいる
+			fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+			return;
+		} else {
+			// 上にいる
+			fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+			return;
+		}
+	}
+
+	if (naturalDis.y == 0) {
+		// xの距離から左か右か調べる
+		if (cow2pDis.x > 0) {
+			// 左にいる
+			fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+			return;
+		} else {
+			// 右にいる
+			fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+			return;
+		}
+	}
+
+	// まずxの距離から右にいるか左にいるか調べる
+	// xが0より大きいため左にいると分かる
+	if (cow2pDis.x > 0) {
+		// 次にyの距離から上にいるか下にいるか調べる
+		// yが0より大きいため上にいると分かる
+		if (cow2pDis.y > 0) {
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためy方向の上に行かないように上に減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+
+			} else {
+				// 逆に左に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+			}
+		} else {
+			// 下にいる
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためy方向の下に行かないように下に減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+
+			} else {
+				// 逆に左に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+			}
+		}
+	} else {
+		// xが0より小さいため右にいると分かる
+		// 次にyの距離から上にいるか下にいるか調べる
+		// yが0より大きいため上にいると分かる
+		if (cow2pDis.y > 0) {
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためy方向の上に行かないように上に減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+
+			} else {
+				// 逆に右に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+			}
+		} else {
+			// 下にいる
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためy方向の下に行かないように下に減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+
+			} else {
+				// 逆に右に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+			}
+		}
+	}
+
 }
 
 bool FightingCollision::IsEqualAdd(const Vec2& add1, const Vec2& add2) {
