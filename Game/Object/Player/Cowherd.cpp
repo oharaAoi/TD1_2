@@ -281,31 +281,13 @@ void Cowherd::Move() {
 				isMoveIdle_ = false;
 				SetZOder(10);
 
-
 			}
 
 
 		} else { // 移動していない
 
-			// いつでも移動待機状態をクリアできるようにする
-			if (Inputs::IsTriggerMouse(1)) {
-				isMoveIdle_ = false;
-			}
-
-			if (Inputs::IsTriggerMouse(0)) {
-				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
-					if (canMoveGrid_[gi].canMove) {
-						if (Collision::Rect::Point(
-							canMoveGrid_[gi].screenVertex,
-							{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
-							break;
-						}
-					}
-
-					if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
-				}
-			}
-
+			IsMoveIdleReSet();
+			
 			// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
 			if (Inputs::IsTriggerMouse(0)) {
 				if (!ch_isMove_) {
@@ -330,6 +312,9 @@ void Cowherd::Move() {
 								movingTime_ = 0;
 								SetZOder(15);
 
+								// 投げ縄の移動を開始
+								RiataIsStartTrue();
+
 								Stack::PushDate(nowMapAdd_);
 								Stack::PushCH_isMovingCount(0);
 
@@ -343,6 +328,9 @@ void Cowherd::Move() {
 					}
 				}
 			}
+			
+			// 投げ縄の待機フラグをtrueに
+			RiataIsIdleTrue();
 
 		}
 
@@ -355,7 +343,8 @@ void Cowherd::Move() {
 			if (!ch_isMove_) {
 
 				if (Collision::Rect::Point(screenVertex_,
-					{ static_cast<float>(Inputs::GetMousePos().x), static_cast<float>(Inputs::GetMousePos().y) })) {
+					{ static_cast<float>(Inputs::GetMousePos().x),
+					static_cast<float>(Inputs::GetMousePos().y) })) {
 
 					isMoveIdle_ = true;
 
@@ -363,6 +352,28 @@ void Cowherd::Move() {
 			}
 		}
 
+	}
+
+}
+
+void Cowherd::IsMoveIdleReSet() {
+	// いつでも移動待機状態をクリアできるようにする
+	if (Inputs::IsTriggerMouse(1)) {
+		isMoveIdle_ = false;
+	}
+
+	if (Inputs::IsTriggerMouse(0)) {
+		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+			if (canMoveGrid_[gi].canMove) {
+				if (Collision::Rect::Point(
+					canMoveGrid_[gi].screenVertex,
+					{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
+					return;
+				}
+			}
+
+			if (gi >= moveGridMaxIndex_ - 1) { isMoveIdle_ = false; }
+		}
 	}
 
 }
@@ -408,4 +419,16 @@ void Cowherd::CenterAddUpdate() {
 		}
 
 	}
+}
+
+void Cowherd::RiataIsIdleTrue() {
+	if (Inputs::IsTriggerKey(DIK_Q)) {
+		riata_->SetIsIdle(true);
+	}
+}
+
+void Cowherd::RiataIsStartTrue() {
+	riata_->SetWorldPos(worldCenterPos_);
+	riata_->SetMoveDir(MyMath::Direction(startingPos_, destinationPos_, MyMath::Normalized));
+	riata_->SetIsStart(true);
 }

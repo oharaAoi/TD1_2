@@ -19,6 +19,7 @@ private: // member object
 	InputManager* input = InputManager::GetInstance();
 
 	Vec2f worldPos_;
+	Vec2 worldAddress_;
 	Vec2f size_;
 	int gh_;
 	unsigned int color_;
@@ -32,6 +33,8 @@ private: // member object
 
 	bool isIdle_;
 	bool isStart_;
+
+	Vec2f moveDir_;
 
 public: // member method
 	// Constructor & Destructor
@@ -53,7 +56,21 @@ public: // member method
 		const Matrix3x3& viewportMatrix
 	);
 
-private:
+	
+	// ----- accessor ----- //
 
+	void SetWorldPos(const Vec2f& pos) { worldPos_ = pos; }
+	Vec2f GetWorldPos(void) const { return worldPos_; }
+
+	Vec2 GetWorldAddress(void) const { return worldAddress_; }
+
+	void SetIsIdle(bool isIdle) { isIdle_ = isIdle; }
+	bool GetIsIdle(void) const { return isIdle_; }
+
+	void SetIsStart(bool isStart) { isStart_ = isStart; }
+	bool GetIsStart(void) const { return isStart_; }
+
+	void SetMoveDir(const Vec2f& moveDir) { moveDir_ = moveDir; }
+	Vec2f GetMoveDir(void) const { return moveDir_; }
 
 };

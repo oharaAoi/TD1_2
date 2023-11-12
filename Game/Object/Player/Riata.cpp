@@ -27,6 +27,11 @@ void Riata::Init() {
 	screenMatrix_ = worldMatrix_;
 	screenVertex_ = worldVertex_;
 
+	isIdle_ = false;
+	isStart_ = false;
+
+	moveDir_ = { 0.0f,0.0f };
+
 }
 
 
@@ -35,16 +40,17 @@ void Riata::Init() {
 ================================================*/
 void Riata::Update() {
 
-	if (input->IsPressKey(DIK_UP)) { worldPos_.y += 4.0f; }
+	/*if (input->IsPressKey(DIK_UP)) { worldPos_.y += 4.0f; }
 	if (input->IsPressKey(DIK_DOWN)) { worldPos_.y -= 4.0f; }
 	if (input->IsPressKey(DIK_LEFT)) { worldPos_.x -= 4.0f; }
-	if (input->IsPressKey(DIK_RIGHT)) { worldPos_.x += 4.0f; }
+	if (input->IsPressKey(DIK_RIGHT)) { worldPos_.x += 4.0f; }*/
 
-	MakeWorldMatrix();
 
 	if (isIdle_) {
 
 		if (isStart_) {
+
+			worldPos_ += moveDir_ * Vec2f{ 4,4 };
 
 			// 終了条件
 			// if(){isStart = false; isIdle = false;}
@@ -66,6 +72,9 @@ void Riata::Update() {
 		}*/
 
 	}
+
+	MakeWorldMatrix();
+
 }
 
 

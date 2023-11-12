@@ -108,11 +108,15 @@ public:
 	void MakeWorldMatrix();
 
 	void Move();
+	void IsMoveIdleReSet();
 
 	void DebugDraw();
 
 	// 中心点のアドレスを計算
 	void CenterAddUpdate();
+
+	void RiataIsIdleTrue();
+	void RiataIsStartTrue();
 
 public: // accessor ------------------------
 
