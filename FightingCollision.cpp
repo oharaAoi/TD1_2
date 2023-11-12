@@ -51,7 +51,7 @@ void FightingCollision::CheckCanMoveDire() {
 	// 上の評価から実際に評価値を変える
 	MoveDireDecision();
 	/*--------------------------------------------------------------------------------------*/
-
+	/*csvを使った評価*/
 	/*CheckFiveAreas(cowherd_->GetCenterAdd());*/
 
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
@@ -65,13 +65,23 @@ void FightingCollision::CheckCanMoveDire() {
 	}
 
 	/*--------------------------------------------------------------------------------------*/
+	/*フェンスとの評価*/
+	CheckSameDireValue();
+
 	if (fighting_->GetIsFenceAttack() == false) {
-		CheckNearFence();
+		if (fighting_->GetIsSameDireValue() == true) {
+			CheckNearFence();
+			fighting_->SetIsSameDireValue(false);
+		}
 	}
 
 	/*--------------------------------------------------------------------------------------*/
+	/*これまでに同値があったら*/
 	CheckSameDireValue();
 
+	if (fighting_->GetIsSameDireValue() == true) {
+		SameDireValue();
+	}
 }
 
 void FightingCollision::CheckCollision() {
@@ -209,6 +219,7 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -219,6 +230,7 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 
 		case kCanMoveDirection::bottom:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -229,6 +241,7 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 
 		case kCanMoveDirection::left:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
@@ -239,6 +252,7 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 
 		case kCanMoveDirection::right:
 			fighting_->SetIsMove(false);
+			fighting_->SetIsStan(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
@@ -322,6 +336,9 @@ void FightingCollision::CheckRockAdjoin() {
 	}
 }
 
+/*==========================================================================================================
+										csvで評価したものの最終評価
+============================================================================================================*/
 void FightingCollision::MoveDireDecision() {
 
 	int nearPerson[4];
@@ -560,10 +577,6 @@ void FightingCollision::FiveDireDecison() {
 					// 一番近い人であるかどうか
 					isMostPerson[dire] = true;
 
-					if (dire == 4) {
-						fighting_->SetAllPersonOnSlant(true);
-					}
-
 				} else if (mostNearPersonIndex == index) {
 					//　同値がいる場合はどっちも加算するためにフラグをtrueにする
 					isMostPerson[dire] = true;
@@ -573,7 +586,7 @@ void FightingCollision::FiveDireDecison() {
 	}
 
 	// 斜めが一番近かった時
-	if (fighting_->GetAllPersonOnSlant() == true) {
+	if (mostNearPersonIndex == 4) {
 		return;
 	}
 
@@ -774,7 +787,9 @@ void FightingCollision::CheckSameDireValue() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = i + 1; j < 4; j++) {
 			if (fighting_->GetMoveDireValue(i) == fighting_->GetMoveDireValue(j)) {
-				SameDireValue();
+				if (fighting_->GetMoveDireValue(i) != 100) {
+					fighting_->SetIsSameDireValue(true);
+				}
 			}
 		}
 	}

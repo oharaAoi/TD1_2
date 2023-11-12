@@ -27,7 +27,11 @@ private:
 	// 5つの方向に人がいるか
 	std::vector<bool>allDireOnPreson_[5];
 
+	// すべての人が斜めにいたら
 	bool allPersonOnSlant_;
+
+	// 同値があるか
+	bool isSameDireValue_;
 
 	// csvを読み込む物
 	std::vector<std::vector<int>>moveGrid_;
@@ -167,6 +171,10 @@ public:
 	// 人が全員斜めにいたら
 	void SetAllPersonOnSlant(int isSlant) { allPersonOnSlant_ = isSlant; }
 	bool GetAllPersonOnSlant() { return allPersonOnSlant_; }
+
+	// 評価値で同値があったら
+	void SetIsSameDireValue(bool isSameValue) { isSameDireValue_ = isSameValue; }
+	bool GetIsSameDireValue() { return isSameDireValue_; }
 
 };
 

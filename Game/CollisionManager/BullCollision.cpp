@@ -1104,7 +1104,9 @@ void BullCollision::CheckSameDireValue() {
 	for (int i = 0; i < 7; i++) {
 		for (int j = i + 1; j < 8; j++) {
 			if (bullCow_->GetMoveDireValue(i) == bullCow_->GetMoveDireValue(j)) {
-				SameDireValue();
+				if (bullCow_->GetMoveDireValue(i) != 100) {
+					SameDireValue();
+				}
 			}
 		}
 	}

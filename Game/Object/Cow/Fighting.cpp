@@ -32,6 +32,8 @@ void BullFighting::Init() {
 	OnPresonInit();
 	allPersonOnSlant_ = false;
 
+	isSameDireValue_ = false;
+
 	CenterAddUpdate();
 
 	// 移動状態
@@ -110,7 +112,7 @@ void BullFighting::Init() {
 	value_.rock = 1000;
 	value_.adjoin = 150;
 	value_.adjoinAdd = 200;
-	value_.fence = 10;
+	value_.fence = 15;
 	value_.slantFence = -200;
 
 	//=========================================
@@ -211,6 +213,13 @@ void BullFighting::DireInit() {
 			moveDireOnPreson_[i][j] = false;
 		}
 	}
+
+	for (int dire = 0; dire < 5; dire++) {
+		for (int i = 0; i < allDireAddressNum_[dire]; i++) {
+			allDireOnPreson_[dire][i] = false;
+		}
+	}
+
 }
 
 bool BullFighting::CheckIsStan() {
