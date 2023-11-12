@@ -89,10 +89,10 @@ void FightingCollision::CheckCollision() {
 
 	FenceCollision();
 
-	PersonCollision(cowherd_->GetCenterAdd());
+	/*PersonCollision(cowherd_->GetCenterAdd());*/
 
 	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
-		PersonCollision(youngPerson_->GetCenterAdd(i));
+		PersonCollision(youngPerson_->GetCenterAdd(i), i);
 	}
 }
 
@@ -213,7 +213,7 @@ void FightingCollision::FenceCollision() {
 										人の押し戻し
 ============================================================================================================*/
 
-void FightingCollision::PersonCollision(const Vec2& add) {
+void FightingCollision::PersonCollision(const Vec2& add, int index) {
 	if (IsEqualAdd(fighting_->GetWorldAdd(), add)){
 
 		switch (fighting_->GetMovedDire()) {
@@ -226,6 +226,9 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 				(fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
 				}
 			);
+
+			youngPerson_->SetIsStriked(true, index);
+
 			break;
 
 		case kCanMoveDirection::bottom:
@@ -237,6 +240,9 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
 				}
 			);
+
+			youngPerson_->SetIsStriked(true, index);
+
 			break;
 
 		case kCanMoveDirection::left:
@@ -248,6 +254,9 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
 				}
 			);
+
+			youngPerson_->SetIsStriked(true, index);
+
 			break;
 
 		case kCanMoveDirection::right:
@@ -259,7 +268,11 @@ void FightingCollision::PersonCollision(const Vec2& add) {
 				fighting_->GetWorldAdd().y * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f),
 				}
 			);
+
+			youngPerson_->SetIsStriked(true, index);
+
 			break;
+
 		}
 	}
 }
@@ -509,7 +522,7 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 	for (int dire = 0; dire < 5; dire++) {
 		switch (dire) {
 		case kCanMoveDirection::top:
-			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+			for (int i = 0; i < fighting_->GetAllDireGridAddressNum(dire); i++) {
 				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
 					fighting_->SetIsAllDireOnPerson(dire, i, true);
 				}
@@ -517,7 +530,7 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 			break;
 
 		case kCanMoveDirection::bottom:
-			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+			for (int i = 0; i < fighting_->GetAllDireGridAddressNum(dire); i++) {
 				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
 					fighting_->SetIsAllDireOnPerson(dire, i, true);
 				}
@@ -525,7 +538,7 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 			break;
 
 		case kCanMoveDirection::left:
-			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+			for (int i = 0; i < fighting_->GetAllDireGridAddressNum(dire); i++) {
 				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
 					fighting_->SetIsAllDireOnPerson(dire, i, true);
 				}
@@ -533,7 +546,7 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 			break;
 
 		case kCanMoveDirection::right:
-			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+			for (int i = 0; i < fighting_->GetAllDireGridAddressNum(dire); i++) {
 				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
 					fighting_->SetIsAllDireOnPerson(dire, i, true);
 				}
@@ -541,7 +554,7 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 			break;
 
 		case 4:
-			for (int i = 0; i < fighting_->GetAllDireGridAddress(dire); i++) {
+			for (int i = 0; i < fighting_->GetAllDireGridAddressNum(dire); i++) {
 				if (fighting_->GetAllDireGridAddress(dire, i).x == add.x && fighting_->GetAllDireGridAddress(dire, i).y == add.y) {
 					fighting_->SetIsAllDireOnPerson(dire, i, true);
 				}
@@ -558,17 +571,20 @@ void FightingCollision::CheckFiveAreas(const Vec2& add) {
 void FightingCollision::FiveDireDecison() {
 
 	int mostNearPersonIndex = 999;
+	int mostNearPersonDire = 0;
 
 	bool isMostPerson[5] = { 0 };
 
 	// 一番近い人を探す
 	for (int dire = 0; dire < 5; dire++) {
-		for (int index = 0; index < fighting_->GetAllDireGridAddress(dire); index++) {
+		for (int index = 0; index < fighting_->GetAllDireGridAddressNum(dire); index++) {
 			if (fighting_->GetIsOnPreson(dire, index) == true) {
 				if (mostNearPersonIndex > index) {
 
 					// 一番近い人の方向
 					mostNearPersonIndex = index;
+
+					mostNearPersonDire = dire;
 
 					for (int i = 0; i < 5; i++) {
 						isMostPerson[i] = false;
@@ -586,7 +602,8 @@ void FightingCollision::FiveDireDecison() {
 	}
 
 	// 斜めが一番近かった時
-	if (mostNearPersonIndex == 4) {
+	if (mostNearPersonDire == 4) {
+		fighting_->SetAllPersonOnSlant(true);
 		return;
 	}
 

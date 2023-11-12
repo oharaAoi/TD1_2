@@ -56,6 +56,8 @@ public:
 	// user method
 	void CheckCanMove();
 
+	void CheckPlayerCollision();
+
 	void CheckOverLapping();
 
 	// 牛の動く方向の判定

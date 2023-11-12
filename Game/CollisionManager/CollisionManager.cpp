@@ -25,7 +25,7 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 
 	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
 	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
-	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_);
+	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_, fighting_);
 	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog_);
 	fightingCollision_ = new FightingCollision(cowherd_, youngPerson_, mapChip_, fighting_, dog_);
 }
@@ -60,6 +60,10 @@ void CollisionManager::CheckCanMove() {
 	/*cowCollision_->CheckCowMoveDire();*/
 	/*YoungPersonCanMove();*/
 	
+}
+
+void CollisionManager::CheckPlayerCollision() {
+	youngPersonCollision_->YoungPresonIsStriked();
 }
 
 /* --- デバック用 --- */

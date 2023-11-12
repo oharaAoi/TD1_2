@@ -129,6 +129,8 @@ void Game::Update() {
 	// ----- Collision ----- //
 	collisionManager_->CheckCanMove();
 
+	collisionManager_->CheckPlayerCollision();
+
 	// ----- MatrixChange ----- //
 	ChangeMatrix();
 

@@ -73,6 +73,12 @@ private:
 		std::vector<CanMoveGrid> canMoveGrid;
 
 		bool isMove;
+
+		// スタン
+		bool isStan;
+
+		// 吹き飛ばされるフラグ
+		bool isStriked;
 	};
 
 private:
@@ -153,6 +159,8 @@ public: /* ---------- accessor ---------- */
 	bool GetIsMove(int yi) const { return young_[yi].isMove; }
 
 	void SetWorldPos(const Vec2f& pos, int yi) { young_[yi].worldCenterPos = pos; }
+	Vec2f GetWorldPos(int yi) { return young_[yi].worldCenterPos; }
+
 	void SetIsMove(bool isMove, int yi) { young_[yi].isMove = isMove; }
 	void SetYoung_IsMoveIdle(bool isMoveIdle, int yi) { young_[yi].isMoveIdle = isMoveIdle; }
 	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
@@ -160,7 +168,13 @@ public: /* ---------- accessor ---------- */
 
 	bool GetYP_IsMove(int yi) { return yP_isMove_[yi]; }
 
+	// スタン
+	void SetIsStan(bool isStan, int yi) { young_[yi].isStan = isStan; }
+	bool GetIsStan(int yi) { return young_[yi].isStan; }
 
+	// ぶっとばされる
+	void SetIsStriked(bool isStriked, int yi){ young_[yi].isStriked = isStriked; }
+	bool GetIsStriked(int yi) { return young_[yi].isStriked; }
 
 };
 

@@ -1,7 +1,7 @@
 ﻿#include "YoungPersonCollision.h"
 
-YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
-	Init(cowherd, youngPerson, mapChip, cow);
+YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting) {
+	Init(cowherd, youngPerson, mapChip, cow, fighting);
 }
 
 YoungPersonCollision::~YoungPersonCollision() {
@@ -11,11 +11,12 @@ YoungPersonCollision::~YoungPersonCollision() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow) {
+void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting) {
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
+	fighting_ = fighting;
 }
 
 /*================================================================
@@ -166,6 +167,54 @@ bool YoungPersonCollision::YoungPersonCheckCanMove(const Vec2& add) {
 	}
 
 	return true;
+}
+
+/*================================================================
+	当たり判定
+================================================================*/
+
+void YoungPersonCollision::YoungPresonIsStriked() {
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
+		if (youngPerson_->GetIsStriked(yi) == true) {
+			switch (fighting_->GetMovedDire()) {
+			case kCanMoveDirection::top:
+				youngPerson_->SetWorldPos({ 
+					youngPerson_->GetWorldPos(yi).x, youngPerson_->GetWorldPos(yi).y + mapChip_->GetTileSize().y }, yi
+				);
+
+				youngPerson_->SetIsStan(true, yi);
+				youngPerson_->SetIsStriked(false, yi);
+				break;
+
+			case kCanMoveDirection::bottom:
+				youngPerson_->SetWorldPos({
+					youngPerson_->GetWorldPos(yi).x, youngPerson_->GetWorldPos(yi).y - mapChip_->GetTileSize().y }, yi
+				);
+
+				youngPerson_->SetIsStan(true, yi);
+				youngPerson_->SetIsStriked(false, yi);
+				break;
+
+			case kCanMoveDirection::left:
+				youngPerson_->SetWorldPos({
+					youngPerson_->GetWorldPos(yi).x - mapChip_->GetTileSize().x , youngPerson_->GetWorldPos(yi).y}, yi
+				);
+
+				youngPerson_->SetIsStan(true, yi);
+				youngPerson_->SetIsStriked(false, yi);
+				break;
+
+			case kCanMoveDirection::right:
+				youngPerson_->SetWorldPos({
+					youngPerson_->GetWorldPos(yi).x + mapChip_->GetTileSize().x , youngPerson_->GetWorldPos(yi).y }, yi
+				);
+
+				youngPerson_->SetIsStan(true, yi);
+				youngPerson_->SetIsStriked(false, yi);
+				break;
+			}
+		}
+	}
 }
 
 bool YoungPersonCollision::IsEqualAdd(const Vec2& add1, const Vec2& add2) {

@@ -4,6 +4,7 @@
 #include "YoungPerson.h"
 #include "MapChip.h"
 #include "Cow.h"
+#include "Fighting.h"
 
 // ----- math ----- //
 #include <SafeDelete.h>
@@ -21,19 +22,22 @@ private:
 	YoungPerson* youngPerson_;
 	MapChip* mapChip_;
 	Cow* cow_;
+	BullFighting* fighting_;
 
 public:
 
 	// Constructor & Destructor
-	YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow);
+	YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting);
 	~YoungPersonCollision();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow);
+	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting);
 
 	void Finalize();
 
 	void YoungPersonCanMove();
+
+	void YoungPresonIsStriked();
 
 private:
 

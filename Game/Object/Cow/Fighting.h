@@ -155,7 +155,7 @@ public:
 
 	// 牛の4方向と斜めを調べるために使う
 	Vec2 GetAllDireGridAddress(int dire, int index) { return onPresonDire_[dire].worldAdd[index]; }
-	int GetAllDireGridAddress(int index) { return allDireAddressNum_[index]; }
+	int GetAllDireGridAddressNum(int index) { return allDireAddressNum_[index]; }
 
 	// 周りにブロックがあったら
 	void SetIsMoveDireBlock(int dire, int index, bool isBlock) { isMoveDireBlock_[dire][index] = isBlock; }

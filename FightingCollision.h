@@ -53,7 +53,7 @@ public:
 
 	void FenceCollision();
 
-	void PersonCollision(const Vec2& add);
+	void PersonCollision(const Vec2& add, int index);
 
 /*================================================================
 	評価
