@@ -120,6 +120,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Game\CollisionManager\CollisionManager.cpp" />
     <ClCompile Include="Game\CollisionManager\CowCollision.cpp" />
     <ClCompile Include="Game\CollisionManager\CowherdCollision.cpp" />
+    <ClCompile Include="Game\CollisionManager\RiataCollision.cpp" />
     <ClCompile Include="Game\CollisionManager\YoungPersonCollision.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\Object\Base\BaseCow.cpp" />
@@ -191,6 +192,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Game\CollisionManager\CollisionManager.h" />
     <ClInclude Include="Game\CollisionManager\CowCollision.h" />
     <ClInclude Include="Game\CollisionManager\CowherdCollision.h" />
+    <ClInclude Include="Game\CollisionManager\RiataCollision.h" />
     <ClInclude Include="Game\CollisionManager\YoungPersonCollision.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\Object\Base\BaseCow.h" />

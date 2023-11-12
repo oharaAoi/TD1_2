@@ -424,11 +424,12 @@ void Cowherd::CenterAddUpdate() {
 void Cowherd::RiataIsIdleTrue() {
 	if (Inputs::IsTriggerKey(DIK_Q)) {
 		riata_->SetIsIdle(true);
+		riata_->SetWorldPos(worldCenterPos_);
 	}
 }
 
 void Cowherd::RiataIsStartTrue() {
-	riata_->SetWorldPos(worldCenterPos_);
+	riata_->SetStartingPos(worldCenterPos_);
 	riata_->SetMoveDir(MyMath::Direction(startingPos_, destinationPos_, MyMath::Normalized));
 	riata_->SetIsStart(true);
 }
