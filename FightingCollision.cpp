@@ -817,23 +817,23 @@ void FightingCollision::SameDireValue() {
 		if (cow2pDis.y > 0) {
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
-				// そのためy方向の上に行かないように上に減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+				// そのためx方向の左に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
 
 			} else {
-				// 逆に左に行かないように左を減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+				// 逆に上に行かないように上を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
 			}
 		} else {
 			// 下にいる
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
-				// そのためy方向の下に行かないように下に減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+				// そのためx方向の左に行かないように左を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
 
 			} else {
-				// 逆に左に行かないように左を減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+				// 逆に下に行かないように下を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
 			}
 		}
 	} else {
@@ -843,23 +843,23 @@ void FightingCollision::SameDireValue() {
 		if (cow2pDis.y > 0) {
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
-				// そのためy方向の上に行かないように上に減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+				// そのためx方向の右に行かないように右を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
 
 			} else {
-				// 逆に右に行かないように左を減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+				// 逆に上に行かないように上を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
 			}
 		} else {
 			// 下にいる
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
-				// そのためy方向の下に行かないように下に減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+				// そのためx方向の右に行かないように右を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
 
 			} else {
-				// 逆に右に行かないように左を減算する
-				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+				// 逆に下に行かないように下を減算する
+				fighting_->SetMoveDireValue(fighting_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
 			}
 		}
 	}
