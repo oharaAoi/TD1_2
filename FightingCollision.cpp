@@ -65,7 +65,9 @@ void FightingCollision::CheckCanMoveDire() {
 	}
 
 	/*--------------------------------------------------------------------------------------*/
-	CheckNearFence();
+	if (fighting_->GetIsFenceAttack() == false) {
+		CheckNearFence();
+	}
 
 	/*--------------------------------------------------------------------------------------*/
 	CheckSameDireValue();
@@ -152,6 +154,7 @@ void FightingCollision::FenceCollision() {
 		switch (fighting_->GetMovedDire()) {
 		case kCanMoveDirection::top:
 			fighting_->SetIsMove(false);
+			fighting_->SetFenceAttack(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -162,6 +165,7 @@ void FightingCollision::FenceCollision() {
 
 		case kCanMoveDirection::bottom:
 			fighting_->SetIsMove(false);
+			fighting_->SetFenceAttack(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
@@ -172,6 +176,7 @@ void FightingCollision::FenceCollision() {
 
 		case kCanMoveDirection::left:
 			fighting_->SetIsMove(false);
+			fighting_->SetFenceAttack(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) + mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
@@ -182,6 +187,7 @@ void FightingCollision::FenceCollision() {
 
 		case kCanMoveDirection::right:
 			fighting_->SetIsMove(false);
+			fighting_->SetFenceAttack(true);
 
 			fighting_->SetWorldPos({
 				(fighting_->GetWorldAdd().x * mapChip_->GetTileSize().x) - mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
@@ -761,6 +767,9 @@ void FightingCollision::CheckNearFence() {
 	}
 }
 
+/*==========================================================================================================
+										同値があるか調べる
+============================================================================================================*/
 void FightingCollision::CheckSameDireValue() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = i + 1; j < 4; j++) {
@@ -771,6 +780,9 @@ void FightingCollision::CheckSameDireValue() {
 	}
 }
 
+/*==========================================================================================================
+										同値がある時の処理
+============================================================================================================*/
 void FightingCollision::SameDireValue() {
 	// 牧師との距離
 	Vec2 cow2pDis;

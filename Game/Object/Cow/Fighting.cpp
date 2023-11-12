@@ -37,7 +37,7 @@ void BullFighting::Init() {
 	// 移動状態
 	isIdle_ = false;
 	isMove_ = false;
-	isStan_ = true;
+	isStan_ = false;
 
 	// ローカル空間での各頂点座標
 	localVertex_ = {

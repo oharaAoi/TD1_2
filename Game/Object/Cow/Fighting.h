@@ -127,6 +127,9 @@ public:
 	void SetIsStan(bool isStan) { isStan_ = isStan; }
 	bool GetIsStan() { return isStan_; }
 
+	void SetFenceAttack(bool isAttack) { isFenceAttack_ = isAttack; }
+	bool GetIsFenceAttack() { return isFenceAttack_; }
+
 	// 評価値を入れる配列
 	void SetMoveDireValue(int value, int num) { canMoveDireValue_[num] = value; }
 	int GetMoveDireValue(int num)const { return canMoveDireValue_[num]; }
