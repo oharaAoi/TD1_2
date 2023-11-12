@@ -24,7 +24,7 @@ public: // member method
 	RiataCollision(
 		Riata* riata,
 		MapChip* mapChip,
-		Cow* cow, 
+		Cow* cow,
 		Cowherd* cowherd,
 		YoungPerson* youngPerson
 	);
@@ -32,7 +32,7 @@ public: // member method
 
 	// ----- default method ----- //
 	void Init(
-		Riata*riata, 
+		Riata* riata,
 		MapChip* mapChip,
 		Cow* cow,
 		Cowherd* cowherd,
@@ -43,6 +43,8 @@ public: // member method
 	void Finalize();
 
 	// ----- user method ----- //
+	bool IsStop(const Vec2& address);
+	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
 };
 

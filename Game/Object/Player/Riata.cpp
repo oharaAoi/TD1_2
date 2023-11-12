@@ -29,6 +29,7 @@ void Riata::Init() {
 
 	isIdle_ = false;
 	isStart_ = false;
+	isCatch_ = false;
 
 	moveDir_ = { 0.0f,0.0f };
 

@@ -33,6 +33,7 @@ private: // member object
 
 	bool isIdle_;
 	bool isStart_;
+	bool isCatch_;
 
 	Vec2f moveDir_;
 
@@ -73,6 +74,9 @@ public: // member method
 
 	void SetIsStart(bool isStart) { isStart_ = isStart; }
 	bool GetIsStart(void) const { return isStart_; }
+
+	void SetIsCatch(bool isCatch) { isCatch_ = isCatch; }
+	bool GetIsCatch(void) const { return isCatch_; }
 
 	void SetMoveDir(const Vec2f& moveDir) { moveDir_ = moveDir; }
 	Vec2f GetMoveDir(void) const { return moveDir_; }
