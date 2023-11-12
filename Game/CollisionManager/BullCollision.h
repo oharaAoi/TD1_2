@@ -57,6 +57,11 @@ private:
 	void CheckBullCowAdjoin();
 
 	void CheckGridDire(const Vec2& add);
+
+	// 進む方向で同値があるか調べる
+	void CheckSameDireValue();
+
+	void SameDireValue();
 };
 
 

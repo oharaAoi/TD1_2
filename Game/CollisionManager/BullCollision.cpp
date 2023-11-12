@@ -61,6 +61,8 @@ void BullCollision::CheckBullMoveDire() {
 
 	CheckFenseCollision();
 
+	CheckSameDireValue();
+
 }
 
 /*==========================================================================================================
@@ -621,8 +623,6 @@ void BullCollision::CheckBullCowMoveAllDire() {
 			}
 		}
 	}
-
-
 }
 
 /*==========================================================================================================
@@ -1092,6 +1092,117 @@ void BullCollision::CheckGridDire(const Vec2& add) {
 				}
 			}
 			break;
+		}
+	}
+}
+
+/*==========================================================================================================
+									同値があるか調べる
+============================================================================================================*/
+
+void BullCollision::CheckSameDireValue() {
+	for (int i = 0; i < 7; i++) {
+		for (int j = i + 1; j < 8; j++) {
+			if (bullCow_->GetMoveDireValue(i) == bullCow_->GetMoveDireValue(j)) {
+				SameDireValue();
+			}
+		}
+	}
+}
+
+/*==========================================================================================================
+									同値があった時の処理
+============================================================================================================*/
+void BullCollision::SameDireValue() {
+	// 牧師との距離
+	Vec2 cow2pDis;
+	Vec2 naturalDis;
+
+	cow2pDis.x = bullCow_->GetCenterAdd().x - cowherd_->GetCenterAdd().x;
+	cow2pDis.y = bullCow_->GetCenterAdd().y - cowherd_->GetCenterAdd().y;
+
+	naturalDis.x = static_cast<int>(sqrtf(powf((float)cow2pDis.x, 2.0f)));
+	naturalDis.y = static_cast<int>(sqrtf(powf((float)cow2pDis.y, 2.0f)));
+
+	// 距離が0だったら直線上にいると分かる
+	if (naturalDis.x == 0) {
+		// yの距離から上か下か調べる
+		if (cow2pDis.y > 0) {
+			// 下にいる
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+			return;
+		} else {
+			// 上にいる
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+			return;
+		}
+	}
+
+	if (naturalDis.y == 0) {
+		// xの距離から左か右か調べる
+		if (cow2pDis.x > 0) {
+			// 左にいる
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+			return;
+		} else {
+			// 右にいる
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+			return;
+		}
+	}
+
+	// まずxの距離から右にいるか左にいるか調べる
+	// xが0より大きいため左にいると分かる
+	if (cow2pDis.x > 0) {
+		// 次にyの距離から上にいるか下にいるか調べる
+		// yが0より小さいため上にいると分かる
+		if (cow2pDis.y < 0) {
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためx方向の左に行かないように左を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+
+			} else {
+				// 逆に上に行かないように上を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+			}
+		} else {
+			// 下にいる
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためx方向の左に行かないように左を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - 15, kCanMoveDirection::left);
+
+			} else {
+				// 逆に下に行かないように下を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+			}
+		}
+	} else {
+		// xが0より小さいため右にいると分かる
+		// 次にyの距離から上にいるか下にいるか調べる
+		// yが0より小さいため上にいると分かる
+		if (cow2pDis.y < 0) {
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためx方向の右に行かないように右を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+
+			} else {
+				// 逆に上に行かないように上を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - 15, kCanMoveDirection::top);
+			}
+		} else {
+			// 下にいる
+			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
+			if (naturalDis.x > naturalDis.y) {
+				// そのためx方向の右に行かないように右を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - 15, kCanMoveDirection::right);
+
+			} else {
+				// 逆に下に行かないように下を減算する
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - 15, kCanMoveDirection::bottom);
+			}
 		}
 	}
 }

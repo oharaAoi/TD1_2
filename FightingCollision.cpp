@@ -825,8 +825,8 @@ void FightingCollision::SameDireValue() {
 	// xが0より大きいため左にいると分かる
 	if (cow2pDis.x > 0) {
 		// 次にyの距離から上にいるか下にいるか調べる
-		// yが0より大きいため上にいると分かる
-		if (cow2pDis.y > 0) {
+		// yが0より小さいため上にいると分かる
+		if (cow2pDis.y < 0) {
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
 				// そのためx方向の左に行かないように左を減算する
@@ -851,8 +851,8 @@ void FightingCollision::SameDireValue() {
 	} else {
 		// xが0より小さいため右にいると分かる
 		// 次にyの距離から上にいるか下にいるか調べる
-		// yが0より大きいため上にいると分かる
-		if (cow2pDis.y > 0) {
+		// yが0より小さいため上にいると分かる
+		if (cow2pDis.y < 0) {
 			// xとyの距離を比較してxの方が大きい場合x方向に進むと牧師の前に来てしまう可能性がある
 			if (naturalDis.x > naturalDis.y) {
 				// そのためx方向の右に行かないように右を減算する
