@@ -7,6 +7,7 @@
 #include "Cow.h"
 #include "Dog.h"
 #include "Fighting.h"
+#include "Riata.h"
 
 // ----- math ----- //
 #include <SafeDelete.h>
@@ -21,6 +22,7 @@
 #include "YoungPersonCollision.h"
 #include "BullCollision.h"
 #include "FightingCollision.h"
+#include "RiataCollision.h"
 
 /// <summary>
 /// 当たり判定と移動できるかの判定を取るクラス
@@ -35,20 +37,40 @@ private:
 	BullCow* bull_;
 	BullFighting* fighting_;
 	Dog* dog_;
+	Riata* riata_;
 
 	CowCollision* cowCollision_;
 	CowherdCollision* cowherdCollison_;
 	YoungPersonCollision* youngPersonCollision_;
 	BullCollision* bullCollision_;
 	FightingCollision* fightingCollision_;
+	RiataCollision* riataCollision_;
 
 public:
 	// Constructor & Destructor
-	CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting);
+	CollisionManager(
+		Cowherd* cowherd, 
+		YoungPerson* youngPerson, 
+		MapChip* mapChip,
+		Cow* cow,
+		Dog* dog, 
+		BullCow* bull,
+		BullFighting* fighting,
+		Riata* riata
+	);
 	~CollisionManager();
 
 	// default method
-	void Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting);
+	void Init(
+		Cowherd* cowherd ,
+		YoungPerson* youngPerson ,
+		MapChip* mapChip ,
+		Cow* cow ,
+		Dog* dog ,
+		BullCow* bull ,
+		BullFighting* fighting ,
+		Riata* riata
+	);
 	//void Update();
 	//void Draw();
 	void Finalize();

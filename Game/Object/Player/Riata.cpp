@@ -11,6 +11,7 @@ Riata::~Riata() { Finalize(); }
 void Riata::Init() {
 
 	worldPos_ = { 0.0f,0.0f };
+	worldAddress_ = { 0,0 };
 	size_ = { 64.0f,64.0f };
 	gh_ = Novice::LoadTexture("white1x1.png");
 	color_ = 0x00dd0080;
@@ -36,6 +37,8 @@ void Riata::Init() {
 	startingPos_ = { 0.0f,0.0f };
 	destinationPos_ = { 0.0f,0.0f };
 
+	movingTime_ = 0;
+	easeT_ = 0.0f;
 }
 
 
@@ -46,8 +49,17 @@ void Riata::Update() {
 
 	if (!isStart_) { return; }
 
-	worldPos_ += moveDir_ * Vec2f{ 4,4 };
+	//worldPos_ += moveDir_ * Vec2f{ 4,4 };
 
+	if (easeT_ < 1.0f) {
+		movingTime_++;
+		easeT_ = movingTime_ / 90.0f;
+	}
+
+	worldPos_.x = MyMath::Lerp(easeT_ , startingPos_.x , destinationPos_.x);
+	worldPos_.y = MyMath::Lerp(easeT_ , startingPos_.y , destinationPos_.y);
+
+	AddressUpdate();
 	MakeWorldMatrix();
 
 }
@@ -60,10 +72,10 @@ void Riata::Draw() {
 
 	// スクリーン座標系での描画
 	Draw::Quad(
-		screenVertex_,
-		{ 0.0f,0.0f },
-		{ 1.0f,1.0f },
-		gh_,
+		screenVertex_ ,
+		{ 0.0f,0.0f } ,
+		{ 1.0f,1.0f } ,
+		gh_ ,
 		color_
 	);
 
@@ -86,17 +98,23 @@ void Riata::Finalize() {
 
 
 void Riata::MakeWorldMatrix() {
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldPos_);
-	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f } , 0.0f , worldPos_);
+	worldVertex_.lt = Transform(localVertex_.lt , worldMatrix_);
+	worldVertex_.rt = Transform(localVertex_.rt , worldMatrix_);
+	worldVertex_.lb = Transform(localVertex_.lb , worldMatrix_);
+	worldVertex_.rb = Transform(localVertex_.rb , worldMatrix_);
 }
 
-void Riata::MakeScreenMatrix(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
-	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
-	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
+void Riata::MakeScreenMatrix(const Matrix3x3& viewMatrix , const Matrix3x3& orthoMatrix , const Matrix3x3& viewportMatrix) {
+	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_ , viewMatrix , orthoMatrix , viewportMatrix);
+	screenVertex_.lt = Transform(localVertex_.lt , screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt , screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb , screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb , screenMatrix_);
+}
+
+void Riata::AddressUpdate() {
+	worldAddress_ =
+	{ static_cast<int>(worldPos_.x / tileSize_.x),
+		static_cast<int>(worldPos_.y / tileSize_.y) };
 }

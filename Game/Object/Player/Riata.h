@@ -6,14 +6,17 @@
 #include "Matrix3x3.h"
 #include "Draw.h"
 #include "InputManager.h"
+#include "MyMath.h"
 
 #include <Novice.h>
 
+#include <BaseMap.h>
 
 /// <summary>
 /// 投げ縄
 /// </summary>
-class Riata {
+class Riata
+	: public BaseMap {
 private: // member object
 
 	InputManager* input = InputManager::GetInstance();
@@ -41,6 +44,9 @@ private: // member object
 	Vec2f startingPos_;
 	Vec2f destinationPos_;
 
+	int movingTime_;
+	float easeT_;
+
 public: // member method
 	// Constructor & Destructor
 	Riata();
@@ -56,11 +62,12 @@ public: // member method
 	void MakeWorldMatrix();
 
 	void MakeScreenMatrix(
-		const Matrix3x3& viewMatrix,
-		const Matrix3x3& orthoMatrix,
+		const Matrix3x3& viewMatrix ,
+		const Matrix3x3& orthoMatrix ,
 		const Matrix3x3& viewportMatrix
 	);
 
+	void AddressUpdate();
 
 	// ----- accessor ----- //
 

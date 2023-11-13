@@ -1,8 +1,15 @@
 ﻿#include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting) {
-	Init(cowherd, youngPerson, mapChip, cow, dog, bull, fighting);
+CollisionManager::CollisionManager(Cowherd* cowherd ,
+	YoungPerson* youngPerson ,
+	MapChip* mapChip ,
+	Cow* cow ,
+	Dog* dog ,
+	BullCow* bull ,
+	BullFighting* fighting ,
+	Riata* riata) {
+
+	Init(cowherd, youngPerson, mapChip, cow, dog, bull, fighting, riata);
 }
 
 CollisionManager::~CollisionManager() {
@@ -13,8 +20,15 @@ CollisionManager::~CollisionManager() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip,
-	Cow* cow, Dog* dog, BullCow* bull, BullFighting* fighting) {
+void CollisionManager::Init(Cowherd* cowherd ,
+	YoungPerson* youngPerson ,
+	MapChip* mapChip ,
+	Cow* cow ,
+	Dog* dog ,
+	BullCow* bull ,
+	BullFighting* fighting ,
+	Riata* riata) {
+
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
@@ -22,12 +36,14 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	dog_ = dog;
 	bull_ = bull;
 	fighting_ = fighting;
+	riata_ = riata;
 
 	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
 	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
 	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_, fighting_);
 	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog_);
 	fightingCollision_ = new FightingCollision(cowherd_, youngPerson_, mapChip_, fighting_, dog_);
+	riataCollision_ = new RiataCollision(riata_, mapChip_, cow_, cowherd_, youngPerson_);
 }
 
 
@@ -35,17 +51,22 @@ void CollisionManager::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip*
 	終了処理関数
 ================================================================*/
 void CollisionManager::Finalize() {
+	
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
 	mapChip_ = nullptr;
 	cow_ = nullptr;
 	dog_ = nullptr;
 	bull_ = nullptr;
+	riata_ = nullptr;
+
 	SafeDelete(cowCollision_);
 	SafeDelete(cowherdCollison_);
 	SafeDelete(youngPersonCollision_);
 	SafeDelete(bullCollision_);
 	SafeDelete(fightingCollision_);
+	SafeDelete(riataCollision_);
+
 }
 
 /*=================================================================
@@ -56,6 +77,8 @@ void CollisionManager::CheckCanMove() {
 	cowherdCollison_->CowherdCanMove();
 	
 	youngPersonCollision_->YoungPersonCanMove();
+
+	riataCollision_->Update();
 
 	/*cowCollision_->CheckCowMoveDire();*/
 	/*YoungPersonCanMove();*/

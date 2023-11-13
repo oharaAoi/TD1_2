@@ -19,7 +19,7 @@ void Game::Init() {
 	fighting_ = new BullFighting();
 
 	collisionManager_ = new CollisionManager(
-		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_, fighting_
+		cowherd_, youngPerson_, mapChip_, cow_, dog_, bull_, fighting_, cowherd_->GetRiata()
 	);
 	renderer_ = new Renderer();
 
