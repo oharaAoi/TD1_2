@@ -55,7 +55,18 @@ private:
 		std::vector<Vec2> worldAdd;
 	};
 
+	struct MoveArea {
+		std::vector<Vec2f>worldPos;
+
+		std::vector<QuadVerf> screenVertex;
+
+		std::vector<Matrix3x3> screenMatrix;
+		std::vector<Matrix3x3> worldMatrix;
+	};
+
 	Address cannotMove_[4];
+
+	MoveArea moveAreas_[4];
 
 	Address onPresonDire_[5];
 
@@ -96,6 +107,9 @@ public:
 	void Move();
 
 	bool CheckIsStan();
+
+	// 動ける範囲の座標を求める
+	void MoveAreasUpdate();
 
 	// スクリーン行列と各頂点の計算
 	void MatrixChange(
