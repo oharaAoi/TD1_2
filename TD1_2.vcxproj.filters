@@ -206,13 +206,13 @@
     <ClCompile Include="Game\Object\Cow\Fighting.cpp">
       <Filter>Game\Object\Cow</Filter>
     </ClCompile>
-    <ClCompile Include="FightingCollision.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Object\Player\Riata.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
     <ClCompile Include="Game\CollisionManager\RiataCollision.cpp">
+      <Filter>Game\CollisionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CollisionManager\FightingCollision.cpp">
       <Filter>Game\CollisionManager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -408,9 +408,11 @@
     <ClInclude Include="Game\Object\Cow\Fighting.h">
       <Filter>Game\Object\Cow</Filter>
     </ClInclude>
-    <ClInclude Include="FightingCollision.h" />
     <ClInclude Include="Game\Object\Player\Riata.h" />
     <ClInclude Include="Game\CollisionManager\RiataCollision.h">
+      <Filter>Game\CollisionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CollisionManager\FightingCollision.h">
       <Filter>Game\CollisionManager</Filter>
     </ClInclude>
   </ItemGroup>

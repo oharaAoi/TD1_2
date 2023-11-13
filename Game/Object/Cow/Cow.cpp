@@ -251,15 +251,15 @@ void Cow::Move() {
 
 			case kCanMoveDirection::bottom:
 				startPos_ = worldCenterPos_;
-				endPos_.x = worldCenterPos_.y;
-				endPos_.y = worldCenterPos_.x - tileSize_.y;
+				endPos_.x = worldCenterPos_.x;
+				endPos_.y = worldCenterPos_.y - tileSize_.y;
 
 				movedDire_ = kCanMoveDirection::bottom;
 				break;
 
 			case kCanMoveDirection::left:
 				startPos_ = worldCenterPos_;
-				endPos_.x = worldCenterPos_.x - tileSize_.y;
+				endPos_.x = worldCenterPos_.x - tileSize_.x;
 				endPos_.y = worldCenterPos_.y;
 
 				movedDire_ = kCanMoveDirection::left;
@@ -267,7 +267,7 @@ void Cow::Move() {
 
 			case kCanMoveDirection::right:
 				startPos_ = worldCenterPos_;
-				endPos_.x = worldCenterPos_.x + tileSize_.y;
+				endPos_.x = worldCenterPos_.x + tileSize_.x;
 				endPos_.y = worldCenterPos_.y;
 
 				movedDire_ = kCanMoveDirection::right;
