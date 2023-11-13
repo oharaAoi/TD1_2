@@ -145,6 +145,9 @@ void Cow::Update() {
 	// 移動後のアドレスを計算する
 	CenterAddUpdate();
 
+	// 動ける範囲の座標の計算
+	MoveAreasUpdate();
+
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
 }
@@ -156,6 +159,10 @@ void Cow::Update() {
 void Cow::Draw() {
 
 	Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFFFF);
+
+	for (int i = 0; i < 8; i++) {
+		Draw::Quad(moveAreas_[i].screenVertex, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFFFFFF44);
+	}
 
 	DebugScreenPrintf();
 
@@ -326,6 +333,17 @@ void Cow::CenterAddUpdate() {
 
 }
 
+/* ------ 動ける範囲の座標を計算する ------ */
+void Cow::MoveAreasUpdate() {
+	for (int dire = 0; dire < 8; dire++) {
+		moveAreas_[dire].worldPos = {
+			cannotMove_[dire].worldAdd_.x * tileSize_.x + (tileSize_.x / 2),
+			cannotMove_[dire].worldAdd_.y * tileSize_.y + (tileSize_.y / 2)
+		};
+	}
+}
+
+
 // ------ 方向の初期化 ------ //
 void Cow::DireInit() {
 	// 移動方向/量
@@ -351,6 +369,15 @@ void Cow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix
 	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
+	for (int i = 0; i < 8; i++) {
+		moveAreas_[i].screenMatrix = MakeWvpVpMatrix(moveAreas_[i].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+
+		moveAreas_[i].screenVertex.lt = Transform(localVertex_.lt, moveAreas_[i].screenMatrix);
+		moveAreas_[i].screenVertex.rt = Transform(localVertex_.rt, moveAreas_[i].screenMatrix);
+		moveAreas_[i].screenVertex.lb = Transform(localVertex_.lb, moveAreas_[i].screenMatrix);
+		moveAreas_[i].screenVertex.rb = Transform(localVertex_.rb, moveAreas_[i].screenMatrix);
+
+	}
 }
 
 void Cow::MakeWorldMatrix() {
@@ -361,6 +388,10 @@ void Cow::MakeWorldMatrix() {
 	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
 	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+
+	for (int i = 0; i < 8; i++) {
+		moveAreas_[i].worldMatrix = MakeAffineMatrix({ 1.0f, 1.0f }, 0.0f, moveAreas_[i].worldPos);
+	}
 
 }
 

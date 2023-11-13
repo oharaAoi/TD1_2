@@ -60,7 +60,18 @@ private:
 		Vec2 worldAdd_;
 	};
 
+	struct MoveArea {
+		Vec2f worldPos;
+
+		QuadVerf screenVertex;
+
+		Matrix3x3 screenMatrix;
+		Matrix3x3 worldMatrix;
+	};
+
 	Address cannotMove_[8];
+
+	MoveArea moveAreas_[8];
 
 	//==============================================
 
@@ -150,6 +161,9 @@ public:
 
 	// direInit
 	void DireInit();
+
+	// 動ける範囲の座標を求める
+	void MoveAreasUpdate();
 
 	// それぞれの最短距離から評価値を加算する
 	void CheckNearPerson();
