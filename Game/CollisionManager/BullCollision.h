@@ -36,7 +36,11 @@ public:
 
 	void CheckRockCollision();
 
+	void PersonCollision(const Vec2& add);
+
 	void CheckFenceScissorsCollision();
+
+	bool IsEqualAdd(const Vec2& add1, const Vec2& add2);
 
 private:
 

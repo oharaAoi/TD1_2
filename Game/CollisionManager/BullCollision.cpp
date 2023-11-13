@@ -73,19 +73,39 @@ void BullCollision::CheckRockCollision() {
 
 		switch (bullCow_->GetMovedDire()) {
 		case kCanMoveDirection::top:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::bottom:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::left:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x, bullCow_->GetWorldPos().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) + mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::right:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x, bullCow_->GetWorldPos().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) - mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::leftTop:
@@ -93,6 +113,7 @@ void BullCollision::CheckRockCollision() {
 				bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x,
 				bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y
 				});
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::rightTop:
@@ -100,6 +121,7 @@ void BullCollision::CheckRockCollision() {
 				bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x,
 				bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y
 				});
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::leftBottom:
@@ -107,6 +129,7 @@ void BullCollision::CheckRockCollision() {
 				bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x,
 				bullCow_->GetWorldPos().y + mapChip_->GetTileSize().y
 				});
+			bullCow_->SetIsMove(false);
 			break;
 
 		case kCanMoveDirection::rightBottom:
@@ -114,6 +137,7 @@ void BullCollision::CheckRockCollision() {
 				bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x,
 				bullCow_->GetWorldPos().y + mapChip_->GetTileSize().y
 				});
+			bullCow_->SetIsMove(false);
 			break;
 		}
 	}
@@ -129,29 +153,54 @@ void BullCollision::CheckFenceScissorsCollision() {
 
 		switch (bullCow_->GetMovedDire()) {
 		case kCanMoveDirection::top:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y * 2 });
+
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
+
 			bullCow_->SetIsFenceAttack(true);
+			bullCow_->SetIsMove(false);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			break;
 
 		case kCanMoveDirection::bottom:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().y * 2 });
+			
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
+
 			bullCow_->SetIsFenceAttack(true);
+			bullCow_->SetIsMove(false);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			break;
 
 		case kCanMoveDirection::left:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x * 2, bullCow_->GetWorldPos().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) + mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
+
 			bullCow_->SetIsFenceAttack(true);
+			bullCow_->SetIsMove(false);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			break;
 
 		case kCanMoveDirection::right:
-			bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x * 2, bullCow_->GetWorldPos().y });
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) - mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
 			bullCow_->SetIsFenceAttack(true);
+			bullCow_->SetIsMove(false);
 
 			mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			break;
@@ -165,15 +214,26 @@ void BullCollision::CheckFenceScissorsCollision() {
 
 			// 真ん中により上だったら下に戻す
 			if (bullCow_->GetCenterAdd().y > mapChip_->GetMapChipRow() / 2.0f) {
-				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y - mapChip_->GetTileSize().y });
+				bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+					}
+				);
+
 				bullCow_->SetIsFenceAttack(true);
+				bullCow_->SetIsMove(false);
 
 				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 
 				// 真ん中により下だったら上に戻す
 			} else if (bullCow_->GetCenterAdd().y < mapChip_->GetMapChipRow() / 2.0f) {
-				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x, bullCow_->GetWorldPos().y + mapChip_->GetTileSize().x });
+				bullCow_->SetWorldPos({
+					(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+					(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+					}
+				);
 				bullCow_->SetIsFenceAttack(true);
+				bullCow_->SetIsMove(false);
 
 				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			}
@@ -185,15 +245,25 @@ void BullCollision::CheckFenceScissorsCollision() {
 
 			// 真ん中により右だったら左に戻す
 			if (bullCow_->GetCenterAdd().x > mapChip_->GetMapChipCol() / 2.0f) {
-				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x - mapChip_->GetTileSize().x , bullCow_->GetWorldPos().y });
+				bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) - mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+					}
+				);
 				bullCow_->SetIsFenceAttack(true);
+				bullCow_->SetIsMove(false);
 
 				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 
 				// 真ん中により左だったら右に戻す
 			} else if (bullCow_->GetCenterAdd().x < mapChip_->GetMapChipCol() / 2.0f) {
-				bullCow_->SetWorldPos({ bullCow_->GetWorldPos().x + mapChip_->GetTileSize().x, bullCow_->GetWorldPos().y });
+				bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) + mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+					}
+				);
 				bullCow_->SetIsFenceAttack(true);
+				bullCow_->SetIsMove(false);
 
 				mapChip_->SetFenceHp(mapChip_->GetFenceHp(bullCow_->GetCenterAdd()) - 1, bullCow_->GetCenterAdd());
 			}
@@ -202,6 +272,60 @@ void BullCollision::CheckFenceScissorsCollision() {
 	}
 }
 
+/*==========================================================================================================
+										playerと重なってしまったら
+============================================================================================================*/
+void BullCollision::PersonCollision(const Vec2& add) {
+	if (IsEqualAdd(bullCow_->GetCenterAdd(), add)) {
+
+		switch (bullCow_->GetMovedDire()) {
+		case kCanMoveDirection::top:
+
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) - mapChip_->GetTileSize().y,
+				}
+			);
+
+			bullCow_->SetIsMove(false);
+			break;
+
+		case kCanMoveDirection::bottom:
+
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
+				}
+			);
+
+			bullCow_->SetIsMove(false);
+			break;
+
+		case kCanMoveDirection::left:
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) + mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
+
+			bullCow_->SetIsMove(false);
+
+			break;
+
+		case kCanMoveDirection::right:
+			bullCow_->SetWorldPos({
+				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f) - mapChip_->GetTileSize().x,
+				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f),
+				}
+			);
+
+			bullCow_->SetIsMove(false);
+
+			break;
+		}
+
+	}
+}
 
 /*==========================================================================================================
 										フェンスと隣あっていたら
@@ -1207,4 +1331,8 @@ void BullCollision::SameDireValue() {
 			}
 		}
 	}
+}
+
+bool BullCollision::IsEqualAdd(const Vec2& add1, const Vec2& add2) {
+	return (add1.x == add2.x) && (add1.y == add2.y);
 }

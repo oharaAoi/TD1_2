@@ -9,6 +9,9 @@
 // ----- Maneger ----- //
 #include "Turn.h"
 
+// ----- lib ----- //
+#include "MyMath.h"
+
 class BullCow : 
 	public BaseCow,
 	public BaseMap,
@@ -68,6 +71,8 @@ public:
 
 	void MoveTurn();
 
+	void CheckMoveDire();
+
 	void Move();
 
 	// 動ける範囲の座標を求める
@@ -93,6 +98,9 @@ public:
 	Vec2f GetWorldPos() { return worldPos_; }
 
 	Vec2 GetCenterAdd() { return worldAdd_; }
+
+	void SetIsMove(bool isMove) { isMove_ = isMove; }
+	bool GetIsMove() { return isMove_; }
 
 	// 移動した方向を取得
 	kCanMoveDirection GetMovedDire() { return movedDire_; }
