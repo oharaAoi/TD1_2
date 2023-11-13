@@ -28,6 +28,7 @@ void Cow::Init() {
 	gh_ = Novice::LoadTexture("white1x1.png");
 
 	isIdle_ = false;
+	isMove_ = false;
 
 	// csvを読み込んで評価するための変数の初期化
 	evaluateGrid_ = LoadFile("./Resources/cow/cowEightDireRange.csv");
@@ -119,9 +120,16 @@ void Cow::Init() {
 	//=========================================
 	// フェンスとの判定で使う
 	isFenceAttack_ = false;
-	
-	//=========================================
 
+	//=========================================
+	//　移動で使う
+	startPos_ = { 0.0f, 0.0f };
+	endPos_ = { 0.0f, 0.0f };
+
+	easeT_ = 0.0f;
+	frameCount_ = 0.0f;
+
+	moveGridNum_ = 1;
 }
 
 
@@ -138,6 +146,9 @@ void Cow::Update() {
 
 	// デバック用
 	CowMove();
+
+	// 動く場所を計算
+	CheckMoveDire();
 
 	// 実際に動く
 	Move();
@@ -183,22 +194,19 @@ void Cow::Finalize() {
 ==========================================================*/
 
 void Cow::CowMove() {
-		if (Inputs::IsTriggerKey(DIK_M) or isTurnChange_) {
-			isIdle_ = true;
-		}
+	if (Inputs::IsTriggerKey(DIK_M) or isTurnChange_) {
+		isIdle_ = true;
+	}
 }
 
-void Cow::Move() {
+void Cow::CheckMoveDire() {
 	if (isIdle_) {
-		// 残りの評価値を計算
-		/*CheckNearPerson();*/
+
 		CheckNearWall();
 
 		maxDireValue_ = -99999;
 		maxDireValueIndex_ = 0;
 		adjoinNum_ = 0;
-
-		worldPreCenterPos_ = worldCenterPos_;
 
 		//全方位囲まれていたら処理を終わる
 		for (int i = 0; i < 8; i++) {
@@ -212,72 +220,125 @@ void Cow::Move() {
 		}
 
 		// 一番値の大きい方向に動く
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 4; i++) {
 			if (maxDireValue_ < canMoveDireValue_[i]) {
 				maxDireValue_ = canMoveDireValue_[i];
 				maxDireValueIndex_ = i;
 			}
 		}
 
-		// 移動方向の量によって進む箇所を決める
-		switch (maxDireValueIndex_) {
-		case kCanMoveDirection::top:
-			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::top;
-			break;
-
-		case kCanMoveDirection::bottom:
-			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::bottom;
-			break;
-
-		case kCanMoveDirection::left:
-			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			movedDire_ = kCanMoveDirection::left;
-			break;
-
-		case kCanMoveDirection::right:
-			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			movedDire_ = kCanMoveDirection::right;
-			break;
-
-		case kCanMoveDirection::leftTop:
-			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::leftTop;
-			break;
-
-		case kCanMoveDirection::rightTop:
-			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldCenterPos_.y += tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::rightTop;
-			break;
-
-		case kCanMoveDirection::leftBottom:
-			worldCenterPos_.x -= tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::leftBottom;
-			break;
-
-		case kCanMoveDirection::rightBottom:
-			worldCenterPos_.x += tileSize_.x * static_cast<float>(moveScalar_.x);
-			worldCenterPos_.y -= tileSize_.y * static_cast<float>(moveScalar_.y);
-			movedDire_ = kCanMoveDirection::leftBottom;
-			break;
-		}
-
-		// 移動の終了とともにturnがプレイヤー側になる
-		turnType_ = kTurnType::Players;
-
 		// 待機状態の解除
 		isIdle_ = false;
 
-		/*DireInit();*/
+		isMove_ = true;
+	}
+}
+
+void Cow::Move() {
+	if (isMove_) {
+
+		if (easeT_ == 0.0f) {
+
+			// 移動方向の量によって進む箇所を決める
+			switch (maxDireValueIndex_) {
+			case kCanMoveDirection::top:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x;
+				endPos_.y = worldCenterPos_.y + tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::top;
+				break;
+
+			case kCanMoveDirection::bottom:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.y;
+				endPos_.y = worldCenterPos_.x - tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::bottom;
+				break;
+
+			case kCanMoveDirection::left:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x - tileSize_.y;
+				endPos_.y = worldCenterPos_.y;
+
+				movedDire_ = kCanMoveDirection::left;
+				break;
+
+			case kCanMoveDirection::right:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x + tileSize_.y;
+				endPos_.y = worldCenterPos_.y;
+
+				movedDire_ = kCanMoveDirection::right;
+				break;
+
+			case kCanMoveDirection::leftTop:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x - tileSize_.x;
+				endPos_.y = worldCenterPos_.y + tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::leftTop;
+				break;
+
+			case kCanMoveDirection::rightTop:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x + tileSize_.x;
+				endPos_.y = worldCenterPos_.y + tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::rightTop;
+				break;
+
+			case kCanMoveDirection::leftBottom:
+
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x - tileSize_.x;
+				endPos_.y = worldCenterPos_.y - tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::leftBottom;
+				break;
+
+			case kCanMoveDirection::rightBottom:
+				startPos_ = worldCenterPos_;
+				endPos_.x = worldCenterPos_.x + tileSize_.x;
+				endPos_.y = worldCenterPos_.y - tileSize_.y;
+
+				movedDire_ = kCanMoveDirection::leftBottom;
+				break;
+			}
+		}
+
+		// ここから下で移動する
+		frameCount_++;
+
+		easeT_ = frameCount_ / 30.0f;
+
+		worldCenterPos_.x = MyMath::Lerp(easeT_, startPos_.x, endPos_.x);
+		worldCenterPos_.y = MyMath::Lerp(easeT_, startPos_.y, endPos_.y);
+
+		if (frameCount_ >= 30) {
+			easeT_ = 0;
+			frameCount_ = 0;
+			moveGridNum_--;
+		}
 
 		if (isFenceAttack_) {
 			isFenceAttack_ = false;
 		}
 
+		if (moveGridNum_ == 0) {
+			// 移動の終了とともにturnがプレイヤー側になる
+			turnType_ = kTurnType::Players;
+			isMove_ = false;
+			moveGridNum_ = 1;
+		}
+	} else {
+		// 移動の終了とともにturnがプレイヤー側になる
+		turnType_ = kTurnType::Players;
+		isMove_ = false;
+		moveGridNum_ = 1;
+		easeT_ = 0;
+		frameCount_ = 0;
 	}
 }
 
@@ -293,7 +354,7 @@ void Cow::CenterAddUpdate() {
 		for (int col = 0; col < evaluateGrid_[0].size(); col++) {
 			switch (evaluateGrid_[row][col]) {
 			case kCanMoveDirection::top:
-				cannotMove_[kCanMoveDirection::top].localAdd = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::top].localAdd = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				break;
 
 			case  kCanMoveDirection::bottom:

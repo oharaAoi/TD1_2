@@ -16,6 +16,9 @@
 // ----- Config ----- //
 #include "CanMoveDirection.h"
 
+// ----- lib ----- //
+#include "MyMath.h"
+
 // ----- Maneger ----- //
 #include "Inputs.h"
 #include "Turn.h"
@@ -153,6 +156,8 @@ public:
 
 	//===============================================================
 	// user method
+
+	void CheckMoveDire();
 
 	void Move();
 
