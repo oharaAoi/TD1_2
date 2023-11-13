@@ -75,6 +75,13 @@ void BullCow::Init() {
 	for (int i = 0; i < 8; i++) {
 		cannotMove_[i].localAdd.resize(direAddressNum_[i]);
 		cannotMove_[i].worldAdd.resize(direAddressNum_[i]);
+
+		moveAreas_[i].worldPos.resize(direAddressNum_[i]);
+
+		moveAreas_[i].screenVertex.resize(direAddressNum_[i]);
+
+		moveAreas_[i].screenMatrix.resize(direAddressNum_[i]);
+		moveAreas_[i].worldMatrix.resize(direAddressNum_[i]);
 	}
 
 	gh_ = Novice::LoadTexture("white1x1.png");
@@ -169,6 +176,8 @@ void BullCow::Update() {
 	// 移動後のアドレスを計算する
 	CenterAddUpdate();
 
+	MoveAreasUpdate();
+
 	// ワールド空間の行列と各頂点座標の計算
 	MakeWorldMatrix();
 
@@ -177,6 +186,12 @@ void BullCow::Update() {
 void BullCow::Draw() {
 	if (isDisplay_) {
 		Draw::Quad(screenVertex_, { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF0000FF);
+	}
+
+	for (int dire = 0; dire < 8; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			Draw::Quad(moveAreas_[dire].screenVertex[i], { 0.0f,0.0f }, { 1.0f,1.0f }, gh_, 0xFF000044);
+		}
 	}
 
 	ImguiDraw();
@@ -191,6 +206,17 @@ void BullCow::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMa
 	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
 	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
+	for (int dire = 0; dire < 8; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			moveAreas_[dire].screenMatrix[i] = MakeWvpVpMatrix(moveAreas_[dire].worldMatrix[i], viewMatrix, orthoMatrix, viewportMatrix);
+
+			moveAreas_[dire].screenVertex[i].lt = Transform(localVertex_.lt, moveAreas_[dire].screenMatrix[i]);
+			moveAreas_[dire].screenVertex[i].rt = Transform(localVertex_.rt, moveAreas_[dire].screenMatrix[i]);
+			moveAreas_[dire].screenVertex[i].lb = Transform(localVertex_.lb, moveAreas_[dire].screenMatrix[i]);
+			moveAreas_[dire].screenVertex[i].rb = Transform(localVertex_.rb, moveAreas_[dire].screenMatrix[i]);
+		}
+	}
+
 }
 
 void BullCow::MakeWorldMatrix() {
@@ -201,6 +227,12 @@ void BullCow::MakeWorldMatrix() {
 	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
 	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
 	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
+
+	for (int dire = 0; dire < 8; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			moveAreas_[dire].worldMatrix[i] = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, moveAreas_[dire].worldPos[i]);
+		}
+	}
 
 }
 
@@ -265,6 +297,17 @@ void BullCow::CenterAddUpdate() {
 		}
 	}
 
+}
+
+void BullCow::MoveAreasUpdate() {
+	for (int dire = 0; dire < 8; dire++) {
+		for (int i = 0; i < direAddressNum_[dire]; i++) {
+			moveAreas_[dire].worldPos[i] = {
+				cannotMove_[dire].worldAdd[i].x * tileSize_.x + (tileSize_.x / 2),
+				cannotMove_[dire].worldAdd[i].y * tileSize_.y + (tileSize_.y / 2)
+			};
+		}
+	}
 }
 
 void BullCow::DireInit() {
