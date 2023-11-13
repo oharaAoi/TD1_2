@@ -48,12 +48,18 @@ void Riata::Init() {
 void Riata::Update() {
 
 	if (!isStart_) { return; }
+	isIdle_ = false;
 
 	//worldPos_ += moveDir_ * Vec2f{ 4,4 };
 
 	if (easeT_ < 1.0f) {
 		movingTime_++;
 		easeT_ = movingTime_ / 90.0f;
+	} else {
+		isStart_ = false;
+		/*movingTime_ = 0;
+		easeT_ = 0;*/
+		moveDir_ = { 0.0f,0.0f };
 	}
 
 	worldPos_.x = MyMath::Lerp(easeT_ , startingPos_.x , destinationPos_.x);
@@ -78,6 +84,8 @@ void Riata::Draw() {
 		gh_ ,
 		color_
 	);
+
+	DebugDraw();
 
 }
 
@@ -117,4 +125,16 @@ void Riata::AddressUpdate() {
 	worldAddress_ =
 	{ static_cast<int>(worldPos_.x / tileSize_.x),
 		static_cast<int>(worldPos_.y / tileSize_.y) };
+}
+
+void Riata::DebugDraw() {
+
+	Novice::ScreenPrintf(0, 700, "isStart = %d", isStart_);
+	Novice::ScreenPrintf(0, 680, "isIdle = %d", isIdle_);
+	ImGui::Begin("Riata : member object");
+
+	if (ImGui::TreeNode("Flag")) {
+		//ImGui::SliderInt("isStart_:", &isStart_, false, true);
+	}
+	ImGui::End();
 }

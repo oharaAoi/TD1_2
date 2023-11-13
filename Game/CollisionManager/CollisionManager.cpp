@@ -1,12 +1,12 @@
 ﻿#include "CollisionManager.h"
 
-CollisionManager::CollisionManager(Cowherd* cowherd ,
-	YoungPerson* youngPerson ,
-	MapChip* mapChip ,
-	Cow* cow ,
-	Dog* dog ,
-	BullCow* bull ,
-	BullFighting* fighting ,
+CollisionManager::CollisionManager(Cowherd* cowherd,
+	YoungPerson* youngPerson,
+	MapChip* mapChip,
+	Cow* cow,
+	Dog* dog,
+	BullCow* bull,
+	BullFighting* fighting,
 	Riata* riata) {
 
 	Init(cowherd, youngPerson, mapChip, cow, dog, bull, fighting, riata);
@@ -20,13 +20,13 @@ CollisionManager::~CollisionManager() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void CollisionManager::Init(Cowherd* cowherd ,
-	YoungPerson* youngPerson ,
-	MapChip* mapChip ,
-	Cow* cow ,
-	Dog* dog ,
-	BullCow* bull ,
-	BullFighting* fighting ,
+void CollisionManager::Init(Cowherd* cowherd,
+	YoungPerson* youngPerson,
+	MapChip* mapChip,
+	Cow* cow,
+	Dog* dog,
+	BullCow* bull,
+	BullFighting* fighting,
 	Riata* riata) {
 
 	cowherd_ = cowherd;
@@ -43,7 +43,8 @@ void CollisionManager::Init(Cowherd* cowherd ,
 	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_, fighting_);
 	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog_);
 	fightingCollision_ = new FightingCollision(cowherd_, youngPerson_, mapChip_, fighting_, dog_);
-	riataCollision_ = new RiataCollision(riata_, mapChip_, cow_, cowherd_, youngPerson_);
+	riataCollision_ = new RiataCollision(riata_, mapChip_, cow_, bull_, fighting_, cowherd_, youngPerson_);
+
 }
 
 
@@ -51,7 +52,7 @@ void CollisionManager::Init(Cowherd* cowherd ,
 	終了処理関数
 ================================================================*/
 void CollisionManager::Finalize() {
-	
+
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
 	mapChip_ = nullptr;
@@ -75,14 +76,14 @@ void CollisionManager::Finalize() {
 void CollisionManager::CheckCanMove() {
 
 	cowherdCollison_->CowherdCanMove();
-	
+
 	youngPersonCollision_->YoungPersonCanMove();
 
 	riataCollision_->Update();
 
 	/*cowCollision_->CheckCowMoveDire();*/
 	/*YoungPersonCanMove();*/
-	
+
 }
 
 void CollisionManager::CheckPlayerCollision() {
@@ -98,7 +99,7 @@ void CollisionManager::CheckCanBullMove() {
 	bullCollision_->CheckBullMoveDire();
 }
 
-void CollisionManager::CheckCanFigthingMove(){
+void CollisionManager::CheckCanFigthingMove() {
 	fightingCollision_->CheckCanMoveDire();
 }
 

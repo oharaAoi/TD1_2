@@ -12,6 +12,8 @@
 
 #include <BaseMap.h>
 
+#include <ImGuiManager.h>
+
 /// <summary>
 /// 投げ縄
 /// </summary>
@@ -68,6 +70,8 @@ public: // member method
 	);
 
 	void AddressUpdate();
+
+	void DebugDraw();
 
 	// ----- accessor ----- //
 

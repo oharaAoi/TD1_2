@@ -358,7 +358,7 @@ void YoungPerson::Move() {
 										SetZOder(15);
 
 										Stack::PushDate(nowMapAdd_);
-										Stack::PushIndex(yi);
+										//Stack::PushIndex(yi);
 
 										Swap(
 											{ static_cast<int>(young_[yi].destinationPos.x / tileSize_.x) ,

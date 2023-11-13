@@ -5,6 +5,8 @@
 #include "Cowherd.h"
 #include "YoungPerson.h"
 #include "MapChip.h"
+#include "BullCow.h"
+#include "Fighting.h"
 
 #include "Riata.h"
 
@@ -15,6 +17,8 @@ private: // member objcet
 
 	MapChip* mapChip_;
 	Cow* cow_;
+	BullCow* bullCow_;
+	BullFighting* bullFighting_;
 	Cowherd* cowherd_;
 	YoungPerson* youngPerson_;
 
@@ -25,6 +29,8 @@ public: // member method
 		Riata* riata,
 		MapChip* mapChip,
 		Cow* cow,
+		BullCow* bullCow,
+		BullFighting* bullFighting,
 		Cowherd* cowherd,
 		YoungPerson* youngPerson
 	);
@@ -35,6 +41,8 @@ public: // member method
 		Riata* riata,
 		MapChip* mapChip,
 		Cow* cow,
+		BullCow* bullCow,
+		BullFighting* bullFighting,
 		Cowherd* cowherd,
 		YoungPerson* youngPerson
 	);

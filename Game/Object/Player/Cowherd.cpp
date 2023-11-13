@@ -93,7 +93,7 @@ void Cowherd::Init() {
 				canMoveGrid_[index].screenVertex = canMoveGrid_[index].localVertex;
 
 				// ワールド空間行列
-				canMoveGrid_[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f } , 0.0f , canMoveGrid_[index].worldCenterPos);
+				canMoveGrid_[index].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[index].worldCenterPos);
 				canMoveGrid_[index].screenMatrix = canMoveGrid_[index].worldMatrix;
 
 				canMoveGrid_[index].canMove = false;
@@ -167,10 +167,10 @@ void Cowherd::Draw() {
 			&& isMoveIdle_) {
 
 			Draw::Quad(
-				canMoveGrid_[gi].screenVertex ,
-				{ 0.0f,0.0f } ,
-				{ 1.0f,1.0f } ,
-				white1x1GH_ ,
+				canMoveGrid_[gi].screenVertex,
+				{ 0.0f,0.0f },
+				{ 1.0f,1.0f },
+				white1x1GH_,
 				0x00FFFF80
 			);
 		}
@@ -178,10 +178,10 @@ void Cowherd::Draw() {
 
 	// 牛飼い
 	Draw::Quad(
-		screenVertex_ ,
-		{ 128,0.0f } ,
-		{ 64.0f,64.0f } ,
-		GH_ ,
+		screenVertex_,
+		{ 128,0.0f },
+		{ 64.0f,64.0f },
+		GH_,
 		0xFFFFFFFF
 	);
 
@@ -204,44 +204,44 @@ void Cowherd::Finalize() {
 	その他メンバ関数
 ==========================================================*/
 
-void Cowherd::MatrixChange(const Matrix3x3& viewMatrix , const Matrix3x3& orthoMatrix , const Matrix3x3& viewportMatrix) {
+void Cowherd::MatrixChange(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
 
 	// 牛飼いをスクリーン空間に
-	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_ , viewMatrix , orthoMatrix , viewportMatrix);
-	screenVertex_.lt = Transform(localVertex_.lt , screenMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt , screenMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb , screenMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb , screenMatrix_);
+	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
+	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 
 	// 移動マスをスクリーン空間に
 	for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-		canMoveGrid_[gi].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[gi].worldMatrix , viewMatrix , orthoMatrix , viewportMatrix);
-		canMoveGrid_[gi].screenVertex.lt = Transform(canMoveGrid_[gi].localVertex.lt , canMoveGrid_[gi].screenMatrix);
-		canMoveGrid_[gi].screenVertex.rt = Transform(canMoveGrid_[gi].localVertex.rt , canMoveGrid_[gi].screenMatrix);
-		canMoveGrid_[gi].screenVertex.lb = Transform(canMoveGrid_[gi].localVertex.lb , canMoveGrid_[gi].screenMatrix);
-		canMoveGrid_[gi].screenVertex.rb = Transform(canMoveGrid_[gi].localVertex.rb , canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenMatrix = MakeWvpVpMatrix(canMoveGrid_[gi].worldMatrix, viewMatrix, orthoMatrix, viewportMatrix);
+		canMoveGrid_[gi].screenVertex.lt = Transform(canMoveGrid_[gi].localVertex.lt, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.rt = Transform(canMoveGrid_[gi].localVertex.rt, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.lb = Transform(canMoveGrid_[gi].localVertex.lb, canMoveGrid_[gi].screenMatrix);
+		canMoveGrid_[gi].screenVertex.rb = Transform(canMoveGrid_[gi].localVertex.rb, canMoveGrid_[gi].screenMatrix);
 	}
 
 	riata_->MakeScreenMatrix(
-		viewMatrix ,
-		orthoMatrix ,
+		viewMatrix,
+		orthoMatrix,
 		viewportMatrix
 	);
 
 }
 
 void Cowherd::MakeWorldMatrix() {
-	worldMatrix_ = MakeAffineMatrix(scale_ , 0.0f , worldCenterPos_);
+	worldMatrix_ = MakeAffineMatrix(scale_, 0.0f, worldCenterPos_);
 
-	worldVertex_.lt = Transform(localVertex_.lt , worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt , worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb , worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb , worldMatrix_);
+	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
+	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
+	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
+	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 
 	// 移動マス
 	for (int i = 0; i < moveGridMaxIndex_; i++) {
-		canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f } , 0.0f , canMoveGrid_[i].worldCenterPos);
+		canMoveGrid_[i].worldMatrix = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, canMoveGrid_[i].worldCenterPos);
 	}
 
 }
@@ -260,18 +260,18 @@ void Cowherd::Move() {
 				movingTime_++;
 			}
 
-			worldCenterPos_.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f) , startingPos_.x , destinationPos_.x);
-			worldCenterPos_.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f) , startingPos_.y , destinationPos_.y);
+			worldCenterPos_.x = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), startingPos_.x, destinationPos_.x);
+			worldCenterPos_.y = MyMath::Lerp(Ease::InOut::Quint(movingTime_ / 60.0f), startingPos_.y, destinationPos_.y);
 
 			if (movingTime_ / 60.0f <= 0.5f) {
 
-				scale_.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f) , 1.0f , 2.0f);
-				scale_.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f) , 1.0f , 2.0f);
+				scale_.x = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
+				scale_.y = MyMath::Lerp(Ease::Out::Quint(movingTime_ / 60.0f), 1.0f, 2.0f);
 
 			} else {
 
-				scale_.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f) , 2.0f , 1.0f);
-				scale_.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f) , 2.0f , 1.0f);
+				scale_.x = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
+				scale_.y = MyMath::Lerp(Ease::In::Quint(movingTime_ / 60.0f), 2.0f, 1.0f);
 
 			}
 
@@ -299,7 +299,7 @@ void Cowherd::Move() {
 						if (canMoveGrid_[gi].canMove) {
 
 							if (Collision::Rect::Point(
-								canMoveGrid_[gi].screenVertex ,
+								canMoveGrid_[gi].screenVertex,
 								{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
 								// 移動先と移動元の座標の更新
@@ -317,10 +317,10 @@ void Cowherd::Move() {
 								RiataIsStartTrue();
 
 								Stack::PushDate(nowMapAdd_);
-								Stack::PushCH_isMovingCount(0);
+								//Stack::PushCH_isMovingCount(0);
 
 								std::swap(
-									nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)] ,
+									nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
 									nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
 								);
 
@@ -338,12 +338,11 @@ void Cowherd::Move() {
 
 	} else {
 
-
 		if (Inputs::IsTriggerMouse(0)) {
 
 			if (!ch_isMove_) {
 
-				if (Collision::Rect::Point(screenVertex_ ,
+				if (Collision::Rect::Point(screenVertex_,
 					{ static_cast<float>(Inputs::GetMousePos().x),
 					static_cast<float>(Inputs::GetMousePos().y) })) {
 
@@ -367,7 +366,7 @@ void Cowherd::IsMoveIdleReSet() {
 		for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 			if (canMoveGrid_[gi].canMove) {
 				if (Collision::Rect::Point(
-					canMoveGrid_[gi].screenVertex ,
+					canMoveGrid_[gi].screenVertex,
 					{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 					return;
 				}
@@ -381,9 +380,9 @@ void Cowherd::IsMoveIdleReSet() {
 
 void Cowherd::DebugDraw() {
 
-	Novice::ScreenPrintf(100 , 100 , "isMoveIdle = %d" , isMoveIdle_);
+	Novice::ScreenPrintf(100, 100, "isMoveIdle = %d", isMoveIdle_);
 
-	Novice::ScreenPrintf(100 , 120 , "centerAdd : x = %d, y = %d" , centerAdd_.x , centerAdd_.y);
+	Novice::ScreenPrintf(100, 120, "centerAdd : x = %d, y = %d", centerAdd_.x, centerAdd_.y);
 
 
 }
@@ -424,9 +423,16 @@ void Cowherd::CenterAddUpdate() {
 
 void Cowherd::RiataIsIdleTrue() {
 	if (Inputs::IsTriggerKey(DIK_Q)) {
-		riata_->SetIsIdle(true);
-		riata_->SetWorldPos(worldCenterPos_);
-		riata_->AddressUpdate();
+		if (riata_->GetIsIdle()) {
+			riata_->SetIsIdle(false);
+			riata_->SetWorldPos(worldCenterPos_);
+			riata_->AddressUpdate();
+		} else {
+			riata_->SetIsIdle(true);
+			riata_->SetWorldPos(worldCenterPos_);
+			riata_->MakeWorldMatrix();
+			riata_->AddressUpdate();
+		}
 	}
 }
 
@@ -435,7 +441,7 @@ void Cowherd::RiataIsStartTrue() {
 
 
 	riata_->SetMoveDir(Vec2f{ 0.0f,0.0f });
-	Vec2f tmp = MyMath::Direction(startingPos_ , destinationPos_ , MyMath::Normalized);
+	Vec2f tmp = MyMath::Direction(startingPos_, destinationPos_, MyMath::Normalized);
 	if (tmp.x > 0) {
 		riata_->SetMoveDir({ 1.0f, riata_->GetMoveDir().y });
 	} else if (tmp.x < 0) {

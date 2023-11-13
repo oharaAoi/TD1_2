@@ -1,13 +1,15 @@
 ﻿#include "RiataCollision.h"
 
 RiataCollision::RiataCollision(
-	Riata* riata ,
-	MapChip* mapChip ,
-	Cow* cow ,
-	Cowherd* cowherd ,
+	Riata* riata,
+	MapChip* mapChip,
+	Cow* cow,
+	BullCow* bullCow,
+	BullFighting* bullFighting,
+	Cowherd* cowherd,
 	YoungPerson* youngPerson) {
 
-	Init(riata , mapChip , cow , cowherd , youngPerson);
+	Init(riata, mapChip, cow, bullCow, bullFighting, cowherd, youngPerson);
 }
 
 RiataCollision::~RiataCollision() { Finalize(); }
@@ -17,15 +19,19 @@ RiataCollision::~RiataCollision() { Finalize(); }
 	初期化関数
 ================================================*/
 void RiataCollision::Init(
-	Riata* riata ,
-	MapChip* mapChip ,
-	Cow* cow ,
-	Cowherd* cowherd ,
+	Riata* riata,
+	MapChip* mapChip,
+	Cow* cow,
+	BullCow* bullCow,
+	BullFighting* bullFighting,
+	Cowherd* cowherd,
 	YoungPerson* youngPerson) {
 
 	riata_ = riata;
 	mapChip_ = mapChip;
 	cow_ = cow;
+	bullCow_ = bullCow;
+	bullFighting_ = bullFighting;
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 
@@ -46,7 +52,7 @@ void RiataCollision::Update() {
 	//riata_->SetStartingPos()
 	Vec2 address = riata_->GetWorldAddress();
 	while (!IsStop(address)) {
-		address += {static_cast<int>(riata_->GetMoveDir().x) , static_cast<int>(riata_->GetMoveDir().y)};
+		address += {static_cast<int>(riata_->GetMoveDir().x), static_cast<int>(riata_->GetMoveDir().y)};
 	}
 
 	riata_->SetDestinationPos(
@@ -70,11 +76,13 @@ void RiataCollision::Update() {
 void RiataCollision::Finalize() {
 
 	riata_ = nullptr;
-
 	mapChip_ = nullptr;
 	cow_ = nullptr;
+	bullCow_ = nullptr;
+	bullFighting_ = nullptr;
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
+
 }
 
 
@@ -89,20 +97,29 @@ bool RiataCollision::IsStop(const Vec2& address) {
 	if (mapChip_->GetMapChipAdd()[address.y][address.x] == ChipType::ROCK) { return true; }
 
 	// 牛との判定
-	if (IsEqualAdd(address , cow_->GetCenterAdd())) {
+	if (IsEqualAdd(address, cow_->GetCenterAdd())) {
 		riata_->SetIsCatch(true);
 		return true;
 	}
+	if (IsEqualAdd(address, bullCow_->GetCenterAdd())) {
+		riata_->SetIsCatch(true);
+		return true;
+	}
+	/*if (IsEqualAdd(address, bullFighting_->GetCenterAdd())) {
+		riata_->SetIsCatch(true);
+		return true;
+	}*/
+
 
 	// 若人との判定
 	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
 
-		if (IsEqualAdd(address , youngPerson_->GetCenterAdd(yi))) { return true; }
+		if (IsEqualAdd(address, youngPerson_->GetCenterAdd(yi))) { return true; }
 	}
 
 	return false;
 }
 
-bool RiataCollision::IsEqualAdd(const Vec2& add1 , const Vec2& add2) {
+bool RiataCollision::IsEqualAdd(const Vec2& add1, const Vec2& add2) {
 	return (add1.x == add2.x) && (add1.y == add2.y);
 }
