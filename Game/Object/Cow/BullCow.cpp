@@ -370,32 +370,30 @@ void BullCow::CheckMoveDire() {
 			if (maxDireValue_ < canMoveDireValue_[i]) {
 				maxDireValue_ = canMoveDireValue_[i];
 				maxDireValueIndex_ = i;
-
-				switch (maxDireValueIndex_) {
-				case kCanMoveDirection::leftTop:
-					moveGridNum_--;
-					break;
-
-				case kCanMoveDirection::rightTop:
-					moveGridNum_--;
-					break;
-
-				case kCanMoveDirection::leftBottom:
-					moveGridNum_--;
-					break;
-
-				case kCanMoveDirection::rightBottom:
-					moveGridNum_--;
-					break;
-				}
-
 			}
+		}
+
+		switch (maxDireValueIndex_) {
+		case kCanMoveDirection::leftTop:
+			moveGridNum_--;
+			break;
+
+		case kCanMoveDirection::rightTop:
+			moveGridNum_--;
+			break;
+
+		case kCanMoveDirection::leftBottom:
+			moveGridNum_--;
+			break;
+
+		case kCanMoveDirection::rightBottom:
+			moveGridNum_--;
+			break;
 		}
 
 		isIdle_ = false;
 
 		isMove_ = true;
-
 	}
 }
 
