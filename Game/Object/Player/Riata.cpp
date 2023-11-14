@@ -31,6 +31,7 @@ void Riata::Init() {
 	isIdle_ = false;
 	isStart_ = false;
 	isCatch_ = false;
+	isMoved_ = false;
 
 	moveDir_ = { 0.0f,0.0f };
 
@@ -90,6 +91,7 @@ void Riata::Update() {
 
 		if (easeT_ >= 1.0f) {
 			isStart_ = false;
+			isMoved_ = true;
 			movingTime_ = 0;
 			easeT_ = 0;
 			moveDir_ = { 0.0f,0.0f };

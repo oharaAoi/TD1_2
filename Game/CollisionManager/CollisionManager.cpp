@@ -126,15 +126,23 @@ void CollisionManager::CheckFigthingCollision() {
 
 /* --- クリア判定 --- */
 bool CollisionManager::CheckClear() {
+	if (riata_->GetIsCatch() && riata_->GetIsMoved()) { return true; }
+
 	// 牛飼いと牛のアドレスが重なっていたら
 	if (cowherd_->GetCenterAdd().x == cow_->GetCenterAdd().x &&
 		cowherd_->GetCenterAdd().y == cow_->GetCenterAdd().y) {
-
 		return true;
-
-	} else {
-		return false;
 	}
+	if (cowherd_->GetCenterAdd().x == bull_->GetCenterAdd().x &&
+		cowherd_->GetCenterAdd().y == bull_->GetCenterAdd().y) {
+		return true;
+	}
+	if (cowherd_->GetCenterAdd().x == fighting_->GetWorldAdd().x &&
+		cowherd_->GetCenterAdd().y == fighting_->GetWorldAdd().y) {
+		return true;
+	}
+
+	return false;
 }
 
 /* ---重なっているか --- */

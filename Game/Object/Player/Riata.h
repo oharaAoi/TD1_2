@@ -39,6 +39,7 @@ private: // member object
 	bool isIdle_;
 	bool isStart_;
 	bool isCatch_;
+	bool isMoved_;
 
 	Vec2f moveDir_;
 
@@ -72,8 +73,8 @@ public: // member method
 	void MakeWorldMatrix();
 
 	void MakeScreenMatrix(
-		const Matrix3x3& viewMatrix ,
-		const Matrix3x3& orthoMatrix ,
+		const Matrix3x3& viewMatrix,
+		const Matrix3x3& orthoMatrix,
 		const Matrix3x3& viewportMatrix
 	);
 
@@ -96,6 +97,9 @@ public: // member method
 
 	void SetIsCatch(bool isCatch) { isCatch_ = isCatch; }
 	bool GetIsCatch(void) const { return isCatch_; }
+
+	void SetIsMoved(bool isMoved) { isMoved_ = isMoved; }
+	bool GetIsMoved(void) const { return isMoved_; }
 
 	void SetMoveDir(const Vec2f& moveDir) { moveDir_ = moveDir; }
 	Vec2f GetMoveDir(void) const { return moveDir_; }
