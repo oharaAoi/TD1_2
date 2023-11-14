@@ -263,12 +263,6 @@ void Game::BackOnce() {
 				for (int c = 0; c < mapChip_->GetMapChipCol(); c++) {
 
 					switch (Stack::GetMapAdd()[r][c]) {
-						/*case ChipType::NONE:
-							break;*/
-					case ChipType::STAGEOUT:
-						break;
-					case ChipType::FENCE:
-						break;
 					case ChipType::COWHERD:
 
 						if (r != cowherd_->GetCenterAdd().y
@@ -313,20 +307,11 @@ void Game::BackOnce() {
 
 						yp_index++;
 						break;
-					case ChipType::ROCK:
-						break;
-					case ChipType::COW:
-						break;
-					case ChipType::BULL:
-						break;
-					case ChipType::BULLFIGHTING:
-						break;
 					}
-
 				}
-
 			}
 
+			// 一番上のデータを消去
 			Stack::StackPop();
 
 		}
