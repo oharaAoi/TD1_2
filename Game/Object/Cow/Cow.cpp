@@ -311,12 +311,12 @@ void Cow::Move() {
 		// ここから下で移動する
 		frameCount_++;
 
-		easeT_ = frameCount_ / 30.0f;
+		easeT_ = frameCount_ / 15.0f;
 
 		worldCenterPos_.x = MyMath::Lerp(easeT_, startPos_.x, endPos_.x);
 		worldCenterPos_.y = MyMath::Lerp(easeT_, startPos_.y, endPos_.y);
 
-		if (frameCount_ >= 30) {
+		if (frameCount_ >= 15) {
 			easeT_ = 0;
 			frameCount_ = 0;
 			moveGridNum_--;

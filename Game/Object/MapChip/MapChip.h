@@ -41,7 +41,7 @@ private:
 	/*std::vector<std::vector<int>>mapAdd_;*/
 
 	//マップのファイルパス
-	static const int kMaxStageNo_ = 20;
+	static const int kMaxStageNo_ = 30;
 	std::string csvFilePath_[kMaxStageNo_];
 
 	//マップの画像の番号の振り分け

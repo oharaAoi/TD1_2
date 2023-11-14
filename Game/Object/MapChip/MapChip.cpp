@@ -15,6 +15,11 @@ MapChip::MapChip() {
 	csvFilePath_[9] = "./Resources/stage/stage8.csv";
 	csvFilePath_[10] = "./Resources/stage/stage9.csv";
 	csvFilePath_[11] = "./Resources/stage/stage10.csv";
+	csvFilePath_[12] = "./Resources/stage/stage11.csv";
+	csvFilePath_[13] = "./Resources/stage/stage12.csv";
+	csvFilePath_[14] = "./Resources/stage/stage13.csv";
+	csvFilePath_[15] = "./Resources/stage/stage14.csv";
+	csvFilePath_[16] = "./Resources/stage/stage15.csv";
 
 	mapAdd_ = LoadFile(csvFilePath_[Scene_LevelSelect::GetSelectStage()]);
 
