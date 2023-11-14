@@ -105,10 +105,10 @@ bool RiataCollision::IsStop(const Vec2& address) {
 		riata_->SetIsCatch(true);
 		return true;
 	}
-	/*if (IsEqualAdd(address, bullFighting_->GetCenterAdd())) {
+	if (IsEqualAdd(address, bullFighting_->GetWorldAdd())) {
 		riata_->SetIsCatch(true);
 		return true;
-	}*/
+	}
 
 
 	// 若人との判定

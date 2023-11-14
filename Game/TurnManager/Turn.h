@@ -24,6 +24,7 @@ protected:
 public:
 	virtual ~Turn();
 
+	static void Init();
 	static void TurnNoUpdate();
 };
 

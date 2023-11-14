@@ -171,10 +171,5 @@ void Riata::DebugDraw() {
 
 	Novice::ScreenPrintf(0, 700, "isStart = %d", isStart_);
 	Novice::ScreenPrintf(0, 680, "isIdle = %d", isIdle_);
-	ImGui::Begin("Riata : member object");
-
-	if (ImGui::TreeNode("Flag")) {
-		//ImGui::SliderInt("isStart_:", &isStart_, false, true);
-	}
-	ImGui::End();
+	
 }

@@ -37,6 +37,7 @@ void Game::Init() {
 	BaseMap::SetNowMapAdd(BaseMap::GetMapAdd());
 	Stack::PushDate(BaseMap::GetNowMapAdd());
 
+	Turn::Init();
 
 	isGameClear_ = false;
 }
