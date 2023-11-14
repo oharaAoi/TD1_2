@@ -49,6 +49,14 @@ private: // member object
 	int movingTime_;
 	float easeT_;
 
+	enum class kMoveType {
+		GO,
+		BACK
+	};
+
+	kMoveType moveType_;
+
+
 public: // member method
 	// Constructor & Destructor
 	Riata();

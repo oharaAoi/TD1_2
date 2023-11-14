@@ -39,6 +39,9 @@ void Riata::Init() {
 
 	movingTime_ = 0;
 	easeT_ = 0.0f;
+
+	moveType_ = kMoveType::GO;
+
 }
 
 
@@ -52,18 +55,55 @@ void Riata::Update() {
 
 	//worldPos_ += moveDir_ * Vec2f{ 4,4 };
 
-	if (easeT_ < 1.0f) {
+	/*if (easeT_ < 1.0f) {
 		movingTime_++;
-		easeT_ = movingTime_ / 90.0f;
+		easeT_ = movingTime_ / 45.0f;
 	} else {
-		isStart_ = false;
-		/*movingTime_ = 0;
-		easeT_ = 0;*/
-		moveDir_ = { 0.0f,0.0f };
+		moveType_ = kMoveType::BACK;
+	}*/
+
+	switch (moveType_) {
+	case Riata::kMoveType::GO:
+		if (easeT_ < 1.0f) {
+			movingTime_++;
+			easeT_ = movingTime_ / 45.0f;
+		}
+
+		worldPos_.x = MyMath::Lerp(easeT_, startingPos_.x, destinationPos_.x);
+		worldPos_.y = MyMath::Lerp(easeT_, startingPos_.y, destinationPos_.y);
+
+		if (easeT_ >= 1.0f) {
+			movingTime_ = 0;
+			easeT_ = 0;
+			moveType_ = kMoveType::BACK;
+		}
+
+		break;
+	case Riata::kMoveType::BACK:
+		if (easeT_ < 1.0f) {
+			movingTime_++;
+			easeT_ = movingTime_ / 45.0f;
+		}
+
+		worldPos_.x = MyMath::Lerp(easeT_, destinationPos_.x, startingPos_.x + (moveDir_.x * tileSize_.x));
+		worldPos_.y = MyMath::Lerp(easeT_, destinationPos_.y, startingPos_.y + (moveDir_.y * tileSize_.y));
+
+		if (easeT_ >= 1.0f) {
+			isStart_ = false;
+			movingTime_ = 0;
+			easeT_ = 0;
+			moveDir_ = { 0.0f,0.0f };
+			moveType_ = kMoveType::GO;
+		}
+		break;
 	}
 
-	worldPos_.x = MyMath::Lerp(easeT_ , startingPos_.x , destinationPos_.x);
-	worldPos_.y = MyMath::Lerp(easeT_ , startingPos_.y , destinationPos_.y);
+	/*if (easeT_ >= 1.0f) {
+		isStart_ = false;
+		movingTime_ = 0;
+		easeT_ = 0;
+		moveDir_ = { 0.0f,0.0f };
+	}*/
 
 	AddressUpdate();
 	MakeWorldMatrix();
@@ -78,10 +118,10 @@ void Riata::Draw() {
 
 	// スクリーン座標系での描画
 	Draw::Quad(
-		screenVertex_ ,
-		{ 0.0f,0.0f } ,
-		{ 1.0f,1.0f } ,
-		gh_ ,
+		screenVertex_,
+		{ 0.0f,0.0f },
+		{ 1.0f,1.0f },
+		gh_,
 		color_
 	);
 
@@ -106,19 +146,19 @@ void Riata::Finalize() {
 
 
 void Riata::MakeWorldMatrix() {
-	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f } , 0.0f , worldPos_);
-	worldVertex_.lt = Transform(localVertex_.lt , worldMatrix_);
-	worldVertex_.rt = Transform(localVertex_.rt , worldMatrix_);
-	worldVertex_.lb = Transform(localVertex_.lb , worldMatrix_);
-	worldVertex_.rb = Transform(localVertex_.rb , worldMatrix_);
+	worldMatrix_ = MakeAffineMatrix({ 1.0f,1.0f }, 0.0f, worldPos_);
+	worldVertex_.lt = Transform(localVertex_.lt, worldMatrix_);
+	worldVertex_.rt = Transform(localVertex_.rt, worldMatrix_);
+	worldVertex_.lb = Transform(localVertex_.lb, worldMatrix_);
+	worldVertex_.rb = Transform(localVertex_.rb, worldMatrix_);
 }
 
-void Riata::MakeScreenMatrix(const Matrix3x3& viewMatrix , const Matrix3x3& orthoMatrix , const Matrix3x3& viewportMatrix) {
-	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_ , viewMatrix , orthoMatrix , viewportMatrix);
-	screenVertex_.lt = Transform(localVertex_.lt , screenMatrix_);
-	screenVertex_.rt = Transform(localVertex_.rt , screenMatrix_);
-	screenVertex_.lb = Transform(localVertex_.lb , screenMatrix_);
-	screenVertex_.rb = Transform(localVertex_.rb , screenMatrix_);
+void Riata::MakeScreenMatrix(const Matrix3x3& viewMatrix, const Matrix3x3& orthoMatrix, const Matrix3x3& viewportMatrix) {
+	screenMatrix_ = MakeWvpVpMatrix(worldMatrix_, viewMatrix, orthoMatrix, viewportMatrix);
+	screenVertex_.lt = Transform(localVertex_.lt, screenMatrix_);
+	screenVertex_.rt = Transform(localVertex_.rt, screenMatrix_);
+	screenVertex_.lb = Transform(localVertex_.lb, screenMatrix_);
+	screenVertex_.rb = Transform(localVertex_.rb, screenMatrix_);
 }
 
 void Riata::AddressUpdate() {
