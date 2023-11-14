@@ -37,7 +37,14 @@ void Game::Init() {
 	BaseMap::SetNowMapAdd(BaseMap::GetMapAdd());
 	Stack::PushDate(BaseMap::GetNowMapAdd());
 
+	// turn --------------------------
+	Turn::SetMovingCountLimit(0);
 	Turn::Init();
+	Turn::SetMovingCountLimit(Turn::GetMovingCountLimit() + 1);
+	for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
+
+		Turn::SetMovingCountLimit(Turn::GetMovingCountLimit() + 1);
+	}
 
 	isGameClear_ = false;
 }
@@ -276,7 +283,8 @@ void Game::BackOnce() {
 								{ c * mapChip_->GetTileSize().x + (mapChip_->GetTileSize().x * 0.5f),
 								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) }
 							);
-							cowherd_->SetCh_isMove(false);
+							//cowherd_->SetCh_isMove(false);
+							Turn::SetMovingCount(Turn::GetMovingCount() - 1);
 
 						}
 
@@ -298,7 +306,9 @@ void Game::BackOnce() {
 							);
 
 							youngPerson_->SetYoung_IsMoveIdle(false, yp_index);
-							youngPerson_->SetYP_IsMove(false, yp_index);
+							//youngPerson_->SetYP_IsMove(false, yp_index);
+							Turn::SetMovingCount(Turn::GetMovingCount() - 1);
+
 						}
 
 						yp_index++;

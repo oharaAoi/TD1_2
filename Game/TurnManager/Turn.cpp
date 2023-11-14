@@ -5,9 +5,8 @@ int Turn::preTurnNo_ = 0;
 bool Turn::isTurnChange_ = false;
 kTurnType Turn::turnType_ = kTurnType::Players;
 
-int Turn::yP_maxIndex_ = 0;
-vector<bool> Turn::yP_isMove_ = static_cast<vector<bool>>(false);
-bool Turn::ch_isMove_ = false;
+int Turn::movingCountLimit_ = 0;
+int Turn::movingCount_ = 0;
 
 Turn::~Turn() {}
 
@@ -17,10 +16,8 @@ void Turn::Init() {
 	isTurnChange_ = 0;
 	turnType_ = kTurnType::Players;
 	
-	for (int yi = 0; yi < yP_maxIndex_; yi++) {
-		yP_isMove_[yi] = false;
-	}
-	ch_isMove_ = false;
+	movingCountLimit_ = 0;
+	movingCount_ = 0;
 
 }
 

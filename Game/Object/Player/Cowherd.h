@@ -137,8 +137,8 @@ public: // accessor ------------------------
 	void SetIsMove(bool isMove) { isMove_ = isMove; }
 	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
 
-	bool GetCh_isMove() { return ch_isMove_; }
-	void SetCh_isMove(bool ch_isMove) { ch_isMove_ = ch_isMove; }
+	/*bool GetCh_isMove() { return ch_isMove_; }
+	void SetCh_isMove(bool ch_isMove) { ch_isMove_ = ch_isMove; }*/
 
 	Riata* GetRiata(void) const { return riata_; }
 

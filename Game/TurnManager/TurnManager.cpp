@@ -28,16 +28,9 @@ void TurnManager::Update() {
 		turnNo_++;
 	}
 
-	if (ch_isMove_) {
-		for (int yi = 0; yi < yP_maxIndex_; yi++) {
-			if (!yP_isMove_[yi]) {
-				break;
-			}
-
-			if (yi >= yP_maxIndex_ - 1) {
-				turnNo_++;
-			}
-		}
+	if (movingCount_ >= movingCountLimit_) {
+		turnNo_++;
+	
 	}
 
 	isTurnChange_ = IsTurnChange();
@@ -45,11 +38,8 @@ void TurnManager::Update() {
 	if (isTurnChange_) {
 		turnType_ = kTurnType::Cows;
 
-		// 移動フラグの初期化
-		ch_isMove_ = false;
-		for (int yi = 0; yi < yP_maxIndex_; yi++) {
-			yP_isMove_[yi] = false;
-		}
+		// 動いた回数のリセット
+		movingCount_ = 0;
 	}
 	/*else {
 		turnType_ = kTurnType::Players;

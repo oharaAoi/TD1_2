@@ -164,9 +164,9 @@ public: /* ---------- accessor ---------- */
 	void SetIsMove(bool isMove, int yi) { young_[yi].isMove = isMove; }
 	void SetYoung_IsMoveIdle(bool isMoveIdle, int yi) { young_[yi].isMoveIdle = isMoveIdle; }
 	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
-	void SetYP_IsMove(bool yP_isMove, int yi) { yP_isMove_[yi] = yP_isMove; }
+	//void SetYP_IsMove(bool yP_isMove, int yi) { yP_isMove_[yi] = yP_isMove; }
 
-	bool GetYP_IsMove(int yi) { return yP_isMove_[yi]; }
+	//bool GetYP_IsMove(int yi) { return yP_isMove_[yi]; }
 
 	// スタン
 	void SetIsStan(bool isStan, int yi) { young_[yi].isStan = isStan; }

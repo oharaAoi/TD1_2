@@ -277,8 +277,11 @@ void Cowherd::Move() {
 
 			// 移動の終了条件
 			if (movingTime_ / 60.0f >= 1.0f) {
+
+				// 動いた数をインクリメント
+				movingCount_++;
 				isMove_ = false;
-				ch_isMove_ = true;
+				//ch_isMove_ = true;
 				isMoveIdle_ = false;
 				SetZOder(10);
 
@@ -291,43 +294,43 @@ void Cowherd::Move() {
 
 			// 上下左右と斜めのマスとマウスの当たり判定をとりどこをクリックしたかで移動先を決める
 			if (Inputs::IsTriggerMouse(0)) {
-				if (!ch_isMove_) {
+				//if (!ch_isMove_) {
 
 					// 移動マスの配列
-					for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
+				for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
-						if (canMoveGrid_[gi].canMove) {
+					if (canMoveGrid_[gi].canMove) {
 
-							if (Collision::Rect::Point(
-								canMoveGrid_[gi].screenVertex,
-								{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
+						if (Collision::Rect::Point(
+							canMoveGrid_[gi].screenVertex,
+							{ static_cast<float>(Inputs::GetMousePos().x),static_cast<float>(Inputs::GetMousePos().y) })) {
 
-								// 移動先と移動元の座標の更新
-								destinationPos_ = {
-									worldCenterPos_.x + (canMoveGrid_[gi].localAdd.x * tileSize_.x),
-									worldCenterPos_.y + (canMoveGrid_[gi].localAdd.y * tileSize_.y)
-								};
-								startingPos_ = worldCenterPos_;
+							// 移動先と移動元の座標の更新
+							destinationPos_ = {
+								worldCenterPos_.x + (canMoveGrid_[gi].localAdd.x * tileSize_.x),
+								worldCenterPos_.y + (canMoveGrid_[gi].localAdd.y * tileSize_.y)
+							};
+							startingPos_ = worldCenterPos_;
 
-								isMove_ = true;
-								movingTime_ = 0;
-								SetZOder(15);
+							isMove_ = true;
+							movingTime_ = 0;
+							SetZOder(15);
 
-								// 投げ縄の移動を開始
-								RiataIsStartTrue();
+							// 投げ縄の移動を開始
+							RiataIsStartTrue();
 
-								Stack::PushDate(nowMapAdd_);
-								//Stack::PushCH_isMovingCount(0);
+							Stack::PushDate(nowMapAdd_);
+							//Stack::PushCH_isMovingCount(0);
 
-								std::swap(
-									nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
-									nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
-								);
+							std::swap(
+								nowMapAdd_[static_cast<int>(destinationPos_.y / tileSize_.y)][static_cast<int>(destinationPos_.x / tileSize_.x)],
+								nowMapAdd_[static_cast<int>(startingPos_.y / tileSize_.y)][static_cast<int>(startingPos_.x / tileSize_.x)]
+							);
 
-							}
 						}
 					}
 				}
+				//}
 			}
 
 			// 投げ縄の待機フラグをtrueに
@@ -340,16 +343,16 @@ void Cowherd::Move() {
 
 		if (Inputs::IsTriggerMouse(0)) {
 
-			if (!ch_isMove_) {
+			//if (!ch_isMove_) {
 
-				if (Collision::Rect::Point(screenVertex_,
-					{ static_cast<float>(Inputs::GetMousePos().x),
-					static_cast<float>(Inputs::GetMousePos().y) })) {
+			if (Collision::Rect::Point(screenVertex_,
+				{ static_cast<float>(Inputs::GetMousePos().x),
+				static_cast<float>(Inputs::GetMousePos().y) })) {
 
-					isMoveIdle_ = true;
+				isMoveIdle_ = true;
 
-				}
 			}
+			//}
 		}
 
 	}

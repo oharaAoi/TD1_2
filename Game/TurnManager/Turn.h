@@ -17,14 +17,20 @@ protected:
 	static kTurnType turnType_;
 	bool IsTurnChange();
 
-	static int yP_maxIndex_;
-	static vector<bool> yP_isMove_; // 若人
-	static bool ch_isMove_; // 牛飼い
+	static int movingCountLimit_;
+	static int movingCount_;
 
 public:
 	virtual ~Turn();
 
 	static void Init();
 	static void TurnNoUpdate();
+
+	static void SetMovingCountLimit(int movingCountLimit) { movingCountLimit_ = movingCountLimit; };
+	static int GetMovingCountLimit() { return movingCountLimit_; };
+
+	static void SetMovingCount(int movingCount) { movingCount_ = movingCount; };
+	static int GetMovingCount() { return movingCount_; };
+
 };
 
