@@ -1084,7 +1084,8 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// また上に行かないように上に上方向を減算しておく
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+		// 人がいる時はその方向を岩の値で減らす
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetRockValue(), kCanMoveDirection::top);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 	}
@@ -1100,7 +1101,8 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 		// 下に行かないで欲しい
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+		// 人がいる時はその方向を岩の値で減らす
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetRockValue(), kCanMoveDirection::bottom);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
@@ -1117,7 +1119,8 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// 左に行かないで欲しい
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+		// 人がいる時はその方向を岩の値で減らす
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetRockValue(), kCanMoveDirection::left);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 	}
@@ -1133,7 +1136,8 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
 
 		// 右に行かないで欲しい
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+		// 人がいる時はその方向を岩の値で減らす
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetRockValue(), kCanMoveDirection::right);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 
@@ -1152,9 +1156,10 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 		// 左上に行かないで欲しい
+		// 人がいる時はその方向を岩の値で減らす
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinValue(), kCanMoveDirection::top);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinValue(), kCanMoveDirection::left);
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetRockValue(), kCanMoveDirection::leftTop);
 
 	}
 
@@ -1171,9 +1176,10 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
 
 		// 右上に行かないで欲しい
+		// 人がいる時はその方向を岩の値で減らす
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinValue(), kCanMoveDirection::top);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetRockValue(), kCanMoveDirection::rightTop);
 
 	}
 
@@ -1190,7 +1196,8 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 		// 左下に行かないで欲しい
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+		// 人がいる時はその方向を岩の値で減らす
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetRockValue(), kCanMoveDirection::leftBottom);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinValue(), kCanMoveDirection::left);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::bottom);
 
@@ -1209,9 +1216,10 @@ void BullCollision::CheckBullCowAdjoin() {
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
 
 		// 右下に行かないで欲しい
+		// 人がいる時はその方向を岩の値で減らす
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
 		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
+		bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetRockValue(), kCanMoveDirection::rightBottom);
 
 	}
 
@@ -1227,7 +1235,8 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// また上に行かないように上に上方向を減算しておく
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::top);
+			// 人がいる時はその方向を岩の値で減らす
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetRockValue(), kCanMoveDirection::top);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 
@@ -1244,7 +1253,8 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 			// 下に行かないで欲しい
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
+			// 人がいる時はその方向を岩の値で減らす
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetRockValue(), kCanMoveDirection::bottom);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
@@ -1259,7 +1269,8 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// 左に行かないで欲しい
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::left);
+			// 人がいる時はその方向を岩の値で減らす
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetRockValue(), kCanMoveDirection::left);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftTop);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::leftBottom);
 		}
@@ -1274,7 +1285,8 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
 
 			// 右に行かないで欲しい
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::right);
+			// 人がいる時はその方向を岩の値で減らす
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetRockValue(), kCanMoveDirection::right);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightTop);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::rightBottom);
 		}
@@ -1289,9 +1301,10 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
 
 			// 左上に行かないで欲しい
+			// 人がいる時はその方向を岩の値で減らす
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinValue(), kCanMoveDirection::top);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinValue(), kCanMoveDirection::left);
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetRockValue(), kCanMoveDirection::leftTop);
 		}
 
 		// rightTop
@@ -1304,9 +1317,10 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::bottom);
 
 			// 右上に行かないで欲しい
+			// 人がいる時はその方向を岩の値で減らす
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::top) - bullCow_->GetAdjoinValue(), kCanMoveDirection::top);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetRockValue(), kCanMoveDirection::rightTop);
 		}
 
 		// leftBottom
@@ -1318,9 +1332,10 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightTop);
 
 			// 左下に行かないで欲しい
+			// 人がいる時はその方向を岩の値で減らす
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::left) - bullCow_->GetAdjoinValue(), kCanMoveDirection::left);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftBottom);
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetRockValue(), kCanMoveDirection::leftBottom);
 		}
 
 		// rightBottom
@@ -1333,9 +1348,10 @@ void BullCollision::CheckBullCowAdjoin() {
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) + bullCow_->GetAdjoinAddValue(), kCanMoveDirection::leftTop);
 
 			// 右下に行かないで欲しい
+			// 人がいる時はその方向を岩の値で減らす
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
 			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::bottom) - bullCow_->GetAdjoinValue(), kCanMoveDirection::bottom);
-			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAdjoinAddValue(), kCanMoveDirection::rightBottom);
+			bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetRockValue(), kCanMoveDirection::rightBottom);
 		}
 
 	}
