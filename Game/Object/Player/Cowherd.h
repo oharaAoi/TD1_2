@@ -82,6 +82,7 @@ private: // 移動に関するもの
 
 	bool isMoveIdle_;
 	bool isMove_;
+	bool isMoved_;
 	float movingTime_;
 
 
@@ -132,6 +133,8 @@ public: // accessor ------------------------
 	int GetCanMoveGirdMaxIndex() const { return moveGridMaxIndex_; }
 
 	bool GetIsMove() const { return isMove_; }
+
+	void SetIsMoved(bool isMoved) { isMoved_ = isMoved; }
 
 	void SetWorldPos(const Vec2f& pos) { worldCenterPos_ = pos; }
 	void SetIsMove(bool isMove) { isMove_ = isMove; }

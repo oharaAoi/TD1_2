@@ -109,6 +109,7 @@ void YoungPerson::Init() {
 		// 移動できる状態かどうか
 		young_[yi].isMoveIdle = false;
 		young_[yi].isMove = false;
+		young_[yi].isMoved = false;
 
 	}
 
@@ -303,6 +304,7 @@ void YoungPerson::Move() {
 						movingCount_++;
 
 						// 移動に使うフラグをfalseに初期化
+						young_[yi].isMoved = true;
 						young_[yi].isMove = false;
 						young_[yi].isMoveIdle = false;
 						isMoveIdle_ = false;
@@ -342,7 +344,7 @@ void YoungPerson::Move() {
 						for (int gi = 0; gi < moveGridMaxIndex_; gi++) {
 
 							// 動けるとき
-							if (young_[yi].canMoveGrid[gi].canMove) {
+							if (young_[yi].canMoveGrid[gi].canMove ) {
 
 								if (Collision::Rect::Point(
 									young_[yi].canMoveGrid[gi].screenVertex,
@@ -384,7 +386,8 @@ void YoungPerson::Move() {
 		} else {
 
 			if (!young_[yi].isMoveIdle
-				/*&& !yP_isMove_[yi]*/) {
+				&& !young_[yi].isStan
+				&& !young_[yi].isMoved) {
 
 				// スクリーン上でマウスが若人に当たっていたら
 				if (Collision::Rect::Point(young_[yi].screenVertex,

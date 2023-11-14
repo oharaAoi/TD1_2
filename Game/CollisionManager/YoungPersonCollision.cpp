@@ -1,7 +1,12 @@
 ﻿#include "YoungPersonCollision.h"
 
-YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting) {
-	Init(cowherd, youngPerson, mapChip, cow, fighting);
+YoungPersonCollision::YoungPersonCollision(Cowherd* cowherd,
+	YoungPerson* youngPerson,
+	MapChip* mapChip,
+	Cow* cow,
+	BullCow* bullCow,
+	BullFighting* fighting) {
+	Init(cowherd, youngPerson, mapChip, cow, bullCow, fighting);
 }
 
 YoungPersonCollision::~YoungPersonCollision() {
@@ -11,11 +16,18 @@ YoungPersonCollision::~YoungPersonCollision() {
 /*================================================================
 	初期化関数
 ================================================================*/
-void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapChip* mapChip, Cow* cow, BullFighting* fighting) {
+void YoungPersonCollision::Init(Cowherd* cowherd,
+	YoungPerson* youngPerson,
+	MapChip* mapChip,
+	Cow* cow,
+	BullCow* bullCow,
+	BullFighting* fighting) {
+
 	cowherd_ = cowherd;
 	youngPerson_ = youngPerson;
 	mapChip_ = mapChip;
 	cow_ = cow;
+	bullCow_ = bullCow;
 	fighting_ = fighting;
 }
 
@@ -23,8 +35,14 @@ void YoungPersonCollision::Init(Cowherd* cowherd, YoungPerson* youngPerson, MapC
 	終了処理関数
 ================================================================*/
 void YoungPersonCollision::Finalize() {
+
 	cowherd_ = nullptr;
 	youngPerson_ = nullptr;
+	mapChip_ = nullptr;
+	cow_ = nullptr;
+	bullCow_ = nullptr;
+	fighting_ = nullptr;
+
 }
 
 /*================================================================
@@ -157,8 +175,12 @@ bool YoungPersonCollision::YoungPersonCheckCanMove(const Vec2& add) {
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::STAGEOUT) { return false; }
 	if (mapChip_->GetMapChipAdd()[add.y][add.x] == ChipType::ROCK) { return false; }
 
-	// 牛と牛飼い
+	// 牛
 	if (IsEqualAdd(add, cow_->GetCenterAdd())) { return false; }
+	if (IsEqualAdd(add, bullCow_->GetCenterAdd())) { return false; }
+	if (IsEqualAdd(add, fighting_->GetWorldAdd())) { return false; }
+
+	// 牛飼い
 	if (IsEqualAdd(add, cowherd_->GetCenterAdd())) { return false; }
 
 	// 若人どうしの; 上下左右のアドレスを取って計算するので添え字が同じもの動詞でも計算して大丈夫
@@ -178,9 +200,9 @@ void YoungPersonCollision::YoungPresonIsStriked() {
 		if (youngPerson_->GetIsStriked(yi) == true) {
 			switch (fighting_->GetMovedDire()) {
 			case kCanMoveDirection::top:
-				youngPerson_->SetWorldPos({ 
+				youngPerson_->SetWorldPos({
 					youngPerson_->GetWorldPos(yi).x, youngPerson_->GetWorldPos(yi).y + mapChip_->GetTileSize().y }, yi
-				);
+					);
 
 				youngPerson_->SetIsStan(true, yi);
 				youngPerson_->SetIsStriked(false, yi);
@@ -189,7 +211,7 @@ void YoungPersonCollision::YoungPresonIsStriked() {
 			case kCanMoveDirection::bottom:
 				youngPerson_->SetWorldPos({
 					youngPerson_->GetWorldPos(yi).x, youngPerson_->GetWorldPos(yi).y - mapChip_->GetTileSize().y }, yi
-				);
+					);
 
 				youngPerson_->SetIsStan(true, yi);
 				youngPerson_->SetIsStriked(false, yi);
@@ -197,8 +219,8 @@ void YoungPersonCollision::YoungPresonIsStriked() {
 
 			case kCanMoveDirection::left:
 				youngPerson_->SetWorldPos({
-					youngPerson_->GetWorldPos(yi).x - mapChip_->GetTileSize().x , youngPerson_->GetWorldPos(yi).y}, yi
-				);
+					youngPerson_->GetWorldPos(yi).x - mapChip_->GetTileSize().x , youngPerson_->GetWorldPos(yi).y }, yi
+					);
 
 				youngPerson_->SetIsStan(true, yi);
 				youngPerson_->SetIsStriked(false, yi);
@@ -207,7 +229,7 @@ void YoungPersonCollision::YoungPresonIsStriked() {
 			case kCanMoveDirection::right:
 				youngPerson_->SetWorldPos({
 					youngPerson_->GetWorldPos(yi).x + mapChip_->GetTileSize().x , youngPerson_->GetWorldPos(yi).y }, yi
-				);
+					);
 
 				youngPerson_->SetIsStan(true, yi);
 				youngPerson_->SetIsStriked(false, yi);

@@ -73,7 +73,7 @@ private:
 		std::vector<CanMoveGrid> canMoveGrid;
 
 		bool isMove;
-
+		bool isMoved;
 		// スタン
 		bool isStan;
 
@@ -162,6 +162,9 @@ public: /* ---------- accessor ---------- */
 	Vec2f GetWorldPos(int yi) { return young_[yi].worldCenterPos; }
 
 	void SetIsMove(bool isMove, int yi) { young_[yi].isMove = isMove; }
+
+	void SetIsMoved(bool isMoved, int yi) { young_[yi].isMoved = isMoved; }
+
 	void SetYoung_IsMoveIdle(bool isMoveIdle, int yi) { young_[yi].isMoveIdle = isMoveIdle; }
 	void SetIsMoveIdle(bool isMoveIdle) { isMoveIdle_ = isMoveIdle; }
 	//void SetYP_IsMove(bool yP_isMove, int yi) { yP_isMove_[yi] = yP_isMove; }

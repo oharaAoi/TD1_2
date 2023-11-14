@@ -116,6 +116,7 @@ void Cowherd::Init() {
 	screenVertex_ = worldVertex_;
 
 	isMove_ = false;
+	isMoved_ = false;
 	movingTime_ = 0.0f;
 	isMoveIdle_ = false;
 
@@ -248,6 +249,7 @@ void Cowherd::MakeWorldMatrix() {
 
 
 void Cowherd::Move() {
+	if (isMoved_) { return; }
 	// 移動マス配列
 
 	//isMove_ = false;
@@ -277,7 +279,7 @@ void Cowherd::Move() {
 
 			// 移動の終了条件
 			if (movingTime_ / 60.0f >= 1.0f) {
-
+				isMoved_ = true;
 				// 動いた数をインクリメント
 				movingCount_++;
 				isMove_ = false;

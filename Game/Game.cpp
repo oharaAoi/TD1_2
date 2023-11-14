@@ -131,6 +131,13 @@ void Game::Update() {
 		while (!Stack::GetEmpty()) {
 			Stack::StackPop();
 		}
+
+		for (int yi = 0; yi < youngPerson_->GetYoungMaxIndex(); yi++) {
+			youngPerson_->SetIsMoved(false, yi);
+			youngPerson_->SetIsStan(false, yi);
+		}
+		cowherd_->SetIsMoved(false);
+		
 	}
 
 
@@ -278,6 +285,7 @@ void Game::BackOnce() {
 								r * mapChip_->GetTileSize().y + (mapChip_->GetTileSize().y * 0.5f) }
 							);
 							//cowherd_->SetCh_isMove(false);
+							cowherd_->SetIsMoved(false);
 							Turn::SetMovingCount(Turn::GetMovingCount() - 1);
 
 						}
@@ -301,6 +309,7 @@ void Game::BackOnce() {
 
 							youngPerson_->SetYoung_IsMoveIdle(false, yp_index);
 							//youngPerson_->SetYP_IsMove(false, yp_index);
+							youngPerson_->SetIsMoved(false, yp_index);
 							Turn::SetMovingCount(Turn::GetMovingCount() - 1);
 
 						}

@@ -40,7 +40,7 @@ void CollisionManager::Init(Cowherd* cowherd,
 
 	cowCollision_ = new CowCollision(cowherd_, youngPerson_, mapChip_, cow_, dog_);
 	cowherdCollison_ = new CowherdCollision(cowherd_, youngPerson_, mapChip_, cow_);
-	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_, fighting_);
+	youngPersonCollision_ = new YoungPersonCollision(cowherd_, youngPerson_, mapChip_, cow_, bull_, fighting_);
 	bullCollision_ = new BullCollision(cowherd_, youngPerson_, mapChip_, bull_, dog_);
 	fightingCollision_ = new FightingCollision(cowherd_, youngPerson_, mapChip_, fighting_, dog_);
 	riataCollision_ = new RiataCollision(riata_, mapChip_, cow_, bull_, fighting_, cowherd_, youngPerson_);
