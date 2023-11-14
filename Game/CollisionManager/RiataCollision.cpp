@@ -45,6 +45,7 @@ void RiataCollision::Update() {
 
 	// 輪投げが移動状態でなければ当たり判定を取らない
 	if (!riata_->GetIsIdle()) { return; }
+	if (!riata_->GetIsStart()) { return; }
 	//if (riata_->GetIsStart()) { return; }
 	if (riata_->GetMoveDir().x == 0 && riata_->GetMoveDir().y == 0) { return; }
 
@@ -60,7 +61,7 @@ void RiataCollision::Update() {
 		+ Vec2f{ mapChip_->GetTileSize().x * 0.5f , mapChip_->GetTileSize().y * 0.5f }
 	);
 
-	riata_->SetIsStart(true);
+	//riata_->SetIsStart(true);
 
 	// 今のアドレスとは別に目標地点をさがすためのアドレスを用意し、
 	// 目標が定まったらそのアドレスをタイルサイズ文大きくし

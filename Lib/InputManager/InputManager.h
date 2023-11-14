@@ -43,7 +43,9 @@ public:
 	bool IsTriggerMouse(int buttonNo) const;
 	bool IsPressMouse(int buttonNo) const;
 	bool IsReleaseMouse(int buttonNo) const;
-	Vec2 GetMousePos(void) { return mousePos_; }
+	Vec2f GetMousePos(void) {
+		return Vec2f{ static_cast<float>(mousePos_.x),static_cast<float>(mousePos_.y) };
+	}
 	// ホイールの回転
 	int GetWheel(void) const;
 	bool IsWheelUP(void) const;

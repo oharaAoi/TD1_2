@@ -442,6 +442,8 @@ void Cowherd::RiataIsIdleTrue() {
 }
 
 void Cowherd::RiataIsStartTrue() {
+	if (!riata_->GetIsIdle()) { return; }
+	riata_->SetIsStart(true);
 	riata_->SetStartingPos(worldCenterPos_);
 
 

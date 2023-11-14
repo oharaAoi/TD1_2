@@ -13,7 +13,7 @@ public:
 	static bool IsTriggerKey(int DIK) { return input->IsTriggerKey(DIK); }
 	static bool IsReleaseKey(int DIK) { return input->IsReleaseKey(DIK); }
 
-	static Vec2 GetMousePos() { return input->GetMousePos(); }
+	static Vec2f GetMousePos() { return input->GetMousePos(); }
 	static bool IsPressMouse(int bottomNo) { return input->IsPressMouse(bottomNo); }
 	static bool IsTriggerMouse(int bottomNo) { return input->IsTriggerMouse(bottomNo); }
 	static bool IsReleaseMouse(int bottomNo) { return input->IsReleaseMouse(bottomNo); }
