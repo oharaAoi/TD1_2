@@ -94,8 +94,10 @@ protected: // member object
 
 	float easeT_;
 	float frameCount_;
+	float frameCountLimit_;
 
 	int moveGridNum_;
+
 
 public:
 	// 仮想デストラクタ

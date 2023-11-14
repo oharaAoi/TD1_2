@@ -57,7 +57,7 @@ void BullCollision::CheckBullMoveDire() {
 	CheckNearWall();
 
 	// 牛から見た全方向
-	/*CheckBullCowMoveAllDire();*/
+	CheckBullCowMoveAllDire();
 
 	CheckFenseCollision();
 
@@ -156,7 +156,7 @@ void BullCollision::CheckRockCollision() {
 
 void BullCollision::CheckFenceScissorsCollision() {
 	if ((mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x] == ChipType::STAGEOUT &&
-		mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x] == ChipType::STAGEOUT)){
+		mapChip_->GetMapChipAdd()[bullCow_->GetCenterAdd().y][bullCow_->GetCenterAdd().x] == ChipType::STAGEOUT)) {
 
 		switch (bullCow_->GetMovedDire()) {
 		case kCanMoveDirection::top:
@@ -174,7 +174,7 @@ void BullCollision::CheckFenceScissorsCollision() {
 			break;
 
 		case kCanMoveDirection::bottom:
-			
+
 			bullCow_->SetWorldPos({
 				(bullCow_->GetCenterAdd().x * mapChip_->GetTileSize().x) + (mapChip_->GetTileSize().x * 0.5f),
 				(bullCow_->GetCenterAdd().y * mapChip_->GetTileSize().y) + (mapChip_->GetTileSize().y * 0.5f) + mapChip_->GetTileSize().y,
@@ -754,6 +754,195 @@ void BullCollision::CheckBullCowMoveAllDire() {
 			}
 		}
 	}
+
+	// leftTopの直線状
+	int leftDeg = 1;
+	int topDeg = 1;
+	int bottomDeg = 1;
+	int rightDeg = 1;
+
+	if (cow2topWall_ > cow2leftWall_) {
+		while (leftDeg != cow2leftWall_) {
+			if (bullCow_->GetCenterAdd().x - leftDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y + topDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::leftTop);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x - leftDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y + topDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::leftTop);
+					}
+				}
+			}
+			leftDeg++;
+			topDeg++;
+		}
+		leftDeg = 1;
+		topDeg = 1;
+
+	} else {
+		while (topDeg != cow2topWall_) {
+			if (bullCow_->GetCenterAdd().x + leftDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y + topDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::leftTop);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x + leftDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y + topDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftTop) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::leftTop);
+					}
+				}
+			}
+			leftDeg++;
+			topDeg++;
+		}
+		leftDeg = 1;
+		topDeg = 1;
+	}
+
+	// 右上
+	if (cow2topWall_ > cow2rightWall_) {
+		while (rightDeg != cow2rightWall_) {
+			if (bullCow_->GetCenterAdd().x + rightDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y + topDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::rightTop);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x + rightDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y + topDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::rightTop);
+					}
+				}
+			}
+			rightDeg++;
+			topDeg++;
+		}
+		rightDeg = 1;
+		topDeg = 1;
+
+	} else {
+		while (topDeg != cow2topWall_) {
+			if (bullCow_->GetCenterAdd().x + rightDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y + topDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::rightTop);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x + rightDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y + topDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightTop) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::rightTop);
+					}
+				}
+			}
+			rightDeg++;
+			topDeg++;
+		}
+		rightDeg = 1;
+		topDeg = 1;
+	}
+
+	// 左下
+	if (bottomDeg > cow2leftWall_) {
+		while (leftDeg != cow2leftWall_) {
+			if (bullCow_->GetCenterAdd().x - leftDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y - bottomDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::leftBottom);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x - leftDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y - bottomDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::leftBottom);
+					}
+				}
+			}
+			leftDeg++;
+			bottomDeg++;
+		}
+		leftDeg = 1;
+		bottomDeg = 1;
+
+	} else {
+		while (bottomDeg != cow2bottomWall_) {
+			if (bullCow_->GetCenterAdd().x - leftDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y - bottomDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::leftBottom);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x - leftDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y - bottomDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::leftBottom) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::leftBottom);
+					}
+				}
+			}
+			leftDeg++;
+			bottomDeg++;
+		}
+		leftDeg = 1;
+		bottomDeg = 1;
+	}
+
+	// 右下
+	if (cow2bottomWall_ > cow2rightWall_) {
+		while (rightDeg != cow2rightWall_) {
+			if (bullCow_->GetCenterAdd().x + rightDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y - topDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::rightBottom);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x + rightDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y - topDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::rightBottom);
+					}
+				}
+			}
+			rightDeg++;
+			bottomDeg++;
+		}
+		rightDeg = 1;
+		bottomDeg = 1;
+
+	} else {
+		while (bottomDeg != cow2bottomWall_) {
+			if (bullCow_->GetCenterAdd().x + rightDeg == cowherd_->GetCenterAdd().x &&
+				bullCow_->GetCenterAdd().y - bottomDeg == cowherd_->GetCenterAdd().y) {
+
+				bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAllDireValue(),
+					kCanMoveDirection::rightBottom);
+
+				for (int j = 0; j < youngPerson_->GetYoungMaxIndex(); j++) {
+					if (bullCow_->GetCenterAdd().x + rightDeg == youngPerson_->GetCenterAdd(j).x &&
+						bullCow_->GetCenterAdd().y - bottomDeg == youngPerson_->GetCenterAdd(j).y) {
+						bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::rightBottom) - bullCow_->GetAllDireValue(),
+							kCanMoveDirection::rightBottom);
+					}
+				}
+			}
+			rightDeg++;
+			bottomDeg++;
+		}
+		rightDeg = 1;
+		bottomDeg = 1;
+	}
 }
 
 /*==========================================================================================================
@@ -1189,7 +1378,7 @@ void BullCollision::CheckGridDire(const Vec2& add) {
 					bullCow_->SetMoveDireValue(bullCow_->GetMoveDireValue(kCanMoveDirection::right) - bullCow_->GetAdjoinValue(), kCanMoveDirection::right);
 				}
 			}
-				break;
+			break;
 
 		case kCanMoveDirection::leftTop:
 			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {
@@ -1206,7 +1395,7 @@ void BullCollision::CheckGridDire(const Vec2& add) {
 				}
 			}
 
-				break;
+			break;
 
 		case kCanMoveDirection::leftBottom:
 			for (int i = 0; i < bullCow_->GetDireAddressNum(dire); i++) {

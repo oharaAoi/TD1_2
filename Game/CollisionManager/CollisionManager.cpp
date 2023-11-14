@@ -110,11 +110,13 @@ void CollisionManager::CheckCowCollison() {
 }
 
 void CollisionManager::CheckBullCollision() {
-	bullCollision_->CheckFenceScissorsCollision();
-	bullCollision_->CheckRockCollision();
+	if (bull_->GetIsMove() == false) {
+		bullCollision_->CheckFenceScissorsCollision();
+		bullCollision_->CheckRockCollision();
 
-	for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
-		bullCollision_->PersonCollision(youngPerson_->GetCenterAdd(i));
+		for (int i = 0; i < youngPerson_->GetYoungMaxIndex(); i++) {
+			bullCollision_->PersonCollision(youngPerson_->GetCenterAdd(i));
+		}
 	}
 }
 

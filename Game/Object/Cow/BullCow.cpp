@@ -170,6 +170,7 @@ void BullCow::Init() {
 
 	easeT_ = 0.0f;
 	frameCount_ = 0.0f;
+	frameCountLimit_ = 15.0f;
 
 	moveGridNum_ = 2;
 
@@ -257,48 +258,48 @@ void BullCow::CenterAddUpdate() {
 		static_cast<int>(worldPos_.y / tileSize_.y)
 	};
 
-	int index[8] = {0};
+	int index[8] = { 0 };
 
 	for (int row = 0; row < cannotMoveGrid_.size(); row++) {
 		for (int col = 0; col < cannotMoveGrid_[0].size(); col++) {
 			switch (cannotMoveGrid_[row][col]) {
 			case kCanMoveDirection::top:
-				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::top].localAdd[index[0]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[0]++;
 				break;
 
 			case  kCanMoveDirection::bottom:
-				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::bottom].localAdd[index[1]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[1]++;
 				break;
 
 			case  kCanMoveDirection::left:
-				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::left].localAdd[index[2]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[2]++;
 				break;
 
 			case  kCanMoveDirection::right:
-				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::right].localAdd[index[3]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[3]++;
 				break;
 
 			case  kCanMoveDirection::leftTop:
-				cannotMove_[kCanMoveDirection::leftTop].localAdd[index[4]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::leftTop].localAdd[index[4]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[4]++;
 				break;
 
 			case  kCanMoveDirection::rightTop:
-				cannotMove_[kCanMoveDirection::rightTop].localAdd[index[5]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::rightTop].localAdd[index[5]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[5]++;
 				break;
 
 			case  kCanMoveDirection::leftBottom:
-				cannotMove_[kCanMoveDirection::leftBottom].localAdd[index[6]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::leftBottom].localAdd[index[6]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[6]++;
 				break;
 
 			case  kCanMoveDirection::rightBottom:
-				cannotMove_[kCanMoveDirection::rightBottom].localAdd[index[7]] = {col - localCenterAdd_.x,row - localCenterAdd_.y};
+				cannotMove_[kCanMoveDirection::rightBottom].localAdd[index[7]] = { col - localCenterAdd_.x,row - localCenterAdd_.y };
 				index[7]++;
 				break;
 			}
@@ -348,7 +349,7 @@ void BullCow::MoveTurn() {
 void BullCow::CheckMoveDire() {
 
 	if (isIdle_) {
-		
+
 		maxDireValue_ = -99999;
 		maxDireValueIndex_ = 0;
 		adjoinNum_ = 0;
@@ -473,12 +474,12 @@ void BullCow::Move() {
 		// ここから下で移動する
 		frameCount_++;
 
-		easeT_ = frameCount_ / 30.0f;
+		easeT_ = frameCount_ / frameCountLimit_;
 
 		worldPos_.x = MyMath::Lerp(easeT_, startPos_.x, endPos_.x);
 		worldPos_.y = MyMath::Lerp(easeT_, startPos_.y, endPos_.y);
 
-		if (frameCount_ >= 30) {
+		if (frameCount_ >= frameCountLimit_) {
 			easeT_ = 0;
 			frameCount_ = 0;
 			moveGridNum_--;
@@ -511,20 +512,24 @@ void BullCow::ImguiDraw() {
 	//リリースの時は消す
 	ImGui::Begin("evaluateValue");
 
-	ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
-	ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
-	ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
-	ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+	if (ImGui::TreeNode("Value")) {
+		ImGui::SliderInt("value_.wall:", &value_.wall, 0, 30);
+		ImGui::SliderInt("value_.fourArea:", &value_.fourArea, 0, 30);
+		ImGui::SliderInt("value_.allDire:", &value_.allDire, 0, 30);
+		ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -50, 50);
+		ImGui::SliderInt("value_.adjoinAdd:", &value_.adjoinAdd, -50, 50);
+		ImGui::SliderInt("value_.clamp:", &value_.clamp, 0, 5);
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("hardle")) {
+		ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
+		ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
+		ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
+		ImGui::TreePop();
+	}
 
 
-	ImGui::SliderInt("value_.dog:", &value_.dog, 100, 1500);
-	ImGui::SliderInt("value_.rock:", &value_.rock, 100, 200);
-	ImGui::SliderInt("value_.fence:", &value_.fence, -100, 100);
-	ImGui::SliderInt("value_.adjoin:", &value_.adjoin, -100, 100);
-
-
-	ImGui::SliderInt("moveScalar_.x:", &moveScalar_.x, 0, 5);
-	ImGui::SliderInt("moveScalar_.y:", &moveScalar_.y, 0, 5);
 
 	ImGui::End();
 
