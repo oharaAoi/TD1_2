@@ -149,8 +149,8 @@ void BullCow::Init() {
 
 	value_.dog = 150;
 	value_.rock = 1000;
-	value_.adjoin = 150;
-	value_.adjoinAdd = 200;
+	value_.adjoin = 15;
+	value_.adjoinAdd = 20;
 	value_.fence = 200;
 	value_.slantFence = -200;
 
